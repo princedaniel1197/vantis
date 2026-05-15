@@ -497,4 +497,20 @@ See data/certificates.json for certificate data.
 4. ✅ All document files served from public/documents/divya-villas/ (filenames with spaces, URL-encoded)
 5. ✅ npm run build — 37/37 routes, zero errors
 
+### Session 10 — Completed (2026-05-16): HARDCODED BASE64 DOCUMENTS
+1. ✅ Added // @ts-nocheck to lib/divya-villas-pdfs.ts and lib/divya-villas-images.ts
+2. ✅ Added NODE_OPTIONS=--max-old-space-size=4096 to package.json build script
+3. ✅ Updated ProjectDetailContent.tsx Documents tab for divya-villas:
+   - Removed old file-path constants (DOC_BASE, REGISTRATION_DOCS, QPR_DOCS, EXTENSION_DOCS, NOC_DOCS, PHOTOS)
+   - Removed next/image import (no longer needed)
+   - Added imports: openPDF/divyaVillasPDFs from lib/divya-villas-pdfs, openImage/divyaVillasImages from lib/divya-villas-images
+   - 8 Registration docs → openPDF() with correct keys
+   - 4 QPR docs → openPDF() with correct keys
+   - 4 Extension docs → openPDF() with correct keys
+   - 3 NOC docs → openPDF() for PDFs, openImage() for bank account JPEG
+   - 13 site photos → <img src={divyaVillasImages[key]}> grid, onClick → openImage()
+   - RERA cert → openPDF('reraCertificate', ...), Vantis cert → Link to /certificate/VG-2026-007034-0001
+4. ✅ npm run build — 37/37 routes, zero errors
+   - /govern/projects/[id] bundle: 8.77 MB (expected — base64 PDFs + images embedded)
+
 ### DEMO STATUS: READY FOR DK SHIVAKUMAR MEETING

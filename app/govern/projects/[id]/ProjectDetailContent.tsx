@@ -1,9 +1,10 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import Image from 'next/image'
+import { divyaVillasPDFs, openPDF } from '@/lib/divya-villas-pdfs'
+import { divyaVillasImages, openImage } from '@/lib/divya-villas-images'
 import {
   ArrowLeft, Building2, FileText, TrendingDown,
   Scale, AlertTriangle, Settings, CheckCircle,
@@ -129,47 +130,6 @@ const ESCROW: Record<string, {
 }
 
 const escrowStatusClass = { HEALTHY: 'text-green bg-green/10 border-green/30', CAUTION: 'text-amber bg-amber/10 border-amber/30', CRITICAL: 'text-red bg-red/10 border-red/30' }
-
-/* ---------- Document data (Divya Villas only) ---------- */
-const DOC_BASE = '/documents/divya-villas'
-
-const REGISTRATION_DOCS = [
-  { name: 'Project Application Form',           file: 'Divya Villas RERA application.pdf' },
-  { name: 'Title Documents — Survey 83/2 and 84/2', file: 'EC from 01042023 to 21112025 Divya Villas-Merged.pdf' },
-  { name: 'CA Certificate — Project Cost',      file: 'Form Ex3 C A Certificate For Fund Utilization Divya Villas-Compressed.pdf' },
-  { name: 'Engineer Certificate — Land Area',   file: 'Form Ex5 Engineer Certificate Project Ext Divya Villas.pdf' },
-  { name: 'Sanctioned Building Plan',           file: 'Plan Divya Villas.pdf' },
-  { name: 'Encumbrance Certificate Survey 83/2',file: 'EC Sy No. 83 2 01042023 to 21112025.pdf' },
-  { name: 'Encumbrance Certificate Survey 84/2',file: 'EC Sy No. 84 2 01042023 to 21112025.pdf' },
-  { name: 'Registration Fee Receipt',           file: 'RE1225021623111714-RERA Extension fee paid receipt.pdf' },
-]
-
-const QPR_DOCS = [
-  { name: 'CA Certificate — Fund Utilisation Form Ex3', file: 'Form Ex3 C A Certificate For Fund Utilization Divya Villas-Compressed.pdf' },
-  { name: 'CA Certificate — Fund Required Form Ex4',    file: 'Form Ex 4 C A Certificate For Fund Required Divya Villas-Compressed.pdf' },
-  { name: 'Engineer Certificate — Work Status Form Ex5',file: 'Form Ex5 Engineer Certificate Project Ext Divya Villas.pdf' },
-  { name: 'Engineer Certificate — Pending Work Form Ex6',file: 'Form Ex6 Engineer Certificate Project Ext Divya Villas.pdf' },
-]
-
-const EXTENSION_DOCS = [
-  { name: 'Affidavit for Extension Form Ex7',  file: 'Form Ex7 Affidavit for Extension Divya Villas.pdf' },
-  { name: 'Form B Affidavit Declaration',      file: 'Form B Affidavit Cum Declaration Divya Villas.pdf' },
-  { name: 'Extension Application',             file: 'Divya Villas RERA Screenshot-01.12.2025 to 23.12.2025-Extension.pdf' },
-  { name: 'Supreme Court Order',               file: 'Divya Villas Supreme Court Order.pdf' },
-]
-
-const NOC_DOCS = [
-  { name: 'CESCOM NOC',          file: 'Divya Villas CESCOM NOC.pdf' },
-  { name: 'Water Supply NOC',    file: 'Divya Villas Water supply Noc.pdf' },
-  { name: 'Bank Account Details',file: 'Divya Villas Bank Account.jpeg' },
-]
-
-const PHOTOS = [
-  '1 Road.jpeg', '2 Road.jpeg', '3 Road.jpeg', '4 Site.jpeg',
-  '5 Site.jpeg', '6 Road.jpeg', '7 Site.jpeg', '8 Udrain.jpeg',
-  '9 Layout.jpeg', '10 Park.jpeg', '11 Layout.jpeg', '12 Borewell.jpeg',
-  '13 Street light.jpeg',
-]
 
 /* ---------- Tabs ---------- */
 const TABS = [
@@ -724,37 +684,37 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
       )
     }
 
-    const openDoc = (file: string) =>
-      window.open(`${DOC_BASE}/${encodeURIComponent(file)}`, '_blank')
-
-    function DocSection({ title, docs }: { title: string; docs: { name: string; file: string }[] }) {
+    function DocRow({ name, onView }: { name: string; onView: () => void }) {
       return (
-        <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">{title}</div>
-          <div className="border border-border rounded-sm overflow-hidden">
-            {docs.map((doc, i) => (
-              <div key={i} className={`flex items-center justify-between px-4 py-3 ${i < docs.length - 1 ? 'border-b border-border' : ''}`}>
-                <div className="flex items-center gap-3 min-w-0">
-                  <FileText className="w-4 h-4 text-gray shrink-0" />
-                  <span className="text-off-white text-sm truncate">{doc.name}</span>
-                </div>
-                <button
-                  onClick={() => openDoc(doc.file)}
-                  className="flex items-center gap-1 text-xs text-gold hover:text-gold-light transition-colors duration-150 shrink-0 ml-3"
-                >
-                  View <ExternalLink className="w-3 h-3" />
-                </button>
-              </div>
-            ))}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border last:border-b-0">
+          <div className="flex items-center gap-3 min-w-0">
+            <FileText className="w-4 h-4 text-gray shrink-0" />
+            <span className="text-off-white text-sm truncate">{name}</span>
           </div>
+          <button
+            onClick={onView}
+            className="flex items-center gap-1 text-xs text-gold hover:text-gold-light transition-colors duration-150 shrink-0 ml-3"
+          >
+            View <ExternalLink className="w-3 h-3" />
+          </button>
         </div>
       )
     }
 
+    function DocSection({ title, children }: { title: string; children: React.ReactNode }) {
+      return (
+        <div>
+          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">{title}</div>
+          <div className="border border-border rounded-sm overflow-hidden">{children}</div>
+        </div>
+      )
+    }
+
+    const photoKeys = ['road1', 'road2', 'road3', 'site1', 'site2', 'road4', 'site3', 'drain', 'layout1', 'park', 'layout2', 'borewell', 'streetLight'] as const
+
     return (
       <div className="space-y-6">
 
-        {/* Green banner */}
         <div className="bg-green/10 border border-green/20 rounded-sm px-4 py-3 flex items-center gap-3">
           <CheckCircle className="w-4 h-4 text-green shrink-0" />
           <span className="text-green text-sm font-medium">
@@ -762,63 +722,68 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
           </span>
         </div>
 
-        <DocSection title="Registration Documents" docs={REGISTRATION_DOCS} />
-        <DocSection title="QPR Supporting Documents — Q4 2025" docs={QPR_DOCS} />
-        <DocSection title="Extension Documents" docs={EXTENSION_DOCS} />
-        <DocSection title="NOCs and Approvals" docs={NOC_DOCS} />
+        <DocSection title="Registration Documents">
+          <DocRow name="Project Application Form"                onView={() => openPDF('reraApplication', 'Divya_Villas_RERA_application.pdf')} />
+          <DocRow name="Title Documents — Survey 83/2 and 84/2" onView={() => openPDF('ecMerged', 'EC_Divya_Villas_Merged.pdf')} />
+          <DocRow name="CA Certificate — Project Cost"           onView={() => openPDF('caFundUtilisation', 'Form_Ex3_CA_Certificate.pdf')} />
+          <DocRow name="Engineer Certificate — Land Area"        onView={() => openPDF('engineerWorkStatus', 'Form_Ex5_Engineer_Certificate.pdf')} />
+          <DocRow name="Sanctioned Building Plan"                onView={() => openPDF('buildingPlan', 'Plan_Divya_Villas.pdf')} />
+          <DocRow name="Encumbrance Certificate Survey 83/2"     onView={() => openPDF('ec83', 'EC_Survey_83_2.pdf')} />
+          <DocRow name="Encumbrance Certificate Survey 84/2"     onView={() => openPDF('ec84', 'EC_Survey_84_2.pdf')} />
+          <DocRow name="Registration Fee Receipt"                onView={() => openPDF('feeReceipt', 'RERA_Extension_fee_receipt.pdf')} />
+        </DocSection>
 
-        {/* Site Progress Photos */}
+        <DocSection title="QPR Supporting Documents — Q4 2025">
+          <DocRow name="CA Certificate — Fund Utilisation Form Ex3"   onView={() => openPDF('caFundUtilisation', 'Form_Ex3_CA_Fund_Utilisation.pdf')} />
+          <DocRow name="CA Certificate — Fund Required Form Ex4"      onView={() => openPDF('caFundRequired', 'Form_Ex4_CA_Fund_Required.pdf')} />
+          <DocRow name="Engineer Certificate — Work Status Form Ex5"  onView={() => openPDF('engineerWorkStatus', 'Form_Ex5_Engineer_Work_Status.pdf')} />
+          <DocRow name="Engineer Certificate — Pending Work Form Ex6" onView={() => openPDF('engineerPendingWork', 'Form_Ex6_Engineer_Pending_Work.pdf')} />
+        </DocSection>
+
+        <DocSection title="Extension Documents">
+          <DocRow name="Affidavit for Extension Form Ex7" onView={() => openPDF('affidavitExtension', 'Form_Ex7_Affidavit.pdf')} />
+          <DocRow name="Form B Affidavit Declaration"     onView={() => openPDF('formB', 'Form_B_Affidavit_Declaration.pdf')} />
+          <DocRow name="Extension Application"            onView={() => openPDF('extensionScreenshot', 'RERA_Extension_Screenshot.pdf')} />
+          <DocRow name="Supreme Court Order"              onView={() => openPDF('supremeCourtOrder', 'Supreme_Court_Order.pdf')} />
+        </DocSection>
+
+        <DocSection title="NOCs and Approvals">
+          <DocRow name="CESCOM NOC"           onView={() => openPDF('cescomNoc', 'CESCOM_NOC.pdf')} />
+          <DocRow name="Water Supply NOC"     onView={() => openPDF('waterNoc', 'Water_Supply_NOC.pdf')} />
+          <DocRow name="Bank Account Details" onView={() => openImage('bankAccount', 'Bank_Account.jpeg')} />
+        </DocSection>
+
         <div>
           <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Site Progress Photos</div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {PHOTOS.map(photo => (
-              <button
-                key={photo}
-                onClick={() => window.open(`${DOC_BASE}/${encodeURIComponent(photo)}`, '_blank')}
-                className="relative aspect-square overflow-hidden rounded-sm border border-border hover:border-gold/50 transition-colors duration-150"
-              >
-                <Image
-                  src={`${DOC_BASE}/${encodeURIComponent(photo)}`}
-                  alt={photo.replace(/\.[^.]+$/, '').replace(/_/g, ' ')}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover"
-                />
-              </button>
+            {photoKeys.map(key => (
+              <img
+                key={key}
+                src={divyaVillasImages[key]}
+                alt={key}
+                className="w-full h-24 object-cover rounded-sm cursor-pointer border border-border hover:border-gold/50 transition-colors duration-150"
+                onClick={() => openImage(key, `${key}.jpeg`)}
+              />
             ))}
           </div>
         </div>
 
-        {/* Certificates */}
-        <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Certificates</div>
-          <div className="border border-border rounded-sm overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-              <div className="flex items-center gap-3 min-w-0">
-                <FileText className="w-4 h-4 text-gray shrink-0" />
-                <span className="text-off-white text-sm truncate">RERA Registration Certificate</span>
-              </div>
-              <button
-                onClick={() => openDoc('PRMKARERA1268378PR180924007034 Divya Villas RERA Certificate.pdf')}
-                className="flex items-center gap-1 text-xs text-gold hover:text-gold-light transition-colors duration-150 shrink-0 ml-3"
-              >
-                View <ExternalLink className="w-3 h-3" />
-              </button>
+        <DocSection title="Certificates">
+          <DocRow name="RERA Registration Certificate" onView={() => openPDF('reraCertificate', 'Divya_Villas_RERA_Certificate.pdf')} />
+          <div className="flex items-center justify-between px-4 py-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <FileText className="w-4 h-4 text-gray shrink-0" />
+              <span className="text-off-white text-sm truncate">Vantis Compliance Certificate</span>
             </div>
-            <div className="flex items-center justify-between px-4 py-3">
-              <div className="flex items-center gap-3 min-w-0">
-                <FileText className="w-4 h-4 text-gray shrink-0" />
-                <span className="text-off-white text-sm truncate">Vantis Compliance Certificate</span>
-              </div>
-              <Link
-                href="/certificate/VG-2026-007034-0001"
-                className="flex items-center gap-1 text-xs text-gold hover:text-gold-light transition-colors duration-150 shrink-0 ml-3"
-              >
-                View <ExternalLink className="w-3 h-3" />
-              </Link>
-            </div>
+            <Link
+              href="/certificate/VG-2026-007034-0001"
+              className="flex items-center gap-1 text-xs text-gold hover:text-gold-light transition-colors duration-150 shrink-0 ml-3"
+            >
+              View <ExternalLink className="w-3 h-3" />
+            </Link>
           </div>
-        </div>
+        </DocSection>
+
       </div>
     )
   }

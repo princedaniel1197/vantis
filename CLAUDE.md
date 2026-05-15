@@ -535,4 +535,10 @@ See data/certificates.json for certificate data.
    - string concatenation for img tag (avoids template literal encoding issues)
 3. ✅ npm run build — 37/37 routes, zero errors, /govern/projects/[id] still 11.2 kB
 
+### Session 13 — Completed (2026-05-16): QR CODE URL FIX
+1. ✅ components/public/CertificateCard.tsx — certUrl: localhost:3000 → https://vantis-mocha.vercel.app
+2. ✅ app/certificate/[id]/CertificateContent.tsx — certUrl: localhost:3000 → https://vantis-mocha.vercel.app
+3. ✅ QR codes on public project profile and Vantis Govern certificate page now encode the live Vercel URL
+4. ✅ npm run build — 37/37 routes, zero errors
+
 ### DEMO STATUS: READY FOR DK SHIVAKUMAR MEETING

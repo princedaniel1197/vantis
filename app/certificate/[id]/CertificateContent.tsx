@@ -60,7 +60,7 @@ function statusConfig(s: string) {
 
 export default function CertificateContent({ params }: { params: { id: string } }) {
   const cert = (certificates as Certificate[]).find(c => c.id === params.id)
-  const certUrl = `http://localhost:3000/certificate/${params.id}`
+  const certUrl = `https://vantis-mocha.vercel.app/certificate/${params.id}`
 
   if (!cert) {
     return (

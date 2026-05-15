@@ -24,7 +24,7 @@ export default function CertificateCard({ certificateId, certificateStatus, proj
     )
   }
 
-  const certUrl = `http://localhost:3000/certificate/${certificateId}`
+  const certUrl = `https://vantis-mocha.vercel.app/certificate/${certificateId}`
 
   const statusIcon =
     certificateStatus === 'FULL' ? (

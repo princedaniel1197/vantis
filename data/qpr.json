@@ -1,0 +1,57 @@
+{
+  "quarters": ["Q2 2024", "Q3 2024", "Q4 2024", "Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025", "Q1 2026"],
+  "submissions": [
+    {
+      "project_id": "divya-villas",
+      "project_name": "Divya Villas",
+      "developer_name": "Zion Estate Developers",
+      "q2_2024": { "status": "NA", "filed_date": null, "completion_pct": null },
+      "q3_2024": { "status": "NA", "filed_date": null, "completion_pct": null },
+      "q4_2024": { "status": "ON_TIME", "filed_date": "2024-10-14", "completion_pct": 35 },
+      "q1_2025": { "status": "ON_TIME", "filed_date": "2025-01-12", "completion_pct": 55 },
+      "q2_2025": { "status": "ON_TIME", "filed_date": "2025-04-10", "completion_pct": 68 },
+      "q3_2025": { "status": "ON_TIME", "filed_date": "2025-07-08", "completion_pct": 78 },
+      "q4_2025": { "status": "ON_TIME", "filed_date": "2025-10-11", "completion_pct": 89 },
+      "q1_2026": { "status": "ON_TIME", "filed_date": "2026-01-09", "completion_pct": 96 }
+    },
+    {
+      "project_id": "ozone-urbana",
+      "project_name": "Ozone Urbana",
+      "developer_name": "Ozone Group",
+      "q2_2024": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q3_2024": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q4_2024": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q1_2025": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q2_2025": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q3_2025": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q4_2025": { "status": "MISSED", "filed_date": null, "completion_pct": null },
+      "q1_2026": { "status": "MISSED", "filed_date": null, "completion_pct": null }
+    },
+    {
+      "project_id": "prestige-lakeside",
+      "project_name": "Prestige Lakeside Habitat",
+      "developer_name": "Prestige Group",
+      "q2_2024": { "status": "ON_TIME", "filed_date": "2024-04-06", "completion_pct": 28 },
+      "q3_2024": { "status": "ON_TIME", "filed_date": "2024-07-05", "completion_pct": 34 },
+      "q4_2024": { "status": "ON_TIME", "filed_date": "2024-10-08", "completion_pct": 39 },
+      "q1_2025": { "status": "ON_TIME", "filed_date": "2025-01-08", "completion_pct": 42 },
+      "q2_2025": { "status": "ON_TIME", "filed_date": "2025-04-07", "completion_pct": 51 },
+      "q3_2025": { "status": "ON_TIME", "filed_date": "2025-07-05", "completion_pct": 60 },
+      "q4_2025": { "status": "ON_TIME", "filed_date": "2025-10-06", "completion_pct": 68 },
+      "q1_2026": { "status": "ON_TIME", "filed_date": "2026-01-07", "completion_pct": 75 }
+    },
+    {
+      "project_id": "skylark-arcadia",
+      "project_name": "Skylark Arcadia",
+      "developer_name": "Skylark Constructions",
+      "q2_2024": { "status": "ON_TIME", "filed_date": "2024-04-18", "completion_pct": 22 },
+      "q3_2024": { "status": "ON_TIME", "filed_date": "2024-07-20", "completion_pct": 28 },
+      "q4_2024": { "status": "ON_TIME", "filed_date": "2024-10-19", "completion_pct": 33 },
+      "q1_2025": { "status": "ON_TIME", "filed_date": "2025-01-15", "completion_pct": 38 },
+      "q2_2025": { "status": "LATE", "filed_date": "2025-05-22", "completion_pct": 44 },
+      "q3_2025": { "status": "ON_TIME", "filed_date": "2025-07-18", "completion_pct": 51 },
+      "q4_2025": { "status": "LATE", "filed_date": "2025-11-14", "completion_pct": 58 },
+      "q1_2026": { "status": "MISSED", "filed_date": null, "completion_pct": null }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "risk_timeline": [
+    {
+      "quarter": "Q1 2021",
+      "score": 42,
+      "status": "CAUTION",
+      "default_probability": 34,
+      "signals": ["Escrow withdrawal velocity slowing", "Sales velocity dropping"],
+      "action": "Auto-alert sent to Secretary"
+    },
+    {
+      "quarter": "Q2 2021",
+      "score": 38,
+      "status": "HIGH RISK",
+      "default_probability": 48,
+      "signals": ["QPR filing becoming vague", "Two new civil cases filed"],
+      "action": "Escalation to Member (Legal)"
+    },
+    {
+      "quarter": "Q3 2021",
+      "score": 31,
+      "status": "HIGH RISK",
+      "default_probability": 61,
+      "signals": ["Construction progress mismatch", "Litigation accumulating"],
+      "action": "Added to watchlist. Inspection recommended."
+    },
+    {
+      "quarter": "Q4 2021",
+      "score": 28,
+      "status": "HIGH RISK",
+      "default_probability": 71,
+      "signals": ["First QPR missed", "Escrow balance critical"],
+      "action": "Show cause notice auto-drafted"
+    },
+    {
+      "quarter": "Q1 2022",
+      "score": 22,
+      "status": "HIGH RISK",
+      "default_probability": 81,
+      "signals": ["Second consecutive QPR missed", "Criminal complaint filed"],
+      "action": "Member (Legal) notified. 1,847 homebuyers flagged. Rs.927Cr at risk."
+    },
+    {
+      "quarter": "Q2 2022",
+      "score": 18,
+      "status": "HIGH RISK",
+      "default_probability": 89,
+      "signals": ["Third QPR missed", "High Court case filed"],
+      "action": "RRC initiated. Proactive homebuyer outreach."
+    },
+    {
+      "quarter": "Q3 2022",
+      "score": 14,
+      "status": "HIGH RISK",
+      "default_probability": 94,
+      "signals": ["Fourth QPR missed", "Developer unreachable"],
+      "action": "Referred to Revenue Department"
+    },
+    {
+      "quarter": "Q4 2022",
+      "score": 9,
+      "status": "HIGH RISK",
+      "default_probability": 97,
+      "signals": ["Complete QPR default", "Multiple FIRs imminent"],
+      "action": "Full enforcement initiated"
+    }
+  ],
+  "fir_filed": "Q3 2023",
+  "quarters_early_warning": 8,
+  "homebuyers_affected": 1847,
+  "capital_at_risk_crore": 927
+}

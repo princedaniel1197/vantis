@@ -1,0 +1,42 @@
+{
+  "responses": [
+    {
+      "id": "ozone-flagged",
+      "keywords": ["ozone urbana"],
+      "secondary_keywords": ["flagged", "when", "early", "warning", "detected", "predicted"],
+      "response": "Based on the QPR and escrow data for Ozone Urbana, Vantis would have flagged this project in Q1 2021 — 8 quarters before the FIR was filed in Q3 2023.\n\nQ1 2021 — AMBER. Escrow withdrawal velocity slowed 34% below expected rate. Auto-alert sent to Secretary.\n\nQ2 2021 — RED. QPR filings becoming vague. Two new civil cases filed. Escalated to Member (Legal).\n\nQ1 2022 — Default probability crossed 81%. 1,847 homebuyers flagged. Rs.927 crore of capital at risk. Show cause notice auto-drafted.\n\nK-RERA had 8 full quarters — two full years — to intervene before the FIR. Every intervention window was open. Vantis kept it open."
+    },
+    {
+      "id": "qpr-defaults",
+      "keywords": ["qpr", "quarterly", "default", "defaults", "consecutive", "missed"],
+      "secondary_keywords": [],
+      "response": "Found 2 developers with 3 or more consecutive QPR defaults as of Q1 2026:\n\n1. Ozone Group — 5 consecutive defaults (Q4 2021 to Q4 2022)\n   Project: Ozone Urbana — 2,300 units\n   Status: HIGH RISK — enforcement initiated\n\n2. Skylark Constructions — 1 missed, 2 late in last 4 quarters\n   Project: Skylark Arcadia — 156 units\n   Status: CAUTION — show cause issued\n\nRecommendation: Ozone Group requires immediate RRC review. Skylark Constructions requires inspection within 30 days."
+    },
+    {
+      "id": "prestige-safe",
+      "keywords": ["prestige", "prestige lakeside"],
+      "secondary_keywords": ["safe", "buy", "investment", "trust", "compliant", "status"],
+      "response": "Prestige Lakeside Habitat has a COMPLIANT status on Vantis.\n\n✓ All 8 quarterly reports filed on time\n✓ No pending complaints — 2 earlier complaints resolved\n✓ No active court cases\n✓ Registration valid until June 2027\n✓ Full Vantis Certificate — verified across 5 databases\n\nPrestige Group has a developer trust score of 91 out of 100.\n\nI always recommend the full verified report before a final decision — it includes the Encumbrance Certificate from Kaveri and complete litigation history. Would you like to know more?"
+    },
+    {
+      "id": "capital-at-risk",
+      "keywords": ["capital", "risk", "homebuyer", "exposure", "money", "crore"],
+      "secondary_keywords": ["at risk", "exposure", "affected", "flagged", "vulnerable"],
+      "response": "Top projects by homebuyer capital at risk — May 2026:\n\n1. Ozone Urbana — Rs.927 crore\n   1,847 homebuyers | Status: HIGH RISK\n   Possession overdue by 4+ years\n\n2. Skylark Arcadia — Rs.18.4 crore\n   98 homebuyers | Status: CAUTION\n   Possession due September 2026 — at risk of delay\n\n3. Divya Villas — Rs.0 at risk\n   18 homebuyers | Status: COMPLIANT\n   On track for March 2026 delivery\n\nImmediate action recommended for Ozone Urbana."
+    },
+    {
+      "id": "show-cause-notice",
+      "keywords": ["show cause", "notice", "draft", "section 63", "penalty", "notice"],
+      "secondary_keywords": ["generate", "create", "write", "prepare", "issue"],
+      "response": "SHOW CAUSE NOTICE\nSection 63 — Real Estate (Regulation and Development) Act 2016\n\nTo,\nM/s Ozone Group, Bengaluru\n\nRegistration: PRM/KA/RERA/1251/309/PR/170517/004521\nProject: Ozone Urbana\n\nWHEREAS you have failed to submit Quarterly Progress Reports for 5 consecutive quarters in violation of Section 11(1) of the RERA Act 2016 and Rule 15 of the Karnataka RERA Rules 2017.\n\nWHEREAS the penalty under Section 63 is Rs.25,000 per day of default. Total penalty accrued: Rs.45,75,000.\n\nYOU ARE HEREBY directed to show cause within 21 days as to why penalty proceedings should not be initiated.\n\nBy order of the Authority,\nKarnataka Real Estate Regulatory Authority"
+    },
+    {
+      "id": "kannada-divya",
+      "keywords": ["ಡಿವ್ಯಾ", "ವಿಲ್ಲಾಸ್", "divya villas", "divya"],
+      "secondary_keywords": ["ಕನ್ನಡ", "kannada", "ಸ್ಥಿತಿ", "status"],
+      "response": "ಡಿವ್ಯಾ ವಿಲ್ಲಾಸ್ ಯೋಜನೆಯ ಪ್ರಸ್ತುತ ಸ್ಥಿತಿ:\n\n✓ ಸ್ಥಿತಿ: ಅನುಸರಣೀಯ (COMPLIANT)\n✓ RERA ನೋಂದಣಿ ಮಾರ್ಚ್ 2026 ವರೆಗೆ ಮಾನ್ಯ\n✓ 8 ತ್ರೈಮಾಸಿಕ ವರದಿಗಳಲ್ಲಿ 6 ಸಮಯಕ್ಕೆ ಸಲ್ಲಿಸಲಾಗಿದೆ\n✓ ಯಾವುದೇ ದೂರುಗಳಿಲ್ಲ\n✓ ವಾಂಟಿಸ್ ಪ್ರಮಾಣಪತ್ರ: ಪೂರ್ಣ ಪರಿಶೀಲಿತ\n\nನಿಮ್ಮ ಆಸ್ತಿ ಸುರಕ್ಷಿತವಾಗಿದೆ."
+    }
+  ],
+  "fallback_govern": "I can help you with project compliance, QPR analysis, risk assessment, and drafting regulatory notices. Try asking about a specific project, QPR defaults, or capital at risk.",
+  "fallback_public": "I can help you check a project's status, understand your rights as a homebuyer, or guide you through filing a complaint. What would you like to know?"
+}

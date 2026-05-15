@@ -1,0 +1,79 @@
+[
+  {
+    "id": "VG-2026-007034-0001",
+    "project_id": "divya-villas",
+    "project_name": "Divya Villas",
+    "rera": "PRM/KA/RERA/1268378/PR/180924/007034",
+    "developer_name": "Zion Estate Developers",
+    "location": "Mysuru, Karnataka",
+    "status": "FULL",
+    "issued_date": "2026-02-15",
+    "last_verified": "2026-05-10T09:23:44Z",
+    "valid_until": "2026-03-31",
+    "verifications": {
+      "title": { "label": "Title Verification", "source": "Kaveri 2.0", "result": "PASS", "detail": "Clear title. No encumbrances. Survey Nos. 83/2 and 84/2 verified." },
+      "land_area": { "label": "Land Area Verification", "source": "Bhoomi", "result": "PASS", "detail": "Declared 1.2 acres matches Bhoomi records exactly." },
+      "litigation": { "label": "Litigation Check", "source": "eCourts", "result": "PASS", "detail": "No active civil or criminal cases against project or developer." },
+      "far_zoning": { "label": "FAR and Zoning", "source": "BBMP/BDA", "result": "PASS", "detail": "FAR of 1.75 compliant with residential layout norms. Zone: R2." },
+      "financial": { "label": "Financial Consistency", "source": "Internal", "result": "PASS", "detail": "QPR financials consistent. Escrow balance healthy. No anomalies detected." }
+    }
+  },
+  {
+    "id": "VG-2026-007821-0002",
+    "project_id": "prestige-lakeside",
+    "project_name": "Prestige Lakeside Habitat",
+    "rera": "PRM/KA/RERA/1251/309/PR/210318/007821",
+    "developer_name": "Prestige Group",
+    "location": "Whitefield, Bengaluru",
+    "status": "FULL",
+    "issued_date": "2026-03-01",
+    "last_verified": "2026-05-10T11:05:22Z",
+    "valid_until": "2027-06-30",
+    "verifications": {
+      "title": { "label": "Title Verification", "source": "Kaveri 2.0", "result": "PASS", "detail": "Clear title. Survey Nos. 88/1 and 89/2. No encumbrances." },
+      "land_area": { "label": "Land Area Verification", "source": "Bhoomi", "result": "PASS", "detail": "Declared 4.8 acres matches Bhoomi records exactly." },
+      "litigation": { "label": "Litigation Check", "source": "eCourts", "result": "PASS", "detail": "No active litigation. 2 historical cases resolved with no adverse orders." },
+      "far_zoning": { "label": "FAR and Zoning", "source": "BBMP/BDA", "result": "PASS", "detail": "FAR of 2.75 compliant. High-density residential zone. BBMP approved." },
+      "financial": { "label": "Financial Consistency", "source": "Internal", "result": "PASS", "detail": "All 8 QPRs filed on time. Escrow balance 78% of required. No anomalies." }
+    }
+  },
+  {
+    "id": "VG-2026-009134-0003",
+    "project_id": "skylark-arcadia",
+    "project_name": "Skylark Arcadia",
+    "rera": "PRM/KA/RERA/1251/309/PR/220614/009134",
+    "developer_name": "Skylark Constructions",
+    "location": "Hennur, Bengaluru",
+    "status": "PROVISIONAL",
+    "issued_date": "2026-01-20",
+    "last_verified": "2026-05-10T14:42:11Z",
+    "valid_until": "2026-09-30",
+    "verifications": {
+      "title": { "label": "Title Verification", "source": "Kaveri 2.0", "result": "PASS", "detail": "Clear title. Survey No. 201/3 verified. No encumbrances." },
+      "land_area": { "label": "Land Area Verification", "source": "Bhoomi", "result": "PASS", "detail": "Declared 1.8 acres matches Bhoomi records." },
+      "litigation": { "label": "Litigation Check", "source": "eCourts", "result": "FLAGGED", "detail": "1 active civil case — OS 3891/2024 in City Civil Court. Under monitoring." },
+      "far_zoning": { "label": "FAR and Zoning", "source": "BBMP/BDA", "result": "PASS", "detail": "FAR of 2.5 compliant. Residential zone RR verified." },
+      "financial": { "label": "Financial Consistency", "source": "Internal", "result": "PASS", "detail": "1 missed QPR. Escrow balance 61% of required. Minor anomaly flagged." }
+    }
+  }
+  ,
+  {
+    "id": "VG-2026-007934-0004",
+    "project_id": "prestige-whitefield-phase-2",
+    "project_name": "Prestige Whitefield Phase 2",
+    "rera": "PRM/KA/RERA/1251/309/PR/260513/007934",
+    "developer_name": "Prestige Group",
+    "location": "Whitefield, Bengaluru",
+    "status": "FULL",
+    "issued_date": "2026-05-13",
+    "last_verified": "2026-05-13T10:00:00Z",
+    "valid_until": "2027-05-31",
+    "verifications": {
+      "title":     { "label": "Title Verification",     "source": "Kaveri 2.0",   "result": "PASS", "detail": "Clear title. Survey Nos. 48/1, 48/2, 49/3 verified. No encumbrances detected." },
+      "land_area": { "label": "Land Area Verification", "source": "Bhoomi",       "result": "PASS", "detail": "Declared 2.48 acres matches Bhoomi records within 0.3%." },
+      "litigation":{ "label": "Litigation Check",       "source": "eCourts",      "result": "PASS", "detail": "No active litigation. No injunctions or stay orders on record." },
+      "far_zoning":{ "label": "FAR and Zoning",         "source": "BBMP/BDA",     "result": "PASS", "detail": "FSI 2.5 fully compliant with BBMP Revised Master Plan 2015." },
+      "financial": { "label": "Financial Consistency",  "source": "Internal",     "result": "PASS", "detail": "Declared cost ₹42 Cr consistent with unit pricing and market comparables." }
+    }
+  }
+]

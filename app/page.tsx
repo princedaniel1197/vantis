@@ -2,8 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
-import { LayoutGrid, Shield, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, ChevronRight, Globe } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -13,186 +12,139 @@ const PRODUCTS = [
     desc: 'AI-powered intelligence for K-RERA officers. Monitor compliance, predict defaults, issue notices — before crises happen.',
     href: '/govern',
     icon: Shield,
-    features: [
-      'QPR Compliance Tracking',
-      'Predictive Default Analytics',
-      'Litigation X-ray',
-      'AI Notice Generator',
-    ],
+    features: ['QPR Compliance Tracking', 'Predictive Default Analytics', 'Litigation X-ray', 'AI Notice Generator'],
     accent: '#C9A84C',
     borderIdle: 'rgba(201,168,76,0.18)',
     borderHover: 'rgba(201,168,76,0.55)',
     bgIdle: 'rgba(201,168,76,0.04)',
-    bgHover: 'rgba(201,168,76,0.08)',
+    bgHover: 'rgba(201,168,76,0.09)',
     cta: 'Enter Govern',
   },
   {
     id: 'build',
     tag: 'For Developers',
-    name: 'Vantis OS',
-    desc: 'The operating system for real estate developers. Sales, operations, finance, and intelligence — unified in one platform.',
+    name: 'Vantis Build',
+    desc: 'The operating system for real estate developers. CRM, ERP, land intelligence, and feasibility — unified in one platform.',
     href: '/command',
     icon: LayoutGrid,
-    features: [
-      'Command Centre',
-      'CRM & Sales Pipeline',
-      'Land Intelligence',
-      'Feasibility Engine',
-    ],
+    features: ['Command Centre', 'CRM & Sales Pipeline', 'Land Intelligence', 'Feasibility Engine'],
     accent: '#B8C8D8',
     borderIdle: 'rgba(184,200,216,0.15)',
     borderHover: 'rgba(184,200,216,0.45)',
     bgIdle: 'rgba(184,200,216,0.03)',
     bgHover: 'rgba(184,200,216,0.07)',
-    cta: 'Enter OS',
+    cta: 'Enter Build',
   },
 ]
-
-const COMING_SOON = ['Vantis Public Portal', 'Vantis Data Room']
 
 export default function HubPage() {
   return (
     <div
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-16"
-      style={{ background: '#0A0A0F' }}
+      style={{
+        minHeight: '100vh',
+        background: '#0A0A0F',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '4rem 1rem',
+      }}
     >
-      {/* Brand */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.35 }}
-        className="flex flex-col items-center mb-14"
-      >
+      {/* Logo + tagline */}
+      <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
         <Image
           src="/vantislockuponnight.png"
           alt="Vantis"
           width={140}
           height={44}
-          className="h-9 w-auto mb-5"
+          style={{ height: '36px', width: 'auto', marginBottom: '1.25rem' }}
           priority
         />
-        <div
-          className="font-mono text-[11px] uppercase tracking-[0.28em]"
-          style={{ color: '#3A3A55' }}
-        >
+        <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#3A3A55' }}>
           Choose your workspace
         </div>
-      </motion.div>
+      </div>
 
       {/* Product cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-[760px] mb-8">
-        {PRODUCTS.map((p, i) => (
-          <motion.div
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', width: '100%', maxWidth: '760px', marginBottom: '2rem' }}>
+        {PRODUCTS.map(p => (
+          <Link
             key={p.id}
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + i * 0.08, duration: 0.35 }}
+            href={p.href}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '1.75rem',
+              borderRadius: '2px',
+              border: `1px solid ${p.borderIdle}`,
+              background: p.bgIdle,
+              textDecoration: 'none',
+              transition: 'border-color 0.15s, background 0.15s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = p.borderHover
+              e.currentTarget.style.background = p.bgHover
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = p.borderIdle
+              e.currentTarget.style.background = p.bgIdle
+            }}
           >
-            <Link
-              href={p.href}
-              className="group flex flex-col rounded-sm p-7 h-full transition-all duration-200"
-              style={{
-                background: p.bgIdle,
-                border: `1px solid ${p.borderIdle}`,
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = p.bgHover
-                e.currentTarget.style.borderColor = p.borderHover
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = p.bgIdle
-                e.currentTarget.style.borderColor = p.borderIdle
-              }}
-            >
-              {/* Tag */}
-              <div className="flex items-center gap-2 mb-5">
-                <p.icon className="w-3.5 h-3.5" style={{ color: p.accent }} />
-                <span
-                  className="font-mono text-[10px] uppercase tracking-[0.2em]"
-                  style={{ color: p.accent }}
-                >
-                  {p.tag}
-                </span>
-              </div>
+            {/* Tag */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.25rem' }}>
+              <p.icon style={{ width: '14px', height: '14px', color: p.accent }} />
+              <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: p.accent }}>
+                {p.tag}
+              </span>
+            </div>
 
-              {/* Title */}
-              <div
-                className="font-display italic text-[26px] leading-tight mb-3"
-                style={{ color: '#F0EEE8', fontFamily: 'var(--font-syne), serif' }}
-              >
-                {p.name}
-              </div>
+            {/* Name */}
+            <div style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: '26px', lineHeight: 1.2, color: '#F0EEE8', marginBottom: '0.75rem' }}>
+              {p.name}
+            </div>
 
-              {/* Description */}
-              <p
-                className="text-sm leading-relaxed mb-6 flex-1"
-                style={{ color: '#5A5A72', fontFamily: 'var(--font-sans)' }}
-              >
-                {p.desc}
-              </p>
+            {/* Description */}
+            <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', lineHeight: 1.6, color: '#5A5A72', marginBottom: '1.5rem', flexGrow: 1 }}>
+              {p.desc}
+            </p>
 
-              {/* Feature list */}
-              <ul className="space-y-2 mb-7">
-                {p.features.map(f => (
-                  <li
-                    key={f}
-                    className="flex items-center gap-2.5 text-[11px] font-mono"
-                    style={{ color: '#6B6B88' }}
-                  >
-                    <span
-                      className="w-1 h-1 rounded-full shrink-0"
-                      style={{ background: p.accent, opacity: 0.7 }}
-                    />
-                    {f}
-                  </li>
-                ))}
-              </ul>
+            {/* Feature list */}
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.75rem 0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {p.features.map(f => (
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: '#6B6B88' }}>
+                  <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: p.accent, opacity: 0.7, flexShrink: 0 }} />
+                  {f}
+                </li>
+              ))}
+            </ul>
 
-              {/* CTA */}
-              <div
-                className="flex items-center gap-1.5 text-[13px] font-mono transition-all duration-150 group-hover:gap-2.5"
-                style={{ color: p.accent }}
-              >
-                {p.cta}
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </Link>
-          </motion.div>
+            {/* CTA */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.375rem', fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '13px', color: p.accent }}>
+              {p.cta}
+              <ChevronRight style={{ width: '14px', height: '14px' }} />
+            </div>
+          </Link>
         ))}
       </div>
 
       {/* Coming soon */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.35 }}
-        className="flex items-center gap-3 flex-wrap justify-center"
-      >
-        {COMING_SOON.map(name => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
+        {['Vantis Public Portal', 'Vantis Data Room'].map(name => (
           <div
             key={name}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-sm"
-            style={{ border: '1px solid #1C1C28' }}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.875rem', borderRadius: '2px', border: '1px solid #1C1C28' }}
           >
-            <Globe className="w-3 h-3" style={{ color: '#2A2A3E' }} />
-            <span className="text-[11px] font-mono" style={{ color: '#2E2E45' }}>
-              {name}
-            </span>
-            <span
-              className="font-mono text-[9px] uppercase tracking-[0.1em] px-1.5 py-0.5 rounded-sm"
-              style={{ background: '#14141E', color: '#2E2E45' }}
-            >
+            <Globe style={{ width: '12px', height: '12px', color: '#2A2A3E' }} />
+            <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: '#2E2E45' }}>{name}</span>
+            <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 6px', borderRadius: '2px', background: '#14141E', color: '#2E2E45' }}>
               Soon
             </span>
           </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* Footer */}
-      <div
-        className="mt-14 font-mono text-[10px] uppercase tracking-[0.22em]"
-        style={{ color: '#22222F' }}
-      >
+      <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#2A2A3E' }}>
         Orianode Technologies Pvt. Ltd.
       </div>
     </div>

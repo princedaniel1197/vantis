@@ -19,7 +19,7 @@ const NAV_GROUPS = [
   {
     label: 'Sales',
     items: [
-      { label: 'Command Centre', path: '/', icon: LayoutGrid, desc: 'Portfolio health + today' },
+      { label: 'Command Centre', path: '/command', icon: LayoutGrid, desc: 'Portfolio health + today' },
       { label: 'Leads & Pipeline', path: '/leads', icon: Users, desc: 'CRM, scoring, verification' },
       { label: 'Site Visits', path: '/visits', icon: Calendar, desc: 'Schedule, assign, follow-up' },
       { label: 'Inventory', path: '/inventory', icon: Building2, desc: 'Unit grid, booking flow' },
@@ -62,7 +62,7 @@ const NAV_GROUPS = [
 function getActiveGroup(pathname: string): string | null {
   for (const g of NAV_GROUPS) {
     for (const item of g.items) {
-      if (item.path === '/' ? pathname === '/' : pathname.startsWith(item.path)) {
+      if (pathname.startsWith(item.path)) {
         return g.label
       }
     }
@@ -101,7 +101,7 @@ export default function OSNav() {
     >
       <div className="h-full max-w-[1600px] mx-auto px-4 sm:px-6 flex items-center gap-6">
         {/* Logo */}
-        <Link href="/" className="shrink-0 flex items-center h-8">
+        <Link href="/command" className="shrink-0 flex items-center h-8">
           <Image
             src={theme === 'pitch' ? '/vantislockuponnight.png' : '/vantislockuponivory.png'}
             alt="Vantis"
@@ -156,7 +156,7 @@ export default function OSNav() {
                       }}
                     >
                       {group.items.map(item => {
-                        const isCurrentItem = item.path === '/' ? pathname === '/' : pathname.startsWith(item.path)
+                        const isCurrentItem = pathname.startsWith(item.path)
                         return (
                           <Link
                             key={item.path}
@@ -246,7 +246,7 @@ export default function OSNav() {
                   </div>
                   <div className="space-y-1">
                     {group.items.map(item => {
-                      const active = item.path === '/' ? pathname === '/' : pathname.startsWith(item.path)
+                      const active = pathname.startsWith(item.path)
                       return (
                         <Link
                           key={item.path}

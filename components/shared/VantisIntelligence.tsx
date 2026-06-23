@@ -35,8 +35,8 @@ function findResponse(query: string, isGovern: boolean): string {
   return isGovern ? chatbotData.fallback_govern : chatbotData.fallback_public
 }
 
-const DEV_ROUTES = ['/command', '/land', '/market', '/feasibility', '/compliance', '/litigation', '/channel', '/dataroom', '/assistant', '/certificate',
-  '/', '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction', '/customers', '/finance', '/payments', '/vision']
+const DEV_ROUTES = ['/', '/command', '/land', '/market', '/feasibility', '/compliance', '/litigation', '/channel', '/dataroom', '/assistant', '/certificate',
+  '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction', '/customers', '/finance', '/payments', '/vision']
 
 export default function VantisIntelligence() {
   const pathname = usePathname()

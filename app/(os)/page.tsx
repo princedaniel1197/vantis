@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, ChevronRight, Globe } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -35,6 +35,21 @@ const PRODUCTS = [
     bgHover: 'rgba(184,200,216,0.07)',
     cta: 'Enter Build',
   },
+  {
+    id: 'lend',
+    tag: 'For Lenders',
+    name: 'Vantis Lend',
+    desc: 'Real-estate credit intelligence for housing finance companies. Early-warning portfolio monitoring, property verification, and developer risk scoring.',
+    href: '/lend',
+    icon: TrendingDown,
+    features: ['Portfolio Early-Warning Heatmap', 'Kaveri Source Verification', 'Developer Risk Score', '6-Quarter Default Prediction'],
+    accent: '#4ABFBF',
+    borderIdle: 'rgba(74,191,191,0.15)',
+    borderHover: 'rgba(74,191,191,0.45)',
+    bgIdle: 'rgba(74,191,191,0.03)',
+    bgHover: 'rgba(74,191,191,0.08)',
+    cta: 'Enter Lend',
+  },
 ]
 
 export default function HubPage() {
@@ -66,7 +81,7 @@ export default function HubPage() {
       </div>
 
       {/* Product cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', width: '100%', maxWidth: '760px', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', width: '100%', maxWidth: '1050px', marginBottom: '2rem' }}>
         {PRODUCTS.map(p => (
           <Link
             key={p.id}

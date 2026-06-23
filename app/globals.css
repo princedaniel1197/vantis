@@ -2,14 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Govern module legacy vars ──────────────────────────────── */
 :root {
   --background: #0A0A0F;
   --foreground: #F0EEE8;
 }
 
-* {
-  box-sizing: border-box;
+/* ── Developer product — Pitch (dark) theme — default ──────── */
+:root {
+  --bg:       #0A0A0A;
+  --surf:     #121110;
+  --surf2:    #1C1A17;
+  --ink:      #F2EBDD;
+  --muted:    #8A857A;
+  --bord:     #2A2520;
+  --gold:     #C9A84C;
+  --gold-hi:  #E8CE7E;
+  --gold-dim: #8B6F2A;
+  --ra:       #3FA66A;   /* Grade A — green */
+  --rb:       #C9A84C;   /* Grade B — gold  */
+  --rc:       #C0392B;   /* Grade C — red   */
+  --ra-dim:   #1E5C3A;
+  --rb-dim:   #8B6F2A;
+  --rc-dim:   #7A1A14;
 }
+
+/* ── Work (light) theme ─────────────────────────────────────── */
+html.work {
+  --bg:       #FAFAF8;
+  --surf:     #FFFFFF;
+  --surf2:    #F2F0EB;
+  --ink:      #16150F;
+  --muted:    #6B6760;
+  --bord:     #E2DDD6;
+  --gold:     #B8952A;
+  --gold-hi:  #9A7B1E;
+  --gold-dim: #D4AE50;
+  --ra:       #2E8A56;
+  --rb:       #B8952A;
+  --rc:       #C0392B;
+  --ra-dim:   #C0E8D4;
+  --rb-dim:   #F5E4B8;
+  --rc-dim:   #F5C5C0;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
 
 body {
   background: #0A0A0F;
@@ -18,23 +57,76 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Dev product pages override via wrapper div bg-bg / text-ink */
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bord); border-radius: 3px; }
+
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+  .text-balance { text-wrap: balance; }
 }
 
+/* ── Animations ─────────────────────────────────────────────── */
+
+/* Govern module chatbot */
 @keyframes typing-bounce {
-  0%, 60%, 100% {
-    transform: translateY(0);
-    opacity: 0.4;
-  }
-  30% {
-    transform: translateY(-4px);
-    opacity: 1;
-  }
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%           { transform: translateY(-4px); opacity: 1; }
 }
+.typing-dot { animation: typing-bounce 1s ease-in-out infinite; }
 
-.typing-dot {
-  animation: typing-bounce 1s ease-in-out infinite;
+/* Risk dial sweep */
+@keyframes dial-sweep {
+  from { stroke-dashoffset: 251.2; }
+  to   { stroke-dashoffset: var(--dial-target, 251.2); }
 }
+.animate-dial { animation: dial-sweep 1.4s cubic-bezier(.4,0,.2,1) forwards; }
+
+/* Cascade reveal */
+@keyframes cascade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-cascade { animation: cascade-up 0.5s ease forwards; }
+
+/* Grade badge pulse for C */
+@keyframes grade-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+  50%       { box-shadow: 0 0 0 6px rgba(192,57,43,0); }
+}
+.grade-c-pulse { animation: grade-pulse 2.4s ease-in-out infinite; }
+
+/* Ozone reveal stamp */
+@keyframes stamp-in {
+  0%   { opacity: 0; transform: scale(1.8) rotate(-15deg); }
+  60%  { transform: scale(0.93) rotate(3deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+.animate-stamp { animation: stamp-in 0.7s cubic-bezier(.17,.67,.35,1.25) forwards; }
+
+/* Streaming text cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.cursor-blink { animation: blink 0.7s step-end infinite; }
+
+/* Fade up */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fade-up 0.4s ease forwards; }

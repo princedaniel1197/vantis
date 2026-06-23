@@ -35,6 +35,9 @@ function findResponse(query: string, isGovern: boolean): string {
   return isGovern ? chatbotData.fallback_govern : chatbotData.fallback_public
 }
 
+const DEV_ROUTES = ['/command', '/land', '/market', '/feasibility', '/compliance', '/litigation', '/channel', '/dataroom', '/assistant', '/certificate',
+  '/', '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction', '/customers', '/finance', '/payments', '/vision']
+
 export default function VantisIntelligence() {
   const pathname = usePathname()
   const isGovern = pathname.startsWith('/govern')
@@ -45,6 +48,9 @@ export default function VantisIntelligence() {
   const [mode, setMode] = useState<'demo' | 'live'>('demo')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Hide on dev/OS routes — all hooks must be called before this return
+  if (DEV_ROUTES.some(r => pathname === r || pathname?.startsWith(r + '/'))) return null
 
   const suggestions = isGovern ? GOVERN_SUGGESTIONS : PUBLIC_SUGGESTIONS
 

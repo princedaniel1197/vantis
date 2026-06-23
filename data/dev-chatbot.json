@@ -1,0 +1,98 @@
+{
+  "responses": [
+    {
+      "id": "ozone_risk",
+      "keywords": ["ozone", "84/1", "84/2", "ozone urbana", "urbana"],
+      "en": "Ozone Urbana — Grade C · Risk Score 9/100\n\nVantis flags this case across all five databases:\n\n▸ Kaveri 2.0: 179 acres Kannehalli transferred to promoter's wife post-RERA — undisclosed beneficial interest\n▸ Bhoomi: Survey 84/1A land reclassified B-Kharab (govt) after DC revoked conversion Oct 2021\n▸ eCourts: 14 active cases including ED FEMA attachment ₹423.38 Cr (CC 441/2024)\n▸ BBMP: Plan sanction expired 2020 — 92 Avenue + 13 Aqua-2 flats built without valid sanction\n▸ Satellite: 6.2-acre rajakaluve encroachment — demolition notice served Jan 2024\n\nK-RERA ordered refund of ₹927.22 Cr to 1,847 homebuyers. ED attachment blocks recovery.\n\nVantis would have graded this C and flagged it in Q3 2020 — 8 quarters before the FIR.",
+      "kn": "ಓಝೋನ್ ಅರ್ಬನಾ — ಗ್ರೇಡ್ C · ರಿಸ್ಕ್ ಸ್ಕೋರ್ 9/100\n\nVantis ಐದು ಡೇಟಾಬೇಸ್‌ಗಳಲ್ಲಿ ಈ ಪ್ರಕರಣವನ್ನು ಫ್ಲ್ಯಾಗ್ ಮಾಡುತ್ತದೆ.\n\n₹927.22 ಕೋಟಿ ಸಂಗ್ರಹ · ED ₹423.38 ಕೋಟಿ ಜೋಡಣೆ · 1,847 ಖರೀದಿದಾರರು ಮನೆ ಇಲ್ಲದೆ ಉಳಿದಿದ್ದಾರೆ."
+    },
+    {
+      "id": "qpr_flag",
+      "keywords": ["qpr", "flag this quarter", "which projects", "compliance deadline", "missed qpr", "will flag"],
+      "en": "Based on your portfolio, here are the projects K-RERA will flag this quarter:\n\n🔴 CRITICAL — Meridian Edge (MRD-010)\n• QPR Q4 2024 overdue · 32.5L penalty accrued\n• Possession 2023-12-31 missed — 108 buyers affected\n• BBMP stop-work notice not vacated\n\n🔴 CRITICAL — Meridian Court (MRD-009)\n• QPR Q1 2025 overdue · 22.5L penalty accrued\n• Title dispute active on survey 45/3A\n\n🟡 WATCH — Meridian Hills (MRD-006)\n• QPR Q2 2025 late — file before end of quarter\n• Possession delayed 8 months — 68 buyers watching\n\n🟡 WATCH — Meridian Heights (MRD-005)\n• QPR LATE — submit Q4 2025 filing immediately\n• BBMP irregularity: plan sanction query pending\n\nRecommend: File MRD-010 and MRD-009 QPRs today to stop penalty clock.",
+      "kn": "ನಿಮ್ಮ ಪೋರ್ಟ್‌ಫೋಲಿಯೊದಲ್ಲಿ K-RERA ಈ ತ್ರೈಮಾಸಿಕ ಫ್ಲ್ಯಾಗ್ ಮಾಡಲಿರುವ ಯೋಜನೆಗಳು:\n\n🔴 Meridian Edge - QPR ತಡ, ₹32.5L ದಂಡ\n🔴 Meridian Court - QPR ತಡ, ₹22.5L ದಂಡ\n🟡 Meridian Hills - QPR ತಡ, ತಕ್ಷಣ ಸಲ್ಲಿಸಿ"
+    },
+    {
+      "id": "jda_partner",
+      "keywords": ["jda", "jda partner", "clean", "landowner", "partner check", "counterparty", "due diligence"],
+      "en": "Running a JDA partner check requires a name or survey number. Here's what Vantis does:\n\n1. eCourts scan — all cases where the party is plaintiff or defendant across all Karnataka courts\n2. Kaveri scan — all transactions where the party appears as seller/buyer/mortgagor (last 15 years)\n3. K-RERA cross-check — any previous project registrations or violations\n4. Bhoomi check — land holdings and any pending disputes\n\nCommon red flags we catch:\n▸ Hidden partition suits between family members (common in agricultural land)\n▸ Prior mortgage not disclosed before JDA signing\n▸ Same promoter name in two or more failed RERA projects\n▸ Benami land transfers before sale\n\nTry: go to the Litigation module and enter a name or survey number. I'll surface everything from eCourts + Kaveri.",
+      "kn": "JDA ಪಾಲುದಾರ ಪರಿಶೀಲನೆ: eCourts + Kaveri ಸ್ಕ್ಯಾನ್ ಒಂದೇ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ. Litigation ಮಾಡ್ಯೂಲ್‌ಗೆ ಹೋಗಿ."
+    },
+    {
+      "id": "whitefield_3bhk",
+      "keywords": ["whitefield", "3bhk", "3 bhk", "price", "last quarter", "transacted", "sold", "market price", "kaveri price"],
+      "en": "Whitefield 3BHK — Kaveri Registration Data, Q4 2025:\n\n▸ Registered transactions: 284 units\n▸ Average transacted price: ₹9,820/sqft\n▸ Range: ₹8,400–₹11,600/sqft\n▸ Guidance value: ₹7,200/sqft (27% below market)\n▸ Median size: 1,640 sqft · Median deal: ₹1.61 Cr\n\nTop performers by registration count:\n1. Prestige Lakeside — ₹9,600/sqft avg\n2. Sobha Dream Acres — ₹9,200/sqft avg\n3. Brigade Horizon — ₹10,100/sqft avg\n\nAbsorption velocity: 11.3 units/month (up from 8.6 in Q3 2025)\nDemand driver: ITPL corridor + metro extension (Whitefield-KIAL announced)\n\nThis data comes from actual Kaveri registrations — not asking prices.",
+      "kn": "ವೈಟ್‌ಫೀಲ್ಡ್ 3BHK — Q4 2025:\n\n▸ ಸರಾಸರಿ ನೋಂದಾಯಿತ ಬೆಲೆ: ₹9,820/sqft\n▸ ಮಾರ್ಗದರ್ಶಿ ಮೌಲ್ಯ: ₹7,200/sqft\n▸ 284 ನೋಂದಾಯಿತ ವ್ಯವಹಾರಗಳು (Q4 2025)"
+    },
+    {
+      "id": "draft_qpr",
+      "keywords": ["draft qpr", "qpr for divya", "generate qpr", "qpr template", "write qpr", "prepare qpr"],
+      "en": "Here is a QPR draft for Divya Villas (DIV-001), Q4 2025:\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\nK-RERA QPR — FORM 2\nProject: Divya Villas\nRERA ID: PRM/KA/RERA/1252/406/PR/191104/002401\nQuarter: Q4 2025 (Oct–Dec 2025)\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n1. CONSTRUCTION PROGRESS\n   Structure completed: 100%\n   Finishes completed: 94%\n   Infrastructure (roads/drainage): 98%\n   Landscaping: 85%\n\n2. FINANCIAL DETAILS\n   Collected from homebuyers: ₹14.8 Cr\n   Escrow balance (70% threshold): ₹10.36 Cr ✓\n   Withdrawals this quarter: ₹2.1 Cr (materials)\n   Outstanding dues: Nil\n\n3. BOOKINGS\n   Total units: 40\n   Booked: 36 (90%)\n   Available: 4\n\n4. CERTIFICATES ATTACHED\n   ☑ CA Certificate (Form 3)\n   ☑ Architect Certificate (Form 4)\n   ☑ Site Progress Photos (12 attached)\n\nStatus: ON TIME — No penalty due\n━━━━━━━━━━━━━━━━━━━━━━━━━━━\nGenerated by Vantis · File in K-RERA portal by 15 Jan 2026",
+      "kn": "Divya Villas QPR ಕರಡು ರಚಿಸಲಾಗಿದೆ. K-RERA ಪೋರ್ಟಲ್‌ನಲ್ಲಿ 15 ಜನವರಿ 2026 ರ ಮೊದಲು ಸಲ್ಲಿಸಿ."
+    },
+    {
+      "id": "ozone_assets",
+      "keywords": ["ozone assets", "attach", "attachable", "trace assets", "ozone recovery", "kannehalli", "wife's name", "ed attached"],
+      "en": "Ozone Urbana — Attachable Asset Trace:\n\n1. 179 ACRES — Kannehalli, Survey 112/1\n   Registered to promoter's wife (Kaveri Deed 2841/2020)\n   ED attached under FEMA CC 441/2024 — ₹423.38 Cr\n   Status: Frozen, sale prohibited\n\n2. 4.5 ACRES — Devanahalli Survey 84/1A\n   Transferred post-RERA (not disclosed) — ₹28 Cr registered value\n   Part of ED attachment order\n\n3. 92 AVENUE FLATS (unsold inventory)\n   ~148 flats valued ₹84 Cr at current distressed prices\n   Available for attachment under homebuyer refund order\n\n4. 13 AQUA-2 FLATS\n   Valued ₹9.2 Cr — part of same ED proceeding\n\n5. PROMOTER PERSONAL ASSETS\n   3 residential properties (Koramangala, Indiranagar) — court freeze pending\n\nTotal traceable: ₹544 Cr · Recovery ordered: ₹927.22 Cr · Gap: ₹383 Cr\n\nVantis surfaces this through Kaveri + Bhoomi cross-indexing on promoter name and related parties.",
+      "kn": "ಓಝೋನ್ ಅರ್ಬನಾ ಆಸ್ತಿ ಪತ್ತೆ:\n\n• 179 ಎಕರೆ ಕಣ್ಣೇಹಳ್ಳಿ — ED ₹423 ಕೋಟಿ ಜೋಡಣೆ\n• 4.5 ಎಕರೆ ದೇವನಹಳ್ಳಿ — ಬಹಿರಂಗಪಡಿಸಲಿಲ್ಲ\n• ಒಟ್ಟು ಪತ್ತೆಯಾದ: ₹544 ಕೋಟಿ | ಅಂತರ: ₹383 ಕೋಟಿ"
+    },
+    {
+      "id": "devanahalli_market",
+      "keywords": ["devanahalli", "airport", "north bangalore", "north bengaluru", "airport road"],
+      "en": "Devanahalli Micro-Market — Vantis Market Intelligence Q4 2025:\n\n▸ Avg transacted price (residential): ₹5,120/sqft\n▸ Villa plots: ₹180–₹420/sqft (guidance: ₹140–₹280)\n▸ Registered deals: 142 (Q4 2025, up 28% QoQ)\n▸ Guidance value gap: 38% below market — high stamp duty arbitrage\n\nKey demand drivers:\n• KIAL Phase 2 terminal announced (2026)\n• Aerospace SEZ expansion — 12,000 jobs pipeline\n• IT Park expansion (Manyata 2.0) planned for Bagalur\n\nWatch risks:\n• 179 acres Ozone Urbana land still in ED attachment — dampens 84/1 micro-belt\n• B-Kharab reclassification risk on DC-converted land (2019-2021 batch)\n• Oversupply: 8,400 villa plots launched since 2022, absorption at 42 units/month",
+      "kn": "ದೇವನಹಳ್ಳಿ ಮಾರ್ಕೆಟ್ Q4 2025:\n▸ ಸರಾಸರಿ ಬೆಲೆ: ₹5,120/sqft\n▸ ಬೇಡಿಕೆ ಚಾಲಕ: KIAL Phase 2, SEZ ವಿಸ್ತರಣೆ\n▸ 28% QoQ ಹೆಚ್ಚಳ"
+    },
+    {
+      "id": "sarjapur_market",
+      "keywords": ["sarjapur", "sarjapur road", "varthur", "panathur"],
+      "en": "Sarjapur Road Micro-Market — Q4 2025:\n\n▸ Avg transacted price (2BHK): ₹7,400/sqft\n▸ Avg transacted price (3BHK): ₹7,800/sqft\n▸ Registered deals: 318 (Q4 2025)\n▸ Guidance value: ₹5,600–₹6,200/sqft\n\nStrong absorption: 26 units/month on Sarjapur–Attibele stretch\nTop projects by velocity: Godrej Woodland (18 units/month), Mana Jardin Neo (14/month)\n\nRisk watch:\n• Bellandur lake buffer zone disputes still unresolved — avoid sub-parcels <500m from lake",
+      "kn": "ಸರ್ಜಾಪುರ್ ರಸ್ತೆ Q4 2025:\n▸ ಸರಾಸರಿ ₹7,400–₹7,800/sqft\n▸ 318 ನೋಂದಾಯಿತ ವ್ಯವಹಾರಗಳು"
+    },
+    {
+      "id": "hebbal_market",
+      "keywords": ["hebbal", "hebbal flyover", "jakkur", "nagavara"],
+      "en": "Hebbal Micro-Market — Q4 2025:\n\n▸ Avg transacted price: ₹9,200/sqft\n▸ Registered deals: 198 (Q4 2025)\n▸ Guidance value: ₹6,800/sqft\n\nNorth Bengaluru premium: proximity to Manyata Tech Park (90,000 employees)\nTop projects: Salarpuria Sattva Magnus (₹8,800/sqft avg), Brigade Horizon (₹8,900/sqft)\n\nAbsorption: 16 units/month · inventory overhang: 8.2 months",
+      "kn": "ಹೆಬ್ಬಾಳ Q4 2025: ₹9,200/sqft · 198 ವ್ಯವಹಾರಗಳು · Manyata Tech Park ಪ್ರೀಮಿಯಂ"
+    },
+    {
+      "id": "mantri_ngt",
+      "keywords": ["mantri", "mantri techzone", "techzone", "ngt", "bellandur", "lake buffer", "117"],
+      "en": "Mantri Techzone — Grade C · Risk Score 15/100\n\nNGT Fine: ₹117.35 Crore (National Green Tribunal Order, 2019)\nReason: Construction within 75m buffer of Bellandur Lake (Varthur Hobli Survey 22/1)\n\nVantis flags:\n▸ eCourts: NGT Appln 481/2019 — demolition + fine order, not vacated\n▸ BBMP: Plan sanction issued without mandatory lake buffer NOC\n▸ Satellite: 2.4-acre encroachment on lake bed (2022 imagery)\n▸ QPR: Not filed since Q1 2023 — ₹320L penalty accrued\n\nProject status: Construction halted by NGT order. 190,000 sqft sold space in legal limbo.\n\nThis is why Vantis checks BBMP + satellite before Kaveri. The encroachment shows 18 months before any court filing.",
+      "kn": "Mantri Techzone — ಗ್ರೇಡ್ C · NGT ದಂಡ ₹117.35 ಕೋಟಿ · ಬೆಳ್ಳಂದೂರು ಸರೋವರ ಬಫರ್ ಉಲ್ಲಂಘನೆ"
+    },
+    {
+      "id": "mantri_ibc",
+      "keywords": ["mantri ibc", "mantri developers", "ibc", "insolvency", "456", "mantri residences"],
+      "en": "Mantri Developers — IBC Proceeding\n\n▸ Default: ₹456.68 Crore (financial creditors)\n▸ NCLT Bengaluru Case No. IB-214/BB/2022\n▸ IRP appointed: N. Ramachandra (Feb 2023)\n▸ Corporate Insolvency Resolution Process: Active\n\nED probe: Parallel FEMA investigation for alleged Hawala links\nHomebuyers: 580 of 620 sold, possession pending since 2019\n\nVantis status: Grade C · Score 12 · All 5 databases flagged\nRecovery outlook: Limited — promoter assets mostly encumbered",
+      "kn": "Mantri Developers — IBC ₹456.68 ಕೋಟಿ ಡೀಫಾಲ್ಟ್ · NCLT ಬೆಂಗಳೂರು ಪ್ರಕ್ರಿಯೆ ಸಕ್ರಿಯ"
+    },
+    {
+      "id": "meridian_edge",
+      "keywords": ["meridian edge", "mrd-010", "mrd010", "89/1a"],
+      "en": "Meridian Edge (MRD-010) — Grade C · Score 28/100\n\nYour highest-risk own project. Immediate action required:\n\n🔴 Kaveri: Undisclosed mortgage ₹8.4 Cr (Bank of Baroda) — not in Form A\n🔴 Bhoomi: 0.8 acres E-category (tank bed) included in project — not buildable\n🔴 BBMP: G+18 vs sanctioned G+14 — stop-work notice active Jun 2023\n🔴 eCourts: Bank of Baroda foreclosure suit OS 841/2024\n🔴 Satellite: Construction on tank bed confirmed Feb 2024\n\nPenalty accrued: ₹32.5L (QPR Q4 2024 + Q1 2025 missed)\n108 homebuyers affected · Possession due Dec 2023 (missed)\n\nRecommend: Engage legal counsel immediately on mortgage disclosure and BBMP stop-work.",
+      "kn": "Meridian Edge — ಗ್ರೇಡ್ C · ತಕ್ಷಣ ಕ್ರಮ ಅಗತ್ಯ:\n• ₹8.4 ಕೋಟಿ ಅಡಮಾನ ಬಹಿರಂಗಪಡಿಸಲಿಲ್ಲ\n• BBMP ನಿಲ್ಲಿಸು ಸೂಚನೆ ಸಕ್ರಿಯ\n• ₹32.5L ದಂಡ ಸಂಗ್ರಹ"
+    },
+    {
+      "id": "lender_data",
+      "keywords": ["lender", "bank", "construction finance", "data room", "loan", "project finance", "sbi", "hdfc"],
+      "en": "The Vantis Lender Data Room packages government-verified data for construction finance:\n\n✓ K-RERA registration + QPR history (5-year)\n✓ Kaveri title chain (encumbrance-free certificate equivalent)\n✓ Bhoomi RTC + mutation extract\n✓ BBMP plan sanction status\n✓ eCourts clean chit (no pending litigation)\n✓ Escrow account compliance score\n\nBanks accept Vantis data rooms because:\n• Each record is sourced directly from the government DB (not self-reported)\n• API output is timestamped and signed (tamper-evident)\n• Reduces legal DD from 4-6 weeks to 3-5 days\n\nGo to the Data Room module to generate a lender package for any project.",
+      "kn": "Vantis Lender Data Room — ಸರ್ಕಾರ-ಪರಿಶೀಲಿತ ಡೇಟಾ · ಕಾನೂನು DD 4-6 ವಾರದಿಂದ 3-5 ದಿನಕ್ಕೆ ಕಡಿಮೆ"
+    },
+    {
+      "id": "portfolio_overview",
+      "keywords": ["portfolio", "my projects", "overview", "how are my projects", "all projects", "project health"],
+      "en": "Your Meridian Realty Portfolio — Current Status:\n\n📊 10 projects · 4 Grade A · 4 Grade B · 2 Grade C\n\n✅ Grade A (Safe)\n• Meridian One — Whitefield — Score 82 — QPR ON TIME\n• Meridian Towers — Hebbal — Score 76 — QPR ON TIME\n• Meridian Vista — Yelahanka — Score 69 — QPR ON TIME\n• Meridian Enclave — Bannerghatta — Score 72 — QPR ON TIME\n\n⚠️ Grade B (Watch)\n• Meridian Park — QPR ON TIME — Escrow slightly low\n• Meridian Residences — QPR LATE — Possession delay flagged\n• Meridian Heights — QPR LATE — BBMP query pending\n• Meridian Hills — QPR MISSED — ₹12.5L penalty\n\n🚨 Grade C (Critical — Act Now)\n• Meridian Court — QPR MISSED — ₹22.5L penalty — Title dispute\n• Meridian Edge — QPR MISSED — ₹32.5L penalty — BBMP stop-work\n\nTotal QPR penalty exposure: ₹67.5L\nRecommend: Prioritize MRD-010 and MRD-009 filings today.",
+      "kn": "ನಿಮ್ಮ Meridian Realty ಪೋರ್ಟ್‌ಫೋಲಿಯೊ:\n• 10 ಯೋಜನೆಗಳು · 4 A · 4 B · 2 C\n• ₹67.5L QPR ದಂಡ ಒಟ್ಟು\n• MRD-010 ಮತ್ತು MRD-009 ತಕ್ಷಾಣ ಸಲ್ಲಿಸಿ"
+    },
+    {
+      "id": "feasibility_basic",
+      "keywords": ["feasibility", "fsi", "floor space", "buildable area", "how much can i build", "product mix"],
+      "en": "Vantis Feasibility Engine — how it works:\n\n1. Input a parcel (survey number or RERA-registered land)\n2. Vantis checks BBMP zoning to determine applicable FSI/FAR\n3. Calculates max buildable area by use type (residential/commercial)\n4. Generates optimal product mix based on demand data from Kaveri registrations in that micro-market\n5. Produces a rough financial model (land cost → construction → revenue → margin)\n\nExample — 5-acre Whitefield parcel (residential zone, FSI 2.75):\n• Max built-up: ~5.9 lakh sqft\n• Optimal mix: 60% 2BHK (900-1,100 sqft) + 30% 3BHK (1,400-1,600 sqft) + 10% 4BHK\n• Projected revenue: ₹578 Cr (at ₹9,800/sqft)\n• Estimated margin: ₹94-112 Cr (16-19%)\n\nGo to the Feasibility module to run your parcel.",
+      "kn": "Vantis Feasibility Engine — ಪಾರ್ಸೆಲ್ → FSI → ಉತ್ಪನ್ನ ಮಿಶ್ರಣ → ಹಣಕಾಸು ಮಾದರಿ. Feasibility ಮಾಡ್ಯೂಲ್‌ಗೆ ಹೋಗಿ."
+    }
+  ],
+  "fallback": {
+    "en": "Here's what I can see across your portfolio:\n\n▸ 10 projects active · 2 require immediate action (Grade C)\n▸ ₹67.5L QPR penalty exposure across portfolio\n▸ Meridian Edge + Meridian Court: file QPRs today to stop the penalty clock\n▸ 3 possession deadlines in next 180 days\n\nI can help you with:\n• Specific project risk analysis\n• QPR drafting\n• Market prices (Kaveri data) for any micro-market\n• JDA / partner due diligence\n• Ozone Urbana or Mantri case deep-dive\n• Lender data room generation\n\nTry: \"Which projects will flag this quarter?\" or \"What did 3BHKs sell for in Whitefield?\"",
+    "kn": "ನಿಮ್ಮ ಪೋರ್ಟ್‌ಫೋಲಿಯೊ ಅವಲೋಕನ:\n▸ 10 ಯೋಜನೆಗಳು · 2 ತಕ್ಷಣ ಕ್ರಮ ಬೇಕು\n▸ ₹67.5L QPR ದಂಡ ಒಟ್ಟು\n\n\"ಈ ತ್ರೈಮಾಸಿಕ ಯಾವ ಯೋಜನೆಗಳು ಫ್ಲ್ಯಾಗ್ ಆಗುತ್ತವೆ?\" ಎಂದು ಕೇಳಿ."
+  }
+}

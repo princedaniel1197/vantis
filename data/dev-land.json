@@ -1,0 +1,84 @@
+{
+  "ozone": {
+    "project_id": "OZU-001",
+    "name": "Ozone Urbana",
+    "survey": "84/1, 84/2, 85/3, Devanahalli Hobli, Bengaluru Rural District",
+    "rera_id": "PRM/KA/RERA/1251/308/PR/191001/002338",
+    "developer": "Ozone Group",
+    "ka_area_acres": 179.0,
+    "risk_grade": "C",
+    "risk_score": 9,
+    "sub_scores": {
+      "title":       { "score": 6,  "label": "Title / Kaveri",       "db": "Kaveri 2.0",  "severity": "CRITICAL", "finding": "Registered sale deed shows 179 acres Kannehalli land in promoter's wife's name — undisclosed beneficial interest. 4.5 acres Devanahalli survey 84/1A transferred 8 months post-RERA registration without disclosure." },
+      "land":        { "score": 8,  "label": "Land Records / Bhoomi","db": "Bhoomi",       "severity": "CRITICAL", "finding": "Bhoomi RTC shows agricultural land (3B) conversion approval revoked by DC office Oct 2021. Land reclassified as B-Kharab (govt land). Promoter has not updated K-RERA records." },
+      "litigation":  { "score": 4,  "label": "Litigation / eCourts", "db": "eCourts",      "severity": "CRITICAL", "finding": "14 active cases: HC WP 28812/2023 (homebuyer class action), CC 441/2024 (ED FEMA attachment ₹423.38 Cr), CRL 12/2024 (promoter fraud IPC 420). No stay on possession orders." },
+      "bbmp":        { "score": 15, "label": "Plan Sanction / BBMP", "db": "BBMP / BDA",   "severity": "HIGH",     "finding": "BDA plan sanction expired Dec 2020. Promoter filed renewal Mar 2023 — rejected on grounds of pending DC conversion. 92 Avenue and 13 Aqua-2 flats built without valid plan sanction." },
+      "encroachment":{ "score": 9,  "label": "Encroachment / Sat.",  "db": "Satellite",    "severity": "HIGH",     "finding": "2023 satellite imagery shows 6.2-acre rajakaluve (stormwater drain) buffer zone encroached. BBMP served demolition notice Jan 2024 on 3 towers. Survey 85/3 boundary overlaps with adjacent government kharab land." }
+    },
+    "title_chain": [
+      { "date": "1968-04-12", "event": "Original Patta granted to Muniyamma (agricultural, 3B)", "status": "ok",       "db": "Bhoomi RTC" },
+      { "date": "1994-08-20", "event": "Sale to K. Suresh Kumar ₹4.2L, registered Deed 4812/94", "status": "ok",       "db": "Kaveri 2.0" },
+      { "date": "2002-11-05", "event": "Conversion order to Non-Agricultural issued (DC Office)", "status": "ok",       "db": "Bhoomi" },
+      { "date": "2009-03-18", "event": "Sale to Ozone Urbana Pvt Ltd ₹28 Cr, Deed 2281/09",      "status": "ok",       "db": "Kaveri 2.0" },
+      { "date": "2015-07-22", "event": "BDA plan sanction granted — 84/1, 84/2 (6.4 lakh sqft)",  "status": "ok",       "db": "BBMP/BDA" },
+      { "date": "2019-10-01", "event": "K-RERA registration — 1,847 units declared",              "status": "ok",       "db": "K-RERA" },
+      { "date": "2020-08-14", "event": "179 acres Kannehalli (survey 112/1) transferred to promoter's wife, undisclosed in RERA", "status": "flag",     "db": "Kaveri 2.0" },
+      { "date": "2021-10-19", "event": "DC office revokes conversion — reclassified B-Kharab govt land", "status": "critical", "db": "Bhoomi" },
+      { "date": "2021-12-31", "event": "Possession deadline missed — 1,847 homebuyers unhoused",  "status": "critical", "db": "K-RERA" },
+      { "date": "2022-03-08", "event": "QPR Q3 2021 not filed — penalty clock starts ₹25,000/day", "status": "critical", "db": "K-RERA" },
+      { "date": "2023-09-14", "event": "BBMP demolition notice on 3 towers — rajakaluve encroachment", "status": "critical", "db": "BBMP" },
+      { "date": "2024-01-22", "event": "ED attachment order — ₹423.38 Cr assets frozen (FEMA CC 441/2024)", "status": "critical", "db": "eCourts" },
+      { "date": "2024-06-30", "event": "K-RERA orders refund ₹927.22 Cr to all 1,847 homebuyers", "status": "critical", "db": "K-RERA" },
+      { "date": "2025-01-15", "event": "HC stays refund order — promoter files stay petition HC WP 2812/2025", "status": "flag",     "db": "eCourts" }
+    ],
+    "qpr_history": [
+      { "quarter": "Q2 2019", "status": "ON_TIME",  "score_then": 68 },
+      { "quarter": "Q3 2019", "status": "ON_TIME",  "score_then": 64 },
+      { "quarter": "Q4 2019", "status": "ON_TIME",  "score_then": 58 },
+      { "quarter": "Q1 2020", "status": "LATE",     "score_then": 51 },
+      { "quarter": "Q2 2020", "status": "LATE",     "score_then": 42 },
+      { "quarter": "Q3 2020", "status": "MISSED",   "score_then": 31 },
+      { "quarter": "Q4 2020", "status": "MISSED",   "score_then": 24 },
+      { "quarter": "Q1 2021", "status": "MISSED",   "score_then": 17 },
+      { "quarter": "Q2 2021", "status": "MISSED",   "score_then": 12 },
+      { "quarter": "Q3 2021", "status": "MISSED",   "score_then": 9  }
+    ]
+  },
+  "mrd010": {
+    "project_id": "MRD-010",
+    "name": "Meridian Edge",
+    "survey": "89/1A, Devanahalli Hobli, Bengaluru Rural District",
+    "rera_id": "PRM/KA/RERA/1251/308/PR/191215/002401",
+    "developer": "Meridian Realty",
+    "ka_area_acres": 3.8,
+    "risk_grade": "C",
+    "risk_score": 28,
+    "sub_scores": {
+      "title":       { "score": 30, "label": "Title / Kaveri",        "db": "Kaveri 2.0", "severity": "HIGH",     "finding": "Kaveri records show a mortgage (simple mortgage deed 882/2018) of ₹8.4 Cr on survey 89/1A — not disclosed in K-RERA Form A. Lender (Vijaya Bank, now Bank of Baroda) not listed as mortgagee." },
+      "land":        { "score": 18, "label": "Land Records / Bhoomi", "db": "Bhoomi",     "severity": "CRITICAL", "finding": "Bhoomi RTC shows survey 89/1A split not reflected in K-RERA registration. 0.8 acres out of 3.8 acres classified as E-category (tank bed/catchment area) — not buildable under KLR Act." },
+      "litigation":  { "score": 22, "label": "Litigation / eCourts",  "db": "eCourts",    "severity": "HIGH",     "finding": "4 active suits: OS 841/2023 (mortgagee Bank of Baroda foreclosure), MVC 228/2024 (neighbor boundary), 2 consumer complaints at K-RERA tribunal." },
+      "bbmp":        { "score": 25, "label": "Plan Sanction / BBMP",  "db": "BBMP/BDA",   "severity": "HIGH",     "finding": "Plan sanction approved Dec 2019 for G+14 floors. Promoter constructed G+18 (4 floors excess). BBMP issued stop-work notice June 2023 — not vacated." },
+      "encroachment":{ "score": 15, "label": "Encroachment / Sat.",   "db": "Satellite",  "severity": "CRITICAL", "finding": "2024 satellite imagery confirms construction on 0.8-acre E-category tank bed land. BBMP drainage department marked boundary February 2024." }
+    },
+    "title_chain": [
+      { "date": "1985-06-10", "event": "Patta in name of H. Narasimha (agricultural 3B)", "status": "ok",       "db": "Bhoomi RTC" },
+      { "date": "2008-11-24", "event": "Sale to R. Krishnamurthy ₹12L, Deed 1144/08",    "status": "ok",       "db": "Kaveri 2.0" },
+      { "date": "2015-03-18", "event": "Conversion to Non-Agricultural (DC office)",       "status": "ok",       "db": "Bhoomi" },
+      { "date": "2018-07-04", "event": "Simple Mortgage Deed 882/2018 — ₹8.4 Cr Bank of Baroda (NOT disclosed)", "status": "flag", "db": "Kaveri 2.0" },
+      { "date": "2019-12-15", "event": "Sale to Meridian Realty ₹2.8 Cr, Deed 3612/19 (mortgage not cleared)", "status": "flag", "db": "Kaveri 2.0" },
+      { "date": "2019-12-15", "event": "K-RERA registration — 120 units, mortgage not disclosed in Form A", "status": "flag", "db": "K-RERA" },
+      { "date": "2023-06-12", "event": "BBMP stop-work notice — 4 excess floors",         "status": "critical", "db": "BBMP" },
+      { "date": "2023-12-31", "event": "Possession deadline missed — 108 buyers affected", "status": "critical", "db": "K-RERA" },
+      { "date": "2024-02-14", "event": "Bank of Baroda files foreclosure suit OS 841/2024","status": "critical", "db": "eCourts" }
+    ],
+    "qpr_history": [
+      { "quarter": "Q4 2019", "status": "ON_TIME",  "score_then": 62 },
+      { "quarter": "Q1 2020", "status": "ON_TIME",  "score_then": 58 },
+      { "quarter": "Q2 2020", "status": "LATE",     "score_then": 50 },
+      { "quarter": "Q3 2020", "status": "LATE",     "score_then": 44 },
+      { "quarter": "Q4 2020", "status": "MISSED",   "score_then": 36 },
+      { "quarter": "Q1 2021", "score_then": 30, "status": "MISSED" },
+      { "quarter": "Q2 2021", "score_then": 28, "status": "MISSED" }
+    ]
+  }
+}

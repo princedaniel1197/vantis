@@ -1,0 +1,97 @@
+{
+  "projects": [
+    {
+      "id": "MRD-001",
+      "name": "Meridian Skyline",
+      "location": "Whitefield, Bengaluru",
+      "rera": "PRM/KA/RERA/1251/446/PR/171014/003512",
+      "kaveri_guidance_lakh_per_sqft": 0.082,
+      "towers": [
+        {
+          "id": "TA", "name": "Tower A", "floors": 18, "units_per_floor": 4,
+          "types": ["2BHK", "2BHK", "3BHK", "3BHK"],
+          "areas_sqft": [1145, 1180, 1540, 1620],
+          "base_prices_lakh": [92, 96, 128, 134],
+          "units": [
+            {"floor": 1, "pos": 1, "id": "A-101", "status": "sold", "buyer": "R. Krishnan"},
+            {"floor": 1, "pos": 2, "id": "A-102", "status": "sold", "buyer": "M. Hegde"},
+            {"floor": 1, "pos": 3, "id": "A-103", "status": "sold", "buyer": "S. Pillai"},
+            {"floor": 1, "pos": 4, "id": "A-104", "status": "sold", "buyer": "P. Nair"},
+            {"floor": 2, "pos": 1, "id": "A-201", "status": "sold", "buyer": "V. Bhat"},
+            {"floor": 2, "pos": 2, "id": "A-202", "status": "available"},
+            {"floor": 2, "pos": 3, "id": "A-203", "status": "reserved", "reserved_for": "Rajesh Kumar"},
+            {"floor": 2, "pos": 4, "id": "A-204", "status": "sold", "buyer": "A. Rao"},
+            {"floor": 3, "pos": 1, "id": "A-301", "status": "available"},
+            {"floor": 3, "pos": 2, "id": "A-302", "status": "available"},
+            {"floor": 3, "pos": 3, "id": "A-303", "status": "sold", "buyer": "T. Murthy"},
+            {"floor": 3, "pos": 4, "id": "A-304", "status": "available"},
+            {"floor": 4, "pos": 1, "id": "A-401", "status": "sold", "buyer": "K. Srinivas"},
+            {"floor": 4, "pos": 2, "id": "A-402", "status": "available"},
+            {"floor": 4, "pos": 3, "id": "A-403", "status": "available"},
+            {"floor": 4, "pos": 4, "id": "A-404", "status": "sold", "buyer": "R. Sharma"},
+            {"floor": 5, "pos": 1, "id": "A-501", "status": "available"},
+            {"floor": 5, "pos": 2, "id": "A-502", "status": "sold", "buyer": "D. Kumar"},
+            {"floor": 5, "pos": 3, "id": "A-503", "status": "reserved", "reserved_for": "Arjun Kapoor"},
+            {"floor": 5, "pos": 4, "id": "A-504", "status": "available"}
+          ]
+        },
+        {
+          "id": "TB", "name": "Tower B", "floors": 20, "units_per_floor": 4,
+          "types": ["2BHK", "3BHK", "3BHK", "3BHK+Study"],
+          "areas_sqft": [1190, 1580, 1640, 1820],
+          "base_prices_lakh": [98, 132, 138, 158],
+          "units": [
+            {"floor": 1, "pos": 1, "id": "B-101", "status": "sold", "buyer": "G. Mathew"},
+            {"floor": 1, "pos": 2, "id": "B-102", "status": "sold", "buyer": "S. Hegde"},
+            {"floor": 1, "pos": 3, "id": "B-103", "status": "sold", "buyer": "M. Patel"},
+            {"floor": 1, "pos": 4, "id": "B-104", "status": "available"},
+            {"floor": 2, "pos": 1, "id": "B-201", "status": "sold", "buyer": "J. Nair"},
+            {"floor": 2, "pos": 2, "id": "B-202", "status": "available"},
+            {"floor": 2, "pos": 3, "id": "B-203", "status": "available"},
+            {"floor": 2, "pos": 4, "id": "B-204", "status": "sold", "buyer": "A. Verma"},
+            {"floor": 3, "pos": 1, "id": "B-301", "status": "available"},
+            {"floor": 3, "pos": 2, "id": "B-302", "status": "reserved", "reserved_for": "Vikram Seth"},
+            {"floor": 3, "pos": 3, "id": "B-303", "status": "available"},
+            {"floor": 3, "pos": 4, "id": "B-304", "status": "sold", "buyer": "P. Iyer"},
+            {"floor": 4, "pos": 1, "id": "B-401", "status": "available"},
+            {"floor": 4, "pos": 2, "id": "B-402", "status": "available"},
+            {"floor": 4, "pos": 3, "id": "B-403", "status": "sold", "buyer": "H. Singh"},
+            {"floor": 4, "pos": 4, "id": "B-404", "status": "available"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MRD-003",
+      "name": "Meridian Grande",
+      "location": "Sarjapur Road, Bengaluru",
+      "rera": "PRM/KA/RERA/1251/446/PR/171014/003514",
+      "kaveri_guidance_lakh_per_sqft": 0.094,
+      "towers": [
+        {
+          "id": "GA", "name": "Block A", "floors": 12, "units_per_floor": 3,
+          "types": ["3BHK", "4BHK", "4BHK+Study"],
+          "areas_sqft": [1820, 2240, 2680],
+          "base_prices_lakh": [168, 210, 262],
+          "units": [
+            {"floor": 1, "pos": 1, "id": "GA-101", "status": "sold", "buyer": "B. Rao"},
+            {"floor": 1, "pos": 2, "id": "GA-102", "status": "sold", "buyer": "C. Shah"},
+            {"floor": 1, "pos": 3, "id": "GA-103", "status": "available"},
+            {"floor": 2, "pos": 1, "id": "GA-201", "status": "available"},
+            {"floor": 2, "pos": 2, "id": "GA-202", "status": "reserved", "reserved_for": "Arun Nair"},
+            {"floor": 2, "pos": 3, "id": "GA-203", "status": "available"},
+            {"floor": 3, "pos": 1, "id": "GA-301", "status": "sold", "buyer": "T. Reddy"},
+            {"floor": 3, "pos": 2, "id": "GA-302", "status": "available"},
+            {"floor": 3, "pos": 3, "id": "GA-303", "status": "sold", "buyer": "F. Menon"},
+            {"floor": 11, "pos": 1, "id": "GA-1101", "status": "available"},
+            {"floor": 11, "pos": 2, "id": "GA-1102", "status": "available"},
+            {"floor": 11, "pos": 3, "id": "GA-1103", "status": "available"},
+            {"floor": 12, "pos": 1, "id": "GA-PH1", "status": "sold", "buyer": "Priya Menon"},
+            {"floor": 12, "pos": 2, "id": "GA-PH2", "status": "available"},
+            {"floor": 12, "pos": 3, "id": "GA-PH3", "status": "available"}
+          ]
+        }
+      ]
+    }
+  ]
+}

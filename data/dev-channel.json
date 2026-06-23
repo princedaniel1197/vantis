@@ -1,0 +1,67 @@
+{
+  "brokers": [
+    {
+      "id": "b1", "name": "Rahul Sharma", "agency": "Sharma Properties", "tier": "platinum",
+      "locations": ["Whitefield", "Sarjapur Road"],
+      "closed_deals_12m": 28, "revenue_cr": 4.8, "avg_ticket_cr": 1.4,
+      "response_rate": 94, "conversion_rate": 18, "repeat_rate": 72,
+      "active_leads": 14, "pending_commission_lakh": 8.4,
+      "rera_id": "KA/AGENT/2022/00143", "verified": true,
+      "alert": null
+    },
+    {
+      "id": "b2", "name": "Priya Nair", "agency": "Nair Estates", "tier": "gold",
+      "locations": ["Hebbal", "Yelahanka"],
+      "closed_deals_12m": 18, "revenue_cr": 3.1, "avg_ticket_cr": 1.2,
+      "response_rate": 88, "conversion_rate": 14, "repeat_rate": 61,
+      "active_leads": 9, "pending_commission_lakh": 5.2,
+      "rera_id": "KA/AGENT/2021/00089", "verified": true,
+      "alert": null
+    },
+    {
+      "id": "b3", "name": "Suresh Babu", "agency": "KB Homes", "tier": "gold",
+      "locations": ["Devanahalli", "KR Puram"],
+      "closed_deals_12m": 15, "revenue_cr": 2.4, "avg_ticket_cr": 0.9,
+      "response_rate": 81, "conversion_rate": 11, "repeat_rate": 48,
+      "active_leads": 7, "pending_commission_lakh": 3.8,
+      "rera_id": "KA/AGENT/2023/00201", "verified": true,
+      "alert": null
+    },
+    {
+      "id": "b4", "name": "Meena Krishnan", "agency": "Krishnan Realtors", "tier": "silver",
+      "locations": ["JP Nagar", "Sarjapur Road"],
+      "closed_deals_12m": 9, "revenue_cr": 1.6, "avg_ticket_cr": 1.1,
+      "response_rate": 76, "conversion_rate": 9, "repeat_rate": 33,
+      "active_leads": 5, "pending_commission_lakh": 2.1,
+      "rera_id": "KA/AGENT/2022/00167", "verified": true,
+      "alert": null
+    },
+    {
+      "id": "b5", "name": "Ramesh Gowda", "agency": "Gowda Associates", "tier": "silver",
+      "locations": ["Whitefield"],
+      "closed_deals_12m": 7, "revenue_cr": 1.1, "avg_ticket_cr": 0.8,
+      "response_rate": 64, "conversion_rate": 7, "repeat_rate": 28,
+      "active_leads": 3, "pending_commission_lakh": 1.6,
+      "rera_id": null, "verified": false,
+      "alert": "RERA agent registration not found — commission hold recommended"
+    },
+    {
+      "id": "b6", "name": "Ananya Shetty", "agency": "Shetty Prime", "tier": "gold",
+      "locations": ["Yelahanka", "Devanahalli"],
+      "closed_deals_12m": 12, "revenue_cr": 2.2, "avg_ticket_cr": 1.3,
+      "response_rate": 91, "conversion_rate": 15, "repeat_rate": 58,
+      "active_leads": 8, "pending_commission_lakh": 4.0,
+      "rera_id": "KA/AGENT/2020/00044", "verified": true,
+      "alert": null
+    },
+    {
+      "id": "b7", "name": "Vivek Rao", "agency": "VR Properties", "tier": "silver",
+      "locations": ["KR Puram", "Hebbal"],
+      "closed_deals_12m": 6, "revenue_cr": 0.9, "avg_ticket_cr": 0.7,
+      "response_rate": 58, "conversion_rate": 6, "repeat_rate": 21,
+      "active_leads": 2, "pending_commission_lakh": 0.8,
+      "rera_id": "KA/AGENT/2024/00312", "verified": true,
+      "alert": "Low response rate — 3 leads uncontacted >7 days"
+    }
+  ]
+}

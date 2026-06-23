@@ -1,0 +1,65 @@
+{
+  "developer": {
+    "name": "Meridian Realty Private Limited",
+    "short": "Meridian Realty",
+    "established": 2008,
+    "headquarters": "Bengaluru, Karnataka"
+  },
+  "kpis": {
+    "portfolio_value_cr": 1840,
+    "pipeline_leads": 108,
+    "pipeline_value_cr": 284,
+    "collections_mtd_cr": 28.4,
+    "collections_target_cr": 42,
+    "compliance_clean": 7,
+    "compliance_risk": 1
+  },
+  "today": {
+    "visits": [
+      { "id": "v1", "time": "10:00", "lead": "Rajesh Kumar", "phone": "98450 12345", "project": "Meridian Skyline", "unit_interest": "3BHK, Tower B", "rep": "Ananya S.", "status": "confirmed" },
+      { "id": "v2", "time": "14:00", "lead": "Priya Sharma", "phone": "99004 67890", "project": "Meridian Residences", "unit_interest": "2BHK, Floor 8", "rep": "Kiran M.", "status": "confirmed" },
+      { "id": "v3", "time": "16:30", "lead": "Arun Nair", "phone": "96111 34567", "project": "Meridian Grande", "unit_interest": "4BHK Penthouse", "rep": "Suresh B.", "status": "pending" }
+    ],
+    "overdue_payments": [
+      { "id": "op1", "customer": "Vikram Mehta", "project": "Meridian Skyline", "unit": "B-1204", "amount_lakh": 18.4, "milestone": "Slab 3rd Floor", "overdue_days": 12 },
+      { "id": "op2", "customer": "Suchitra Das", "project": "Meridian Villas", "unit": "Villa 14", "amount_lakh": 24.0, "milestone": "Foundation Complete", "overdue_days": 5 },
+      { "id": "op3", "customer": "Deepak Rao", "project": "Meridian Park Hebbal", "unit": "A-802", "amount_lakh": 9.8, "milestone": "Registration", "overdue_days": 18 }
+    ],
+    "compliance_alerts": [
+      { "id": "ca1", "project": "Meridian Square KR Puram", "type": "QPR Overdue", "detail": "Q3 2025 QPR not filed — ₹35L penalty exposure", "severity": "critical" },
+      { "id": "ca2", "project": "Meridian Edge Whitefield P2", "type": "RERA Notice", "detail": "Show-cause notice issued — encroachment flag unresolved", "severity": "critical" },
+      { "id": "ca3", "project": "Meridian Grande Sarjapur", "type": "QPR Due Soon", "detail": "Q4 2025 QPR due in 18 days", "severity": "warning" }
+    ]
+  },
+  "pipeline": {
+    "new_inquiry": 34,
+    "site_visit_scheduled": 18,
+    "visited": 22,
+    "interested": 14,
+    "negotiation": 8,
+    "booked": 12,
+    "registered": 142
+  },
+  "cash": {
+    "collections_mtd_cr": 28.4,
+    "collections_target_cr": 42,
+    "outstanding_overdue_cr": 5.2,
+    "escrow_total_cr": 52.2,
+    "vendor_payables_cr": 18.4,
+    "monthly_trend": [
+      { "month": "Jul", "collected": 31.2, "target": 40 },
+      { "month": "Aug", "collected": 38.4, "target": 42 },
+      { "month": "Sep", "collected": 29.8, "target": 42 },
+      { "month": "Oct", "collected": 44.1, "target": 42 },
+      { "month": "Nov", "collected": 36.6, "target": 42 },
+      { "month": "Dec", "collected": 28.4, "target": 42 }
+    ]
+  },
+  "recent_activity": [
+    { "time": "08:32", "event": "Booking confirmed — Priya Menon, Meridian Skyline B-904, ₹1.24 Cr", "type": "booking" },
+    { "time": "07:15", "event": "Lead verified — Sandeep Khanna flagged: active partition suit on owned plot, Devanahalli", "type": "flag" },
+    { "time": "Yesterday", "event": "QPR auto-draft generated — Meridian Greens, Q4 2025", "type": "compliance" },
+    { "time": "Yesterday", "event": "Channel partner payout — Rahul Sharma, ₹2.8L commission released", "type": "finance" },
+    { "time": "2 days ago", "event": "Construction milestone — Meridian Heights: floor 8 slab complete", "type": "construction" }
+  ]
+}

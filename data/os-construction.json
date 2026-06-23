@@ -1,0 +1,61 @@
+{
+  "sites": [
+    {
+      "project_id": "MRD-001",
+      "project": "Meridian Skyline",
+      "location": "Whitefield",
+      "completion_pct": 68,
+      "rera_declared_pct": 65,
+      "possession_date": "2027-03-31",
+      "site_engineer": "Prashanth K.",
+      "contractor": "Bhagavathi Constructions Pvt Ltd",
+      "milestones": [
+        { "label": "Foundation", "pct": 100, "status": "done", "date": "2024-08-15" },
+        { "label": "Plinth", "pct": 100, "status": "done", "date": "2025-01-10" },
+        { "label": "Structure (T-A)", "pct": 100, "status": "done", "date": "2025-08-20" },
+        { "label": "Structure (T-B)", "pct": 82, "status": "active", "date": null },
+        { "label": "Brickwork", "pct": 60, "status": "active", "date": null },
+        { "label": "Plumbing rough-in", "pct": 45, "status": "active", "date": null },
+        { "label": "Electrical rough-in", "pct": 40, "status": "planned", "date": null },
+        { "label": "Plastering", "pct": 0, "status": "planned", "date": null },
+        { "label": "Finishing & MEP", "pct": 0, "status": "planned", "date": null },
+        { "label": "OC & Handover", "pct": 0, "status": "planned", "date": null }
+      ],
+      "workers_on_site": 142,
+      "rmc_pours_this_week": 3,
+      "open_snags": 4,
+      "today_updates": [
+        { "time": "08:15", "update": "Floor 12 slab pour complete — Tower B" },
+        { "time": "10:40", "update": "Plumbing inspection passed — floors 4-6, Tower A" },
+        { "time": "13:00", "update": "Safety audit scheduled — 15:00 today" }
+      ]
+    },
+    {
+      "project_id": "MRD-003",
+      "project": "Meridian Grande",
+      "location": "Sarjapur Road",
+      "completion_pct": 45,
+      "rera_declared_pct": 42,
+      "possession_date": "2027-12-31",
+      "site_engineer": "Ramesh B.",
+      "contractor": "Sri Ram Infrastructure",
+      "milestones": [
+        { "label": "Foundation", "pct": 100, "status": "done", "date": "2025-01-20" },
+        { "label": "Plinth", "pct": 100, "status": "done", "date": "2025-05-15" },
+        { "label": "Structure floors 1-6", "pct": 100, "status": "done", "date": "2025-11-30" },
+        { "label": "Structure floors 7-12", "pct": 60, "status": "active", "date": null },
+        { "label": "Brickwork", "pct": 30, "status": "active", "date": null },
+        { "label": "MEP rough-in", "pct": 0, "status": "planned", "date": null },
+        { "label": "Finishing", "pct": 0, "status": "planned", "date": null },
+        { "label": "OC & Handover", "pct": 0, "status": "planned", "date": null }
+      ],
+      "workers_on_site": 88,
+      "rmc_pours_this_week": 2,
+      "open_snags": 2,
+      "today_updates": [
+        { "time": "09:30", "update": "Floor 9 shuttering complete — Block A" },
+        { "time": "11:20", "update": "Material delivery: 40MT TMT bars received" }
+      ]
+    }
+  ]
+}

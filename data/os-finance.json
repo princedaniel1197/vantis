@@ -1,0 +1,36 @@
+{
+  "summary": {
+    "total_revenue_cr": 284.6,
+    "collections_mtd_cr": 28.4,
+    "collections_target_cr": 42,
+    "outstanding_overdue_cr": 5.2,
+    "vendor_payables_cr": 18.4,
+    "escrow_balance_cr": 52.2,
+    "construction_draw_cr": 12.4,
+    "net_cash_cr": 39.8
+  },
+  "pl": {
+    "quarters": ["Q1 2025", "Q2 2025", "Q3 2025", "Q4 2025"],
+    "revenue":  [42.1, 51.8, 38.4, 62.7],
+    "cogs":     [18.4, 22.6, 17.1, 27.8],
+    "gross_profit": [23.7, 29.2, 21.3, 34.9],
+    "opex":     [8.2, 9.4, 8.8, 11.2],
+    "ebitda":   [15.5, 19.8, 12.5, 23.7]
+  },
+  "escrow_accounts": [
+    { "project": "Meridian Skyline", "rera": "PRM/KA/RERA/...3512", "balance_cr": 22.4, "required_pct": 70, "actual_pct": 71, "status": "healthy", "last_rera_audit": "2026-04-15", "next_withdrawal_eligible": "2026-07-01" },
+    { "project": "Meridian Grande", "rera": "PRM/KA/RERA/...3514", "balance_cr": 18.2, "required_pct": 70, "actual_pct": 68, "status": "caution", "last_rera_audit": "2026-03-20", "next_withdrawal_eligible": "2026-06-28" },
+    { "project": "Meridian Residences", "rera": "PRM/KA/RERA/...3518", "balance_cr": 8.6, "required_pct": 70, "actual_pct": 74, "status": "healthy", "last_rera_audit": "2026-05-01", "next_withdrawal_eligible": "2026-07-15" },
+    { "project": "Meridian Villas", "rera": "PRM/KA/RERA/...3521", "balance_cr": 3.0, "required_pct": 70, "actual_pct": 72, "status": "healthy", "last_rera_audit": "2026-04-28", "next_withdrawal_eligible": "2026-07-10" }
+  ],
+  "journal_entries": [
+    { "id": "JE-1421", "date": "2026-06-22", "type": "receipt", "description": "Customer receipt — Priya Menon, Meridian Grande PH1", "amount_cr": 0.624, "project": "Meridian Grande", "account": "RERA Escrow" },
+    { "id": "JE-1420", "date": "2026-06-21", "type": "payment", "description": "Vendor payment — RMC Concrete Supplies", "amount_cr": 0.182, "project": "Meridian Skyline", "account": "Construction Draw" },
+    { "id": "JE-1419", "date": "2026-06-21", "type": "receipt", "description": "Customer receipt — Rajesh Kumar, Skyline A-203", "amount_cr": 0.128, "project": "Meridian Skyline", "account": "RERA Escrow" },
+    { "id": "JE-1418", "date": "2026-06-20", "type": "payment", "description": "Channel partner commission — Rahul Sharma", "amount_cr": 0.028, "project": "Meridian Grande", "account": "Sales Expenses" },
+    { "id": "JE-1417", "date": "2026-06-20", "type": "payment", "description": "Staff salaries — June 2026", "amount_cr": 0.242, "project": "Corporate", "account": "Operating" },
+    { "id": "JE-1416", "date": "2026-06-19", "type": "receipt", "description": "Customer receipt — Vikram Seth, Skyline B-302", "amount_cr": 0.105, "project": "Meridian Skyline", "account": "RERA Escrow" },
+    { "id": "JE-1415", "date": "2026-06-18", "type": "payment", "description": "BBMP property tax — Meridian Grande", "amount_cr": 0.014, "project": "Meridian Grande", "account": "Taxes & Duties" },
+    { "id": "JE-1414", "date": "2026-06-17", "type": "receipt", "description": "Loan disbursement — HDFC Bank, tranche 4", "amount_cr": 2.400, "project": "Meridian Villas", "account": "Construction Finance" }
+  ]
+}

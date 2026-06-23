@@ -541,4 +541,40 @@ See data/certificates.json for certificate data.
 3. ✅ QR codes on public project profile and Vantis Govern certificate page now encode the live Vercel URL
 4. ✅ npm run build — 37/37 routes, zero errors
 
+### Session 14–15 — Completed (2026-06-22): VANTIS OS REBUILD — ALL 16 MODULES
+
+New developer-facing "Vantis OS" layer built as route group `app/(os)/` at clean root-level URLs.
+Architecture: OSNav mega-menu (5 dropdown groups), OSAssistant (floating bubble suppressed on OS routes), dual Pitch/Work theme via CSS vars (`:root` = dark, `html.work` = light), ThemeProvider context.
+
+All 16 OS modules completed:
+1. ✅ `/` — Command Centre (portfolio grid, KPIs, BarCharts, activity feed)
+2. ✅ `/leads` — CRM Kanban + table dual-view, expandable cards, gov verification flags
+3. ✅ `/visits` — Site visit scheduler, rep stats strip, tab filter
+4. ✅ `/inventory` — Unit grid by floor/position, color-coded status (sold/reserved/available)
+5. ✅ `/partners` — Channel broker tier cards from dev-channel.json `brokers` array
+6. ✅ `/projects` — Own portfolio grid with grade A/B/C filter, QPR status, market sqft
+7. ✅ `/construction` — SVG circular progress dial, milestone timeline with animated bars
+8. ✅ `/customers` — Post-sale expandable rows with payment progress
+9. ✅ `/finance` — ERP: 4 KPIs, P&L BarChart, escrow cards, journal entries table
+10. ✅ `/payments` — AreaChart collections trend (os-command.json `cash`), escrow sidebar
+11. ✅ `/land` — Risk scores, sub-score bars, title chain (dev-land.json top-level `ozone`/`mrd010` keys)
+12. ✅ `/feasibility` — Interactive sliders, pure compute() function, margin/ROI output
+13. ✅ `/market` — Micro-market selector, AreaChart avg_sqft vs guidance (dev-market.json `quarterly` dict)
+14. ✅ `/litigation` — Case cards with court type filter
+15. ✅ `/compliance` — QPR compliance grid with expandable detail (dev-compliance.json `submitted`/`overdue` format)
+16. ✅ `/certificate` — Buyer-Trust certs generated from dev-projects.json own projects
+17. ✅ `/vision` — Full lifecycle diagram, gov data backbone section, 16-module product grid
+18. ✅ `/assistant` — Full-page chat, keyword match from dev-chatbot.json `en`/`kn` fields, streaming
+
+Key schema facts to remember:
+- dev-projects.json: `rera_id` (not `rera_number`), `qpr_status` = UPPERCASE (`ON_TIME`/`DUE_SOON`/`OVERDUE`), no `construction_pct` or `value_cr`
+- dev-channel.json: `brokers` (not `channel_partners`), `tier` lowercase
+- dev-market.json: `quarterly` dict keyed by market id, fields `{q, avg_sqft, deals, absorption, guidance}`
+- dev-land.json: top-level `ozone`/`mrd010` object keys (not an array)
+- dev-chatbot.json: `responses[].en` / `responses[].kn`, `fallback` is a plain string
+- os-finance.json: no `cash` key — use os-command.json `cash.monthly_trend` for collections chart
+
+✅ npm run build — 44/44 routes, zero TypeScript errors
+✅ Dev server running on localhost:3000
+
 ### DEMO STATUS: READY FOR DK SHIVAKUMAR MEETING

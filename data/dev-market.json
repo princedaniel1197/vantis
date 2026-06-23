@@ -1,0 +1,92 @@
+{
+  "micro_markets": [
+    { "id": "whitefield",    "label": "Whitefield",     "lat": 12.9699, "lng": 77.7499 },
+    { "id": "devanahalli",   "label": "Devanahalli",    "lat": 13.2482, "lng": 77.7124 },
+    { "id": "sarjapur",      "label": "Sarjapur Road",  "lat": 12.9121, "lng": 77.6872 },
+    { "id": "hebbal",        "label": "Hebbal",         "lat": 13.0359, "lng": 77.5970 },
+    { "id": "krpuram",       "label": "KR Puram",       "lat": 12.9958, "lng": 77.6967 },
+    { "id": "yelahanka",     "label": "Yelahanka",      "lat": 13.1005, "lng": 77.5962 },
+    { "id": "jp_nagar",      "label": "JP Nagar",       "lat": 12.9077, "lng": 77.5846 }
+  ],
+  "quarterly": {
+    "whitefield": [
+      { "q": "Q1 2024", "avg_sqft": 8200, "deals": 198, "absorption": 8.2, "guidance": 6800 },
+      { "q": "Q2 2024", "avg_sqft": 8560, "deals": 224, "absorption": 9.1, "guidance": 6800 },
+      { "q": "Q3 2024", "avg_sqft": 8980, "deals": 241, "absorption": 9.8, "guidance": 7200 },
+      { "q": "Q4 2024", "avg_sqft": 9420, "deals": 268, "absorption": 10.4, "guidance": 7200 },
+      { "q": "Q1 2025", "avg_sqft": 9650, "deals": 252, "absorption": 10.8, "guidance": 7200 },
+      { "q": "Q2 2025", "avg_sqft": 9740, "deals": 278, "absorption": 11.0, "guidance": 7200 },
+      { "q": "Q3 2025", "avg_sqft": 9800, "deals": 271, "absorption": 11.1, "guidance": 7200 },
+      { "q": "Q4 2025", "avg_sqft": 9850, "deals": 284, "absorption": 11.3, "guidance": 7200 }
+    ],
+    "devanahalli": [
+      { "q": "Q1 2024", "avg_sqft": 4100, "deals": 88, "absorption": 4.2, "guidance": 3500 },
+      { "q": "Q2 2024", "avg_sqft": 4380, "deals": 102, "absorption": 4.8, "guidance": 3500 },
+      { "q": "Q3 2024", "avg_sqft": 4620, "deals": 118, "absorption": 5.1, "guidance": 3500 },
+      { "q": "Q4 2024", "avg_sqft": 4840, "deals": 124, "absorption": 5.4, "guidance": 3800 },
+      { "q": "Q1 2025", "avg_sqft": 4960, "deals": 131, "absorption": 5.8, "guidance": 3800 },
+      { "q": "Q2 2025", "avg_sqft": 5020, "deals": 138, "absorption": 6.0, "guidance": 3800 },
+      { "q": "Q3 2025", "avg_sqft": 5080, "deals": 135, "absorption": 6.1, "guidance": 3800 },
+      { "q": "Q4 2025", "avg_sqft": 5120, "deals": 142, "absorption": 6.3, "guidance": 3800 }
+    ],
+    "sarjapur": [
+      { "q": "Q1 2024", "avg_sqft": 6200, "deals": 218, "absorption": 9.4, "guidance": 5400 },
+      { "q": "Q2 2024", "avg_sqft": 6480, "deals": 244, "absorption": 10.2, "guidance": 5400 },
+      { "q": "Q3 2024", "avg_sqft": 6840, "deals": 268, "absorption": 11.0, "guidance": 5600 },
+      { "q": "Q4 2024", "avg_sqft": 7120, "deals": 289, "absorption": 11.8, "guidance": 5600 },
+      { "q": "Q1 2025", "avg_sqft": 7240, "deals": 302, "absorption": 12.4, "guidance": 5600 },
+      { "q": "Q2 2025", "avg_sqft": 7360, "deals": 311, "absorption": 12.9, "guidance": 5600 },
+      { "q": "Q3 2025", "avg_sqft": 7420, "deals": 318, "absorption": 13.1, "guidance": 5600 },
+      { "q": "Q4 2025", "avg_sqft": 7480, "deals": 324, "absorption": 13.4, "guidance": 5600 }
+    ],
+    "hebbal": [
+      { "q": "Q1 2024", "avg_sqft": 7800, "deals": 148, "absorption": 6.2, "guidance": 6400 },
+      { "q": "Q2 2024", "avg_sqft": 8100, "deals": 162, "absorption": 6.8, "guidance": 6400 },
+      { "q": "Q3 2024", "avg_sqft": 8440, "deals": 178, "absorption": 7.1, "guidance": 6500 },
+      { "q": "Q4 2024", "avg_sqft": 8760, "deals": 188, "absorption": 7.4, "guidance": 6500 },
+      { "q": "Q1 2025", "avg_sqft": 8920, "deals": 194, "absorption": 7.8, "guidance": 6500 },
+      { "q": "Q2 2025", "avg_sqft": 9040, "deals": 198, "absorption": 8.0, "guidance": 6500 },
+      { "q": "Q3 2025", "avg_sqft": 9140, "deals": 196, "absorption": 8.1, "guidance": 6500 },
+      { "q": "Q4 2025", "avg_sqft": 9200, "deals": 198, "absorption": 8.2, "guidance": 6500 }
+    ],
+    "krpuram": [
+      { "q": "Q1 2024", "avg_sqft": 5400, "deals": 124, "absorption": 5.2, "guidance": 4800 },
+      { "q": "Q2 2024", "avg_sqft": 5620, "deals": 138, "absorption": 5.8, "guidance": 4800 },
+      { "q": "Q3 2024", "avg_sqft": 5880, "deals": 148, "absorption": 6.2, "guidance": 5000 },
+      { "q": "Q4 2024", "avg_sqft": 6100, "deals": 158, "absorption": 6.6, "guidance": 5000 },
+      { "q": "Q1 2025", "avg_sqft": 6240, "deals": 162, "absorption": 6.8, "guidance": 5000 },
+      { "q": "Q2 2025", "avg_sqft": 6360, "deals": 168, "absorption": 7.0, "guidance": 5000 },
+      { "q": "Q3 2025", "avg_sqft": 6480, "deals": 174, "absorption": 7.1, "guidance": 5000 },
+      { "q": "Q4 2025", "avg_sqft": 6580, "deals": 178, "absorption": 7.3, "guidance": 5000 }
+    ],
+    "yelahanka": [
+      { "q": "Q1 2024", "avg_sqft": 5100, "deals": 94, "absorption": 4.0, "guidance": 4200 },
+      { "q": "Q2 2024", "avg_sqft": 5320, "deals": 108, "absorption": 4.6, "guidance": 4200 },
+      { "q": "Q3 2024", "avg_sqft": 5560, "deals": 118, "absorption": 5.0, "guidance": 4400 },
+      { "q": "Q4 2024", "avg_sqft": 5780, "deals": 128, "absorption": 5.4, "guidance": 4400 },
+      { "q": "Q1 2025", "avg_sqft": 5920, "deals": 134, "absorption": 5.8, "guidance": 4400 },
+      { "q": "Q2 2025", "avg_sqft": 6040, "deals": 141, "absorption": 6.0, "guidance": 4400 },
+      { "q": "Q3 2025", "avg_sqft": 6120, "deals": 146, "absorption": 6.2, "guidance": 4400 },
+      { "q": "Q4 2025", "avg_sqft": 6200, "deals": 152, "absorption": 6.4, "guidance": 4400 }
+    ],
+    "jp_nagar": [
+      { "q": "Q1 2024", "avg_sqft": 8800, "deals": 82, "absorption": 3.4, "guidance": 7200 },
+      { "q": "Q2 2024", "avg_sqft": 9100, "deals": 94, "absorption": 3.8, "guidance": 7200 },
+      { "q": "Q3 2024", "avg_sqft": 9400, "deals": 102, "absorption": 4.2, "guidance": 7500 },
+      { "q": "Q4 2024", "avg_sqft": 9700, "deals": 108, "absorption": 4.4, "guidance": 7500 },
+      { "q": "Q1 2025", "avg_sqft": 9900, "deals": 112, "absorption": 4.6, "guidance": 7500 },
+      { "q": "Q2 2025", "avg_sqft": 10100, "deals": 118, "absorption": 4.8, "guidance": 7500 },
+      { "q": "Q3 2025", "avg_sqft": 10200, "deals": 121, "absorption": 5.0, "guidance": 7500 },
+      { "q": "Q4 2025", "avg_sqft": 10300, "deals": 124, "absorption": 5.1, "guidance": 7500 }
+    ]
+  },
+  "config_mix": {
+    "whitefield": { "1bhk": 12, "2bhk": 44, "3bhk": 32, "4bhk": 8, "penthouse": 4 },
+    "devanahalli": { "plot": 48, "villa": 32, "2bhk": 14, "3bhk": 6 },
+    "sarjapur": { "2bhk": 38, "3bhk": 42, "4bhk": 12, "villa": 8 },
+    "hebbal": { "2bhk": 36, "3bhk": 44, "4bhk": 14, "penthouse": 6 },
+    "krpuram": { "2bhk": 52, "3bhk": 32, "commercial": 16 },
+    "yelahanka": { "2bhk": 46, "3bhk": 38, "villa": 16 },
+    "jp_nagar": { "2bhk": 28, "3bhk": 42, "4bhk": 22, "penthouse": 8 }
+  }
+}

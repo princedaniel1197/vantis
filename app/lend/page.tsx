@@ -1,189 +1,245 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { AlertTriangle, TrendingDown, CheckCircle, Activity } from 'lucide-react'
+import { AlertTriangle, Activity, CheckCircle, ChevronRight, ChevronDown } from 'lucide-react'
 import { LEND_PROJECTS, BAND_COLOR, BAND_LABEL, type RiskBand } from '@/lib/lend-portfolio'
 
 const TOTAL_EXPOSURE = 2400
 const AT_RISK        = 420
-const RED_COUNT   = LEND_PROJECTS.filter(p => p.risk_band === 'red').length
-const AMBER_COUNT = LEND_PROJECTS.filter(p => p.risk_band === 'amber').length
-const GREEN_COUNT = LEND_PROJECTS.filter(p => p.risk_band === 'green').length
 
-type Filter = 'all' | RiskBand
-
-const FILTERS: { key: Filter; label: string; count?: number }[] = [
-  { key: 'all',   label: 'All 40' },
-  { key: 'red',   label: `Red ${RED_COUNT}` },
-  { key: 'amber', label: `Amber ${AMBER_COUNT}` },
-  { key: 'green', label: `Green ${GREEN_COUNT}` },
-]
+const red   = LEND_PROJECTS.filter(p => p.risk_band === 'red')
+const amber = LEND_PROJECTS.filter(p => p.risk_band === 'amber')
+const green = LEND_PROJECTS.filter(p => p.risk_band === 'green')
 
 function ScoreBar({ score }: { score: number }) {
-  const pct = ((score - 300) / 600) * 100
+  const pct   = ((score - 300) / 600) * 100
   const color = score >= 650 ? '#2ECC71' : score >= 450 ? '#F39C12' : '#E74C3C'
   return (
-    <div className="w-full h-0.5 bg-border rounded-full overflow-hidden mt-1">
-      <div style={{ width: `${pct}%`, background: color, height: '100%' }} />
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-0.5 bg-border rounded-full overflow-hidden">
+        <div style={{ width: `${pct}%`, background: color, height: '100%' }} />
+      </div>
+      <span className="text-[10px] font-mono w-8 text-right" style={{ color }}>{score}</span>
     </div>
   )
 }
 
-export default function LendPortfolioDashboard() {
-  const [filter, setFilter] = useState<Filter>('all')
-  const router = useRouter()
+// ── Flagged card (red band) ──────────────────────────────────────────────────
+function FlaggedCard({ project }: { project: typeof red[0] }) {
+  const { text, bg, border } = BAND_COLOR.red
+  return (
+    <motion.div
+      animate={{
+        boxShadow: [
+          '0 0 0 0 rgba(231,76,60,0)',
+          '0 0 0 6px rgba(231,76,60,0.15)',
+          '0 0 0 0 rgba(231,76,60,0)',
+        ],
+      }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+      style={{ borderRadius: '2px' }}
+    >
+      <Link
+        href={`/lend/project/${project.id}`}
+        className="block rounded-sm p-4 transition-colors duration-150 group"
+        style={{ background: bg, border: `1px solid ${border}` }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = text }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = border }}
+      >
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="flex items-center gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 shrink-0" style={{ color: text }} />
+            <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
+              HIGH RISK · FLAGGED {project.flagged_quarter}
+            </span>
+          </div>
+          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-gray group-hover:text-red transition-colors" />
+        </div>
 
-  const projects = filter === 'all'
-    ? LEND_PROJECTS
-    : LEND_PROJECTS.filter(p => p.risk_band === filter)
+        <div className="font-syne text-base text-off-white leading-tight mb-0.5">{project.name}</div>
+        <div className="text-gray text-xs mb-4">{project.developer} · {project.city}</div>
+
+        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+          <div>
+            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Outstanding</div>
+            <div className="text-sm font-mono font-bold text-red">₹{project.outstanding_cr} Cr</div>
+          </div>
+          <div>
+            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Recovery</div>
+            <div
+              className="text-xs font-mono font-semibold"
+              style={{ color: project.recovery_window === 'RECOVERABLE' ? '#F39C12' : '#E74C3C' }}
+            >
+              {project.recovery_window ?? '—'}
+            </div>
+          </div>
+          <div className="col-span-2">
+            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-1">Vantis Score</div>
+            <ScoreBar score={project.risk_score} />
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  )
+}
+
+// ── Compact table row (amber / green) ────────────────────────────────────────
+function TableRow({ project }: { project: typeof LEND_PROJECTS[0] }) {
+  const { text, bg, border } = BAND_COLOR[project.risk_band]
+  return (
+    <Link
+      href={`/lend/project/${project.id}`}
+      className="flex items-center gap-4 px-4 py-3 border-b border-border hover:bg-surface2 transition-colors group"
+    >
+      {/* Band dot */}
+      <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: text }} />
+
+      {/* Project */}
+      <div className="flex-1 min-w-0">
+        <div className="text-off-white text-xs font-medium truncate">{project.name}</div>
+        <div className="text-gray text-[10px] truncate">{project.developer}</div>
+      </div>
+
+      {/* City */}
+      <div className="hidden sm:block text-gray text-[10px] w-28 shrink-0 truncate">{project.city}</div>
+
+      {/* Exposure */}
+      <div className="text-[11px] font-mono w-16 text-right shrink-0" style={{ color: text }}>
+        ₹{project.exposure_cr} Cr
+      </div>
+
+      {/* Score bar */}
+      <div className="hidden md:block w-28 shrink-0">
+        <ScoreBar score={project.risk_score} />
+      </div>
+
+      {/* Arrow */}
+      <ChevronRight className="w-3.5 h-3.5 shrink-0 text-gray group-hover:text-gold transition-colors" />
+    </Link>
+  )
+}
+
+// ── Collapsible section ──────────────────────────────────────────────────────
+function Section({
+  band, count, exposure, projects, defaultOpen,
+}: {
+  band: RiskBand; count: number; exposure: number; projects: typeof LEND_PROJECTS; defaultOpen: boolean
+}) {
+  const [open, setOpen] = useState(defaultOpen)
+  const { text } = BAND_COLOR[band]
+  const icon = band === 'red' ? AlertTriangle : band === 'amber' ? Activity : CheckCircle
+  const Icon = icon
 
   return (
-    <div className="p-5 max-w-[1500px] mx-auto">
-      {/* Headline */}
+    <div className="bg-surface border border-border rounded-sm overflow-hidden mb-3">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface2 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          <Icon className="w-3.5 h-3.5 shrink-0" style={{ color: text }} />
+          <span className="text-xs font-mono uppercase tracking-[0.12em] font-semibold" style={{ color: text }}>
+            {BAND_LABEL[band]}
+          </span>
+          <span className="text-gray text-[10px] font-mono">{count} projects · ₹{exposure} Cr</span>
+        </div>
+        <ChevronDown
+          className="w-3.5 h-3.5 text-gray transition-transform duration-150"
+          style={{ transform: open ? 'rotate(180deg)' : 'none' }}
+        />
+      </button>
+
+      {open && (
+        <div className="border-t border-border">
+          {/* Table header */}
+          <div className="hidden md:flex items-center gap-4 px-4 py-1.5 bg-surface2 border-b border-border">
+            <div className="w-1.5 shrink-0" />
+            <div className="flex-1 text-[9px] font-mono uppercase tracking-[0.12em] text-gray">Project</div>
+            <div className="hidden sm:block w-28 text-[9px] font-mono uppercase tracking-[0.12em] text-gray shrink-0">City</div>
+            <div className="w-16 text-right text-[9px] font-mono uppercase tracking-[0.12em] text-gray shrink-0">Exposure</div>
+            <div className="hidden md:block w-28 text-[9px] font-mono uppercase tracking-[0.12em] text-gray shrink-0">Score</div>
+            <div className="w-3.5 shrink-0" />
+          </div>
+          {projects.map(p => <TableRow key={p.id} project={p} />)}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Main page ────────────────────────────────────────────────────────────────
+export default function LendPortfolioDashboard() {
+  const redExposure   = red.reduce((s, p) => s + p.exposure_cr, 0)
+  const amberExposure = amber.reduce((s, p) => s + p.exposure_cr, 0)
+  const greenExposure = green.reduce((s, p) => s + p.exposure_cr, 0)
+
+  return (
+    <div className="p-5 max-w-[1100px] mx-auto">
+
+      {/* Page header */}
       <div className="mb-6">
         <h1 className="font-syne text-xl text-off-white">Portfolio Early-Warning</h1>
-        <p className="text-gray text-sm mt-1 italic">
+        <p className="text-gray text-sm mt-0.5 italic">
           &ldquo;Every lender watches its real-estate book through the rearview mirror. Vantis Lend is the windshield.&rdquo;
         </p>
       </div>
 
-      {/* Stat row */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-        <div className="bg-surface border border-border rounded-sm p-4">
+      {/* KPI strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-7">
+        <div className="bg-surface border border-border rounded-sm px-4 py-3">
           <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Total Exposure</div>
           <div className="font-syne text-2xl text-off-white">₹{TOTAL_EXPOSURE.toLocaleString('en-IN')} Cr</div>
           <div className="text-[10px] text-gray mt-0.5">40 projects · 23 developers</div>
         </div>
-        <div className="bg-surface border border-border rounded-sm p-4">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Book Health</div>
-          <div className="flex items-end gap-2">
-            <span className="font-syne text-xl text-green">{GREEN_COUNT}</span>
-            <span className="text-gray text-xs mb-0.5">green</span>
-            <span className="font-syne text-xl text-amber">{AMBER_COUNT}</span>
-            <span className="text-gray text-xs mb-0.5">watch</span>
-            <span className="font-syne text-xl text-red">{RED_COUNT}</span>
-            <span className="text-gray text-xs mb-0.5">red</span>
+
+        <div className="bg-surface border border-border rounded-sm px-4 py-3">
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-2">Book Health</div>
+          <div className="space-y-1">
+            {([['green', green.length] , ['amber', amber.length], ['red', red.length]] as [RiskBand, number][]).map(([b, n]) => (
+              <div key={b} className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: BAND_COLOR[b].text }} />
+                <span className="text-[10px] text-gray">{BAND_LABEL[b]}</span>
+                <span className="ml-auto font-mono text-[11px]" style={{ color: BAND_COLOR[b].text }}>{n}</span>
+              </div>
+            ))}
           </div>
         </div>
-        <div className="bg-red/10 border border-red/25 rounded-sm p-4">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-red/70 mb-1">At Risk</div>
+
+        <div className="bg-red/8 border border-red/20 rounded-sm px-4 py-3">
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-red/60 mb-1">₹ At Risk</div>
           <div className="font-syne text-2xl text-red">₹{AT_RISK} Cr</div>
-          <div className="text-[10px] text-red/60 mt-0.5">{RED_COUNT} projects flagged</div>
+          <div className="text-[10px] text-red/50 mt-0.5">{red.length} flagged · {amber.length} on watch</div>
         </div>
-        <div className="bg-surface border border-border rounded-sm p-4">
+
+        <div className="bg-surface border border-border rounded-sm px-4 py-3">
           <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Hero Catch</div>
-          <div className="font-syne text-base text-gold leading-tight">Ozone Urbana</div>
-          <div className="text-[10px] text-gray mt-0.5">Flagged Q3 2021 · 6 qtrs early</div>
+          <Link href="/lend/project/ozone-urbana" className="block hover:opacity-80 transition-opacity">
+            <div className="font-syne text-sm text-gold leading-tight">Ozone Urbana</div>
+            <div className="text-[10px] text-gray mt-0.5">Flagged Q3 2021 · 6 qtrs early</div>
+            <div className="text-[10px] text-gold/70 mt-0.5 font-mono">↗ drill down</div>
+          </Link>
         </div>
       </div>
 
-      {/* Filter chips */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
-        {FILTERS.map(f => {
-          const active = filter === f.key
-          const color = f.key === 'red' ? '#E74C3C' : f.key === 'amber' ? '#F39C12' : f.key === 'green' ? '#2ECC71' : '#C9A84C'
-          return (
-            <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
-              className="px-3 py-1.5 rounded-sm text-xs font-mono uppercase tracking-[0.08em] transition-colors duration-100 border"
-              style={{
-                color:       active ? color : '#6B6B88',
-                borderColor: active ? color : '#1E1E2E',
-                background:  active ? `${color}14` : 'transparent',
-              }}
-            >
-              {f.label}
-            </button>
-          )
-        })}
-        <span className="ml-auto text-gray text-xs font-mono">{projects.length} showing</span>
+      {/* Flagged projects — always visible, prominent */}
+      <div className="mb-7">
+        <div className="flex items-center gap-2 mb-3">
+          <AlertTriangle className="w-4 h-4 text-red" />
+          <span className="text-xs font-mono uppercase tracking-[0.15em] text-red font-semibold">
+            Flagged — Immediate Attention
+          </span>
+          <span className="text-[10px] font-mono text-gray ml-1">· {red.length} projects · ₹{redExposure} Cr</span>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {red.map(p => <FlaggedCard key={p.id} project={p} />)}
+        </div>
       </div>
 
-      {/* Heatmap grid */}
-      <div
-        className="grid gap-2"
-        style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))' }}
-      >
-        {projects.map(project => {
-          const { text, bg, border } = BAND_COLOR[project.risk_band]
-          const isRed = project.risk_band === 'red'
-
-          const tile = (
-            <div
-              key={project.id}
-              onClick={() => router.push(`/lend/project/${project.id}`)}
-              className="cursor-pointer rounded-sm p-3 transition-colors duration-150"
-              style={{ background: bg, border: `1px solid ${border}` }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = text }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = border }}
-            >
-              {/* Band badge */}
-              <div className="flex items-center justify-between mb-2">
-                <span
-                  className="text-[9px] font-mono uppercase tracking-[0.12em] px-1.5 py-0.5 rounded-sm"
-                  style={{ color: text, background: `${text}18` }}
-                >
-                  {BAND_LABEL[project.risk_band]}
-                </span>
-                {isRed && <AlertTriangle className="w-3 h-3" style={{ color: text }} />}
-                {project.risk_band === 'amber' && <Activity className="w-3 h-3" style={{ color: text }} />}
-                {project.risk_band === 'green' && <CheckCircle className="w-3 h-3" style={{ color: text }} />}
-              </div>
-
-              {/* Project name */}
-              <div className="text-off-white text-xs font-semibold leading-tight mb-0.5 line-clamp-2">
-                {project.name}
-              </div>
-              <div className="text-gray text-[10px] mb-2 truncate">{project.developer}</div>
-
-              {/* Exposure */}
-              <div className="text-[11px] font-mono" style={{ color: text }}>
-                ₹{project.exposure_cr} Cr
-              </div>
-
-              {/* Score + bar */}
-              <div className="flex items-center justify-between mt-1">
-                <span className="text-[9px] text-gray font-mono">Score {project.risk_score}</span>
-              </div>
-              <ScoreBar score={project.risk_score} />
-            </div>
-          )
-
-          if (isRed) {
-            return (
-              <motion.div
-                key={project.id}
-                animate={{
-                  boxShadow: [
-                    '0 0 0 0 rgba(231,76,60,0)',
-                    '0 0 0 4px rgba(231,76,60,0.18)',
-                    '0 0 0 0 rgba(231,76,60,0)',
-                  ],
-                }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-                style={{ borderRadius: '2px' }}
-              >
-                {tile}
-              </motion.div>
-            )
-          }
-          return tile
-        })}
-      </div>
-
-      {/* Legend */}
-      <div className="mt-6 flex items-center gap-5 flex-wrap">
-        {(['green', 'amber', 'red'] as RiskBand[]).map(b => (
-          <div key={b} className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-sm" style={{ background: BAND_COLOR[b].bg, border: `1px solid ${BAND_COLOR[b].border}` }} />
-            <span className="text-xs text-gray font-mono">{BAND_LABEL[b]}</span>
-          </div>
-        ))}
-        <span className="text-gray text-xs ml-auto">Click any tile for drill-down →</span>
-      </div>
+      {/* Watch list + Healthy book — collapsible tables */}
+      <Section band="amber" count={amber.length} exposure={amberExposure} projects={amber} defaultOpen={true} />
+      <Section band="green" count={green.length} exposure={greenExposure} projects={green} defaultOpen={false} />
     </div>
   )
 }

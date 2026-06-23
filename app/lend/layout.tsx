@@ -3,14 +3,13 @@
 import { useState, useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { TrendingDown, LogOut, Building2, ShieldCheck, Users } from 'lucide-react'
+import { TrendingDown, LogOut, Building2, ShieldCheck } from 'lucide-react'
 
 const CREDENTIAL = { email: 'credit@kaverihfc.in', password: 'demo', name: 'Credit Risk Officer', org: 'Kaveri Housing Finance' }
 
 const NAV = [
-  { href: '/lend',           label: 'Portfolio',    icon: Building2,   exact: true },
-  { href: '/lend/verify',    label: 'Verify',       icon: ShieldCheck, exact: true },
-  { href: '/lend/developer/prestige-group', label: 'Developer Risk', icon: Users, exact: false },
+  { href: '/lend',        label: 'Portfolio', icon: Building2,   exact: true },
+  { href: '/lend/verify', label: 'Verify',    icon: ShieldCheck, exact: true },
 ]
 
 function LoginScreen({ onLogin }: { onLogin: () => void }) {
@@ -124,7 +123,7 @@ export default function LendLayout({ children }: { children: React.ReactNode }) 
         {/* Nav */}
         <nav className="flex items-center gap-0.5 flex-1">
           {NAV.map(({ href, label, icon: Icon, exact }) => {
-            const active = exact ? pathname === href : pathname.startsWith(href.replace('/prestige-group', ''))
+            const active = exact ? pathname === href : pathname.startsWith(href)
             return (
               <Link
                 key={href}

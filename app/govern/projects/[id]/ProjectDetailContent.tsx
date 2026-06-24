@@ -737,6 +737,17 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
 
     const photoKeys = ['road1', 'road2', 'road3', 'site1', 'site2', 'road4', 'site3', 'drain', 'layout1', 'park', 'layout2', 'borewell', 'streetLight'] as const
 
+    function fallbackPhotoSrc(key: string): string {
+      const labels: Record<string, string> = {
+        road1: 'Access Road · Entry', road2: 'Perimeter Road', road3: 'Block A Road',
+        site1: 'Plot 83/2 · Foundation', site2: 'Plot 84/2 · Cleared', road4: 'Internal Road',
+        site3: 'Plot 84/2 · Grading', layout1: 'Layout View · North', layout2: 'Layout View · South',
+      }
+      const label = labels[key] ?? key
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><rect width="320" height="200" fill="#161622"/><rect x="0" y="145" width="320" height="55" fill="#1a1208"/><rect x="55" y="85" width="210" height="60" fill="#251a0a" rx="2"/><line x1="55" y1="105" x2="265" y2="105" stroke="#2a2020" stroke-width="0.7"/><line x1="55" y1="125" x2="265" y2="125" stroke="#2a2020" stroke-width="0.7"/><line x1="120" y1="85" x2="120" y2="145" stroke="#2a2020" stroke-width="0.7"/><line x1="200" y1="85" x2="200" y2="145" stroke="#2a2020" stroke-width="0.7"/><text x="160" y="177" text-anchor="middle" font-family="monospace" font-size="9" fill="#4a4858">${label}</text><text x="160" y="73" text-anchor="middle" font-family="monospace" font-size="8" fill="#3a3848">SITE PHOTO</text></svg>`
+      return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`
+    }
+
     return (
       <div className="space-y-6">
 
@@ -784,7 +795,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
             {photoKeys.map(key => (
               <img
                 key={key}
-                src={divyaVillasImages[key]}
+                src={divyaVillasImages[key] ?? fallbackPhotoSrc(key)}
                 alt={key}
                 className="w-full h-24 object-cover rounded-sm cursor-pointer border border-border hover:border-gold/50 transition-colors duration-150"
                 onClick={() => openImage(key, `${key}.jpeg`)}

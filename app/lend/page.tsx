@@ -76,6 +76,35 @@ function FlaggedCard({ project }: { project: LendProject }) {
   )
 }
 
+function WatchCard({ project }: { project: LendProject }) {
+  const { text, bg, border } = BAND_COLOR.amber
+  return (
+    <Link
+      href={`/lend/project/${project.id}`}
+      className="block rounded-sm p-3.5 transition-opacity duration-150 group hover:opacity-80"
+      style={{ background: bg, border: `1px solid ${border}` }}
+    >
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <div className="flex items-center gap-1.5">
+          <Activity className="w-3 h-3 shrink-0" style={{ color: text }} />
+          <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
+            ON WATCH
+          </span>
+        </div>
+        <ChevronRight className="w-3 h-3 shrink-0 text-gray group-hover:text-amber-400 transition-colors" />
+      </div>
+      <div className="font-syne text-sm text-off-white leading-tight mb-0.5">{project.name}</div>
+      <div className="text-gray text-[10px] mb-3">{project.developer} · {project.city}</div>
+      <div className="flex items-center gap-2">
+        <span className="text-xs font-mono font-bold shrink-0" style={{ color: text }}>
+          ₹{project.outstanding_cr} Cr
+        </span>
+        <div className="flex-1"><ScoreBar score={project.risk_score} /></div>
+      </div>
+    </Link>
+  )
+}
+
 function TableRow({ project }: { project: LendProject }) {
   const { text } = BAND_COLOR[project.risk_band]
   return (
@@ -222,7 +251,24 @@ export default function LendPortfolioDashboard() {
         </div>
       )}
 
-      <Section band="amber" count={amber.length} exposure={amberExposure} projects={amber} defaultOpen={true} />
+      {/* On Watch — amber card grid */}
+      {amber.length > 0 && (
+        <div className="mb-7">
+          <div className="flex items-center gap-2 mb-3">
+            <Activity className="w-4 h-4" style={{ color: BAND_COLOR.amber.text }} />
+            <span className="text-xs font-mono uppercase tracking-[0.15em] font-semibold" style={{ color: BAND_COLOR.amber.text }}>
+              On Watch
+            </span>
+            <span className="text-[10px] font-mono text-gray ml-1">
+              · {amber.length} projects · ₹{amberExposure.toLocaleString('en-IN')} Cr
+            </span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {amber.map(p => <WatchCard key={p.id} project={p} />)}
+          </div>
+        </div>
+      )}
+
       <Section band="green" count={green.length} exposure={greenExposure} projects={green} defaultOpen={false} />
     </div>
   )

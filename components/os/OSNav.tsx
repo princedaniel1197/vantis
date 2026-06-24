@@ -10,6 +10,7 @@ import {
   BookOpen, CreditCard,
   Map, Calculator, TrendingUp, Scale,
   ShieldCheck, Award,
+  Box, MapPin, Activity, BarChart2,
   Sun, Moon, MessageSquare, ChevronDown, Menu, X
 } from 'lucide-react'
 import { useTheme } from '@/app/context/ThemeContext'
@@ -55,6 +56,16 @@ const NAV_GROUPS = [
     items: [
       { label: 'Compliance Autopilot', path: '/compliance', icon: ShieldCheck, desc: 'QPR, RERA, penalties' },
       { label: 'Buyer-Trust Certificate', path: '/certificate', icon: Award, desc: 'Verified cert + QR' },
+    ]
+  },
+  {
+    label: 'Build',
+    items: [
+      { label: 'Build Hub',            path: '/build',                             icon: Box,       desc: 'Developer OS — 4 modules' },
+      { label: '3D Tower View',        path: '/build/sales/tower',                 icon: Box,       desc: 'Click any unit → AI + gov truth' },
+      { label: 'Drone Reconciliation', path: '/build/construction/reconciliation', icon: Activity,  desc: 'Physical vs QPR vs Finance gap' },
+      { label: 'Parcel Intelligence',  path: '/build/land/parcel',                 icon: MapPin,    desc: 'Bhoomi title + satellite check' },
+      { label: 'Competitive Supply',   path: '/build/approvals/market',            icon: BarChart2, desc: '2.5km RERA project absorption' },
     ]
   },
 ]

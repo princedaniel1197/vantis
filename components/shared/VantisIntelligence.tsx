@@ -48,21 +48,21 @@ export default function VantisIntelligence() {
   const [mode, setMode] = useState<'demo' | 'live'>('demo')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const isHidden = DEV_ROUTES.some(r => pathname === r || pathname?.startsWith(r + '/'))
 
-  // Hide on dev/OS routes — all hooks must be called before this return
-  if (DEV_ROUTES.some(r => pathname === r || pathname?.startsWith(r + '/'))) return null
+  useEffect(() => {
+    if (isHidden) return
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, isTyping, isHidden])
+
+  useEffect(() => {
+    if (isHidden || !open) return
+    setTimeout(() => inputRef.current?.focus(), 150)
+  }, [open, isHidden])
+
+  if (isHidden) return null
 
   const suggestions = isGovern ? GOVERN_SUGGESTIONS : PUBLIC_SUGGESTIONS
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, isTyping])
-
-  useEffect(() => {
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 150)
-    }
-  }, [open])
 
   async function handleSend(text?: string) {
     const query = (text ?? input).trim()

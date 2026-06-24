@@ -1,22 +1,21 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowLeft, TrendingDown, TrendingUp, Minus } from 'lucide-react'
+import { ArrowLeft, TrendingDown, TrendingUp, Minus, ArrowRight } from 'lucide-react'
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from 'recharts'
-import { LEND_DEVELOPERS, LEND_PROJECTS, BAND_COLOR, BAND_LABEL } from '@/lib/lend-portfolio'
+import {
+  LEND_DEVELOPERS, LEND_PROJECTS, BAND_COLOR, BAND_LABEL, OZONE_CASCADE,
+} from '@/lib/lend-portfolio'
 
 function ScoreGauge({ score }: { score: number }) {
-  const r  = 38
-  const cx = 52
-  const cy = 52
-  const C      = 2 * Math.PI * r   // ≈ 238.76
-  const arcLen = C * 0.72           // 260 degrees ≈ 172.1
+  const r  = 38; const cx = 52; const cy = 52
+  const C      = 2 * Math.PI * r
+  const arcLen = C * 0.72
   const norm   = Math.max(0, Math.min(1, (score - 300) / 600))
   const filled = arcLen * norm
   const color  = score >= 650 ? '#2ECC71' : score >= 450 ? '#F39C12' : '#E74C3C'
-
   return (
     <svg viewBox="0 0 104 104" width={160} height={160}>
       <circle cx={cx} cy={cy} r={r} fill="none" stroke="#1E1E2E" strokeWidth={10}
@@ -48,18 +47,102 @@ function ImpactBar({ impact }: { impact: number }) {
   const color = impact >= 0 ? '#2ECC71' : '#E74C3C'
   return (
     <div className="flex items-center gap-2 flex-1">
-      {impact < 0
-        ? <TrendingDown className="w-3 h-3 shrink-0" style={{ color }} />
-        : impact > 0
-          ? <TrendingUp  className="w-3 h-3 shrink-0" style={{ color }} />
-          : <Minus       className="w-3 h-3 shrink-0 text-gray" />
-      }
+      {impact < 0 ? <TrendingDown className="w-3 h-3 shrink-0" style={{ color }} />
+       : impact > 0 ? <TrendingUp className="w-3 h-3 shrink-0" style={{ color }} />
+       : <Minus className="w-3 h-3 shrink-0 text-gray" />}
       <div className="flex-1 h-1 bg-border rounded-full overflow-hidden">
         <div style={{ width: `${abs}%`, background: color, height: '100%' }} />
       </div>
       <span className="text-[10px] font-mono w-8 text-right" style={{ color }}>
         {impact > 0 ? `+${impact}` : impact}
       </span>
+    </div>
+  )
+}
+
+// ── Cascade visualization (Ozone Group only) ──────────────────────────────────
+function CascadeCard({ p, isHero }: { p: typeof OZONE_CASCADE[0]; isHero?: boolean }) {
+  const { text: pt, bg: pbg, border: pbd } = BAND_COLOR[p.risk_band]
+  const escrowColor = p.escrow_pct < 20 ? '#E74C3C' : p.escrow_pct < 40 ? '#F39C12' : '#2ECC71'
+  return (
+    <div
+      className="flex-1 rounded-sm border p-4 relative"
+      style={{ background: pbg, borderColor: isHero ? pt : pbd, boxShadow: isHero ? `0 0 0 1px ${pt}` : 'none' }}
+    >
+      {isHero && (
+        <div
+          className="absolute -top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-mono uppercase tracking-[0.1em] px-2 py-0.5 rounded-sm"
+          style={{ color: pt, background: 'rgba(10,10,15,1)', border: `1px solid ${pt}` }}
+        >
+          HERO PROJECT
+        </div>
+      )}
+      <div className="text-[9px] font-mono uppercase tracking-[0.1em] mb-1" style={{ color: pt }}>
+        {BAND_LABEL[p.risk_band]}
+      </div>
+      <div className="font-syne text-sm text-off-white leading-tight mb-0.5">{p.name}</div>
+      <div className="text-gray text-[10px] mb-3">{p.city}</div>
+      <div className="text-xs font-mono font-bold" style={{ color: pt }}>₹{p.outstanding_cr} Cr</div>
+      <div className="text-[9px] font-mono text-gray mt-0.5">outstanding</div>
+      <div className="mt-3">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-[9px] font-mono uppercase text-gray">Escrow</span>
+          <span className="text-[10px] font-mono font-bold" style={{ color: escrowColor }}>{p.escrow_pct}%</span>
+        </div>
+        <div className="h-1 bg-border rounded-full overflow-hidden">
+          <div className="h-full rounded-full" style={{ width: `${p.escrow_pct}%`, background: escrowColor }} />
+        </div>
+        <div className="mt-1.5 text-[9px] text-gray leading-snug">{p.escrow_concern}</div>
+      </div>
+    </div>
+  )
+}
+
+function CascadeView() {
+  const total = OZONE_CASCADE.reduce((s, p) => s + p.outstanding_cr, 0)
+  // Display order: Westgate (amber, left) → Urbana (red, center) ← Park Ave (amber, right)
+  const [urbana, westgate, parkAve] = OZONE_CASCADE
+
+  return (
+    <div className="bg-surface border border-border rounded-sm p-5 mt-5">
+      <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">
+        Developer Cascade · Ozone Group — ₹{total} Cr Total Exposure
+      </div>
+      <p className="text-gray text-xs mb-5 leading-relaxed">
+        Kaveri HFC has exposure to Ozone Group across 3 projects. Escrow account analysis reveals
+        anomalous withdrawal patterns in the two amber projects — consistent with funds being diverted
+        to cover Ozone Urbana&rsquo;s construction shortfall.
+      </p>
+
+      <div className="flex items-start gap-3 pt-4">
+        <CascadeCard p={westgate} />
+
+        <div className="flex flex-col items-center justify-center gap-1 shrink-0 pt-10">
+          <div className="text-[8px] font-mono text-red uppercase tracking-[0.08em]">escrow</div>
+          <div className="text-[8px] font-mono text-red uppercase tracking-[0.08em]">drain</div>
+          <ArrowRight className="w-5 h-5 text-red" />
+        </div>
+
+        <CascadeCard p={urbana} isHero />
+
+        <div className="flex flex-col items-center justify-center gap-1 shrink-0 pt-10">
+          <div className="text-[8px] font-mono text-red uppercase tracking-[0.08em]">escrow</div>
+          <div className="text-[8px] font-mono text-red uppercase tracking-[0.08em]">drain</div>
+          <ArrowLeft className="w-5 h-5 text-red" />
+        </div>
+
+        <CascadeCard p={parkAve} />
+      </div>
+
+      <div className="mt-5 px-4 py-3 bg-red/6 border border-red/20 rounded-sm">
+        <p className="text-red text-xs font-medium mb-1">Portfolio concentration risk</p>
+        <p className="text-gray-light text-xs leading-relaxed">
+          ₹{total} Cr across 3 projects with a single developer is a concentration event.
+          Escrow cross-contamination — Westgate and Park Avenue accounts show withdrawals correlating
+          with Urbana&rsquo;s QPR deadlines — suggests group-level liquidity stress.
+          Any Urbana restructure must include cross-collateral from all 3 projects.
+        </p>
+      </div>
     </div>
   )
 }
@@ -77,13 +160,14 @@ export default function LendDeveloperContent({ id }: { id: string }) {
   }
 
   const { text: bandText, bg: bandBg, border: bandBorder } = BAND_COLOR[dev.band]
+  const isOzone    = id === 'ozone-group'
   const devProjects = LEND_PROJECTS.filter(p => p.developer_id === id)
 
   return (
     <div className="p-5 max-w-[1100px] mx-auto">
       <Link
         href="/lend"
-        className="inline-flex items-center gap-1.5 text-gray hover:text-gold text-xs font-mono uppercase tracking-[0.08em] transition-colors duration-150 mb-5"
+        className="inline-flex items-center gap-1.5 text-gray hover:text-gold text-xs font-mono uppercase tracking-[0.08em] transition-colors mb-5"
       >
         <ArrowLeft className="w-3.5 h-3.5" /> Portfolio
       </Link>
@@ -108,6 +192,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
         <div className="text-right">
           <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-0.5">Active Loans at Kaveri HFC</div>
           <div className="font-syne text-2xl text-gold">{dev.active_loans}</div>
+          {isOzone && <div className="text-[10px] text-gray font-mono mt-0.5">3 projects · ₹520 Cr total</div>}
         </div>
       </div>
 
@@ -150,7 +235,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
           </div>
         </div>
 
-        {/* Trend + projects */}
+        {/* Trend + funded projects */}
         <div className="flex flex-col gap-4">
           <div className="bg-surface border border-border rounded-sm p-5">
             <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
@@ -162,8 +247,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
                 <XAxis dataKey="quarter" tick={{ fill: '#6B6B88', fontSize: 9 }} axisLine={false} tickLine={false} />
                 <YAxis domain={[200, 950]} tick={{ fill: '#6B6B88', fontSize: 9 }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Line
-                  type="monotone" dataKey="score" stroke={bandText} strokeWidth={2}
+                <Line type="monotone" dataKey="score" stroke={bandText} strokeWidth={2}
                   dot={{ fill: bandText, r: 3 }} activeDot={{ r: 5 }}
                   isAnimationActive animationDuration={1200}
                 />
@@ -173,7 +257,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
 
           <div className="bg-surface border border-border rounded-sm p-5">
             <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
-              Kaveri HFC Funded Projects
+              {isOzone ? 'Portfolio Book (Kaveri HFC)' : 'Kaveri HFC Funded Projects'}
             </div>
             {devProjects.length === 0 ? (
               <div className="text-gray text-xs">No funded projects on record.</div>
@@ -192,7 +276,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
                         <div className="text-gray text-[10px]">{p.city}</div>
                       </div>
                       <div className="text-right">
-                        <div className="font-mono text-xs" style={{ color: pt }}>₹{p.exposure_cr} Cr</div>
+                        <div className="font-mono text-xs" style={{ color: pt }}>₹{p.outstanding_cr} Cr</div>
                         <div className="text-[9px] font-mono uppercase tracking-[0.08em]" style={{ color: pt }}>
                           {BAND_LABEL[p.risk_band]}
                         </div>
@@ -205,6 +289,9 @@ export default function LendDeveloperContent({ id }: { id: string }) {
           </div>
         </div>
       </div>
+
+      {/* Developer cascade (Ozone only) */}
+      {isOzone && <CascadeView />}
     </div>
   )
 }

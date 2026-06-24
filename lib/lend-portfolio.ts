@@ -15,6 +15,12 @@ export interface LendProject {
   rera_id: string
   loan_sanctioned: string
   loan_type: 'Construction Finance' | 'Term Loan' | 'LAP'
+  // Anchor fields — only populated for hero project
+  sanctioned_cr?: number
+  drawn_pct?: number
+  built_pct?: number
+  next_tranche_cr?: number
+  undisbursed_cr?: number
 }
 
 export interface DeveloperFactor {
@@ -44,7 +50,7 @@ export const LEND_PROJECTS: LendProject[] = [
     developer: 'Ozone Group',
     developer_id: 'ozone-group',
     city: 'Bengaluru',
-    exposure_cr: 180,
+    exposure_cr: 250,
     outstanding_cr: 180,
     risk_band: 'red',
     risk_score: 312,
@@ -53,6 +59,11 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/171016/000112',
     loan_sanctioned: 'Mar 2019',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 250,
+    drawn_pct: 72,
+    built_pct: 43,
+    next_tranche_cr: 40,
+    undisbursed_cr: 70,
   },
   {
     id: 'concord-meridian',
@@ -678,7 +689,7 @@ export const LEND_DEVELOPERS: Record<string, DeveloperProfile> = {
     headquarter: 'Bengaluru',
     years_active: 18,
     total_projects: 14,
-    active_loans: 1,
+    active_loans: 3,
     factors: [
       { name: 'QPR Compliance History',  impact: -42, detail: '8 consecutive quarters of QPR default — statutory maximum breach' },
       { name: 'Active Litigation',        impact: -28, detail: '3 High Court cases, 2 criminal complaints, NCLT filing' },
@@ -848,3 +859,84 @@ export const BAND_COLOR = {
 }
 
 export const BAND_LABEL = { red: 'HIGH RISK', amber: 'WATCH', green: 'HEALTHY' }
+
+// ── Ozone Urbana anchor data ─────────────────────────────────────────────────
+
+export interface TrancheRow {
+  id: string
+  amount_cr: number
+  date: string
+  status: 'DISBURSED' | 'PENDING' | 'CONDITIONAL'
+  milestone: string
+  milestone_met: boolean
+}
+
+export const OZONE_TRANCHES: TrancheRow[] = [
+  { id: 'T1', amount_cr: 50, date: 'Jan 2021', status: 'DISBURSED',    milestone: 'Foundation complete',       milestone_met: true  },
+  { id: 'T2', amount_cr: 40, date: 'Apr 2021', status: 'DISBURSED',    milestone: 'Plinth level complete',     milestone_met: true  },
+  { id: 'T3', amount_cr: 35, date: 'Jul 2021', status: 'DISBURSED',    milestone: 'Ground floor slab cast',    milestone_met: true  },
+  { id: 'T4', amount_cr: 55, date: 'Oct 2021', status: 'DISBURSED',    milestone: '3rd floor slab complete',   milestone_met: true  },
+  { id: 'T5', amount_cr: 40, date: 'PENDING',  status: 'PENDING',      milestone: '6th floor slab complete',   milestone_met: false },
+  { id: 'T6', amount_cr: 30, date: 'TBD',      status: 'CONDITIONAL',  milestone: 'Possession-ready clearance', milestone_met: false },
+]
+
+export interface DivergencePoint {
+  quarter: string
+  pct_drawn: number
+  pct_built: number
+}
+
+export const OZONE_DIVERGENCE: DivergencePoint[] = [
+  { quarter: 'Q1 2021', pct_drawn: 20, pct_built: 25 },
+  { quarter: 'Q2 2021', pct_drawn: 36, pct_built: 38 },
+  { quarter: 'Q3 2021', pct_drawn: 50, pct_built: 43 },
+  { quarter: 'Q4 2021', pct_drawn: 60, pct_built: 44 },
+  { quarter: 'Q1 2022', pct_drawn: 68, pct_built: 43 },
+  { quarter: 'Q2 2022', pct_drawn: 72, pct_built: 43 },
+  { quarter: 'Q3 2022', pct_drawn: 72, pct_built: 43 },
+  { quarter: 'Q4 2022', pct_drawn: 72, pct_built: 43 },
+]
+
+export interface CascadeProject {
+  id: string
+  name: string
+  outstanding_cr: number
+  risk_band: RiskBand
+  risk_score: number
+  escrow_pct: number
+  escrow_concern: string
+  city: string
+}
+
+export const OZONE_CASCADE: CascadeProject[] = [
+  {
+    id: 'ozone-urbana',
+    name: 'Ozone Urbana',
+    outstanding_cr: 180,
+    risk_band: 'red',
+    risk_score: 312,
+    escrow_pct: 8,
+    escrow_concern: 'Escrow ₹4.2 Cr on ₹52 Cr collected (8%) — 62 pp below RERA minimum of 70%',
+    city: 'Bengaluru',
+  },
+  {
+    id: 'ozone-westgate',
+    name: 'Ozone Westgate',
+    outstanding_cr: 180,
+    risk_band: 'amber',
+    risk_score: 498,
+    escrow_pct: 14,
+    escrow_concern: 'Anomalous Q4 2022 withdrawal — ₹8.4 Cr debited same week Urbana missed QPR deadline',
+    city: 'Bengaluru',
+  },
+  {
+    id: 'ozone-park-avenue',
+    name: 'Ozone Park Avenue',
+    outstanding_cr: 160,
+    risk_band: 'amber',
+    risk_score: 512,
+    escrow_pct: 16,
+    escrow_concern: 'Below 70% threshold for 3 consecutive quarters; RERA notice received Q1 2023',
+    city: 'Bengaluru',
+  },
+]

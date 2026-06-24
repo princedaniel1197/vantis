@@ -865,28 +865,161 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
           </div>
         </div>
 
-        {/* Side-by-side imagery */}
+        {/* Side-by-side imagery — SVG mock satellite */}
         <div className="grid grid-cols-2 gap-4">
-          {[
-            { quarter: 'Q1 2021', src: '/documents/satellite-q1.jpg', caption: 'Declared: 20% · Site cleared, foundation only' },
-            { quarter: 'Q4 2022', src: '/documents/satellite-q4.jpg', caption: 'Declared: 62% · Minimal vertical structure observed' },
-          ].map(({ quarter, src, caption }) => (
-            <div key={quarter}>
-              <div className="text-[10px] text-gray uppercase tracking-wide mb-2">{quarter}</div>
-              <div className="relative w-full h-52 border border-border rounded-sm overflow-hidden bg-surface2">
-                <img
-                  src={src}
-                  alt={`Satellite ${quarter}`}
-                  className="w-full h-full object-cover"
-                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <span className="text-gray text-xs font-mono">Satellite imagery</span>
-                </div>
-              </div>
-              <div className="text-[10px] text-gray mt-2 leading-relaxed">{caption}</div>
+          {/* Q1 2021 — Site cleared, foundation only */}
+          <div>
+            <div className="text-[10px] text-gray uppercase tracking-wide mb-2">Q1 2021</div>
+            <div className="w-full h-52 border border-border rounded-sm overflow-hidden">
+              <svg viewBox="0 0 500 208" className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="satScanQ1" width="1" height="3" patternUnits="userSpaceOnUse">
+                    <rect width="1" height="1" fill="rgba(255,255,255,0.018)"/>
+                  </pattern>
+                </defs>
+                {/* Base earth */}
+                <rect width="500" height="208" fill="#261810"/>
+                {/* Vegetation patches */}
+                <ellipse cx="55" cy="35" rx="52" ry="32" fill="#1C2E12"/>
+                <ellipse cx="38" cy="50" rx="28" ry="20" fill="#213618"/>
+                <ellipse cx="455" cy="30" rx="44" ry="28" fill="#1C2E12"/>
+                <ellipse cx="472" cy="52" rx="24" ry="18" fill="#213618"/>
+                <ellipse cx="462" cy="178" rx="36" ry="24" fill="#1C2E12"/>
+                <ellipse cx="35" cy="175" rx="38" ry="26" fill="#1C2E12"/>
+                <ellipse cx="240" cy="195" rx="30" ry="14" fill="#213818"/>
+                {/* Cleared plot */}
+                <polygon points="95,38 408,33 425,172 78,177" fill="#7A5530"/>
+                {/* Soil texture variation */}
+                <ellipse cx="200" cy="95" rx="65" ry="42" fill="#6A4A28" opacity="0.5"/>
+                <ellipse cx="330" cy="125" rx="50" ry="32" fill="#855A38" opacity="0.35"/>
+                <ellipse cx="260" cy="65" rx="55" ry="20" fill="#7E5832" opacity="0.3"/>
+                {/* Access road */}
+                <polygon points="0,92 98,88 98,114 0,116" fill="#3C3030"/>
+                {/* Foundation slabs */}
+                <rect x="138" y="78" width="48" height="32" fill="#8C8A80" rx="1"/>
+                <rect x="192" y="78" width="48" height="32" fill="#888680" rx="1"/>
+                <rect x="138" y="116" width="48" height="30" fill="#848278" rx="1"/>
+                <rect x="192" y="116" width="48" height="30" fill="#7E7C74" rx="1"/>
+                {/* Floor grid on slabs */}
+                <line x1="162" y1="78" x2="162" y2="110" stroke="#70706A" strokeWidth="0.8" opacity="0.7"/>
+                <line x1="216" y1="78" x2="216" y2="110" stroke="#70706A" strokeWidth="0.8" opacity="0.7"/>
+                <line x1="138" y1="94" x2="240" y2="94" stroke="#70706A" strokeWidth="0.8" opacity="0.7"/>
+                {/* Rebar stubs */}
+                {[148,158,168,178,188,198,208,218,228].map((x, i) => (
+                  <line key={i} x1={x} y1="78" x2={x} y2="73" stroke="#666660" strokeWidth="1" opacity="0.8"/>
+                ))}
+                {/* Materials pile */}
+                <ellipse cx="320" cy="100" rx="28" ry="16" fill="#5C4A2E" opacity="0.9"/>
+                <ellipse cx="328" cy="95" rx="16" ry="9" fill="#6A5838" opacity="0.8"/>
+                {/* Excavation trench */}
+                <path d="M 138 74 Q 200 68 252 72 Q 280 74 300 76" stroke="#2E1E08" strokeWidth="7" fill="none" opacity="0.6"/>
+                {/* Survey boundary */}
+                <polygon points="95,38 408,33 425,172 78,177" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeDasharray="8 4" opacity="0.9"/>
+                {/* Scan lines overlay */}
+                <rect width="500" height="208" fill="url(#satScanQ1)" opacity="0.6"/>
+                {/* Phase badge */}
+                <rect x="7" y="7" width="90" height="16" rx="2" fill="rgba(201,168,76,0.14)" stroke="#C9A84C" strokeWidth="0.8"/>
+                <text x="11" y="19" fontFamily="monospace" fontSize="8" fill="#C9A84C">PHASE 1 · 20%</text>
+                {/* North */}
+                <text x="476" y="20" fontFamily="monospace" fontSize="10" fill="#C9A84C" fontWeight="bold" textAnchor="middle">N</text>
+                <polygon points="476,24 473,33 476,30 479,33" fill="#C9A84C"/>
+                <line x1="476" y1="33" x2="476" y2="38" stroke="#C9A84C" strokeWidth="1.2"/>
+                {/* Scale bar */}
+                <line x1="398" y1="196" x2="458" y2="196" stroke="#9090AA" strokeWidth="1"/>
+                <line x1="398" y1="193" x2="398" y2="199" stroke="#9090AA" strokeWidth="1"/>
+                <line x1="458" y1="193" x2="458" y2="199" stroke="#9090AA" strokeWidth="1"/>
+                <text x="428" y="206" fontFamily="monospace" fontSize="6" fill="#9090AA" textAnchor="middle">50m</text>
+                {/* Metadata */}
+                <text x="8" y="204" fontFamily="monospace" fontSize="6.5" fill="#4A4A5A">12°58′22″N 77°41′08″E · CARTOSAT-3A · 0.28m GSD · Q1 2021</text>
+              </svg>
             </div>
-          ))}
+            <div className="text-[10px] text-gray mt-2 leading-relaxed">Declared: 20% · Site cleared, foundation only</div>
+          </div>
+
+          {/* Q4 2022 — 62% claimed, ~30% satellite-observed */}
+          <div>
+            <div className="text-[10px] text-gray uppercase tracking-wide mb-2">Q4 2022</div>
+            <div className="w-full h-52 border border-border rounded-sm overflow-hidden">
+              <svg viewBox="0 0 500 208" className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                  <pattern id="satScanQ2" width="1" height="3" patternUnits="userSpaceOnUse">
+                    <rect width="1" height="1" fill="rgba(255,255,255,0.018)"/>
+                  </pattern>
+                </defs>
+                {/* Base earth */}
+                <rect width="500" height="208" fill="#261810"/>
+                {/* Reduced vegetation (site cleared more) */}
+                <ellipse cx="50" cy="33" rx="45" ry="27" fill="#1C2E12"/>
+                <ellipse cx="455" cy="28" rx="40" ry="24" fill="#1C2E12"/>
+                <ellipse cx="460" cy="180" rx="34" ry="22" fill="#1C2E12"/>
+                <ellipse cx="32" cy="178" rx="32" ry="22" fill="#1C2E12"/>
+                {/* Cleared plot */}
+                <polygon points="92,36 408,31 426,174 76,178" fill="#7A5530"/>
+                {/* Soil variation */}
+                <ellipse cx="340" cy="130" rx="55" ry="35" fill="#6A4A28" opacity="0.4"/>
+                <ellipse cx="370" cy="80" rx="40" ry="25" fill="#7A5030" opacity="0.35"/>
+                {/* Access road */}
+                <polygon points="0,90 95,86 95,112 0,115" fill="#3C3030"/>
+                {/* BUILT STRUCTURE — T1 partial (only ~30% of site covered) */}
+                {/* Tower block 1 — complete lower floors */}
+                <rect x="105" y="62" width="138" height="102" fill="#9A9488" rx="1"/>
+                {/* Roof grid */}
+                <line x1="105" y1="95" x2="243" y2="95" stroke="#7E7C74" strokeWidth="0.8"/>
+                <line x1="105" y1="128" x2="243" y2="128" stroke="#7E7C74" strokeWidth="0.8"/>
+                <line x1="140" y1="62" x2="140" y2="164" stroke="#7E7C74" strokeWidth="0.8"/>
+                <line x1="175" y1="62" x2="175" y2="164" stroke="#7E7C74" strokeWidth="0.8"/>
+                <line x1="210" y1="62" x2="210" y2="164" stroke="#7E7C74" strokeWidth="0.8"/>
+                {/* Building shadow */}
+                <rect x="243" y="64" width="6" height="102" fill="#2A2018" opacity="0.7"/>
+                <rect x="107" y="164" width="138" height="5" fill="#2A2018" opacity="0.5"/>
+                {/* T2 stub — incomplete */}
+                <rect x="255" y="88" width="62" height="55" fill="#8A8880" rx="1" opacity="0.75"/>
+                <rect x="255" y="143" width="62" height="18" fill="#7A6A50" rx="1" opacity="0.5"/>
+                {/* Scaffolding on T2 */}
+                {[266,275,284,293,302,310].map((x, i) => (
+                  <line key={i} x1={x} y1="86" x2={x} y2="162" stroke="#88887A" strokeWidth="1" opacity="0.55"/>
+                ))}
+                {[96,108,120,132,144,156].map((y, i) => (
+                  <line key={i} x1="254" y1={y} x2="320" y2={y} stroke="#88887A" strokeWidth="0.8" opacity="0.45"/>
+                ))}
+                {/* BARE SITE — right half, showing the gap */}
+                {/* Material dumps on bare sections */}
+                <ellipse cx="368" cy="100" rx="30" ry="18" fill="#5C4A2E" opacity="0.85"/>
+                <ellipse cx="378" cy="94" rx="18" ry="10" fill="#6A5838" opacity="0.75"/>
+                <ellipse cx="355" cy="152" rx="24" ry="15" fill="#5C4A2E" opacity="0.7"/>
+                <ellipse cx="410" cy="145" rx="18" ry="12" fill="#5A4828" opacity="0.65"/>
+                {/* Red "BARE SITE" annotation box */}
+                <rect x="335" y="55" width="82" height="110" fill="rgba(231,76,60,0.10)" stroke="#E74C3C" strokeWidth="1" strokeDasharray="5 3"/>
+                <text x="376" y="107" fontFamily="monospace" fontSize="8" fill="#E74C3C" textAnchor="middle">BARE</text>
+                <text x="376" y="118" fontFamily="monospace" fontSize="8" fill="#E74C3C" textAnchor="middle">SITE</text>
+                {/* Survey boundary */}
+                <polygon points="92,36 408,31 426,174 76,178" fill="none" stroke="#C9A84C" strokeWidth="1.5" strokeDasharray="8 4" opacity="0.9"/>
+                {/* Scan lines */}
+                <rect width="500" height="208" fill="url(#satScanQ2)" opacity="0.6"/>
+                {/* Satellite observed badge */}
+                <rect x="7" y="7" width="115" height="16" rx="2" fill="rgba(231,76,60,0.14)" stroke="#E74C3C" strokeWidth="0.8"/>
+                <text x="11" y="19" fontFamily="monospace" fontSize="8" fill="#E74C3C">SAT OBSERVED · 30%</text>
+                {/* QPR claimed label */}
+                <rect x="7" y="27" width="94" height="14" rx="2" fill="rgba(107,107,136,0.2)" stroke="#6B6B88" strokeWidth="0.8"/>
+                <text x="11" y="38" fontFamily="monospace" fontSize="7" fill="#9090AA">QPR CLAIMED · 62%</text>
+                {/* FLAGGED badge */}
+                <rect x="390" y="7" width="102" height="16" rx="2" fill="rgba(231,76,60,0.18)" stroke="#E74C3C" strokeWidth="0.8"/>
+                <text x="394" y="19" fontFamily="monospace" fontSize="8" fill="#E74C3C">⚑ VANTIS FLAGGED</text>
+                {/* North */}
+                <text x="476" y="20" fontFamily="monospace" fontSize="10" fill="#C9A84C" fontWeight="bold" textAnchor="middle">N</text>
+                <polygon points="476,24 473,33 476,30 479,33" fill="#C9A84C"/>
+                <line x1="476" y1="33" x2="476" y2="38" stroke="#C9A84C" strokeWidth="1.2"/>
+                {/* Scale bar */}
+                <line x1="398" y1="196" x2="458" y2="196" stroke="#9090AA" strokeWidth="1"/>
+                <line x1="398" y1="193" x2="398" y2="199" stroke="#9090AA" strokeWidth="1"/>
+                <line x1="458" y1="193" x2="458" y2="199" stroke="#9090AA" strokeWidth="1"/>
+                <text x="428" y="206" fontFamily="monospace" fontSize="6" fill="#9090AA" textAnchor="middle">50m</text>
+                {/* Metadata */}
+                <text x="8" y="204" fontFamily="monospace" fontSize="6.5" fill="#4A4A5A">12°58′22″N 77°41′08″E · CARTOSAT-3A · 0.28m GSD · Q4 2022</text>
+              </svg>
+            </div>
+            <div className="text-[10px] text-gray mt-2 leading-relaxed">Declared: 62% · Minimal vertical structure observed</div>
+          </div>
         </div>
 
         {/* Quarter-by-quarter table */}

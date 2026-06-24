@@ -29,84 +29,108 @@ export default function ParcelPage() {
       {/* Schematic parcel map */}
       <div className="bg-surface border border-border rounded-sm p-5 mb-5">
         <div className="flex items-center justify-between mb-4">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray">
-            Site Footprint Schematic
-          </div>
-          <div className="text-[9px] font-mono text-gray/50 uppercase">
-            REPRESENTATIVE SCHEMATIC — NOT SATELLITE IMAGERY
-          </div>
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray">Satellite Parcel View · Divya Villas, Mysuru</div>
+          <div className="text-[9px] font-mono text-gray/50 uppercase">CARTOSAT-3A · 0.28m GSD · Jun 2024</div>
         </div>
-        <svg
-          viewBox="0 0 600 380"
-          className="w-full max-w-2xl mx-auto rounded-sm"
-          style={{ background: '#0A0A15' }}
-        >
+        <svg viewBox="0 0 600 380" className="w-full max-w-2xl mx-auto rounded-sm" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-              <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#1A1A28" strokeWidth="0.5" />
+            <pattern id="parcelScan" width="1" height="3" patternUnits="userSpaceOnUse">
+              <rect width="1" height="1" fill="rgba(255,255,255,0.015)"/>
+            </pattern>
+            <pattern id="parcelMesh" width="15" height="15" patternUnits="userSpaceOnUse">
+              <path d="M 15 0 L 0 0 0 15" fill="none" stroke="rgba(255,255,255,0.025)" strokeWidth="0.4"/>
             </pattern>
           </defs>
-          <rect width="600" height="380" fill="url(#grid)" />
 
-          {/* Survey 83/2 */}
-          <polygon
-            points="80,80 280,60 300,240 90,260"
-            fill="rgba(46,204,113,0.08)"
-            stroke="#2ECC71"
-            strokeWidth="1.5"
-            strokeDasharray="6 3"
-          />
-          <text x="175" y="165" textAnchor="middle" fill="#2ECC71" fontSize="11" fontFamily="monospace">
-            Sy. No. 83/2
-          </text>
-          <text x="175" y="179" textAnchor="middle" fill="#6B6B88" fontSize="9" fontFamily="monospace">
-            1.2 acres · EC clean
-          </text>
+          {/* Base earth / soil */}
+          <rect width="600" height="380" fill="#2A1A0A"/>
+          {/* Measurement mesh */}
+          <rect width="600" height="380" fill="url(#parcelMesh)"/>
 
-          {/* Survey 84/2 */}
-          <polygon
-            points="300,240 90,260 100,340 310,320"
-            fill="rgba(201,168,76,0.06)"
-            stroke="#C9A84C"
-            strokeWidth="1.5"
-            strokeDasharray="6 3"
-          />
-          <text x="195" y="300" textAnchor="middle" fill="#C9A84C" fontSize="11" fontFamily="monospace">
-            Sy. No. 84/2
-          </text>
-          <text x="195" y="314" textAnchor="middle" fill="#6B6B88" fontSize="9" fontFamily="monospace">
-            0.8 acres · mortgage cleared
-          </text>
+          {/* Surrounding vegetation — irregular blobs */}
+          <ellipse cx="30" cy="50" rx="45" ry="55" fill="#1C2E12"/>
+          <ellipse cx="20" cy="110" rx="28" ry="40" fill="#213818"/>
+          <ellipse cx="35" cy="200" rx="32" ry="45" fill="#1C2E12"/>
+          <ellipse cx="25" cy="310" rx="38" ry="50" fill="#213818"/>
+          <ellipse cx="580" cy="40" rx="30" ry="40" fill="#1C2E12"/>
+          <ellipse cx="590" cy="150" rx="22" ry="50" fill="#213818"/>
+          <ellipse cx="580" cy="300" rx="28" ry="45" fill="#1C2E12"/>
+          <ellipse cx="200" cy="12" rx="50" ry="18" fill="#1C2E12"/>
+          <ellipse cx="400" cy="368" rx="60" ry="18" fill="#213818"/>
+          <ellipse cx="500" cy="360" rx="40" ry="22" fill="#1C2E12"/>
 
-          {/* Project boundary */}
-          <polygon
-            points="80,80 300,60 310,320 100,340 80,80"
-            fill="none"
-            stroke="#C9A84C"
-            strokeWidth="2"
-          />
-          <text x="450" y="190" textAnchor="middle" fill="#C9A84C" fontSize="10" fontFamily="monospace">
-            Project
-          </text>
-          <text x="450" y="204" textAnchor="middle" fill="#C9A84C" fontSize="10" fontFamily="monospace">
-            Boundary
-          </text>
+          {/* Access road */}
+          <rect x="318" y="55" width="250" height="28" fill="#3A3020" rx="1"/>
+          <line x1="318" y1="69" x2="568" y2="69" stroke="#4A4030" strokeWidth="0.8" strokeDasharray="12 6" opacity="0.6"/>
+          <text x="440" y="74" textAnchor="middle" fill="#5A5848" fontSize="8" fontFamily="monospace">MYSURU–HUNSUR ROAD</text>
 
-          {/* Road */}
-          <rect
-            x="320" y="60" width="240" height="30"
-            fill="rgba(107,107,136,0.15)"
-            stroke="#3A3A5A"
-            strokeWidth="1"
-          />
-          <text x="440" y="80" textAnchor="middle" fill="#6B6B88" fontSize="9" fontFamily="monospace">
-            ACCESS ROAD
-          </text>
+          {/* Survey 83/2 — cleared + construction (1.2 acres) */}
+          <polygon points="80,78 282,58 302,240 88,262" fill="#7A5530"/>
+          {/* Soil texture variation in 83/2 */}
+          <ellipse cx="175" cy="150" rx="60" ry="40" fill="#6A4828" opacity="0.5"/>
+          <ellipse cx="220" cy="100" rx="40" ry="22" fill="#845A38" opacity="0.35"/>
+          {/* Building footprint in 83/2 — Divya Villas under construction */}
+          <rect x="100" y="90" width="165" height="130" fill="#9A9488" rx="1"/>
+          {/* Roof grid */}
+          {[133, 166, 199, 232].map((x, i) => (
+            <line key={`b${i}`} x1={x} y1="90" x2={x} y2="220" stroke="#7A7870" strokeWidth="0.7" opacity="0.55"/>
+          ))}
+          {[120, 150, 180, 210].map((y, i) => (
+            <line key={`bh${i}`} x1="100" y1={y} x2="265" y2={y} stroke="#7A7870" strokeWidth="0.7" opacity="0.55"/>
+          ))}
+          {/* Building shadow */}
+          <rect x="265" y="92" width="5" height="130" fill="#1A1008" opacity="0.55"/>
+          <rect x="102" y="220" width="165" height="4" fill="#1A1008" opacity="0.45"/>
+          {/* Remaining cleared land 83/2 */}
+          <ellipse cx="150" cy="205" rx="30" ry="18" fill="#5C4A2E" opacity="0.7"/>
+
+          {/* Survey 84/2 — lighter cleared / lower section (0.8 acres) */}
+          <polygon points="302,240 88,262 98,342 312,322" fill="#7E5A36"/>
+          {/* Soil texture 84/2 */}
+          <ellipse cx="195" cy="292" rx="55" ry="28" fill="#6E5030" opacity="0.45"/>
+          {/* Site prep works */}
+          <ellipse cx="145" cy="310" rx="32" ry="16" fill="#5C4A2E" opacity="0.75"/>
+          <ellipse cx="255" cy="285" rx="24" ry="14" fill="#604E32" opacity="0.65"/>
+          {/* Cleared strip (ongoing levelling) */}
+          <rect x="110" y="268" width="185" height="12" fill="#8A7060" opacity="0.5" rx="1"/>
+
+          {/* Project boundary overlay */}
+          <polygon points="80,78 302,58 312,322 98,342 80,78" fill="none" stroke="#C9A84C" strokeWidth="2" strokeDasharray="10 4" opacity="0.9"/>
+
+          {/* Survey 83/2 overlay */}
+          <polygon points="80,78 282,58 302,240 88,262" fill="none" stroke="#2ECC71" strokeWidth="1.2" strokeDasharray="6 3" opacity="0.75"/>
+          <text x="175" y="248" textAnchor="middle" fill="#2ECC71" fontSize="10" fontFamily="monospace">Sy. No. 83/2</text>
+          <text x="175" y="260" textAnchor="middle" fill="#5A8A5A" fontSize="8" fontFamily="monospace">1.2 acres · EC clean</text>
+
+          {/* Survey 84/2 overlay */}
+          <polygon points="302,240 88,262 98,342 312,322" fill="none" stroke="#C9A84C" strokeWidth="1.2" strokeDasharray="6 3" opacity="0.75"/>
+          <text x="195" y="308" textAnchor="middle" fill="#C9A84C" fontSize="10" fontFamily="monospace">Sy. No. 84/2</text>
+          <text x="195" y="320" textAnchor="middle" fill="#8A7A50" fontSize="8" fontFamily="monospace">0.8 acres · mortgage cleared</text>
+
+          {/* Project boundary label */}
+          <text x="460" y="188" textAnchor="middle" fill="#C9A84C" fontSize="9" fontFamily="monospace">Project</text>
+          <text x="460" y="200" textAnchor="middle" fill="#C9A84C" fontSize="9" fontFamily="monospace">Boundary</text>
+
+          {/* Scan lines */}
+          <rect width="600" height="380" fill="url(#parcelScan)"/>
+
+          {/* CLEAN badge */}
+          <rect x="7" y="7" width="100" height="18" rx="2" fill="rgba(46,204,113,0.18)" stroke="#2ECC71" strokeWidth="0.8"/>
+          <text x="11" y="20" fontFamily="monospace" fontSize="9" fill="#2ECC71">✓ TITLE CLEAN</text>
 
           {/* North indicator */}
-          <text x="560" y="30" textAnchor="middle" fill="#C9A84C" fontSize="14" fontWeight="bold">N</text>
-          <line x1="560" y1="35" x2="560" y2="55" stroke="#C9A84C" strokeWidth="1.5" />
-          <polygon points="556,55 560,65 564,55" fill="#C9A84C" />
+          <text x="566" y="26" fontFamily="monospace" fontSize="11" fill="#C9A84C" fontWeight="bold" textAnchor="middle">N</text>
+          <polygon points="566,30 563,42 566,38 569,42" fill="#C9A84C"/>
+          <line x1="566" y1="42" x2="566" y2="47" stroke="#C9A84C" strokeWidth="1.2"/>
+
+          {/* Scale bar */}
+          <line x1="460" y1="368" x2="560" y2="368" stroke="#9090AA" strokeWidth="1"/>
+          <line x1="460" y1="364" x2="460" y2="372" stroke="#9090AA" strokeWidth="1"/>
+          <line x1="560" y1="364" x2="560" y2="372" stroke="#9090AA" strokeWidth="1"/>
+          <text x="510" y="378" fontFamily="monospace" fontSize="7" fill="#9090AA" textAnchor="middle">50m</text>
+
+          {/* Metadata */}
+          <text x="7" y="374" fontFamily="monospace" fontSize="7" fill="#4A4A5A">13°22′14″N 76°38′42″E · CARTOSAT-3A · Bhoomi Sy. verified · Jun 2024</text>
         </svg>
       </div>
 

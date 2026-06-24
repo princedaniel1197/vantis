@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   ArrowLeft, Building2, FileText, TrendingDown,
   Scale, AlertTriangle, Settings, CheckCircle,
-  ChevronRight, XCircle, FileX, FolderOpen, ExternalLink,
+  ChevronRight, XCircle, FileX, FolderOpen, ExternalLink, Satellite,
 } from 'lucide-react'
 import projectsData from '@/data/projects.json'
 import developersData from '@/data/developers.json'
@@ -138,6 +138,7 @@ const TABS = [
   { id: 'timeline',   label: 'Risk Timeline',icon: AlertTriangle },
   { id: 'actions',    label: 'Actions',      icon: Settings },
   { id: 'documents',  label: 'Documents',    icon: FolderOpen },
+  { id: 'satellite',  label: 'Satellite View', icon: Satellite },
 ]
 
 /* ================================================================
@@ -812,6 +813,155 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
     )
   }
 
+  function renderSatellite() {
+    if (project.id !== 'ozone-urbana') {
+      return (
+        <div className="bg-surface border border-border rounded-sm p-8 text-center">
+          <Satellite className="w-8 h-8 text-gray mx-auto mb-3" />
+          <div className="text-gray text-sm">Satellite verification available for flagged projects. This project has no active satellite review.</div>
+        </div>
+      )
+    }
+
+    const SAT_DATA = [
+      { q: 'Q1 2021', declared: 20, observed: 14, caption: 'Site cleared, foundation only' },
+      { q: 'Q2 2021', declared: 28, observed: 21, caption: 'Plinth level — limited vertical' },
+      { q: 'Q3 2021', declared: 35, observed: 24, caption: 'Ground floor slab observed' },
+      { q: 'Q4 2021', declared: 42, observed: 27, caption: 'Minimal upper-floor progress' },
+      { q: 'Q1 2022', declared: 48, observed: 29, caption: 'Structure stalled' },
+      { q: 'Q2 2022', declared: 52, observed: 30, caption: 'No new floors observed' },
+      { q: 'Q3 2022', declared: 57, observed: 30, caption: 'Identical footprint to Q1 2022' },
+      { q: 'Q4 2022', declared: 62, observed: 30, caption: 'Declared 62%· orbital reads ~30%' },
+    ]
+
+    return (
+      <div className="space-y-6">
+        {/* Phase 2 banner */}
+        <div className="bg-gold/10 border border-gold/20 rounded-sm px-4 py-3">
+          <p className="text-gold text-sm">
+            Satellite verification cross-references developer-declared QPR progress against observed ground truth. Phase 2 capability — shown with representative imagery.
+          </p>
+        </div>
+
+        {/* Declared vs Observed hero card */}
+        <div className="bg-surface border border-border rounded-sm p-6">
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-5">Declared vs Satellite-Observed (Q4 2022)</div>
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-[10px] text-gray uppercase tracking-wide mb-2">Developer Declared</div>
+              <div className="font-syne text-4xl font-bold text-off-white">62%</div>
+            </div>
+            <div>
+              <div className="text-[10px] text-gray uppercase tracking-wide mb-2">Satellite Estimated</div>
+              <div className="font-syne text-4xl font-bold text-amber">30%</div>
+            </div>
+            <div>
+              <div className="text-[10px] text-gray uppercase tracking-wide mb-2">Variance</div>
+              <div className="font-syne text-4xl font-bold text-red">32 pts</div>
+              <div className="inline-flex items-center mt-1.5 px-2 py-0.5 bg-red/15 text-red text-[9px] font-mono rounded-sm border border-red/30 uppercase tracking-wider">
+                Flagged for Review
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Side-by-side imagery */}
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { quarter: 'Q1 2021', src: '/documents/satellite-q1.jpg', caption: 'Declared: 20% · Site cleared, foundation only' },
+            { quarter: 'Q4 2022', src: '/documents/satellite-q4.jpg', caption: 'Declared: 62% · Minimal vertical structure observed' },
+          ].map(({ quarter, src, caption }) => (
+            <div key={quarter}>
+              <div className="text-[10px] text-gray uppercase tracking-wide mb-2">{quarter}</div>
+              <div className="relative w-full h-52 border border-border rounded-sm overflow-hidden bg-surface2">
+                <img
+                  src={src}
+                  alt={`Satellite ${quarter}`}
+                  className="w-full h-full object-cover"
+                  onError={e => { (e.target as HTMLImageElement).style.display = 'none' }}
+                />
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <span className="text-gray text-xs font-mono">Satellite imagery</span>
+                </div>
+              </div>
+              <div className="text-[10px] text-gray mt-2 leading-relaxed">{caption}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* Quarter-by-quarter table */}
+        <div className="bg-surface border border-border rounded-sm overflow-hidden">
+          <div className="px-5 py-3 border-b border-border bg-surface2">
+            <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray">Quarterly Divergence Analysis</span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="border-b border-border">
+                <tr>
+                  {['Quarter', 'QPR Declared %', 'Satellite Obs. %', 'Δ Variance', 'Flag'].map(h => (
+                    <th key={h} className="px-4 py-2.5 text-left text-[9px] font-mono uppercase tracking-[0.1em] text-gray">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {SAT_DATA.map(row => {
+                  const delta = row.declared - row.observed
+                  const isFlag = delta >= 10
+                  return (
+                    <tr key={row.q} className="border-b border-border/40 last:border-0 hover:bg-surface2/50 transition-colors">
+                      <td className="px-4 py-2.5 text-xs font-mono text-off-white">{row.q}</td>
+                      <td className="px-4 py-2.5 text-xs font-mono text-off-white">{row.declared}%</td>
+                      <td className="px-4 py-2.5 text-xs font-mono text-amber">{row.observed}%</td>
+                      <td className="px-4 py-2.5 text-xs font-mono font-bold" style={{ color: isFlag ? '#E74C3C' : delta >= 5 ? '#F39C12' : '#2ECC71' }}>
+                        -{delta} pts
+                      </td>
+                      <td className="px-4 py-2.5">
+                        {isFlag && (
+                          <span className="text-[9px] font-mono px-1.5 py-0.5 bg-red/15 text-red border border-red/30 rounded-sm uppercase">DIVERGENCE</span>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* CSS 3D massing */}
+        <div className="bg-surface border border-border rounded-sm p-6">
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-5">Structural Massing — Expected vs Observed</div>
+          <div className="flex gap-16 justify-center items-end" style={{ perspective: '600px' }}>
+            <div className="text-center">
+              <div
+                className="w-20 h-36 border-2 border-gold bg-gold/5 mx-auto transition-all duration-700"
+                style={{ transform: 'rotateX(15deg) rotateY(-20deg)', transformStyle: 'preserve-3d' }}
+              />
+              <div className="text-xs text-gold mt-3 font-mono">Expected at 62%</div>
+              <div className="text-[10px] text-gray mt-0.5">~18 floors</div>
+            </div>
+            <div className="text-center">
+              <div
+                className="w-20 h-14 border-2 border-amber bg-amber/5 mx-auto transition-all duration-700"
+                style={{ transform: 'rotateX(15deg) rotateY(-20deg)', transformStyle: 'preserve-3d' }}
+              />
+              <div className="text-xs text-amber mt-3 font-mono">Satellite Observed</div>
+              <div className="text-[10px] text-gray mt-0.5">~5–6 floors</div>
+            </div>
+          </div>
+          <p className="text-center text-[10px] text-gray mt-5 leading-relaxed">
+            Structural massing — expected vs satellite-observed.
+          </p>
+        </div>
+
+        {/* Footer */}
+        <p className="text-[10px] text-gray leading-relaxed">
+          Production deployment integrates ISRO Cartosat and commercial high-resolution imagery with quarter-over-quarter change detection.
+        </p>
+      </div>
+    )
+  }
+
   /* ---- Render ---- */
   return (
     <div className="px-4 sm:px-6 py-6 max-w-5xl mx-auto">
@@ -885,6 +1035,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         {activeTab === 'timeline'   && renderTimeline()}
         {activeTab === 'actions'    && renderActions()}
         {activeTab === 'documents'  && renderDocuments()}
+        {activeTab === 'satellite'  && renderSatellite()}
       </div>
     </div>
   )

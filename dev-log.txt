@@ -1,0 +1,117 @@
+
+> vantis@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1919ms
+ ○ Compiling / ...
+ ✓ Compiled / in 3s (2444 modules)
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET / 200 in 3421ms
+ ✓ Compiled in 430ms (1215 modules)
+ ✓ Compiled in 110ms (1201 modules)
+ ✓ Compiled in 1181ms (1215 modules)
+ ✓ Compiled in 368ms (1215 modules)
+ ✓ Compiled in 432ms (1215 modules)
+ ✓ Compiled in 237ms (1215 modules)
+ ✓ Compiled in 345ms (1215 modules)
+ ✓ Compiled in 625ms (1215 modules)
+ ✓ Compiled in 351ms (1215 modules)
+ ✓ Compiled in 237ms (1215 modules)
+ ✓ Compiled in 392ms (1215 modules)
+ ✓ Compiled in 438ms (1215 modules)
+ ✓ Compiled in 550ms (1215 modules)
+ ✓ Compiled in 242ms (1215 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 676ms (1229 modules)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Vantis Govern Demo\vantis\.next\server\webpack-runtime.js:33:42)
+digest: "255246592"
+TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Vantis Govern Demo\vantis\.next\server\webpack-runtime.js:33:42)
+    at require (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:40:20064)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108376
+    at ea (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108583)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:110813
+    at Object._fromJSON (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:111370)
+    at JSON.parse (<anonymous>)
+    at ec (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:109078)
+    at eo (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108123)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115291
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115308
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115341
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115358
+    at t (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115581)
+ ⨯ TypeError: __webpack_modules__[moduleId] is not a function
+    at Object.__webpack_require__ [as require] (D:\Vantis Govern Demo\vantis\.next\server\webpack-runtime.js:33:42)
+    at require (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:40:20064)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108376
+    at ea (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108583)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:110813
+    at Object._fromJSON (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:111370)
+    at JSON.parse (<anonymous>)
+    at ec (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:109078)
+    at eo (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:108123)
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115291
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115308
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115341
+    at D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115358
+    at t (D:\Vantis Govern Demo\vantis\node_modules\next\dist\compiled\next-server\app-page.runtime.dev.js:35:115581) {
+  page: '/'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 1862ms (2670 modules)
+ GET / 500 in 3162ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 703ms (2673 modules)
+ GET / 404 in 907ms
+ ✓ Compiled in 943ms (1401 modules)
+ ✓ Compiled in 334ms (1401 modules)
+ ✓ Compiled in 306ms (1401 modules)
+ ✓ Compiled in 273ms (916 modules)
+ ✓ Compiled in 198ms (49 modules)
+ ✓ Compiled in 472ms (916 modules)
+ ✓ Compiled in 271ms (916 modules)
+ ✓ Compiled in 332ms (916 modules)
+ ✓ Compiled in 290ms (916 modules)
+ ✓ Compiled in 260ms (916 modules)
+ ✓ Compiled in 291ms (916 modules)
+ ✓ Compiled in 382ms (916 modules)
+ ✓ Compiled in 269ms (916 modules)
+ ✓ Compiled in 134ms (916 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 1274ms (1679 modules)
+ GET / 200 in 1703ms
+ GET / 200 in 66ms
+ ✓ Compiled /_not-found in 318ms (1668 modules)
+ GET /_next/static/css/app/layout.css?v=1782239646701 404 in 605ms
+ GET /_next/static/chunks/main-app.js?v=1782239646701 404 in 594ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 594ms
+ GET /_next/static/chunks/app/error.js 404 in 590ms
+ GET /_next/static/chunks/app/global-error.js 404 in 301ms
+ ✓ Compiled /govern in 350ms (1719 modules)
+ GET /govern/ 200 in 440ms
+ GET /_next/static/css/app/layout.css?v=1782239668602 404 in 20ms
+ GET /_next/static/chunks/main-app.js?v=1782239668602 404 in 21ms
+ GET /_next/static/chunks/app-pages-internals.js 404 in 21ms
+ GET /_next/static/chunks/app/error.js 404 in 20ms
+ GET /_next/static/chunks/app/global-error.js 404 in 13ms
+ ✓ Compiled in 457ms (992 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'D:\Vantis Govern Demo\vantis\.next\cache\webpack\client-development\1.pack.gz_' -> 'D:\Vantis Govern Demo\vantis\.next\cache\webpack\client-development\1.pack.gz'
+ ✓ Compiled in 322ms (943 modules)
+ ✓ Compiled in 332ms (943 modules)
+ ✓ Compiled in 269ms (943 modules)
+ ✓ Compiled in 242ms (943 modules)
+ ✓ Compiled in 311ms (943 modules)
+ ✓ Compiled in 373ms (943 modules)
+ ✓ Compiled in 194ms (940 modules)
+ ✓ Compiled in 343ms (940 modules)
+ ✓ Compiled in 362ms (940 modules)
+ ✓ Compiled in 796ms (975 modules)

@@ -270,6 +270,25 @@ export default function LendProjectContent({ id }: { id: string }) {
             </p>
             <FlagTimeline />
           </div>
+
+          {/* Predictive model panel */}
+          <div className="bg-surface border border-border rounded-sm p-5 mt-5 mb-1">
+            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Predictive Model · DCCO Slip Probability</div>
+            <div className="grid grid-cols-2 gap-6 mt-4">
+              <div className="text-center p-4 bg-red/6 border border-red/20 rounded-sm">
+                <div className="font-syne text-5xl text-red font-bold">71%</div>
+                <div className="text-[10px] font-mono text-gray mt-2">P(slip DCCO within 6 months)</div>
+              </div>
+              <div className="text-center p-4 bg-red/6 border border-red/20 rounded-sm">
+                <div className="font-syne text-5xl text-red font-bold">89%</div>
+                <div className="text-[10px] font-mono text-gray mt-2">P(slip DCCO within 12 months)</div>
+              </div>
+            </div>
+            <p className="text-gray text-xs mt-4 leading-relaxed">
+              Vantis survival model trained on 234 resolved Karnataka projects (2016–2023).{' '}
+              <Link href="/lend/models" className="text-gold hover:underline">Full model →</Link>
+            </p>
+          </div>
         </>
       ) : (
         <div className="bg-surface border border-border rounded-sm p-5 mb-6">

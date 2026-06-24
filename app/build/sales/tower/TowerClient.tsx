@@ -1,0 +1,505 @@
+'use client'
+
+import { useState, useRef, useMemo } from 'react'
+import { Canvas, useFrame } from '@react-three/fiber'
+import { OrbitControls } from '@react-three/drei'
+import * as THREE from 'three'
+import { UNITS, type Unit, type UnitStatus } from '@/lib/sales/units'
+import Link from 'next/link'
+import { ArrowLeft, LayoutGrid, Box, CheckCircle2, AlertTriangle, X } from 'lucide-react'
+
+// ── colours per status ──────────────────────────────────────────────────────
+const STATUS_COLOR: Record<UnitStatus, string> = {
+  available: '#1A1A28',
+  held:      '#8B7035',
+  booked:    '#2D5A3D',
+  sold:      '#2A2A3E',
+}
+const STATUS_EMISSIVE: Record<UnitStatus, string> = {
+  available: '#0A0A1A',
+  held:      '#C9A84C',
+  booked:    '#3A7A4E',
+  sold:      '#3A3A5A',
+}
+
+// ── individual unit box ──────────────────────────────────────────────────────
+interface UnitBoxProps {
+  unit: Unit
+  isSelected: boolean
+  isHighlighted: boolean
+  onClick: () => void
+}
+
+function UnitBox({ unit, isSelected, isHighlighted, onClick }: UnitBoxProps) {
+  const meshRef = useRef<THREE.Mesh>(null!)
+  const [hovered, setHovered] = useState(false)
+
+  const color =
+    isSelected || isHighlighted ? '#C9A84C' : STATUS_COLOR[unit.status]
+  const emissive =
+    isSelected    ? '#8B5A1A' :
+    isHighlighted ? '#6B4A0A' :
+    hovered       ? '#2A2A3A' :
+    STATUS_EMISSIVE[unit.status]
+
+  const x = (unit.unitOnFloor - 4) * 1.0
+  const y = unit.floor * 0.5
+  const z = 0
+
+  return (
+    <mesh
+      ref={meshRef}
+      position={[x, y, z]}
+      onClick={(e) => { e.stopPropagation(); onClick() }}
+      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer' }}
+      onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto' }}
+    >
+      <boxGeometry args={[0.9, 0.4, 0.9]} />
+      <meshStandardMaterial
+        color={color}
+        emissive={emissive}
+        emissiveIntensity={isSelected ? 0.5 : hovered ? 0.3 : 0.1}
+      />
+    </mesh>
+  )
+}
+
+// ── auto-rotating wrapper ────────────────────────────────────────────────────
+function TowerGroup({ children }: { children: React.ReactNode }) {
+  const groupRef = useRef<THREE.Group>(null!)
+  useFrame((_, delta) => {
+    if (groupRef.current) groupRef.current.rotation.y += delta * 0.15
+  })
+  return <group ref={groupRef}>{children}</group>
+}
+
+// ── 3D scene ─────────────────────────────────────────────────────────────────
+interface TowerSceneProps {
+  selectedId: string | null
+  highlightIds: Set<string>
+  onSelect: (unit: Unit) => void
+}
+
+function TowerScene({ selectedId, highlightIds, onSelect }: TowerSceneProps) {
+  return (
+    <Canvas camera={{ position: [8, 6, 8], fov: 45 }} style={{ background: '#0A0A0F' }}>
+      <ambientLight intensity={0.4} />
+      <pointLight position={[10, 20, 10]} intensity={0.8} />
+      <pointLight position={[-10, 10, -10]} intensity={0.3} color="#C9A84C" />
+      <OrbitControls enablePan={false} minDistance={5} maxDistance={25} />
+      <TowerGroup>
+        {UNITS.map(unit => (
+          <UnitBox
+            key={unit.id}
+            unit={unit}
+            isSelected={unit.id === selectedId}
+            isHighlighted={highlightIds.size > 0 && highlightIds.has(unit.id)}
+            onClick={() => onSelect(unit)}
+          />
+        ))}
+      </TowerGroup>
+    </Canvas>
+  )
+}
+
+// ── gov-truth badge ──────────────────────────────────────────────────────────
+function GovBadge({ label, value, pass }: { label: string; value: string; pass: boolean }) {
+  return (
+    <div
+      className={`flex items-center justify-between px-3 py-2 rounded-sm border ${
+        pass ? 'border-green/30 bg-green/[0.06]' : 'border-red/30 bg-red/[0.06]'
+      }`}
+    >
+      <span className="text-[10px] font-mono text-gray uppercase">{label}</span>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[10px] font-mono" style={{ color: pass ? '#2ECC71' : '#E74C3C' }}>
+          {value}
+        </span>
+        {pass
+          ? <CheckCircle2 className="w-3.5 h-3.5 text-green" />
+          : <AlertTriangle className="w-3.5 h-3.5 text-red" />
+        }
+      </div>
+    </div>
+  )
+}
+
+// ── status chip ──────────────────────────────────────────────────────────────
+function StatusChip({ status }: { status: UnitStatus }) {
+  const cfg = {
+    available: { label: 'Available', color: 'text-gray-light', bg: 'bg-surface2',  border: 'border-border' },
+    held:      { label: 'Held',      color: 'text-gold',       bg: 'bg-gold/10',   border: 'border-gold/30' },
+    booked:    { label: 'Booked',    color: 'text-green',      bg: 'bg-green/10',  border: 'border-green/30' },
+    sold:      { label: 'Sold',      color: 'text-gray',       bg: 'bg-surface2',  border: 'border-border' },
+  }[status]
+  return (
+    <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${cfg.color} ${cfg.bg} ${cfg.border}`}>
+      {cfg.label}
+    </span>
+  )
+}
+
+// ── main client component ────────────────────────────────────────────────────
+export default function TowerClient() {
+  const [view, setView]                 = useState<'3d' | 'list'>('3d')
+  const [selected, setSelected]         = useState<Unit | null>(null)
+  const [highlightIds, setHighlightIds] = useState<Set<string>>(new Set())
+  const [aiQuery, setAiQuery]           = useState('')
+  const [aiRunning, setAiRunning]       = useState(false)
+  const [aiResult, setAiResult]         = useState<string | null>(null)
+  const [statusFilter, setStatusFilter] = useState<UnitStatus | 'all'>('all')
+  const [typeFilter, setTypeFilter]     = useState<'all' | '1BHK' | '2BHK' | '3BHK'>('all')
+
+  const filtered = useMemo(
+    () =>
+      UNITS.filter(
+        u =>
+          (statusFilter === 'all' || u.status === statusFilter) &&
+          (typeFilter === 'all' || u.type === typeFilter),
+      ),
+    [statusFilter, typeFilter],
+  )
+
+  const stats = useMemo(
+    () => ({
+      total:     UNITS.length,
+      available: UNITS.filter(u => u.status === 'available').length,
+      held:      UNITS.filter(u => u.status === 'held').length,
+      booked:    UNITS.filter(u => u.status === 'booked').length,
+      sold:      UNITS.filter(u => u.status === 'sold').length,
+    }),
+    [],
+  )
+
+  function handleAiQuery() {
+    if (!aiQuery.trim()) return
+    setAiRunning(true)
+    setHighlightIds(new Set())
+    setAiResult(null)
+
+    setTimeout(() => {
+      const q = aiQuery.toLowerCase()
+      let matched: Unit[] = []
+      let explanation = ''
+
+      if (q.includes('unsold') && q.includes('3bhk') && q.includes('floor')) {
+        matched = UNITS.filter(
+          u =>
+            u.status === 'available' &&
+            u.type === '3BHK' &&
+            u.floor > 10 &&
+            u.govTruth.title === 'clean' &&
+            !u.collectionStage?.includes('Overdue'),
+        )
+        explanation = `Found ${matched.length} unsold 3BHK units above floor 10 with clean title and no overdue collections.`
+      } else if (
+        q.includes('highest') &&
+        (q.includes('price') || q.includes('registry'))
+      ) {
+        const sorted = [...UNITS]
+          .filter(u => u.status === 'available')
+          .sort((a, b) => b.price - a.price)
+          .slice(0, 5)
+        matched = sorted
+        explanation = `Top ${matched.length} available units by registry-backed price. Highest: ${sorted[0]?.id} at ₹${((sorted[0]?.price ?? 0) / 100000).toFixed(1)}L.`
+      } else if (
+        q.includes('litigation') ||
+        q.includes('rera') ||
+        q.includes('flag')
+      ) {
+        matched = UNITS.filter(
+          u =>
+            u.govTruth.title === 'flag' ||
+            u.govTruth.rera === 'pending' ||
+            u.govTruth.litigation === 'active',
+        )
+        explanation = `Found ${matched.length} unit(s) with government registry flags. Review before processing payment.`
+      } else {
+        matched = UNITS.filter(u => u.status === 'available').slice(0, 8)
+        explanation = `Showing ${matched.length} available units. Try: "unsold 3BHK above floor 10" or "flag anything with litigation".`
+      }
+
+      setHighlightIds(new Set(matched.map(u => u.id)))
+      setAiResult(explanation)
+      setAiRunning(false)
+    }, 1200)
+  }
+
+  const fmtPrice = (p: number) => `₹${(p / 100000).toFixed(1)}L`
+
+  return (
+    <div className="min-h-screen bg-background text-off-white">
+      {/* Top bar */}
+      <div className="border-b border-border bg-surface px-5 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Link href="/build" className="text-gray hover:text-gold transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <span className="font-syne text-base text-off-white">Divya Villas · Sales Tower</span>
+          <span className="text-[9px] font-mono text-gray bg-surface2 border border-border px-2 py-0.5 rounded-sm">
+            73 units
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          {(['3d', 'list'] as const).map(v => (
+            <button
+              key={v}
+              onClick={() => setView(v)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-sm border transition-colors ${
+                view === v
+                  ? 'border-gold text-gold bg-gold/10'
+                  : 'border-border text-gray hover:border-gold/40'
+              }`}
+            >
+              {v === '3d' ? <Box className="w-3.5 h-3.5" /> : <LayoutGrid className="w-3.5 h-3.5" />}
+              {v.toUpperCase()}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* KPI strip */}
+      <div className="grid grid-cols-4 gap-px border-b border-border bg-border">
+        {[
+          { label: 'Total Units',  value: stats.total,               color: 'text-off-white' },
+          { label: 'Available',    value: stats.available,           color: 'text-gray-light' },
+          { label: 'Booked/Held',  value: stats.booked + stats.held, color: 'text-gold' },
+          { label: 'Sold',         value: stats.sold,                color: 'text-green' },
+        ].map(k => (
+          <div key={k.label} className="bg-surface px-4 py-3">
+            <div className="text-[9px] font-mono uppercase text-gray mb-0.5">{k.label}</div>
+            <div className={`font-syne text-2xl font-bold ${k.color}`}>{k.value}</div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex h-[calc(100vh-130px)]">
+        {/* Main view */}
+        <div className="flex-1 flex flex-col min-w-0">
+          {/* AI query bar */}
+          <div className="flex gap-2 px-4 pt-3 pb-2 border-b border-border bg-surface/50">
+            <input
+              value={aiQuery}
+              onChange={e => setAiQuery(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleAiQuery()}
+              placeholder="Show me unsold 3BHK above floor 10 with clean title… or flag anything with litigation"
+              className="flex-1 bg-surface2 border border-border rounded-sm px-3 py-2 text-xs text-off-white placeholder-gray focus:outline-none focus:border-gold/50 transition-colors"
+            />
+            <button
+              onClick={handleAiQuery}
+              disabled={aiRunning}
+              className="px-4 py-2 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 transition-colors disabled:opacity-40"
+            >
+              {aiRunning ? '...' : 'Query'}
+            </button>
+            {highlightIds.size > 0 && (
+              <button
+                onClick={() => { setHighlightIds(new Set()); setAiResult(null) }}
+                className="px-2 py-2 border border-border text-gray rounded-sm hover:text-off-white transition-colors"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {aiResult && (
+            <div className="px-4 py-2 bg-gold/[0.08] border-b border-gold/20 text-xs text-gold-light font-mono">
+              {aiResult} · {highlightIds.size} unit{highlightIds.size !== 1 ? 's' : ''} highlighted
+            </div>
+          )}
+
+          {/* 3D or list */}
+          {view === '3d' ? (
+            <div className="flex-1">
+              <TowerScene
+                selectedId={selected?.id ?? null}
+                highlightIds={highlightIds}
+                onSelect={setSelected}
+              />
+            </div>
+          ) : (
+            <div className="flex-1 overflow-y-auto">
+              {/* Filters */}
+              <div className="flex gap-2 px-4 py-3 border-b border-border bg-surface/30 flex-wrap">
+                {(['all', 'available', 'held', 'booked', 'sold'] as const).map(s => (
+                  <button
+                    key={s}
+                    onClick={() => setStatusFilter(s)}
+                    className={`px-3 py-1 text-[10px] font-mono uppercase rounded-sm border transition-colors ${
+                      statusFilter === s
+                        ? 'border-gold text-gold bg-gold/10'
+                        : 'border-border text-gray hover:border-gold/30'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+                <div className="ml-auto flex gap-2">
+                  {(['all', '1BHK', '2BHK', '3BHK'] as const).map(t => (
+                    <button
+                      key={t}
+                      onClick={() => setTypeFilter(t)}
+                      className={`px-3 py-1 text-[10px] font-mono uppercase rounded-sm border transition-colors ${
+                        typeFilter === t
+                          ? 'border-gold text-gold bg-gold/10'
+                          : 'border-border text-gray hover:border-gold/30'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <table className="w-full">
+                <thead className="sticky top-0 bg-surface2 border-b border-border">
+                  <tr>
+                    {['Unit', 'Floor', 'Type', 'Sq Ft', 'Price', 'Status', 'Buyer', 'Collection', 'Gov Truth'].map(h => (
+                      <th key={h} className="px-4 py-2.5 text-left text-[9px] font-mono uppercase tracking-[0.1em] text-gray">
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filtered.map(unit => {
+                    const allClean =
+                      unit.govTruth.title === 'clean' &&
+                      unit.govTruth.rera === 'registered' &&
+                      unit.govTruth.litigation === 'none'
+                    return (
+                      <tr
+                        key={unit.id}
+                        onClick={() => setSelected(unit)}
+                        className={`border-b border-border/40 last:border-0 cursor-pointer transition-colors ${
+                          selected?.id === unit.id ? 'bg-gold/[0.08]' : 'hover:bg-surface2/60'
+                        }`}
+                      >
+                        <td className="px-4 py-2.5 text-xs font-mono text-gold">{unit.id}</td>
+                        <td className="px-4 py-2.5 text-xs font-mono text-off-white">{unit.floor}</td>
+                        <td className="px-4 py-2.5 text-xs font-mono text-off-white">{unit.type}</td>
+                        <td className="px-4 py-2.5 text-xs font-mono text-gray">{unit.sqft.toLocaleString()}</td>
+                        <td className="px-4 py-2.5 text-xs font-mono text-off-white">{fmtPrice(unit.price)}</td>
+                        <td className="px-4 py-2.5"><StatusChip status={unit.status} /></td>
+                        <td className="px-4 py-2.5 text-xs text-gray">{unit.buyer ?? '—'}</td>
+                        <td
+                          className="px-4 py-2.5 text-xs"
+                          style={{
+                            color: unit.collectionStage?.includes('Overdue') ? '#E74C3C' : '#6B6B88',
+                          }}
+                        >
+                          {unit.collectionStage ?? '—'}
+                        </td>
+                        <td className="px-4 py-2.5">
+                          {allClean
+                            ? <CheckCircle2 className="w-3.5 h-3.5 text-green" />
+                            : <AlertTriangle className="w-3.5 h-3.5 text-amber" />
+                          }
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Right panel — unit detail */}
+        {selected && (
+          <div className="w-72 border-l border-border bg-surface flex flex-col overflow-y-auto shrink-0">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+              <span className="font-syne text-base text-off-white">{selected.id}</span>
+              <button
+                onClick={() => setSelected(null)}
+                className="text-gray hover:text-off-white transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Layer 1: Operating record */}
+            <div className="px-4 py-4 border-b border-border">
+              <div className="text-[9px] font-mono uppercase text-gray mb-3">① Operating Record</div>
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between">
+                  <span className="text-gray">Status</span>
+                  <StatusChip status={selected.status} />
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray">Type</span>
+                  <span className="text-off-white font-mono">{selected.type} · {selected.sqft} sqft</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray">Price</span>
+                  <span className="text-off-white font-mono font-bold">{fmtPrice(selected.price)}</span>
+                </div>
+                {selected.buyer && (
+                  <div className="flex justify-between">
+                    <span className="text-gray">Buyer</span>
+                    <span className="text-off-white">{selected.buyer}</span>
+                  </div>
+                )}
+                {selected.collectionStage && (
+                  <div className="flex justify-between">
+                    <span className="text-gray">Collection</span>
+                    <span
+                      style={{
+                        color: selected.collectionStage.includes('Overdue') ? '#E74C3C' : '#2ECC71',
+                      }}
+                    >
+                      {selected.collectionStage}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Layer 2: Government truth */}
+            <div className="px-4 py-4 border-b border-border">
+              <div className="text-[9px] font-mono uppercase text-gray mb-3">② Government Truth</div>
+              <div className="space-y-2">
+                <GovBadge
+                  label="Title (Kaveri)"
+                  value={selected.govTruth.title === 'clean' ? 'Clean' : 'Flag — see EC'}
+                  pass={selected.govTruth.title === 'clean'}
+                />
+                <GovBadge
+                  label="RERA (K-RERA)"
+                  value={selected.govTruth.rera === 'registered' ? 'Registered' : 'Pending'}
+                  pass={selected.govTruth.rera === 'registered'}
+                />
+                <GovBadge
+                  label="Litigation (eCourts)"
+                  value={selected.govTruth.litigation === 'none' ? 'None found' : 'Active case'}
+                  pass={selected.govTruth.litigation === 'none'}
+                />
+              </div>
+              <p className="text-[9px] text-gray mt-3 leading-relaxed italic">
+                No competitor&apos;s 3D viewer can show this — none are wired to the registries.
+              </p>
+            </div>
+
+            {/* Layer 3: AI result */}
+            <div className="px-4 py-4">
+              <div className="text-[9px] font-mono uppercase text-gray mb-3">③ AI Query Result</div>
+              {aiResult && highlightIds.has(selected.id) ? (
+                <div className="text-xs text-gold leading-relaxed">
+                  This unit matches your query: &quot;{aiQuery}&quot;
+                </div>
+              ) : aiResult && !highlightIds.has(selected.id) ? (
+                <div className="text-xs text-gray leading-relaxed">
+                  This unit did not match the last query.
+                </div>
+              ) : (
+                <div className="text-xs text-gray leading-relaxed">
+                  Run a query in the search bar above to see why this unit was or wasn&apos;t included.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

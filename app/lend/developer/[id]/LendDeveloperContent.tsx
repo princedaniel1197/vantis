@@ -292,6 +292,51 @@ export default function LendDeveloperContent({ id }: { id: string }) {
 
       {/* Developer cascade (Ozone only) */}
       {isOzone && <CascadeView />}
+
+      {/* SHAP explainability panel (Ozone only) */}
+      {isOzone && (
+        <div className="bg-surface border border-border rounded-sm p-5 mt-5">
+          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">Score Explainability · RBI Model-Risk Compliant</div>
+
+          {[
+            { factor: 'QPR Non-Compliance',       impact: -62, detail: '3 missed filings in last 8 quarters' },
+            { factor: 'Escrow Deficit',            impact: -48, detail: 'Avg 58% vs 70% mandate across book' },
+            { factor: 'Litigation Exposure',       impact: -31, detail: '3 active cases, 1 NCLT admission' },
+            { factor: 'Project Completion Rate',   impact: +18, detail: '2 of 6 historical projects delivered on time' },
+            { factor: 'Years Active (Track Record)', impact: +15, detail: '14 years in Karnataka market' },
+          ].map((f, i) => {
+            const isPos = f.impact > 0
+            const color = isPos ? '#2ECC71' : '#E74C3C'
+            return (
+              <div key={i} className="mb-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-xs text-off-white">{f.factor}</span>
+                  <span className="text-xs font-mono font-bold" style={{ color }}>{f.impact > 0 ? '+' : ''}{f.impact} pts</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-1 bg-border rounded-full overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${Math.abs(f.impact)}%`, background: color }} />
+                  </div>
+                </div>
+                <div className="text-[9px] text-gray mt-0.5">{f.detail}</div>
+              </div>
+            )
+          })}
+
+          <div className="mt-5 p-3 bg-gold/8 border border-gold/25 rounded-sm">
+            <p className="text-gold text-xs font-medium mb-1">Improvable Path to Score 480</p>
+            <p className="text-gray-light text-xs leading-relaxed">
+              File overdue Q3 2023 QPR with K-RERA <span className="text-gold font-mono">+28 pts</span> ·{' '}
+              Resolve 1 eCourts case <span className="text-gold font-mono">+20 pts</span> ·{' '}
+              Maintain escrow ≥70% for 2 consecutive quarters <span className="text-gold font-mono">+20 pts</span>
+            </p>
+          </div>
+
+          <p className="text-gray text-[10px] mt-3 font-mono leading-relaxed border-t border-border pt-3">
+            ಸ್ಕೋರ್ 412: ಮೂರು ಪ್ರಮುಖ ನ್ಯೂನತೆಗಳು — QPR ವಿಳಂಬ, ಎಸ್ಕ್ರೋ ಕೊರತೆ, ಮತ್ತು ನ್ಯಾಯಾಲಯ ಪ್ರಕರಣ.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

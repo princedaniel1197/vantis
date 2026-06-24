@@ -6,20 +6,59 @@ import Link from 'next/link'
 import {
   Building2, Search, CreditCard, Users, ShieldCheck, Bell, FileText,
   BarChart2, LogOut, TrendingDown, ChevronDown, Check, X, Menu,
+  Shield, MessageSquare, Camera, Scale, Network, Store, Home, Plug, Award,
 } from 'lucide-react'
 import { LendContextProvider, useLendContext } from './LendContext'
 import { PERSONAS, type PersonaKey } from '@/lib/lend-personas'
 import LendChatbot from '@/components/lend/LendChatbot'
 
-const NAV_ITEMS = [
-  { href: '/lend',                       label: 'Portfolio',          icon: Building2,   exact: true  },
-  { href: '/lend/project/ozone-urbana',  label: 'Project Drill-down', icon: Search,      exact: false },
-  { href: '/lend/tranche/ozone-urbana',  label: 'Tranche Control',    icon: CreditCard,  exact: false },
-  { href: '/lend/developer/ozone-group', label: 'Developer Risk',     icon: Users,       exact: false },
-  { href: '/lend/verify',                label: 'Title Verification', icon: ShieldCheck, exact: true  },
-  { href: '/lend/alerts',                label: 'Alerts',             icon: Bell,        exact: true  },
-  { href: '/lend/compliance',            label: 'RBI Compliance',     icon: FileText,    exact: true  },
-  { href: '/lend/stress',                label: 'Stress Test',        icon: BarChart2,   exact: true  },
+type NavItem  = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; exact: boolean }
+type NavGroup = { label: string; items: NavItem[] }
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: 'MONITOR',
+    items: [
+      { href: '/lend',                       label: 'Portfolio',          icon: Building2,     exact: true  },
+      { href: '/lend/project/ozone-urbana',  label: 'Project Drill-down', icon: Search,        exact: false },
+      { href: '/lend/tranche/ozone-urbana',  label: 'Tranche Control',    icon: CreditCard,    exact: false },
+      { href: '/lend/alerts',                label: 'Alerts',             icon: Bell,          exact: true  },
+      { href: '/lend/covenants',             label: 'Covenants',          icon: Shield,        exact: true  },
+      { href: '/lend/copilot',               label: 'RM Copilot',         icon: MessageSquare, exact: true  },
+    ],
+  },
+  {
+    label: 'VERIFY',
+    items: [
+      { href: '/lend/verify-progress', label: 'CV Progress',        icon: Camera,      exact: true },
+      { href: '/lend/verify',          label: 'Title & Collateral', icon: ShieldCheck, exact: true },
+      { href: '/lend/litigation',      label: 'Litigation',         icon: Scale,       exact: true },
+    ],
+  },
+  {
+    label: 'SCORE',
+    items: [
+      { href: '/lend/developer/ozone-group', label: 'Developer Score',   icon: Users,        exact: false },
+      { href: '/lend/network',               label: 'Network Graph',     icon: Network,      exact: true  },
+      { href: '/lend/models',                label: 'Predictive Models', icon: TrendingDown, exact: true  },
+    ],
+  },
+  {
+    label: 'PLATFORM',
+    items: [
+      { href: '/lend/marketplace',  label: 'Marketplace',   icon: Store,    exact: true },
+      { href: '/lend/buyer-check',  label: 'Buyer Check',   icon: Home,     exact: true },
+      { href: '/lend/integrations', label: 'Integrations',  icon: Plug,     exact: true },
+      { href: '/lend/assurance',    label: 'Assurance',     icon: Award,    exact: true },
+    ],
+  },
+  {
+    label: 'ANALYTICS',
+    items: [
+      { href: '/lend/compliance', label: 'RBI Compliance', icon: FileText,  exact: true },
+      { href: '/lend/stress',     label: 'Stress Test',    icon: BarChart2, exact: true },
+    ],
+  },
 ]
 
 const CREDENTIAL = { email: 'credit@kaverihfc.in', password: 'demo' }
@@ -174,30 +213,33 @@ function LendSidebar({ onLogout, onClose }: { onLogout: () => void; onClose?: ()
         )}
       </div>
 
-      <div className="px-4 py-2 border-b border-border shrink-0">
-        <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray/60">Modules</div>
-      </div>
-
       <nav className="flex-1 py-1 overflow-y-auto">
-        {NAV_ITEMS.map(({ href, label, icon: Icon, exact }) => {
-          const active = exact ? pathname === href : pathname.startsWith(href)
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onClose}
-              className="flex items-center gap-2.5 px-4 py-2 text-[11px] transition-colors duration-100 relative"
-              style={{
-                color:      active ? '#C9A84C' : '#6B6B88',
-                background: active ? 'rgba(201,168,76,0.07)' : 'transparent',
-              }}
-            >
-              {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gold rounded-r-sm" />}
-              <Icon className="w-3.5 h-3.5 shrink-0" />
-              <span className={active ? 'font-medium' : ''}>{label}</span>
-            </Link>
-          )
-        })}
+        {NAV_GROUPS.map(group => (
+          <div key={group.label}>
+            <div className="px-3 pt-4 pb-1 text-[9px] font-mono uppercase tracking-[0.18em] text-gray/40 select-none">
+              {group.label}
+            </div>
+            {group.items.map(({ href, label, icon: Icon, exact }) => {
+              const active = exact ? pathname === href : pathname.startsWith(href)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className="flex items-center gap-2.5 px-4 py-2 text-[11px] transition-colors duration-100 relative"
+                  style={{
+                    color:      active ? '#C9A84C' : '#6B6B88',
+                    background: active ? 'rgba(201,168,76,0.07)' : 'transparent',
+                  }}
+                >
+                  {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gold rounded-r-sm" />}
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span className={active ? 'font-medium' : ''}>{label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        ))}
       </nav>
 
       <div className="p-4 border-t border-border shrink-0">

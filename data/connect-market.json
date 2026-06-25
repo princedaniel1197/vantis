@@ -1,0 +1,52 @@
+{
+  "last_updated": "2026-06-25",
+  "source": "Kaveri 2.0 Registration Data — Karnataka Government",
+  "micro_markets": [
+    { "id": "whitefield", "label": "Whitefield", "label_kn": "ವೈಟ್‌ಫೀಲ್ಡ್", "zone": "East", "avg_psf": 8240, "inventory": 3420, "absorption_rate": 12.4, "yoy_growth": 14.2 },
+    { "id": "devanahalli", "label": "Devanahalli", "label_kn": "ದೇವನಹಳ್ಳಿ", "zone": "North", "avg_psf": 6180, "inventory": 2890, "absorption_rate": 9.8, "yoy_growth": 18.6 },
+    { "id": "sarjapur", "label": "Sarjapur", "label_kn": "ಸರ್ಜಾಪುರ", "zone": "Southeast", "avg_psf": 7450, "inventory": 4120, "absorption_rate": 11.2, "yoy_growth": 12.8 },
+    { "id": "hebbal", "label": "Hebbal", "label_kn": "ಹೆಬ್ಬಾಳ", "zone": "North", "avg_psf": 9120, "inventory": 1840, "absorption_rate": 8.6, "yoy_growth": 9.4 },
+    { "id": "kr_puram", "label": "KR Puram", "label_kn": "ಕೆ.ಆರ್. ಪುರಂ", "zone": "East", "avg_psf": 5640, "inventory": 2260, "absorption_rate": 14.8, "yoy_growth": 8.2 }
+  ],
+  "price_trend": [
+    { "month": "Jan '25", "whitefield": 7520, "devanahalli": 5640, "sarjapur": 6820, "hebbal": 8640, "kr_puram": 5180 },
+    { "month": "Feb '25", "whitefield": 7620, "devanahalli": 5710, "sarjapur": 6890, "hebbal": 8720, "kr_puram": 5210 },
+    { "month": "Mar '25", "whitefield": 7750, "devanahalli": 5790, "sarjapur": 6980, "hebbal": 8800, "kr_puram": 5280 },
+    { "month": "Apr '25", "whitefield": 7840, "devanahalli": 5880, "sarjapur": 7080, "hebbal": 8840, "kr_puram": 5310 },
+    { "month": "May '25", "whitefield": 7920, "devanahalli": 5960, "sarjapur": 7140, "hebbal": 8920, "kr_puram": 5380 },
+    { "month": "Jun '25", "whitefield": 8020, "devanahalli": 6040, "sarjapur": 7220, "hebbal": 8980, "kr_puram": 5420 },
+    { "month": "Jul '25", "whitefield": 8080, "devanahalli": 6110, "sarjapur": 7280, "hebbal": 9020, "kr_puram": 5480 },
+    { "month": "Aug '25", "whitefield": 8150, "devanahalli": 6180, "sarjapur": 7360, "hebbal": 9060, "kr_puram": 5510 },
+    { "month": "Sep '25", "whitefield": 8220, "devanahalli": 6240, "sarjapur": 7420, "hebbal": 9100, "kr_puram": 5540 },
+    { "month": "Oct '25", "whitefield": 8280, "devanahalli": 6300, "sarjapur": 7470, "hebbal": 9140, "kr_puram": 5580 },
+    { "month": "Nov '25", "whitefield": 8340, "devanahalli": 6350, "sarjapur": 7510, "hebbal": 9160, "kr_puram": 5610 },
+    { "month": "Dec '25", "whitefield": 8420, "devanahalli": 6420, "sarjapur": 7560, "hebbal": 9200, "kr_puram": 5640 }
+  ],
+  "config_demand": {
+    "whitefield": { "1BHK": 45, "2BHK": 182, "3BHK": 224, "4BHK": 67 },
+    "devanahalli": { "1BHK": 12, "2BHK": 89, "3BHK": 178, "4BHK": 95 },
+    "sarjapur": { "1BHK": 28, "2BHK": 156, "3BHK": 198, "4BHK": 42 },
+    "hebbal": { "1BHK": 8, "2BHK": 112, "3BHK": 145, "4BHK": 38 },
+    "kr_puram": { "1BHK": 98, "2BHK": 234, "3BHK": 112, "4BHK": 18 }
+  },
+  "absorption_quarterly": [
+    { "quarter": "Q1 '25", "whitefield": 288, "devanahalli": 198, "sarjapur": 312, "hebbal": 142, "kr_puram": 348 },
+    { "quarter": "Q2 '25", "whitefield": 312, "devanahalli": 218, "sarjapur": 338, "hebbal": 156, "kr_puram": 382 },
+    { "quarter": "Q3 '25", "whitefield": 298, "devanahalli": 234, "sarjapur": 352, "hebbal": 148, "kr_puram": 364 },
+    { "quarter": "Q4 '25", "whitefield": 346, "devanahalli": 258, "sarjapur": 378, "hebbal": 168, "kr_puram": 412 }
+  ],
+  "kaveri_vs_asking": {
+    "whitefield": { "avg_asking_psf": 9180, "avg_kaveri_psf": 8240, "gap_pct": 10.2 },
+    "devanahalli": { "avg_asking_psf": 6820, "avg_kaveri_psf": 6180, "gap_pct": 9.4 },
+    "sarjapur": { "avg_asking_psf": 8240, "avg_kaveri_psf": 7450, "gap_pct": 9.6 },
+    "hebbal": { "avg_asking_psf": 9980, "avg_kaveri_psf": 9120, "gap_pct": 8.6 },
+    "kr_puram": { "avg_asking_psf": 6180, "avg_kaveri_psf": 5640, "gap_pct": 8.7 }
+  },
+  "top_deals_2025": [
+    { "project": "Sobha Dream Gardens", "market": "Whitefield", "config": "4BHK", "kaveri_price_cr": 2.18, "date": "Nov 2025" },
+    { "project": "Century Brindavan", "market": "Hebbal", "config": "3BHK", "kaveri_price_cr": 1.55, "date": "Nov 2025" },
+    { "project": "Mahindra Eden", "market": "Sarjapur", "config": "3BHK", "kaveri_price_cr": 1.34, "date": "Sep 2025" },
+    { "project": "Aero Township", "market": "Devanahalli", "config": "4BHK", "kaveri_price_cr": 1.81, "date": "Sep 2025" },
+    { "project": "Divya Villas", "market": "Mysuru", "config": "3BHK", "kaveri_price_cr": 1.08, "date": "Nov 2025" }
+  ]
+}

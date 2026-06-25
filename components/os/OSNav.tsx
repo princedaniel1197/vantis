@@ -11,6 +11,7 @@ import {
   Map, Calculator, TrendingUp, Scale,
   ShieldCheck, Award,
   Box, MapPin, Activity, BarChart2, Database,
+  Brain,
   Sun, Moon, MessageSquare, ChevronDown, Menu, X
 } from 'lucide-react'
 import { useTheme } from '@/app/context/ThemeContext'
@@ -72,6 +73,14 @@ const NAV_GROUPS = [
     label: 'Data Room',
     items: [
       { label: 'Lender Data Room', path: '/dataroom', icon: Database, desc: 'Verified govt package → lender in 4s' },
+    ]
+  },
+  {
+    label: 'Connect',
+    items: [
+      { label: 'AI Match',         path: '/connect',        icon: Brain,       desc: 'Buyer-property AI matching' },
+      { label: 'Lead Pipeline',    path: '/connect/leads',  icon: Users,       desc: 'WhatsApp CRM, junk filter' },
+      { label: 'Market Truth',     path: '/connect/market', icon: TrendingUp,  desc: 'Kaveri prices by micro-market' },
     ]
   },
 ]

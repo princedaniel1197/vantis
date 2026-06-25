@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, TrendingDown, Database, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, Database, Brain, ChevronRight, Globe } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -64,6 +64,21 @@ const PRODUCTS = [
     bgIdle: 'rgba(201,168,76,0.03)',
     bgHover: 'rgba(201,168,76,0.08)',
     cta: 'Open Data Room',
+  },
+  {
+    id: 'connect',
+    tag: 'For Brokers',
+    name: 'Vantis Connect',
+    desc: "The broker's brain — AI buyer-property matching, WhatsApp-native CRM, and Kaveri market truth. Built for Karnataka's 50,000+ brokers.",
+    href: '/connect',
+    icon: Brain,
+    features: ['AI Buyer-Property Matching', 'Government-Verified Results', 'WhatsApp Lead Pipeline', 'Real Kaveri Price Intelligence'],
+    accent: '#9B59B6',
+    borderIdle: 'rgba(155,89,182,0.12)',
+    borderHover: 'rgba(155,89,182,0.45)',
+    bgIdle: 'rgba(155,89,182,0.03)',
+    bgHover: 'rgba(155,89,182,0.08)',
+    cta: 'Open Connect',
   },
 ]
 

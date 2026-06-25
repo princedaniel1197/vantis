@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, TrendingDown, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, Database, ChevronRight, Globe } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -50,6 +50,21 @@ const PRODUCTS = [
     bgHover: 'rgba(74,191,191,0.08)',
     cta: 'Enter Lend',
   },
+  {
+    id: 'dataroom',
+    tag: 'Developer → Lender',
+    name: 'Vantis Data Room',
+    desc: 'Verified financing handoff in 4 seconds. RERA, title chain, encumbrance, litigation, escrow — pulled from government sources, shared with your lender in one click.',
+    href: '/dataroom',
+    icon: Database,
+    features: ['Government-Verified Checklist', 'Kaveri Title & EC Check', 'QPR Drone Reconciliation', 'Live API for Bank Systems'],
+    accent: '#C9A84C',
+    borderIdle: 'rgba(201,168,76,0.12)',
+    borderHover: 'rgba(201,168,76,0.45)',
+    bgIdle: 'rgba(201,168,76,0.03)',
+    bgHover: 'rgba(201,168,76,0.08)',
+    cta: 'Open Data Room',
+  },
 ]
 
 export default function HubPage() {
@@ -81,7 +96,7 @@ export default function HubPage() {
       </div>
 
       {/* Product cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem', width: '100%', maxWidth: '1050px', marginBottom: '2rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1rem', width: '100%', maxWidth: '1400px', marginBottom: '2rem' }}>
         {PRODUCTS.map(p => (
           <Link
             key={p.id}
@@ -144,7 +159,7 @@ export default function HubPage() {
 
       {/* Coming soon */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
-        {['Vantis Public Portal', 'Vantis Data Room'].map(name => (
+        {['Vantis Public Portal'].map(name => (
           <div
             key={name}
             style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.875rem', borderRadius: '2px', border: '1px solid #1C1C28' }}

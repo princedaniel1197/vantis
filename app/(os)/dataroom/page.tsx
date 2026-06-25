@@ -210,24 +210,22 @@ export default function DataRoomPage() {
   return (
     <div className="min-h-screen bg-background text-off-white flex flex-col">
 
-      {/* ── top bar ─────────────────────────────────────────────────────── */}
-      <header className="h-12 border-b border-border bg-surface shrink-0 flex items-center px-4 gap-4">
-        <Link href="/build" className="text-[10px] font-mono uppercase tracking-[0.1em] text-gray hover:text-gold transition-colors flex items-center gap-1">
-          <Building2 className="w-3 h-3" /> Build
-        </Link>
-        <div className="flex-1 flex flex-col items-center">
-          <div className="flex items-center gap-2">
-            <Shield className="w-3.5 h-3.5 text-gold" />
-            <span className="font-syne text-sm text-off-white">Vantis Data Room</span>
-            <span className="text-[8px] font-mono uppercase text-gold border border-gold/30 bg-gold/10 px-1.5 py-0.5 rounded-sm tracking-[0.1em]">
-              Verified
-            </span>
-          </div>
-        </div>
-        <Link href="/lend" className="text-[10px] font-mono uppercase tracking-[0.1em] text-gray hover:text-gold transition-colors flex items-center gap-1">
-          Lend <Landmark className="w-3 h-3" />
-        </Link>
-      </header>
+      {/* ── page title ───────────────────────────────────────────────────── */}
+      <div className="px-6 pt-6 pb-0 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-gold" />
+        <span className="font-syne text-lg text-off-white">Vantis Data Room</span>
+        <span className="text-[8px] font-mono uppercase text-gold border border-gold/30 bg-gold/10 px-1.5 py-0.5 rounded-sm tracking-[0.1em]">
+          Verified
+        </span>
+        <span className="ml-auto flex gap-3 text-[10px] font-mono">
+          <Link href="/build" className="text-gray hover:text-gold transition-colors flex items-center gap-1">
+            <Building2 className="w-3 h-3" /> Build
+          </Link>
+          <Link href="/lend" className="text-gray hover:text-gold transition-colors flex items-center gap-1">
+            <Landmark className="w-3 h-3" /> Lend
+          </Link>
+        </span>
+      </div>
 
       {/* ── project toggle ───────────────────────────────────────────────── */}
       <div className="border-b border-border bg-surface/50 shrink-0 flex items-center justify-center gap-2 px-4 py-2">

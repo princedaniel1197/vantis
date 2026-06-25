@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   Building2, Search, CreditCard, Users, ShieldCheck, Bell, FileText,
   BarChart2, LogOut, TrendingDown, ChevronDown, Check, X, Menu,
-  Shield, MessageSquare, Camera, Scale, Network, Store, Home, Plug, Award,
+  Shield, MessageSquare, Camera, Scale, Network, Store, Home, Plug, Award, Database,
 } from 'lucide-react'
 import { LendContextProvider, useLendContext } from './LendContext'
 import { PERSONAS, type PersonaKey } from '@/lib/lend-personas'
@@ -33,6 +33,7 @@ const NAV_GROUPS: NavGroup[] = [
       { href: '/lend/verify-progress', label: 'CV Progress',        icon: Camera,      exact: true },
       { href: '/lend/verify',          label: 'Title & Collateral', icon: ShieldCheck, exact: true },
       { href: '/lend/litigation',      label: 'Litigation',         icon: Scale,       exact: true },
+      { href: '/dataroom',             label: 'Data Room',          icon: Database,    exact: true },
     ],
   },
   {

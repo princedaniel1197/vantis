@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Box, MapPin, Activity, BarChart2 } from 'lucide-react'
+import { Box, MapPin, Activity, BarChart2, Database } from 'lucide-react'
 
 const MODULES = [
   {
@@ -33,6 +33,14 @@ const MODULES = [
     icon: BarChart2,
     accent: 'text-blue',
     border: 'border-blue/30',
+  },
+  {
+    href: '/dataroom',
+    label: 'Lender Data Room',
+    desc: 'Your verified government package — RERA, title, EC, QPR, escrow — shared with lender in one click.',
+    icon: Database,
+    accent: 'text-teal',
+    border: 'border-teal/30',
   },
 ]
 

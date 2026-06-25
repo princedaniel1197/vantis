@@ -10,7 +10,7 @@ import {
   BookOpen, CreditCard,
   Map, Calculator, TrendingUp, Scale,
   ShieldCheck, Award,
-  Box, MapPin, Activity, BarChart2,
+  Box, MapPin, Activity, BarChart2, Database,
   Sun, Moon, MessageSquare, ChevronDown, Menu, X
 } from 'lucide-react'
 import { useTheme } from '@/app/context/ThemeContext'
@@ -66,6 +66,7 @@ const NAV_GROUPS = [
       { label: 'Drone Reconciliation', path: '/build/construction/reconciliation', icon: Activity,  desc: 'Physical vs QPR vs Finance gap' },
       { label: 'Parcel Intelligence',  path: '/build/land/parcel',                 icon: MapPin,    desc: 'Bhoomi title + satellite check' },
       { label: 'Competitive Supply',   path: '/build/approvals/market',            icon: BarChart2, desc: '2.5km RERA project absorption' },
+      { label: 'Lender Data Room',     path: '/dataroom',                          icon: Database,  desc: 'Verified govt package → lender in 4s' },
     ]
   },
 ]

@@ -39,8 +39,8 @@ const MODULES = [
     label: 'Lender Data Room',
     desc: 'Your verified government package — RERA, title, EC, QPR, escrow — shared with lender in one click.',
     icon: Database,
-    accent: 'text-teal',
-    border: 'border-teal/30',
+    accent: 'text-blue',
+    border: 'border-blue/30',
   },
 ]
 

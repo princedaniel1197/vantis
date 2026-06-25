@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
   Building2, Search, CreditCard, Users, ShieldCheck, Bell, FileText,
-  BarChart2, LogOut, TrendingDown, ChevronDown, Check, X, Menu,
+  BarChart2, TrendingDown, ChevronDown, Check, X, Menu,
   Shield, MessageSquare, Camera, Scale, Network, Store, Home, Plug, Award, Database,
 } from 'lucide-react'
 import { LendContextProvider, useLendContext } from './LendContext'
@@ -61,76 +61,6 @@ const NAV_GROUPS: NavGroup[] = [
     ],
   },
 ]
-
-const CREDENTIAL = { email: 'credit@kaverihfc.in', password: 'demo' }
-
-// ── Login ─────────────────────────────────────────────────────────────────────
-function LoginScreen({ onLogin }: { onLogin: () => void }) {
-  const [email, setEmail]       = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError]       = useState('')
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault()
-    if (email.toLowerCase() === CREDENTIAL.email && password === CREDENTIAL.password) {
-      try { localStorage.setItem('vantis_lend_user', '1') } catch {}
-      onLogin()
-    } else {
-      setError('Invalid credentials.')
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <TrendingDown className="w-5 h-5 text-gold" />
-            <span className="font-syne text-xl text-gold">Kaveri Housing Finance</span>
-          </div>
-          <div className="text-gray text-xs mt-0.5">Powered by Vantis Lend</div>
-          <div className="text-gray text-[11px] mt-0.5">Real-Estate Credit Intelligence</div>
-        </div>
-        <form onSubmit={submit} className="space-y-4">
-          <div>
-            <label className="text-xs text-gray-light block mb-1.5">Email</label>
-            <input type="email" value={email}
-              onChange={e => { setEmail(e.target.value); setError('') }}
-              placeholder="officer@kaverihfc.in"
-              className="w-full bg-surface border border-border rounded-sm px-4 py-3 text-off-white placeholder-gray text-sm focus:outline-none focus:border-gold transition-colors"
-              required
-            />
-          </div>
-          <div>
-            <label className="text-xs text-gray-light block mb-1.5">Password</label>
-            <input type="password" value={password}
-              onChange={e => { setPassword(e.target.value); setError('') }}
-              placeholder="••••••••"
-              className="w-full bg-surface border border-border rounded-sm px-4 py-3 text-off-white placeholder-gray text-sm focus:outline-none focus:border-gold transition-colors"
-              required
-            />
-          </div>
-          {error && <div className="text-red text-xs px-3 py-2 bg-red/10 border border-red/20 rounded-sm">{error}</div>}
-          <button type="submit"
-            className="w-full bg-gold hover:bg-gold-light text-background font-semibold text-sm py-3 rounded-sm transition-colors"
-          >
-            Sign in to Vantis Lend
-          </button>
-        </form>
-        <div className="mt-6 bg-surface border border-border rounded-sm p-4">
-          <div className="text-gray text-xs mb-2">Demo credential</div>
-          <div className="font-mono text-xs text-gold">{CREDENTIAL.email}</div>
-          <div className="font-mono text-xs text-gray-light mt-0.5">password: demo</div>
-        </div>
-        <div className="mt-5 text-center">
-          <Link href="/" className="text-xs text-gray-light hover:text-gold transition-colors">
-            ← Back to workspace
-          </Link>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 // ── Persona Switcher ──────────────────────────────────────────────────────────
 function PersonaSwitcher() {
@@ -193,7 +123,7 @@ function PersonaSwitcher() {
 }
 
 // ── Sidebar ───────────────────────────────────────────────────────────────────
-function LendSidebar({ onLogout, onClose }: { onLogout: () => void; onClose?: () => void }) {
+function LendSidebar({ onClose }: { onClose?: () => void }) {
   const pathname    = usePathname()
   const { personaMeta } = useLendContext()
 
@@ -244,16 +174,9 @@ function LendSidebar({ onLogout, onClose }: { onLogout: () => void; onClose?: ()
       </nav>
 
       <div className="p-4 border-t border-border shrink-0">
-        <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray/60 mb-1.5">Signed in as</div>
+        <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray/60 mb-1.5">Viewing as</div>
         <div className="text-xs text-off-white font-medium">Credit Risk Officer</div>
         <div className="text-[10px] text-gray mt-0.5 truncate">{personaMeta.name}</div>
-        <button
-          onClick={onLogout}
-          className="mt-3 flex items-center gap-1.5 text-gray hover:text-red text-xs transition-colors"
-        >
-          <LogOut className="w-3 h-3" />
-          Sign out
-        </button>
       </div>
     </div>
   )
@@ -261,31 +184,14 @@ function LendSidebar({ onLogout, onClose }: { onLogout: () => void; onClose?: ()
 
 // ── Inner layout (has context access) ────────────────────────────────────────
 function LendLayoutInner({ children }: { children: ReactNode }) {
-  const [mounted, setMounted]         = useState(false)
-  const [authed, setAuthed]           = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { personaMeta }               = useLendContext()
-
-  useEffect(() => {
-    setMounted(true)
-    try {
-      if (localStorage.getItem('vantis_lend_user') === '1') setAuthed(true)
-    } catch {}
-  }, [])
-
-  if (!mounted) return <div className="min-h-screen bg-background" />
-  if (!authed)  return <LoginScreen onLogin={() => setAuthed(true)} />
-
-  function logout() {
-    try { localStorage.removeItem('vantis_lend_user') } catch {}
-    setAuthed(false)
-  }
 
   return (
     <div className="min-h-screen bg-background text-off-white font-sans flex">
       {/* Desktop sidebar */}
       <div className="hidden md:block fixed left-0 top-0 h-full z-30">
-        <LendSidebar onLogout={logout} />
+        <LendSidebar />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -296,7 +202,7 @@ function LendLayoutInner({ children }: { children: ReactNode }) {
             onClick={() => setSidebarOpen(false)}
           />
           <div className="md:hidden fixed left-0 top-0 h-full z-50">
-            <LendSidebar onLogout={logout} onClose={() => setSidebarOpen(false)} />
+            <LendSidebar onClose={() => setSidebarOpen(false)} />
           </div>
         </>
       )}

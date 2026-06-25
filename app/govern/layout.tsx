@@ -6,21 +6,10 @@ import Link from 'next/link'
 import {
   LayoutDashboard, Building2, BarChart2, Scale, ScanLine,
   AlertTriangle, TrendingDown, Users, MessageCircle, Gavel,
-  FileText, Sparkles, Settings, Menu, X, LogOut, Shield,
+  FileText, Sparkles, Settings, Menu, X, Shield,
 } from 'lucide-react'
 
-interface Officer {
-  email: string
-  name: string
-  role: string
-}
-
-const OFFICERS: Record<string, { password: string; name: string; role: string }> = {
-  'chairman@krera.gov.in':  { password: 'demo', name: 'K-RERA Chairman',  role: 'Chairman' },
-  'technical@krera.gov.in': { password: 'demo', name: 'Member Technical', role: 'Member Technical' },
-  'legal@krera.gov.in':     { password: 'demo', name: 'Member Legal',     role: 'Member Legal' },
-  'secretary@krera.gov.in': { password: 'demo', name: 'Secretary',        role: 'Secretary' },
-}
+const DEFAULT_OFFICER = { name: 'K-RERA Chairman', role: 'Chairman' }
 
 const NAV = [
   { href: '/govern',              label: 'Command Centre',      icon: LayoutDashboard, exact: true },
@@ -51,8 +40,9 @@ function roleDotBg(role: string) {
   return 'bg-gray-light'
 }
 
-function SidebarNav({ officer, onLogout, onClose }: { officer: Officer; onLogout: () => void; onClose: () => void }) {
+function SidebarNav({ onClose }: { onClose: () => void }) {
   const pathname = usePathname()
+  const officer = DEFAULT_OFFICER
   return (
     <div className="flex flex-col h-full w-[220px] bg-surface border-r border-border">
       {/* Logo */}
@@ -88,101 +78,13 @@ function SidebarNav({ officer, onLogout, onClose }: { officer: Officer; onLogout
         })}
       </nav>
 
-      {/* Officer */}
+      {/* Officer identity */}
       <div className="border-t border-border px-4 py-3 shrink-0">
-        <div className="text-off-white text-xs font-medium truncate">{officer.name}</div>
+        <div className="text-off-white text-xs font-medium">{officer.name}</div>
         <span className={`inline-flex items-center gap-1.5 text-[10px] mt-1.5 ${roleTextColor(officer.role)}`}>
           <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${roleDotBg(officer.role)}`} />
           {officer.role}
         </span>
-        <button
-          onClick={onLogout}
-          className="flex items-center gap-1.5 text-gray hover:text-red text-xs mt-3 transition-colors duration-150"
-        >
-          <LogOut className="w-3.5 h-3.5" />
-          Sign out
-        </button>
-      </div>
-    </div>
-  )
-}
-
-function LoginScreen({ onLogin }: { onLogin: (o: Officer) => void }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    const officer = OFFICERS[email.toLowerCase()]
-    if (officer && officer.password === password) {
-      onLogin({ email: email.toLowerCase(), name: officer.name, role: officer.role })
-    } else {
-      setError('Invalid credentials. Check your email and password.')
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-background flex items-center justify-center px-4">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Shield className="w-6 h-6 text-gold" />
-            <span className="font-syne text-2xl text-gold">Vantis Govern</span>
-          </div>
-          <div className="text-gray text-sm">K-RERA Officer Portal</div>
-          <div className="text-gray text-xs mt-0.5">Karnataka Real Estate Regulatory Authority</div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="text-xs text-gray-light block mb-1.5">Officer Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={e => { setEmail(e.target.value); setError('') }}
-              placeholder="officer@krera.gov.in"
-              className="w-full bg-surface border border-border rounded-sm px-4 py-3 text-off-white placeholder-gray text-sm focus:outline-none focus:border-gold transition-colors duration-150"
-              required
-            />
-          </div>
-          <div>
-            <label className="text-xs text-gray-light block mb-1.5">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => { setPassword(e.target.value); setError('') }}
-              placeholder="••••••••"
-              className="w-full bg-surface border border-border rounded-sm px-4 py-3 text-off-white placeholder-gray text-sm focus:outline-none focus:border-gold transition-colors duration-150"
-              required
-            />
-          </div>
-          {error && (
-            <div className="text-red text-xs px-3 py-2 bg-red/10 border border-red/20 rounded-sm">{error}</div>
-          )}
-          <button
-            type="submit"
-            className="w-full bg-gold hover:bg-gold-light text-background font-semibold text-sm py-3 rounded-sm transition-colors duration-150"
-          >
-            Sign In to Govern
-          </button>
-        </form>
-
-        <div className="mt-5 text-center">
-          <a href="/" className="text-xs text-gray-light hover:text-gold transition-colors duration-150">
-            ← Back to Public Portal
-          </a>
-        </div>
-
-        <div className="mt-8 bg-surface border border-border rounded-sm p-4">
-          <div className="text-gray text-xs mb-2">Demo credentials — password: demo</div>
-          <div className="font-mono text-xs space-y-1">
-            <div className="text-gold">chairman@krera.gov.in</div>
-            <div className="text-blue">technical@krera.gov.in</div>
-            <div className="text-red">legal@krera.gov.in</div>
-            <div className="text-gray-light">secretary@krera.gov.in</div>
-          </div>
-        </div>
       </div>
     </div>
   )
@@ -190,19 +92,14 @@ function LoginScreen({ onLogin }: { onLogin: (o: Officer) => void }) {
 
 export default function GovernLayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false)
-  const [officer, setOfficer] = useState<Officer | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     try {
-      const stored = localStorage.getItem('vantis_officer')
-      if (stored) setOfficer(JSON.parse(stored))
       if (localStorage.getItem('vantis_demo_mode') === 'true') setDemoMode(true)
-    } catch {
-      // ignore
-    }
+    } catch {}
 
     function handleKey(e: KeyboardEvent) {
       if (e.ctrlKey && e.shiftKey && e.key === 'D') {
@@ -220,27 +117,13 @@ export default function GovernLayout({ children }: { children: React.ReactNode }
 
   if (!mounted) return <div className="min-h-screen bg-background" />
 
-  if (!officer) {
-    return (
-      <LoginScreen
-        onLogin={o => {
-          localStorage.setItem('vantis_officer', JSON.stringify(o))
-          setOfficer(o)
-        }}
-      />
-    )
-  }
-
-  function handleLogout() {
-    localStorage.removeItem('vantis_officer')
-    setOfficer(null)
-  }
+  const officer = DEFAULT_OFFICER
 
   return (
     <div className="min-h-screen bg-background flex">
       {/* Desktop sidebar — fixed */}
       <div className="hidden md:block fixed left-0 top-0 h-full z-30">
-        <SidebarNav officer={officer} onLogout={handleLogout} onClose={() => {}} />
+        <SidebarNav onClose={() => {}} />
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -248,7 +131,7 @@ export default function GovernLayout({ children }: { children: React.ReactNode }
         <div className="md:hidden fixed inset-0 z-40 flex">
           <div className="fixed inset-0 bg-black/60" onClick={() => setSidebarOpen(false)} />
           <div className="relative z-50">
-            <SidebarNav officer={officer} onLogout={handleLogout} onClose={() => setSidebarOpen(false)} />
+            <SidebarNav onClose={() => setSidebarOpen(false)} />
           </div>
         </div>
       )}

@@ -36,7 +36,7 @@ function findResponse(query: string, isGovern: boolean): string {
 }
 
 const DEV_ROUTES = ['/', '/command', '/land', '/market', '/feasibility', '/compliance', '/litigation', '/channel', '/dataroom', '/assistant', '/certificate',
-  '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction', '/customers', '/finance', '/payments', '/vision', '/lend']
+  '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction', '/customers', '/finance', '/payments', '/vision', '/lend', '/verify']
 
 export default function VantisIntelligence() {
   const pathname = usePathname()

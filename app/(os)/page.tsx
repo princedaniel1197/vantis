@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, TrendingDown, Database, Brain, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, Database, Brain, Search, ChevronRight, Globe } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -79,6 +79,21 @@ const PRODUCTS = [
     bgIdle: 'rgba(155,89,182,0.03)',
     bgHover: 'rgba(155,89,182,0.08)',
     cta: 'Open Connect',
+  },
+  {
+    id: 'verify',
+    tag: 'For Homebuyers',
+    name: 'Vantis Verify',
+    desc: "Know before you buy. Government truth about any Karnataka property — RERA, title, litigation, and plan approval — free, in 60 seconds.",
+    href: '/verify',
+    icon: Search,
+    features: ['Free Instant Trust Report', 'A-to-C Grade (Plain Language)', '5 Government Database Check', 'Kannada Language Support'],
+    accent: '#3FA66A',
+    borderIdle: 'rgba(63,166,106,0.12)',
+    borderHover: 'rgba(63,166,106,0.45)',
+    bgIdle: 'rgba(63,166,106,0.03)',
+    bgHover: 'rgba(63,166,106,0.08)',
+    cta: 'Open Verify',
   },
 ]
 
@@ -174,7 +189,7 @@ export default function HubPage() {
 
       {/* Coming soon */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
-        {['Vantis Public Portal'].map(name => (
+        {['Vantis Diligence', 'Vantis Public API'].map(name => (
           <div
             key={name}
             style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.875rem', borderRadius: '2px', border: '1px solid #1C1C28' }}

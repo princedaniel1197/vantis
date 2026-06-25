@@ -1,104 +1,154 @@
 'use client'
 
-import { useState, useRef, useMemo } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { OrbitControls } from '@react-three/drei'
-import * as THREE from 'three'
+import { useState, useMemo } from 'react'
 import { UNITS, type Unit, type UnitStatus } from '@/lib/sales/units'
 import Link from 'next/link'
 import { ArrowLeft, LayoutGrid, Box, CheckCircle2, AlertTriangle, X } from 'lucide-react'
 
-// ── colours per status ──────────────────────────────────────────────────────
-const STATUS_COLOR: Record<UnitStatus, string> = {
-  available: '#1A1A28',
-  held:      '#8B7035',
-  booked:    '#2D5A3D',
-  sold:      '#2A2A3E',
-}
-const STATUS_EMISSIVE: Record<UnitStatus, string> = {
-  available: '#0A0A1A',
-  held:      '#C9A84C',
-  booked:    '#3A7A4E',
-  sold:      '#3A3A5A',
-}
-
-// ── individual unit box ──────────────────────────────────────────────────────
-interface UnitBoxProps {
-  unit: Unit
-  isSelected: boolean
-  isHighlighted: boolean
-  onClick: () => void
-}
-
-function UnitBox({ unit, isSelected, isHighlighted, onClick }: UnitBoxProps) {
-  const meshRef = useRef<THREE.Mesh>(null!)
-  const [hovered, setHovered] = useState(false)
-
-  const color =
-    isSelected || isHighlighted ? '#C9A84C' : STATUS_COLOR[unit.status]
-  const emissive =
-    isSelected    ? '#8B5A1A' :
-    isHighlighted ? '#6B4A0A' :
-    hovered       ? '#2A2A3A' :
-    STATUS_EMISSIVE[unit.status]
-
-  const x = (unit.unitOnFloor - 4) * 1.0
-  const y = unit.floor * 0.5
-  const z = 0
-
-  return (
-    <mesh
-      ref={meshRef}
-      position={[x, y, z]}
-      onClick={(e) => { e.stopPropagation(); onClick() }}
-      onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer' }}
-      onPointerOut={() => { setHovered(false); document.body.style.cursor = 'auto' }}
-    >
-      <boxGeometry args={[0.9, 0.4, 0.9]} />
-      <meshStandardMaterial
-        color={color}
-        emissive={emissive}
-        emissiveIntensity={isSelected ? 0.5 : hovered ? 0.3 : 0.1}
-      />
-    </mesh>
-  )
-}
-
-// ── auto-rotating wrapper ────────────────────────────────────────────────────
-function TowerGroup({ children }: { children: React.ReactNode }) {
-  const groupRef = useRef<THREE.Group>(null!)
-  useFrame((_, delta) => {
-    if (groupRef.current) groupRef.current.rotation.y += delta * 0.15
-  })
-  return <group ref={groupRef}>{children}</group>
-}
-
-// ── 3D scene ─────────────────────────────────────────────────────────────────
+// ── CSS perspective tower ────────────────────────────────────────────────────
 interface TowerSceneProps {
   selectedId: string | null
   highlightIds: Set<string>
   onSelect: (unit: Unit) => void
 }
 
-function TowerScene({ selectedId, highlightIds, onSelect }: TowerSceneProps) {
+function IsoTower({ selectedId, highlightIds, onSelect }: TowerSceneProps) {
+  const floorOrder = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+
+  const STATUS_BG: Record<UnitStatus, string> = {
+    available: '#12121E',
+    held:      '#3D2E05',
+    booked:    '#0D2B1C',
+    sold:      '#1A2A1A',
+  }
+  const STATUS_BORDER: Record<UnitStatus, string> = {
+    available: '#22223A',
+    held:      '#8B7035',
+    booked:    '#2A5A3A',
+    sold:      '#2ECC71',
+  }
+
   return (
-    <Canvas camera={{ position: [8, 6, 8], fov: 45 }} style={{ background: '#0A0A0F' }}>
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 20, 10]} intensity={0.8} />
-      <pointLight position={[-10, 10, -10]} intensity={0.3} color="#C9A84C" />
-      <OrbitControls enablePan={false} minDistance={5} maxDistance={25} />
-      <TowerGroup>
-        {UNITS.map(unit => (
-          <UnitBox
-            key={unit.id}
-            unit={unit}
-            isSelected={unit.id === selectedId}
-            isHighlighted={highlightIds.size > 0 && highlightIds.has(unit.id)}
-            onClick={() => onSelect(unit)}
-          />
-        ))}
-      </TowerGroup>
-    </Canvas>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        background: '#0A0A0F',
+        display: 'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        perspective: '700px',
+        perspectiveOrigin: '50% 85%',
+        overflow: 'hidden',
+        paddingBottom: '48px',
+      }}
+    >
+      <div
+        style={{
+          transformStyle: 'preserve-3d',
+          transform: 'rotateX(52deg)',
+          transformOrigin: 'center bottom',
+        }}
+      >
+        {/* Legend row at top */}
+        <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', paddingLeft: '32px' }}>
+          {[
+            { label: 'Available', color: STATUS_BORDER.available },
+            { label: 'Held', color: STATUS_BORDER.held },
+            { label: 'Booked', color: STATUS_BORDER.booked },
+            { label: 'Sold', color: STATUS_BORDER.sold },
+          ].map(({ label, color }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <div style={{ width: '10px', height: '10px', background: color, borderRadius: '1px' }} />
+              <span style={{ fontSize: '9px', fontFamily: 'monospace', color: '#6B6B88', textTransform: 'uppercase' }}>{label}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Tower floors */}
+        <div style={{ display: 'flex', gap: '0' }}>
+          {/* Floor labels column */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', paddingRight: '6px', alignItems: 'flex-end' }}>
+            {floorOrder.map(floor => (
+              <div
+                key={floor}
+                style={{
+                  height: floor === 11 ? '36px' : '26px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '8px',
+                  fontFamily: 'monospace',
+                  color: '#3A3A5A',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                F{String(floor).padStart(2, '0')}
+              </div>
+            ))}
+          </div>
+
+          {/* Unit columns */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+            {floorOrder.map(floor => {
+              const floorUnits = UNITS
+                .filter(u => u.floor === floor)
+                .sort((a, b) => a.unitOnFloor - b.unitOnFloor)
+              const isPH = floor === 11
+
+              return (
+                <div key={floor} style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
+                  {/* Side depth wall */}
+                  <div style={{ width: '6px', height: isPH ? '36px' : '26px', background: '#060608', borderLeft: '1px solid #1A1A2E', flexShrink: 0 }} />
+
+                  {floorUnits.map(unit => {
+                    const isSel = unit.id === selectedId
+                    const isHi  = highlightIds.size > 0 && highlightIds.has(unit.id)
+                    const faded = highlightIds.size > 0 && !highlightIds.has(unit.id) && !isSel
+                    const bg  = isSel || isHi ? '#C9A84C' : STATUS_BG[unit.status]
+                    const brd = isSel ? '#F4D48C' : isHi ? '#C9A84C' : STATUS_BORDER[unit.status]
+                    return (
+                      <div
+                        key={unit.id}
+                        onClick={() => {
+                          const u = UNITS.find(x => x.id === unit.id)
+                          if (u) onSelect(u)
+                        }}
+                        title={`${unit.id} · ${unit.type} · ${unit.status}`}
+                        style={{
+                          width: isPH ? '80px' : '52px',
+                          height: isPH ? '36px' : '26px',
+                          background: bg,
+                          border: `1px solid ${brd}`,
+                          borderBottom: isSel ? `3px solid #C9A84C` : `1px solid ${brd}`,
+                          cursor: 'pointer',
+                          opacity: faded ? 0.18 : 1,
+                          transition: 'all 0.1s ease',
+                          boxShadow: isSel ? `0 0 12px rgba(201,168,76,0.4)` : 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '7px',
+                          fontFamily: 'monospace',
+                          color: isSel ? '#000' : '#2A2A4A',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {unit.unitOnFloor}
+                      </div>
+                    )
+                  })}
+
+                  {/* Penthouse placeholder columns */}
+                  {isPH && Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} style={{ width: '52px', height: '36px', opacity: 0 }} />
+                  ))}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -310,8 +360,8 @@ export default function TowerClient() {
 
           {/* 3D or list */}
           {view === '3d' ? (
-            <div className="flex-1">
-              <TowerScene
+            <div className="flex-1 min-h-0">
+              <IsoTower
                 selectedId={selected?.id ?? null}
                 highlightIds={highlightIds}
                 onSelect={setSelected}

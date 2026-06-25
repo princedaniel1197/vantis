@@ -2,8 +2,7 @@
 
 import { useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import Link from 'next/link'
-import { ArrowLeft, CheckCircle2, AlertTriangle } from 'lucide-react'
+import { CheckCircle2, AlertTriangle } from 'lucide-react'
 import { resolveGovTruth } from '@/lib/gov-truth'
 
 const PROJECTS = {
@@ -219,13 +218,6 @@ export default function ReconciliationPage() {
 
   return (
     <div className="min-h-screen bg-background p-5 max-w-[1000px] mx-auto">
-      <Link
-        href="/build"
-        className="inline-flex items-center gap-1.5 text-gray hover:text-gold text-xs font-mono uppercase tracking-[0.08em] transition-colors mb-5"
-      >
-        <ArrowLeft className="w-3.5 h-3.5" /> Build Hub
-      </Link>
-
       <div className="mb-6">
         <h1 className="font-syne text-2xl text-off-white">Drone Reconciliation</h1>
         <p className="text-gray text-sm mt-1">

@@ -1011,6 +1011,39 @@
       "title_chain": [], "litigation_cases": [
         { "case_no": "BLR/CR/2024/1882", "court": "Bengaluru City Police (CID)", "type": "Criminal — Financial Fraud", "status": "Active", "next_hearing": null, "plaintiff": "Multiple Homebuyers + K-RERA" }
       ], "developer_projects": []
+    },
+    {
+      "id": "salarpuria-sattva-east-crest",
+      "name": "Salarpuria Sattva East Crest",
+      "developer": "Salarpuria Sattva Group",
+      "micro_market": "KR Puram",
+      "micro_market_kn": "ಕೆ.ಆರ್. ಪುರ",
+      "address": "Survey No. 44/1, Old Madras Road, KR Puram, Bengaluru 560036",
+      "type": "apartment",
+      "config_types": ["2BHK", "3BHK"],
+      "rera_id": "PRM/KA/RERA/1251/310/PR/211108/004892",
+      "rera_expiry": "2026-06-30",
+      "survey_no": "44/1, 45/3",
+      "trust_grade": "B",
+      "trust_score": 67,
+      "verdict": "Mostly clear — review our notes",
+      "verdict_detail": "Possession delayed by 14 months. Title and RERA are clean. Developer is credible.",
+      "checks": {
+        "rera": { "pass": true, "label": "RERA Registered & Active", "detail": "RERA valid until June 2026. Extension filed after COVID delays. Compliant with filings.", "source": "K-RERA" },
+        "title": { "pass": true, "label": "Clear Title", "detail": "No encumbrances on Survey No. 44/1 or 45/3. Previous owner mortgage discharged 2019.", "source": "Kaveri 2.0" },
+        "court": { "pass": true, "label": "No Court Cases", "detail": "No active litigation in eCourts Karnataka.", "source": "eCourts" },
+        "plan": { "pass": true, "label": "BBMP Plan Approved", "detail": "Building plan sanctioned by BBMP 2021. OC applied for Tower A.", "source": "BBMP/MUDA" },
+        "developer": { "pass": false, "label": "Developer: Possession 14 Months Overdue", "detail": "Original possession was April 2024. Now revised to June 2026. 2 homebuyer complaints for delay interest under RERA. No enforcement action.", "source": "Vantis", "severity": "warning" }
+      },
+      "asking_price_min": 0.78,
+      "asking_price_max": 1.35,
+      "kaveri_price": 0.71,
+      "possession": "Revised — June 2026",
+      "units_total": 312,
+      "units_sold": 241,
+      "tags": ["possession-delayed"],
+      "amenities": ["Club House", "Swimming Pool", "Gym", "Children's Play Area", "Jogging Track"],
+      "title_chain": [], "litigation_cases": [], "developer_projects": []
     }
   ]
 }

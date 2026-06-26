@@ -430,32 +430,39 @@ export default function TowerClient() {
 
   return (
     <div className="min-h-screen bg-background text-off-white">
-      {/* Top bar */}
-      <div className="border-b border-border bg-surface px-5 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/build" className="text-gray hover:text-gold transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <span className="font-syne text-base text-off-white">Divya Villas · Sales Tower</span>
-          <span className="text-[9px] font-mono text-gray bg-surface2 border border-border px-2 py-0.5 rounded-sm">
-            73 units
-          </span>
+      {/* Page header */}
+      <div className="px-6 sm:px-8 py-5 border-b border-border shrink-0">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          Vantis Build · Developer Intelligence · Divya Villas · JDA Projects
         </div>
-        <div className="flex items-center gap-2">
-          {(['3d', 'list'] as const).map(v => (
-            <button
-              key={v}
-              onClick={() => setView(v)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-sm border transition-colors ${
-                view === v
-                  ? 'border-gold text-gold bg-gold/10'
-                  : 'border-border text-gray hover:border-gold/40'
-              }`}
-            >
-              {v === '3d' ? <Box className="w-3.5 h-3.5" /> : <LayoutGrid className="w-3.5 h-3.5" />}
-              {v.toUpperCase()}
-            </button>
-          ))}
+        <div className="flex items-center justify-between">
+          <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">
+            Tower View
+          </h1>
+          <div className="flex items-center gap-3">
+            <Link href="/build" className="text-gray hover:text-gold transition-colors">
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <span className="text-[9px] font-mono text-gray bg-surface2 border border-border px-2 py-0.5 rounded-sm">
+              73 units
+            </span>
+            <div className="flex items-center gap-2">
+              {(['3d', 'list'] as const).map(v => (
+                <button
+                  key={v}
+                  onClick={() => setView(v)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-sm border transition-colors ${
+                    view === v
+                      ? 'border-gold text-gold bg-gold/10'
+                      : 'border-border text-gray hover:border-gold/40'
+                  }`}
+                >
+                  {v === '3d' ? <Box className="w-3.5 h-3.5" /> : <LayoutGrid className="w-3.5 h-3.5" />}
+                  {v.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -468,8 +475,8 @@ export default function TowerClient() {
           { label: 'Sold',         value: stats.sold,                color: 'text-green' },
         ].map(k => (
           <div key={k.label} className="bg-surface px-4 py-3">
-            <div className="text-[9px] font-mono uppercase text-gray mb-0.5">{k.label}</div>
-            <div className={`font-syne text-2xl font-bold ${k.color}`}>{k.value}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">{k.label}</span>
+            <div className={`font-syne text-2xl sm:text-3xl font-bold mt-1 ${k.color}`}>{k.value}</div>
           </div>
         ))}
       </div>
@@ -621,8 +628,8 @@ export default function TowerClient() {
 
             {/* Layer 1: Operating record */}
             <div className="px-4 py-4 border-b border-border">
-              <div className="text-[9px] font-mono uppercase text-gray mb-3">① Operating Record</div>
-              <div className="space-y-2 text-xs">
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">① Operating Record</span>
+              <div className="space-y-2 text-xs mt-3">
                 <div className="flex justify-between">
                   <span className="text-gray">Status</span>
                   <StatusChip status={selected.status} />
@@ -658,8 +665,8 @@ export default function TowerClient() {
 
             {/* Layer 2: Government truth */}
             <div className="px-4 py-4 border-b border-border">
-              <div className="text-[9px] font-mono uppercase text-gray mb-3">② Government Truth</div>
-              <div className="space-y-2">
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">② Government Truth</span>
+              <div className="space-y-2 mt-3">
                 <GovBadge
                   label="Title (Kaveri)"
                   value={selected.govTruth.title === 'clean' ? 'Clean' : 'Flag — see EC'}
@@ -683,7 +690,8 @@ export default function TowerClient() {
 
             {/* Layer 3: AI result */}
             <div className="px-4 py-4">
-              <div className="text-[9px] font-mono uppercase text-gray mb-3">③ AI Query Result</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">③ AI Query Result</span>
+              <div className="mt-3">
               {aiResult && highlightIds.has(selected.id) ? (
                 <div className="text-xs text-gold leading-relaxed">
                   This unit matches your query: &quot;{aiQuery}&quot;
@@ -697,6 +705,7 @@ export default function TowerClient() {
                   Run a query in the search bar above to see why this unit was or wasn&apos;t included.
                 </div>
               )}
+              </div>
             </div>
           </div>
         )}

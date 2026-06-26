@@ -22,7 +22,7 @@ export default function FinancePage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Finance · ERP</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Finance · ERP</span>
         <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>ERP / Finance</h1>
       </div>
 
@@ -35,8 +35,8 @@ export default function FinancePage() {
           { label: 'Net Cash', value: `₹${summary.net_cash_cr} Cr`, sub: 'operating surplus', color: 'var(--ra)' },
         ].map(k => (
           <div key={k.label} className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-display italic text-2xl sm:text-3xl mb-0.5" style={{ color: k.color }}>{k.value}</div>
-            <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>{k.label}</div>
+            <div className="font-syne text-2xl font-bold mb-0.5" style={{ color: k.color }}>{k.value}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{k.label}</span>
             <div className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{k.sub}</div>
           </div>
         ))}
@@ -46,7 +46,7 @@ export default function FinancePage() {
         {/* Revenue + EBITDA chart */}
         <div className="lg:col-span-2 p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
           <div className="flex items-center justify-between mb-4">
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em]" style={{ color: 'var(--muted)' }}>Revenue & EBITDA — 4 Quarters</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Revenue &amp; EBITDA — 4 Quarters</span>
             <div className="flex items-center gap-4 text-[10px] font-mono">
               <span className="flex items-center gap-1" style={{ color: 'var(--gold)' }}><span className="w-2 h-2 rounded-sm inline-block" style={{ background: 'var(--gold)' }} /> Revenue</span>
               <span className="flex items-center gap-1" style={{ color: 'var(--ra)' }}><span className="w-2 h-2 rounded-sm inline-block" style={{ background: 'var(--ra)' }} /> EBITDA</span>
@@ -67,7 +67,7 @@ export default function FinancePage() {
 
         {/* RERA Escrow */}
         <div className="p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--muted)' }}>RERA Escrow Accounts</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-4 block" style={{ color: 'var(--muted)' }}>RERA Escrow Accounts</span>
           <div className="space-y-3">
             {escrow_accounts.map(acc => {
               const ec = ESCROW_COLOR(acc.status)
@@ -75,7 +75,7 @@ export default function FinancePage() {
                 <div key={acc.project} className="p-3 rounded-sm" style={{ background: 'var(--surf2)', border: `1px solid ${acc.status === 'healthy' ? 'var(--bord)' : `color-mix(in srgb, ${ec} 30%, var(--bord))`}` }}>
                   <div className="flex items-start justify-between mb-1.5">
                     <div className="text-xs font-medium leading-snug pr-2" style={{ color: 'var(--ink)' }}>{acc.project}</div>
-                    <span className="font-display italic text-lg leading-none shrink-0" style={{ color: ec }}>{acc.actual_pct}%</span>
+                    <span className="font-syne text-lg font-bold leading-none shrink-0" style={{ color: ec }}>{acc.actual_pct}%</span>
                   </div>
                   <div className="h-1 rounded-full mb-1" style={{ background: 'var(--bord)' }}>
                     <div className="h-full rounded-full" style={{ width: `${Math.min(acc.actual_pct, 100)}%`, background: ec }} />
@@ -93,19 +93,19 @@ export default function FinancePage() {
       {/* Journal entries */}
       <div className="rounded-sm overflow-hidden" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
         <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--bord)' }}>
-          <div className="font-mono text-[10px] uppercase tracking-[0.15em]" style={{ color: 'var(--muted)' }}>Recent Journal Entries</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Recent Journal Entries</span>
         </div>
         <table className="w-full text-xs">
           <thead>
             <tr style={{ borderBottom: '1px solid var(--bord)' }}>
               {['ID', 'Date', 'Type', 'Description', 'Amount', 'Project', 'Account'].map(h => (
-                <th key={h} className="text-left px-4 py-2 font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: 'var(--muted)' }}>{h}</th>
+                <th key={h} className="text-left px-4 py-2 font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {journal_entries.map((je, i) => (
-              <motion.tr key={je.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
+              <motion.tr key={je.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04, duration: 0.3 }}
                 className="transition-colors"
                 style={{ borderBottom: '1px solid var(--bord)' }}
                 onMouseEnter={e => (e.currentTarget as HTMLTableRowElement).style.background = 'var(--surf2)'}

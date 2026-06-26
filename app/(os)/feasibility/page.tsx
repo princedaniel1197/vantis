@@ -63,7 +63,7 @@ export default function FeasibilityPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Inputs */}
         <div className="p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--muted)' }}>Project Parameters</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-4 block" style={{ color: 'var(--muted)' }}>Project Parameters</span>
           <div className="space-y-3">
             {FIELDS.map(f => (
               <div key={f.key} className="flex items-center gap-3">
@@ -117,7 +117,7 @@ export default function FeasibilityPage() {
 
           {/* Breakdown */}
           <div className="p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--muted)' }}>Financial Breakdown</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-4 block" style={{ color: 'var(--muted)' }}>Financial Breakdown</span>
             <div className="space-y-2">
               {[
                 { label: 'Buildable Area', value: `${result.buildable_sqft.toLocaleString()} sqft`, color: 'var(--ink)' },

@@ -99,9 +99,10 @@ export default function StressTestPage() {
 
   return (
     <div className="p-5 max-w-[1100px] mx-auto">
-      <div className="mb-6">
-        <h1 className="font-syne text-xl text-off-white">Portfolio Stress Test</h1>
-        <p className="text-gray text-sm mt-0.5">
+      <div className="px-0 py-0 mb-6">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">Vantis Lend · Scenario Analysis</div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">Portfolio Stress Test</h1>
+        <p className="text-gray text-sm mt-2">
           Adjust macro assumptions to see how the Kaveri HFC book migrates between risk bands in real time.
         </p>
       </div>
@@ -111,9 +112,8 @@ export default function StressTestPage() {
         {/* Sliders */}
         <div className="flex flex-col gap-5">
           <div className="bg-surface border border-border rounded-sm p-5">
-            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-5">
-              Macro Assumptions
-            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Macro Assumptions</span>
+            <div className="mb-5" />
             <div className="space-y-6">
               <SliderRow
                 label="Real Estate Price Downturn"
@@ -134,7 +134,7 @@ export default function StressTestPage() {
 
             {/* Quick scenarios */}
             <div className="mt-6 pt-5 border-t border-border">
-              <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">Quick Scenarios</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">Quick Scenarios</span>
               <div className="grid grid-cols-2 gap-2">
                 {scenarios.map(s => (
                   <button
@@ -164,19 +164,17 @@ export default function StressTestPage() {
 
           {/* Before / After at-risk */}
           <div className="bg-surface border border-border rounded-sm p-5">
-            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">
-              Capital at Risk
-            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4 block">Capital at Risk</span>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-[10px] font-mono text-gray mb-1">Base Case</div>
-                <div className="font-syne text-3xl text-off-white">₹{BASE.at_risk} Cr</div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">Base Case</span>
+                <div className="font-syne text-xl sm:text-2xl font-bold text-off-white">₹{BASE.at_risk} Cr</div>
                 <div className="text-[10px] text-gray mt-0.5">{BASE.red} flagged · {BASE.amber} watch</div>
               </div>
               <div>
-                <div className="text-[10px] font-mono text-gray mb-1">Stressed</div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">Stressed</span>
                 <div
-                  className="font-syne text-3xl transition-all duration-500"
+                  className="font-syne text-xl sm:text-2xl font-bold transition-all duration-500"
                   style={{ color: stressed.at_risk > BASE.at_risk + 200 ? '#E74C3C' : stressed.at_risk > BASE.at_risk + 50 ? '#F39C12' : '#2ECC71' }}
                 >
                   ₹{stressed.at_risk.toLocaleString('en-IN')} Cr
@@ -209,13 +207,11 @@ export default function StressTestPage() {
 
           {/* Band distribution */}
           <div className="bg-surface border border-border rounded-sm p-5">
-            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">
-              Portfolio Band Distribution (40 projects)
-            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4 block">Portfolio Band Distribution (40 projects)</span>
 
             <div className="grid grid-cols-2 gap-6">
               <div>
-                <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-3">Base Case</div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">Base Case</span>
                 <div className="space-y-3">
                   <BandBar label="High Risk" count={BASE.red}   total={40} color="#E74C3C" bg="rgba(231,76,60,0.1)" border="rgba(231,76,60,0.3)" />
                   <BandBar label="Watch"     count={BASE.amber} total={40} color="#F39C12" bg="rgba(243,156,18,0.1)" border="rgba(243,156,18,0.3)" />
@@ -223,7 +219,7 @@ export default function StressTestPage() {
                 </div>
               </div>
               <div>
-                <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-3">Stressed</div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">Stressed</span>
                 <div className="space-y-3">
                   <BandBar label="High Risk" count={stressed.red}   total={40} color="#E74C3C" bg="rgba(231,76,60,0.1)" border="rgba(231,76,60,0.3)" />
                   <BandBar label="Watch"     count={stressed.amber} total={40} color="#F39C12" bg="rgba(243,156,18,0.1)" border="rgba(243,156,18,0.3)" />

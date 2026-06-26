@@ -43,7 +43,7 @@ export default function LeadsPage() {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1600px] mx-auto">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Sales · CRM</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Sales · CRM</span>
           <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Leads & Pipeline</h1>
         </div>
         <div className="flex items-center gap-2">
@@ -71,7 +71,7 @@ export default function LeadsPage() {
           </select>
           <ChevronDown className="w-3 h-3" style={{ color: 'var(--muted)' }} />
         </div>
-        <div className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>{filtered.length} leads</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{filtered.length} leads</span>
       </div>
 
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-5">
@@ -79,8 +79,8 @@ export default function LeadsPage() {
           const count = byStage(s).length
           return (
             <div key={s} className="px-3 py-2 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-              <div className="font-display italic text-2xl" style={{ color: s === 'booked' ? 'var(--ra)' : s === 'negotiation' ? 'var(--rb)' : 'var(--ink)' }}>{count}</div>
-              <div className="font-mono text-[9px] uppercase tracking-[0.08em]" style={{ color: 'var(--muted)' }}>{STAGE_LABEL[s]}</div>
+              <div className="font-syne text-2xl font-bold" style={{ color: s === 'booked' ? 'var(--ra)' : s === 'negotiation' ? 'var(--rb)' : 'var(--ink)' }}>{count}</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{STAGE_LABEL[s]}</span>
             </div>
           )
         })}
@@ -93,14 +93,14 @@ export default function LeadsPage() {
             return (
               <div key={stage} className="shrink-0 w-[220px]">
                 <div className="flex items-center gap-2 mb-2 px-1">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: 'var(--muted)' }}>{STAGE_LABEL[stage]}</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{STAGE_LABEL[stage]}</span>
                   <span className="font-mono text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: 'var(--surf2)', color: 'var(--ink)' }}>{cards.length}</span>
                 </div>
                 <div className="space-y-2">
                   {cards.map((lead, i) => (
-                    <motion.div key={lead.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
+                    <motion.div key={lead.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.3 }}
                       onClick={() => setSelected(selected === lead.id ? null : lead.id)}
-                      className="p-3 rounded-sm cursor-pointer transition-all"
+                      className="p-3 rounded-sm cursor-pointer transition-all hover:border-vgold/30"
                       style={{
                         background: selected === lead.id ? 'color-mix(in srgb, var(--gold) 6%, var(--surf))' : 'var(--surf)',
                         border: `1px solid ${selected === lead.id ? 'var(--gold)' : lead.gov_flags.length > 0 ? 'color-mix(in srgb, var(--rc) 40%, var(--bord))' : 'var(--bord)'}`,
@@ -160,13 +160,13 @@ export default function LeadsPage() {
             <thead>
               <tr style={{ borderBottom: '1px solid var(--bord)' }}>
                 {['Lead', 'Project / Unit', 'Budget', 'Stage', 'Score', 'Gov', 'Rep', 'Last Contact'].map(h => (
-                  <th key={h} className="text-left px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: 'var(--muted)' }}>{h}</th>
+                  <th key={h} className="text-left px-4 py-2.5 font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {filtered.map((lead, i) => (
-                <motion.tr key={lead.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.03 }}
+                <motion.tr key={lead.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.03, duration: 0.3 }}
                   onClick={() => setSelected(selected === lead.id ? null : lead.id)}
                   className="cursor-pointer transition-colors"
                   style={{ borderBottom: '1px solid var(--bord)', background: selected === lead.id ? 'color-mix(in srgb, var(--gold) 4%, var(--surf))' : '' }}

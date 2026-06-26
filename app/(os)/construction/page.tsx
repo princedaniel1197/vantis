@@ -15,15 +15,15 @@ export default function ConstructionPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Operations · Site</div>
-        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Construction & Site</h1>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Operations · Site</span>
+        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Construction &amp; Site</h1>
       </div>
 
       {/* Project tabs */}
       <div className="flex gap-2 mb-6 flex-wrap">
         {constructionData.sites.map((s, i) => (
           <button key={s.project_id} onClick={() => setSelected(i)}
-            className="px-4 py-2 rounded-sm text-sm font-mono"
+            className="px-4 py-2 rounded-sm text-sm font-mono hover:border-vgold/30 transition-all"
             style={{ background: selected === i ? 'var(--gold)' : 'var(--surf)', color: selected === i ? 'var(--bg)' : 'var(--muted)', border: '1px solid var(--bord)' }}>
             {s.project}
           </button>
@@ -43,7 +43,7 @@ export default function ConstructionPage() {
                     strokeDasharray={`${site.completion_pct * 2.764} ${276.4}`} strokeLinecap="round" />
                 </svg>
                 <div className="text-center z-10">
-                  <div className="font-display italic text-3xl leading-none" style={{ color: 'var(--gold)' }}>{site.completion_pct}%</div>
+                  <div className="font-syne text-3xl font-bold leading-none" style={{ color: 'var(--gold)' }}>{site.completion_pct}%</div>
                   <div className="font-mono text-[9px]" style={{ color: 'var(--muted)' }}>complete</div>
                 </div>
               </div>
@@ -57,7 +57,7 @@ export default function ConstructionPage() {
                   { label: 'Contractor', value: site.contractor.split(' ')[0], color: 'var(--muted)' },
                 ].map(s => (
                   <div key={s.label} className="px-3 py-2 rounded-sm" style={{ background: 'var(--surf2)' }}>
-                    <div className="font-mono text-xs" style={{ color: s.color }}>{s.value}</div>
+                    <div className="font-syne text-sm font-bold" style={{ color: s.color }}>{s.value}</div>
                     <div className="font-mono text-[9px] mt-0.5" style={{ color: 'var(--muted)' }}>{s.label}</div>
                   </div>
                 ))}
@@ -74,7 +74,7 @@ export default function ConstructionPage() {
 
           {/* Milestone timeline */}
           <div className="p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--muted)' }}>Construction Milestones</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-4 block" style={{ color: 'var(--muted)' }}>Construction Milestones</span>
             <div className="relative">
               <div className="absolute left-4 top-2 bottom-2 w-px" style={{ background: 'var(--bord)' }} />
               <div className="space-y-3">
@@ -82,7 +82,7 @@ export default function ConstructionPage() {
                   const Icon = MILESTONE_ICON[m.status as keyof typeof MILESTONE_ICON] ?? Circle
                   const color = MILESTONE_COLOR[m.status] ?? 'var(--muted)'
                   return (
-                    <motion.div key={m.label} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04 }}
+                    <motion.div key={m.label} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.04, duration: 0.3 }}
                       className="flex items-start gap-3 pl-2">
                       <div className="shrink-0 mt-0.5 z-10" style={{ background: 'var(--surf)' }}>
                         <Icon className="w-4 h-4" style={{ color }} />
@@ -111,7 +111,7 @@ export default function ConstructionPage() {
         {/* Right: today's updates + site engineer */}
         <div className="space-y-4">
           <div className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-3" style={{ color: 'var(--muted)' }}>Today's Site Log</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-3 block" style={{ color: 'var(--muted)' }}>Today's Site Log</span>
             <div className="space-y-2">
               {site.today_updates.map((u, i) => (
                 <div key={i} className="flex items-start gap-2">
@@ -123,7 +123,7 @@ export default function ConstructionPage() {
           </div>
 
           <div className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-3" style={{ color: 'var(--muted)' }}>Site Details</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-3 block" style={{ color: 'var(--muted)' }}>Site Details</span>
             {[
               ['Location', site.location],
               ['Site Engineer', site.site_engineer],
@@ -138,7 +138,7 @@ export default function ConstructionPage() {
           </div>
 
           <div className="p-4 rounded-sm" style={{ background: 'color-mix(in srgb, var(--gold) 4%, var(--surf))', border: '1px solid color-mix(in srgb, var(--gold) 25%, var(--bord))' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-1" style={{ color: 'var(--gold)' }}>K-RERA Compliance</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--gold)' }}>K-RERA Compliance</span>
             <div className="text-xs mb-2" style={{ color: 'var(--muted)' }}>
               Declared {site.rera_declared_pct}% on portal · Actual {site.completion_pct}%
             </div>

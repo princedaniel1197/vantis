@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { CheckCircle, XCircle, AlertTriangle, ChevronDown, ArrowLeft, Landmark, Scale, User, FileText } from 'lucide-react'
 import { useVerify, T } from '../VerifyContext'
 import projectsData from '@/data/verify-projects.json'
@@ -99,7 +100,7 @@ function SectionHeader({ icon: Icon, label }: { icon: React.ComponentType<{ styl
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', marginBottom: '1.5rem' }}>
       <Icon style={{ width: '16px', height: '16px', color: '#C9A84C' }} />
-      <h3 style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C9A84C', margin: 0 }}>
+      <h3 style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A84C', margin: 0 }}>
         {label}
       </h3>
     </div>
@@ -124,16 +125,28 @@ export default function FullCheckPage() {
   const gc = GRADE_COLORS[project.trust_grade]
 
   return (
-    <div style={{ maxWidth: '760px', margin: '0 auto', padding: '3rem 1.5rem 6rem' }}>
-      {/* Back */}
-      <Link href="/verify" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', textDecoration: 'none', color: '#6B6258', fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', marginBottom: '2rem' }}>
-        <ArrowLeft style={{ width: '14px', height: '14px' }} />
-        {t.nav_trust}
-      </Link>
-
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginBottom: '2.5rem', flexWrap: 'wrap' }}>
+    <div style={{ maxWidth: '760px', margin: '0 auto', padding: '0 1.5rem 6rem' }}>
+      {/* Page header */}
+      <div style={{
+        padding: '1.25rem 0 1.25rem',
+        borderBottom: '1px solid #2A2520',
+        marginBottom: '2rem',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: '1rem',
+        flexWrap: 'wrap',
+      }}>
         <div style={{ flex: 1, minWidth: '240px' }}>
+          <div style={{
+            fontFamily: 'var(--font-dm-mono, monospace)',
+            fontSize: '9px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.28em',
+            color: '#4A4238',
+            marginBottom: '0.5rem',
+          }}>
+            Vantis Verify · Full Check · Premium
+          </div>
           <div style={{
             display: 'inline-block',
             padding: '0.25rem 0.875rem',
@@ -149,7 +162,7 @@ export default function FullCheckPage() {
           }}>
             {t.full_premium_badge}
           </div>
-          <h1 style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: '36px', color: '#F2EBDD', margin: '0 0 0.5rem', fontWeight: 300 }}>
+          <h1 style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: 'clamp(24px, 4vw, 36px)', color: '#F2EBDD', margin: '0 0 0.5rem', fontWeight: 300, lineHeight: 1.1 }}>
             {t.full_title}
           </h1>
           <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '16px', color: '#6B6258', margin: 0 }}>
@@ -246,8 +259,19 @@ export default function FullCheckPage() {
         </div>
       </div>
 
+      {/* Back link */}
+      <Link href="/verify" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', textDecoration: 'none', color: '#6B6258', fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', marginBottom: '2rem' }}>
+        <ArrowLeft style={{ width: '14px', height: '14px' }} />
+        {t.nav_trust}
+      </Link>
+
       {/* Trust Summary */}
-      <div style={{ background: '#0F0D0B', border: `1px solid ${gc.border}`, borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0, duration: 0.35 }}
+        style={{ background: '#0F0D0B', border: `1px solid ${gc.border}`, borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}
+      >
         <SectionHeader icon={CheckCircle} label={t.section_summary} />
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
           <div style={{
@@ -267,23 +291,34 @@ export default function FullCheckPage() {
           </div>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '0.75rem' }}>
-          {Object.entries(project.checks).map(([key, check]) => {
+          {Object.entries(project.checks).map(([key, check], i) => {
             const CheckIcon = check.pass ? CheckCircle : check.severity === 'critical' ? XCircle : AlertTriangle
             const iconColor = check.pass ? '#3FA66A' : check.severity === 'critical' ? '#C0392B' : '#C9A84C'
             return (
-              <div key={key} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}>
+              <motion.div
+                key={key}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.35 }}
+                style={{ display: 'flex', alignItems: 'flex-start', gap: '0.5rem' }}
+              >
                 <CheckIcon style={{ width: '15px', height: '15px', color: iconColor, flexShrink: 0, marginTop: '2px' }} />
                 <div style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '13px', color: check.pass ? '#A89880' : iconColor, lineHeight: 1.4 }}>
                   {check.label}
                 </div>
-              </div>
+              </motion.div>
             )
           })}
         </div>
-      </div>
+      </motion.div>
 
       {/* Title Chain */}
-      <div style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.04, duration: 0.35 }}
+        style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}
+      >
         <SectionHeader icon={Landmark} label={t.section_title_chain} />
         {project.title_chain.length === 0 ? (
           <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '15px', color: '#4A4238', margin: 0 }}>
@@ -292,7 +327,13 @@ export default function FullCheckPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
             {project.title_chain.map((entry, i) => (
-              <div key={i} style={{ display: 'flex', gap: '1rem', paddingBottom: i < project.title_chain.length - 1 ? '1.5rem' : 0, position: 'relative' }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.35 }}
+                style={{ display: 'flex', gap: '1rem', paddingBottom: i < project.title_chain.length - 1 ? '1.5rem' : 0, position: 'relative' }}
+              >
                 {/* Timeline line */}
                 {i < project.title_chain.length - 1 && (
                   <div style={{ position: 'absolute', left: '7px', top: '20px', bottom: 0, width: '1px', background: '#2A2520' }} />
@@ -327,14 +368,19 @@ export default function FullCheckPage() {
                     </div>
                   )}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Litigation */}
-      <div style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.08, duration: 0.35 }}
+        style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}
+      >
         <SectionHeader icon={Scale} label={t.section_litigation} />
         {project.litigation_cases.length === 0 ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
@@ -346,13 +392,19 @@ export default function FullCheckPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {project.litigation_cases.map((c, i) => (
-              <div key={i} style={{
-                padding: '1.25rem',
-                background: '#0C0B09',
-                border: `1px solid ${c.status === 'Active' ? 'rgba(192,57,43,0.3)' : '#1E1A14'}`,
-                borderLeft: `3px solid ${c.status === 'Active' ? '#C0392B' : '#3FA66A'}`,
-                borderRadius: '6px',
-              }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.35 }}
+                style={{
+                  padding: '1.25rem',
+                  background: '#0C0B09',
+                  border: `1px solid ${c.status === 'Active' ? 'rgba(192,57,43,0.3)' : '#1E1A14'}`,
+                  borderLeft: `3px solid ${c.status === 'Active' ? '#C0392B' : '#3FA66A'}`,
+                  borderRadius: '6px',
+                }}
+              >
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '0.5rem', alignItems: 'center' }}>
                   <span style={{
                     padding: '0.2rem 0.625rem',
@@ -384,18 +436,23 @@ export default function FullCheckPage() {
                     Next hearing: {c.next_hearing}
                   </div>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Developer Track Record */}
-      <div style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.12, duration: 0.35 }}
+        style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '1.5rem' }}
+      >
         <SectionHeader icon={User} label={t.section_developer} />
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
           <div>
-            <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', color: '#4A4238', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.25rem' }}>Developer</div>
+            <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', color: '#4A4238', textTransform: 'uppercase', letterSpacing: '0.22em', marginBottom: '0.25rem' }}>Developer</div>
             <div style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '16px', color: '#F2EBDD', fontWeight: '500' }}>{project.developer}</div>
           </div>
         </div>
@@ -406,7 +463,13 @@ export default function FullCheckPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
             {project.developer_projects.map((dp, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.875rem 1rem', background: '#0C0B09', borderRadius: '6px', border: '1px solid #1A1510', flexWrap: 'wrap' }}>
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.35 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.875rem 1rem', background: '#0C0B09', borderRadius: '6px', border: '1px solid #1A1510', flexWrap: 'wrap' }}
+              >
                 <div style={{ flex: 1, minWidth: '160px' }}>
                   <div style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', color: '#F2EBDD' }}>{dp.name}</div>
                   <div style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '12px', color: '#4A4238' }}>{dp.location} · {dp.year ?? 'Ongoing'}</div>
@@ -428,14 +491,19 @@ export default function FullCheckPage() {
                     +{dp.delay_months}mo delay
                   </span>
                 )}
-              </div>
+              </motion.div>
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Plan & RERA Details */}
-      <div style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '2rem' }}>
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.16, duration: 0.35 }}
+        style={{ background: '#0F0D0B', border: '1px solid #1E1A14', borderRadius: '10px', padding: '1.5rem 2rem', marginBottom: '2rem' }}
+      >
         <SectionHeader icon={FileText} label={t.section_plan} />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1rem' }}>
           {[
@@ -452,7 +520,7 @@ export default function FullCheckPage() {
             ] : []),
           ].map(item => (
             <div key={item.label} style={{ padding: '1rem', background: '#0C0B09', borderRadius: '6px', border: item.highlight ? '1px solid rgba(192,57,43,0.3)' : '1px solid #1A1510' }}>
-              <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', color: '#4A4238', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: '0.4rem' }}>
+              <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', color: '#4A4238', textTransform: 'uppercase', letterSpacing: '0.22em', marginBottom: '0.4rem' }}>
                 {item.label}
               </div>
               <div style={{ fontFamily: item.mono ? 'var(--font-dm-mono, monospace)' : 'var(--font-dm-sans, sans-serif)', fontSize: '13px', color: item.highlight ? '#C0392B' : '#A89880', wordBreak: 'break-all' }}>
@@ -461,7 +529,7 @@ export default function FullCheckPage() {
             </div>
           ))}
         </div>
-      </div>
+      </motion.div>
 
       {/* Disclaimer */}
       <div style={{ padding: '1.25rem', background: '#0C0B09', border: '1px solid #1A1510', borderRadius: '6px', textAlign: 'center' }}>

@@ -172,6 +172,11 @@ export default function LendDeveloperContent({ id }: { id: string }) {
         <ArrowLeft className="w-3.5 h-3.5" /> Portfolio
       </Link>
 
+      {/* Page label */}
+      <div className="mb-4">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray">Vantis Lend · Developer Profile</div>
+      </div>
+
       {/* Header */}
       <div className="flex flex-wrap items-center gap-3 mb-6">
         <div className="flex-1">
@@ -199,9 +204,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {/* Gauge */}
         <div className="bg-surface border border-border rounded-sm p-5 flex flex-col items-center">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4 self-start">
-            CIBIL-for-Builders Score
-          </div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4 self-start block">CIBIL-for-Builders Score</span>
           <ScoreGauge score={dev.score} />
           <div
             className="mt-3 px-4 py-1.5 rounded-sm text-xs font-mono font-bold uppercase tracking-[0.12em]"
@@ -210,7 +213,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
             {BAND_LABEL[dev.band]}
           </div>
           <div className="mt-4 w-full">
-            <div className="text-[9px] font-mono uppercase tracking-[0.12em] text-gray mb-1">Score Range</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">Score Range</span>
             <div className="flex items-center gap-1 text-[9px] font-mono text-gray">
               <span className="text-red">300</span>
               <div className="flex-1 h-0.5 bg-gradient-to-r from-red via-amber to-green rounded" />
@@ -221,9 +224,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
 
         {/* Factors */}
         <div className="bg-surface border border-border rounded-sm p-5">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">
-            Contributing Factors
-          </div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4 block">Contributing Factors</span>
           <div className="space-y-4">
             {dev.factors.map((f, i) => (
               <div key={i}>
@@ -238,9 +239,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
         {/* Trend + funded projects */}
         <div className="flex flex-col gap-4">
           <div className="bg-surface border border-border rounded-sm p-5">
-            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
-              6-Quarter Score Trend
-            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">6-Quarter Score Trend</span>
             <ResponsiveContainer width="100%" height={140}>
               <LineChart data={dev.score_trend} margin={{ top: 4, right: 4, left: -24, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#1E1E2E" vertical={false} />
@@ -256,9 +255,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
           </div>
 
           <div className="bg-surface border border-border rounded-sm p-5">
-            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
-              {isOzone ? 'Portfolio Book (Kaveri HFC)' : 'Kaveri HFC Funded Projects'}
-            </div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">{isOzone ? 'Portfolio Book (Kaveri HFC)' : 'Kaveri HFC Funded Projects'}</span>
             {devProjects.length === 0 ? (
               <div className="text-gray text-xs">No funded projects on record.</div>
             ) : (
@@ -296,7 +293,7 @@ export default function LendDeveloperContent({ id }: { id: string }) {
       {/* SHAP explainability panel (Ozone only) */}
       {isOzone && (
         <div className="bg-surface border border-border rounded-sm p-5 mt-5">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">Score Explainability · RBI Model-Risk Compliant</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4 block">Score Explainability · RBI Model-Risk Compliant</span>
 
           {[
             { factor: 'QPR Non-Compliance',       impact: -62, detail: '3 missed filings in last 8 quarters' },

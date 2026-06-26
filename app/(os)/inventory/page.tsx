@@ -51,7 +51,7 @@ export default function InventoryPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Sales · Inventory</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Sales · Inventory</span>
         <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Inventory & Bookings</h1>
       </div>
 
@@ -78,26 +78,26 @@ export default function InventoryPage() {
       {/* Stats + Kaveri guidance */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
         <div className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-display italic text-2xl" style={{ color: 'var(--ink)' }}>{totalUnits}</div>
-          <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Total Units</div>
+          <div className="font-syne text-2xl font-bold" style={{ color: 'var(--ink)' }}>{totalUnits}</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Total Units</span>
         </div>
         <div className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-display italic text-2xl" style={{ color: 'var(--gold)' }}>{soldCount}</div>
-          <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Sold ({Math.round(soldCount / totalUnits * 100)}%)</div>
+          <div className="font-syne text-2xl font-bold" style={{ color: 'var(--gold)' }}>{soldCount}</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Sold ({Math.round(soldCount / totalUnits * 100)}%)</span>
         </div>
         <div className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-display italic text-2xl" style={{ color: 'var(--rb)' }}>{reservedCount}</div>
-          <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Reserved</div>
+          <div className="font-syne text-2xl font-bold" style={{ color: 'var(--rb)' }}>{reservedCount}</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Reserved</span>
         </div>
         <div className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid color-mix(in srgb, var(--ra) 30%, var(--bord))' }}>
-          <div className="font-display italic text-2xl" style={{ color: 'var(--ra)' }}>{availableCount}</div>
-          <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Available</div>
+          <div className="font-syne text-2xl font-bold" style={{ color: 'var(--ra)' }}>{availableCount}</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Available</span>
         </div>
       </div>
 
       {/* Kaveri guidance strip */}
       <div className="mb-4 px-4 py-2.5 rounded-sm flex items-center gap-3" style={{ background: 'color-mix(in srgb, var(--gold) 5%, var(--surf))', border: '1px solid color-mix(in srgb, var(--gold) 25%, var(--bord))' }}>
-        <span className="font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: 'var(--gold)' }}>Kaveri 2.0 Guidance</span>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--gold)' }}>Kaveri 2.0 Guidance</span>
         <span className="font-mono text-xs" style={{ color: 'var(--ink)' }}>₹{project.kaveri_guidance_lakh_per_sqft * 100}/sqft in {project.location.split(',')[0]}</span>
         <span className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>· RERA: {project.rera.slice(-8)}</span>
       </div>
@@ -141,7 +141,7 @@ export default function InventoryPage() {
                       <motion.button key={unit.id}
                         whileHover={{ scale: 1.06 }}
                         onClick={() => setSelectedUnit(selectedUnit?.id === unit.id ? null : unit as Unit)}
-                        className="flex-1 h-8 rounded-sm text-[9px] font-mono transition-all"
+                        className="flex-1 h-8 rounded-sm text-[9px] font-mono transition-all hover:border-vgold/30"
                         style={{
                           background: style.bg,
                           border: `1px solid ${selectedUnit?.id === unit.id ? 'var(--gold)' : style.border}`,
@@ -163,7 +163,7 @@ export default function InventoryPage() {
         <div>
           <AnimatePresence mode="wait">
             {selectedUnit ? (
-              <motion.div key={selectedUnit.id} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
+              <motion.div key={selectedUnit.id} initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}
                 className="p-4 rounded-sm sticky top-20" style={{ background: 'var(--surf)', border: '1px solid var(--gold)' }}>
                 <div className="flex items-center justify-between mb-3">
                   <div className="font-mono text-sm font-bold" style={{ color: 'var(--gold)' }}>{selectedUnit.id}</div>
@@ -205,9 +205,9 @@ export default function InventoryPage() {
                 )}
               </motion.div>
             ) : (
-              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+              <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}
                 className="p-8 rounded-sm text-center" style={{ background: 'var(--surf)', border: '1px dashed var(--bord)' }}>
-                <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-1" style={{ color: 'var(--muted)' }}>Unit Detail</div>
+                <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Unit Detail</span>
                 <div className="text-xs" style={{ color: 'var(--muted)' }}>Click any unit to see details</div>
               </motion.div>
             )}

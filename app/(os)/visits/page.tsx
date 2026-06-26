@@ -43,12 +43,12 @@ export default function VisitsPage() {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Sales · Schedule</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Sales · Schedule</span>
           <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Site Visits</h1>
         </div>
         <div className="text-right">
-          <div className="font-display italic text-2xl" style={{ color: 'var(--gold)' }}>{confirmedToday + todayVisits.filter(v => v.status === 'pending').length}</div>
-          <div className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>visits today</div>
+          <div className="font-syne text-2xl font-bold" style={{ color: 'var(--gold)' }}>{confirmedToday + todayVisits.filter(v => v.status === 'pending').length}</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>visits today</span>
         </div>
       </div>
 
@@ -94,9 +94,9 @@ export default function VisitsPage() {
           const Icon = cfg.icon
           const isSelected = selected === v.id
           return (
-            <motion.div key={v.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+            <motion.div key={v.id} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.3 }}
               onClick={() => setSelected(isSelected ? null : v.id)}
-              className="rounded-sm cursor-pointer transition-all overflow-hidden"
+              className="rounded-sm cursor-pointer transition-all overflow-hidden hover:border-vgold/30"
               style={{ background: isSelected ? cfg.bg : 'var(--surf)', border: `1px solid ${isSelected ? cfg.color : 'var(--bord)'}` }}>
               <div className="p-4 flex items-start gap-4">
                 {/* Time */}
@@ -141,17 +141,17 @@ export default function VisitsPage() {
                   <div className="pt-3" style={{ borderTop: '1px solid var(--bord)' }}>
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-3">
                       <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-0.5" style={{ color: 'var(--muted)' }}>Phone</div>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-0.5 block" style={{ color: 'var(--muted)' }}>Phone</span>
                         <div className="flex items-center gap-1.5 text-sm" style={{ color: 'var(--ink)' }}>
                           <Phone className="w-3.5 h-3.5" style={{ color: 'var(--gold)' }} /> {v.phone}
                         </div>
                       </div>
                       <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-0.5" style={{ color: 'var(--muted)' }}>Project</div>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-0.5 block" style={{ color: 'var(--muted)' }}>Project</span>
                         <div className="text-sm" style={{ color: 'var(--ink)' }}>{v.project}</div>
                       </div>
                       <div>
-                        <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-0.5" style={{ color: 'var(--muted)' }}>Unit Interest</div>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-0.5 block" style={{ color: 'var(--muted)' }}>Unit Interest</span>
                         <div className="text-sm" style={{ color: 'var(--ink)' }}>{v.unit_interest}</div>
                       </div>
                     </div>
@@ -171,9 +171,9 @@ export default function VisitsPage() {
       {/* Today summary */}
       {tab === 'Today' && (
         <div className="mt-6 p-4 rounded-sm flex items-center gap-6" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div><div className="font-display italic text-2xl" style={{ color: 'var(--ra)' }}>{completedToday}</div><div className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>Done</div></div>
-          <div><div className="font-display italic text-2xl" style={{ color: 'var(--gold)' }}>{confirmedToday}</div><div className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>Confirmed</div></div>
-          <div><div className="font-display italic text-2xl" style={{ color: 'var(--rb)' }}>{todayVisits.filter(v => v.status === 'pending').length}</div><div className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>Pending</div></div>
+          <div><div className="font-syne text-2xl font-bold" style={{ color: 'var(--ra)' }}>{completedToday}</div><span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Done</span></div>
+          <div><div className="font-syne text-2xl font-bold" style={{ color: 'var(--gold)' }}>{confirmedToday}</div><span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Confirmed</span></div>
+          <div><div className="font-syne text-2xl font-bold" style={{ color: 'var(--rb)' }}>{todayVisits.filter(v => v.status === 'pending').length}</div><span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Pending</span></div>
           <div className="ml-auto font-mono text-[10px]" style={{ color: 'var(--muted)' }}>
             Booking pipeline value today: <span style={{ color: 'var(--gold)' }}>₹{todayVisits.reduce((s, v) => s + v.budget_lakh, 0)}L</span>
           </div>

@@ -197,7 +197,7 @@ export default function SubmissionScanner() {
 
         {/* Section 3 — Next steps */}
         <div className="bg-surface border border-border rounded-sm p-6 mt-4">
-          <div className="font-mono text-[10px] text-gray uppercase tracking-[0.15em] mb-4">Next Steps</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4">Next Steps</div>
           <div className="space-y-3 mb-6">
             {[
               'Project is now live in the K-RERA public registry',
@@ -236,7 +236,8 @@ export default function SubmissionScanner() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-syne text-2xl sm:text-3xl text-off-white">Submission Scanner</h1>
+          <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-1">GOVERN · SUBMISSIONS</div>
+          <h1 className="font-syne text-2xl sm:text-3xl text-off-white font-bold">Submission Scanner</h1>
           <p className="text-gray text-xs mt-1">Pre-assessment queue · 5-database verification</p>
         </div>
         <div className="hidden sm:flex items-center gap-2 text-gray text-xs">
@@ -249,7 +250,7 @@ export default function SubmissionScanner() {
 
         {/* Left: Queue */}
         <div className="lg:col-span-2">
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Pending Queue</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Pending Queue</div>
           <div className="space-y-2">
             {APPLICATIONS.map(a => {
               const r = riskConfig(a.risk)
@@ -269,7 +270,7 @@ export default function SubmissionScanner() {
                       </div>
                       <div className="text-gray text-xs mt-0.5 truncate">{a.developer}</div>
                     </div>
-                    <span className={`inline-flex items-center gap-1.5 text-[10px] shrink-0 ${r.textColor}`}>
+                    <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono shrink-0 ${r.textColor}`}>
                       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${r.dotBg}`} />
                       {r.label}
                     </span>
@@ -286,7 +287,7 @@ export default function SubmissionScanner() {
 
         {/* Right: Assessment card */}
         <div className="lg:col-span-3">
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Pre-Assessment Report</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Pre-Assessment Report</div>
           <div className="bg-surface border border-border rounded-sm overflow-hidden">
 
             {/* Card header */}
@@ -317,7 +318,7 @@ export default function SubmissionScanner() {
 
             {/* Verification blocks */}
             <div className="px-5 py-4 space-y-2.5">
-              <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">5-Point Database Verification</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">5-Point Database Verification</div>
               {app.verifications.map((v, i) => (
                 <div key={i} className={`flex items-start gap-3 p-3 border rounded-sm ${resultBg(v.result)}`}>
                   {resultIcon(v.result)}
@@ -335,7 +336,7 @@ export default function SubmissionScanner() {
 
             {/* Officer Actions */}
             <div className="px-5 py-4 border-t border-border">
-              <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Officer Actions</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Officer Actions</div>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => setApproveModal(true)}

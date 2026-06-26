@@ -148,6 +148,33 @@ export default function VerifyPage() {
 
   return (
     <div>
+      {/* Page header */}
+      <div style={{
+        padding: '1.25rem 1.5rem',
+        borderBottom: '1px solid #2A2520',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-dm-mono, monospace)',
+          fontSize: '9px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.28em',
+          color: '#4A4238',
+          marginBottom: '0.5rem',
+        }}>
+          Vantis Verify · Property Trust Check · Karnataka
+        </div>
+        <h1 style={{
+          fontFamily: 'var(--font-syne, var(--font-dm-sans, sans-serif))',
+          fontSize: 'clamp(20px, 3vw, 28px)',
+          fontWeight: 700,
+          color: '#F2EBDD',
+          margin: 0,
+          lineHeight: 1,
+        }}>
+          Trust Report
+        </h1>
+      </div>
+
       {/* Hero */}
       <section style={{ paddingTop: '5rem', paddingBottom: '4rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         <div style={{ maxWidth: '720px', margin: '0 auto', textAlign: 'center' }}>

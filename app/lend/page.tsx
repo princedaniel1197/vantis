@@ -20,88 +20,100 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
-function FlaggedCard({ project }: { project: LendProject }) {
+function FlaggedCard({ project, index }: { project: LendProject; index: number }) {
   const { text, bg, border } = BAND_COLOR.red
   return (
     <motion.div
-      animate={{
-        boxShadow: [
-          '0 0 0 0 rgba(231,76,60,0)',
-          '0 0 0 6px rgba(231,76,60,0.15)',
-          '0 0 0 0 rgba(231,76,60,0)',
-        ],
-      }}
-      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-      style={{ borderRadius: '2px' }}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04, duration: 0.35 }}
     >
-      <Link
-        href={`/lend/project/${project.id}`}
-        className="block rounded-sm p-4 transition-colors duration-150 group"
-        style={{ background: bg, border: `1px solid ${border}` }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor = text }}
-        onMouseLeave={e => { e.currentTarget.style.borderColor = border }}
+      <motion.div
+        animate={{
+          boxShadow: [
+            '0 0 0 0 rgba(231,76,60,0)',
+            '0 0 0 6px rgba(231,76,60,0.15)',
+            '0 0 0 0 rgba(231,76,60,0)',
+          ],
+        }}
+        transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ borderRadius: '2px' }}
       >
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div className="flex items-center gap-1.5">
-            <AlertTriangle className="w-3.5 h-3.5 shrink-0" style={{ color: text }} />
-            <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
-              HIGH RISK · FLAGGED {project.flagged_quarter}
-            </span>
+        <Link
+          href={`/lend/project/${project.id}`}
+          className="block rounded-sm p-4 transition-colors duration-150 group"
+          style={{ background: bg, border: `1px solid ${border}` }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = text }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = border }}
+        >
+          <div className="flex items-start justify-between gap-2 mb-3">
+            <div className="flex items-center gap-1.5">
+              <AlertTriangle className="w-3.5 h-3.5 shrink-0" style={{ color: text }} />
+              <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
+                HIGH RISK · FLAGGED {project.flagged_quarter}
+              </span>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 shrink-0 text-gray group-hover:text-red transition-colors" />
           </div>
-          <ChevronRight className="w-3.5 h-3.5 shrink-0 text-gray group-hover:text-red transition-colors" />
-        </div>
-        <div className="font-syne text-base text-off-white leading-tight mb-0.5">{project.name}</div>
-        <div className="text-gray text-xs mb-4">{project.developer} · {project.city}</div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-          <div>
-            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Outstanding</div>
-            <div className="text-sm font-mono font-bold text-red">₹{project.outstanding_cr} Cr</div>
-          </div>
-          <div>
-            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Recovery</div>
-            <div
-              className="text-xs font-mono font-semibold"
-              style={{ color: project.recovery_window === 'RECOVERABLE' ? '#F39C12' : '#E74C3C' }}
-            >
-              {project.recovery_window ?? '—'}
+          <div className="font-syne text-base text-off-white leading-tight mb-0.5">{project.name}</div>
+          <div className="text-gray text-xs mb-4">{project.developer} · {project.city}</div>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div>
+              <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Outstanding</div>
+              <div className="text-sm font-mono font-bold text-red">₹{project.outstanding_cr} Cr</div>
+            </div>
+            <div>
+              <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">Recovery</div>
+              <div
+                className="text-xs font-mono font-semibold"
+                style={{ color: project.recovery_window === 'RECOVERABLE' ? '#F39C12' : '#E74C3C' }}
+              >
+                {project.recovery_window ?? '—'}
+              </div>
+            </div>
+            <div className="col-span-2">
+              <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-1">Vantis Score</div>
+              <ScoreBar score={project.risk_score} />
             </div>
           </div>
-          <div className="col-span-2">
-            <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-1">Vantis Score</div>
-            <ScoreBar score={project.risk_score} />
-          </div>
-        </div>
-      </Link>
+        </Link>
+      </motion.div>
     </motion.div>
   )
 }
 
-function WatchCard({ project }: { project: LendProject }) {
+function WatchCard({ project, index }: { project: LendProject; index: number }) {
   const { text, bg, border } = BAND_COLOR.amber
   return (
-    <Link
-      href={`/lend/project/${project.id}`}
-      className="block rounded-sm p-3.5 transition-opacity duration-150 group hover:opacity-80"
-      style={{ background: bg, border: `1px solid ${border}` }}
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04, duration: 0.35 }}
     >
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div className="flex items-center gap-1.5">
-          <Activity className="w-3 h-3 shrink-0" style={{ color: text }} />
-          <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
-            ON WATCH
-          </span>
+      <Link
+        href={`/lend/project/${project.id}`}
+        className="block rounded-sm p-3.5 transition-opacity duration-150 group hover:opacity-80"
+        style={{ background: bg, border: `1px solid ${border}` }}
+      >
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <div className="flex items-center gap-1.5">
+            <Activity className="w-3 h-3 shrink-0" style={{ color: text }} />
+            <span className="text-[9px] font-mono uppercase tracking-[0.12em]" style={{ color: text }}>
+              ON WATCH
+            </span>
+          </div>
+          <ChevronRight className="w-3 h-3 shrink-0 text-gray group-hover:text-amber-400 transition-colors" />
         </div>
-        <ChevronRight className="w-3 h-3 shrink-0 text-gray group-hover:text-amber-400 transition-colors" />
-      </div>
-      <div className="font-syne text-sm text-off-white leading-tight mb-0.5">{project.name}</div>
-      <div className="text-gray text-[10px] mb-3">{project.developer} · {project.city}</div>
-      <div className="flex items-center gap-2">
-        <span className="text-xs font-mono font-bold shrink-0" style={{ color: text }}>
-          ₹{project.outstanding_cr} Cr
-        </span>
-        <div className="flex-1"><ScoreBar score={project.risk_score} /></div>
-      </div>
-    </Link>
+        <div className="font-syne text-sm text-off-white leading-tight mb-0.5">{project.name}</div>
+        <div className="text-gray text-[10px] mb-3">{project.developer} · {project.city}</div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-mono font-bold shrink-0" style={{ color: text }}>
+            ₹{project.outstanding_cr} Cr
+          </span>
+          <div className="flex-1"><ScoreBar score={project.risk_score} /></div>
+        </div>
+      </Link>
+    </motion.div>
   )
 }
 
@@ -188,88 +200,98 @@ export default function LendPortfolioDashboard() {
   const greenExposure = green.reduce((s, p) => s + p.outstanding_cr, 0)
 
   return (
-    <div className="p-5 max-w-[1100px] mx-auto">
-      <div className="mb-6">
-        <h1 className="font-syne text-xl text-off-white">Portfolio Early-Warning</h1>
-        <p className="text-gray text-sm mt-0.5 italic">
+    <div className="flex flex-col min-h-full">
+      {/* Page header */}
+      <div className="px-6 sm:px-8 py-5 border-b border-border shrink-0">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          Vantis Lend · {personaMeta.name} · Q4 2023
+        </div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">
+          Portfolio Early-Warning
+        </h1>
+      </div>
+
+      <div className="p-5 sm:p-6 max-w-[1100px] mx-auto w-full">
+        {/* Quote */}
+        <p className="text-gray text-sm mt-0 mb-6 italic">
           &ldquo;Every lender watches its real-estate book through the rearview mirror. Vantis Lend is the windshield.&rdquo;
         </p>
+
+        {/* KPI strip */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-7">
+          <div className="bg-surface border border-border rounded-sm px-4 py-3 hover:border-gold/30 transition-all">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray block mb-1">Total Exposure</span>
+            <div className="font-syne text-2xl sm:text-3xl font-bold text-off-white">₹{personaMeta.total_cr.toLocaleString('en-IN')} Cr</div>
+            <div className="text-[10px] text-gray mt-0.5">{personaMeta.projects} projects · {personaMeta.name}</div>
+          </div>
+
+          <div className="bg-surface border border-border rounded-sm px-4 py-3 hover:border-gold/30 transition-all">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray block mb-2">Book Health</span>
+            <div className="space-y-1">
+              {([['green', green.length], ['amber', amber.length], ['red', red.length]] as [RiskBand, number][]).map(([b, n]) => (
+                <div key={b} className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: BAND_COLOR[b].text }} />
+                  <span className="text-[10px] text-gray">{BAND_LABEL[b]}</span>
+                  <span className="ml-auto font-mono text-[11px]" style={{ color: BAND_COLOR[b].text }}>{n}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="bg-red/8 border border-red/20 rounded-sm px-4 py-3 hover:border-red/40 transition-all">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-red/60 block mb-1">₹ At Risk</span>
+            <div className="font-syne text-2xl sm:text-3xl font-bold text-red">₹{personaMeta.at_risk_cr.toLocaleString('en-IN')} Cr</div>
+            <div className="text-[10px] text-red/50 mt-0.5">{red.length} flagged · {amber.length} on watch</div>
+          </div>
+
+          <div className="bg-surface border border-border rounded-sm px-4 py-3 hover:border-gold/30 transition-all">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray block mb-1">Hero Catch</span>
+            <Link href="/lend/project/ozone-urbana" className="block hover:opacity-80 transition-opacity">
+              <div className="font-syne text-sm text-gold leading-tight">{personaMeta.hero_project}</div>
+              <div className="text-[10px] text-gray mt-0.5">Flagged Q3 2021 · 6 qtrs early</div>
+              <div className="text-[10px] text-gold/70 mt-0.5 font-mono">↗ drill down</div>
+            </Link>
+          </div>
+        </div>
+
+        {/* Flagged — always visible */}
+        {red.length > 0 && (
+          <div className="mb-7">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="w-4 h-4 text-red" />
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-red font-semibold">
+                Flagged — Immediate Attention
+              </span>
+              <span className="text-[10px] font-mono text-gray ml-1">
+                · {red.length} projects · ₹{redExposure.toLocaleString('en-IN')} Cr
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {red.map((p, i) => <FlaggedCard key={p.id} project={p} index={i} />)}
+            </div>
+          </div>
+        )}
+
+        {/* On Watch — amber card grid */}
+        {amber.length > 0 && (
+          <div className="mb-7">
+            <div className="flex items-center gap-2 mb-3">
+              <Activity className="w-4 h-4" style={{ color: BAND_COLOR.amber.text }} />
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] font-semibold" style={{ color: BAND_COLOR.amber.text }}>
+                On Watch
+              </span>
+              <span className="text-[10px] font-mono text-gray ml-1">
+                · {amber.length} projects · ₹{amberExposure.toLocaleString('en-IN')} Cr
+              </span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+              {amber.map((p, i) => <WatchCard key={p.id} project={p} index={i} />)}
+            </div>
+          </div>
+        )}
+
+        <Section band="green" count={green.length} exposure={greenExposure} projects={green} defaultOpen={false} />
       </div>
-
-      {/* KPI strip */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-7">
-        <div className="bg-surface border border-border rounded-sm px-4 py-3">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Total Exposure</div>
-          <div className="font-syne text-2xl text-off-white">₹{personaMeta.total_cr.toLocaleString('en-IN')} Cr</div>
-          <div className="text-[10px] text-gray mt-0.5">{personaMeta.projects} projects · {personaMeta.name}</div>
-        </div>
-
-        <div className="bg-surface border border-border rounded-sm px-4 py-3">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-2">Book Health</div>
-          <div className="space-y-1">
-            {([['green', green.length], ['amber', amber.length], ['red', red.length]] as [RiskBand, number][]).map(([b, n]) => (
-              <div key={b} className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: BAND_COLOR[b].text }} />
-                <span className="text-[10px] text-gray">{BAND_LABEL[b]}</span>
-                <span className="ml-auto font-mono text-[11px]" style={{ color: BAND_COLOR[b].text }}>{n}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="bg-red/8 border border-red/20 rounded-sm px-4 py-3">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-red/60 mb-1">₹ At Risk</div>
-          <div className="font-syne text-2xl text-red">₹{personaMeta.at_risk_cr.toLocaleString('en-IN')} Cr</div>
-          <div className="text-[10px] text-red/50 mt-0.5">{red.length} flagged · {amber.length} on watch</div>
-        </div>
-
-        <div className="bg-surface border border-border rounded-sm px-4 py-3">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Hero Catch</div>
-          <Link href="/lend/project/ozone-urbana" className="block hover:opacity-80 transition-opacity">
-            <div className="font-syne text-sm text-gold leading-tight">{personaMeta.hero_project}</div>
-            <div className="text-[10px] text-gray mt-0.5">Flagged Q3 2021 · 6 qtrs early</div>
-            <div className="text-[10px] text-gold/70 mt-0.5 font-mono">↗ drill down</div>
-          </Link>
-        </div>
-      </div>
-
-      {/* Flagged — always visible */}
-      {red.length > 0 && (
-        <div className="mb-7">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle className="w-4 h-4 text-red" />
-            <span className="text-xs font-mono uppercase tracking-[0.15em] text-red font-semibold">
-              Flagged — Immediate Attention
-            </span>
-            <span className="text-[10px] font-mono text-gray ml-1">
-              · {red.length} projects · ₹{redExposure.toLocaleString('en-IN')} Cr
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {red.map(p => <FlaggedCard key={p.id} project={p} />)}
-          </div>
-        </div>
-      )}
-
-      {/* On Watch — amber card grid */}
-      {amber.length > 0 && (
-        <div className="mb-7">
-          <div className="flex items-center gap-2 mb-3">
-            <Activity className="w-4 h-4" style={{ color: BAND_COLOR.amber.text }} />
-            <span className="text-xs font-mono uppercase tracking-[0.15em] font-semibold" style={{ color: BAND_COLOR.amber.text }}>
-              On Watch
-            </span>
-            <span className="text-[10px] font-mono text-gray ml-1">
-              · {amber.length} projects · ₹{amberExposure.toLocaleString('en-IN')} Cr
-            </span>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {amber.map(p => <WatchCard key={p.id} project={p} />)}
-          </div>
-        </div>
-      )}
-
-      <Section band="green" count={green.length} exposure={greenExposure} projects={green} defaultOpen={false} />
     </div>
   )
 }

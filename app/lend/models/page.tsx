@@ -59,13 +59,14 @@ export default function ModelsPage() {
   return (
     <div className="p-5 max-w-[1100px] mx-auto">
       <div className="mb-6">
-        <h1 className="font-syne text-xl text-off-white">Predictive Models</h1>
-        <p className="text-gray text-sm mt-0.5">Trained on 234 resolved Karnataka projects (2016–2023). RBI Model-Risk compliant.</p>
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">Vantis Lend · Risk Intelligence</div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">Predictive Models</h1>
+        <p className="text-gray text-sm mt-2">Trained on 234 resolved Karnataka projects (2016–2023). RBI Model-Risk compliant.</p>
       </div>
 
       {/* Section 1 — Survival curves */}
       <div className="bg-surface border border-border rounded-sm p-5 mb-5">
-        <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">DCCO Slip Probability — Survival Curves</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">DCCO Slip Probability — Survival Curves</span>
         <p className="text-gray text-xs mb-4 leading-relaxed">
           Probability of DCCO slip by month-N, given current signals. Ozone Urbana (red) crosses high-risk threshold at month 3. Divya Villas (green) remains well below threshold at 18 months.
         </p>
@@ -88,7 +89,7 @@ export default function ModelsPage() {
 
       {/* Section 2 — PD distribution */}
       <div className="bg-surface border border-border rounded-sm p-5 mb-5">
-        <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-1">Portfolio PD Distribution</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">Portfolio PD Distribution</span>
         <p className="text-gray text-xs mb-4 leading-relaxed">
           Distribution of 40 funded projects by current probability of default. 1 project above 50% (Ozone Urbana at 73%).
         </p>
@@ -110,7 +111,7 @@ export default function ModelsPage() {
       {/* Section 3 — Top 5 at-risk */}
       <div className="bg-surface border border-border rounded-sm overflow-hidden">
         <div className="px-5 py-3 border-b border-border bg-surface2">
-          <span className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray">Top 5 At-Risk Projects — Current PD</span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Top 5 At-Risk Projects — Current PD</span>
         </div>
         <div className="divide-y divide-border/50">
           {TOP_RISK.map((p, i) => {

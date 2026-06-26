@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Search, ChevronDown, ChevronUp, AlertTriangle, ExternalLink } from 'lucide-react'
 
 interface Component {
@@ -129,133 +130,144 @@ export default function DeveloperRiskIntelligence() {
   }
 
   return (
-    <div className="px-4 sm:px-6 py-6 max-w-7xl mx-auto">
+    <div className="flex flex-col min-h-full text-off-white">
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="font-syne text-2xl sm:text-3xl text-off-white">Developer Risk Intelligence</h1>
-          <p className="text-gray text-xs mt-1">Trust scores across K-RERA registered developers</p>
+      <div className="px-6 sm:px-8 py-5 border-b border-border shrink-0">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          K-RERA · Karnataka Real Estate Regulatory Authority · Developer Intelligence
         </div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">
+          Developer Risk Intelligence
+        </h1>
       </div>
 
-      {/* Search */}
-      <div className="relative mb-6 max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray" />
-        <input
-          type="text"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Search developer..."
-          className="w-full bg-surface border border-border rounded-sm pl-9 pr-3 py-2 text-sm text-off-white placeholder:text-gray/50 focus:outline-none focus:border-gold/50"
-        />
-      </div>
+      <div className="px-6 sm:px-8 py-6">
 
-      {/* 2×2 Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {filtered.map(dev => {
-          const isExpanded = expandedId === dev.id
-          return (
-            <div
-              key={dev.id}
-              className={`bg-surface border rounded-sm overflow-hidden ${scoreBorder(dev.score)}`}
-            >
-              {/* Card top */}
-              <div className="p-5">
-                {/* Name + score row */}
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div>
-                    <h2 className="font-syne text-base font-semibold text-off-white mb-0.5">{dev.name}</h2>
-                    <div className="flex flex-wrap gap-1.5">
-                      {dev.projects.map(p => (
-                        <span
-                          key={p.id}
-                          className={`inline-flex items-center gap-1.5 text-[10px] ${statusColor(p.status)}`}
-                        >
-                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
+        <p className="text-gray text-xs mb-6">Trust scores across K-RERA registered developers</p>
+
+        {/* Search */}
+        <div className="relative mb-6 max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray" />
+          <input
+            type="text"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            placeholder="Search developer..."
+            className="w-full bg-surface border border-border rounded-sm pl-9 pr-3 py-2 text-sm text-off-white placeholder:text-gray/50 focus:outline-none focus:border-gold/50"
+          />
+        </div>
+
+        {/* 2×2 Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {filtered.map((dev, index) => {
+            const isExpanded = expandedId === dev.id
+            return (
+              <motion.div
+                key={dev.id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                className={`bg-surface border rounded-sm overflow-hidden hover:border-gold/30 transition-all ${scoreBorder(dev.score)}`}
+              >
+                {/* Card top */}
+                <div className="p-5">
+                  {/* Name + score row */}
+                  <div className="flex items-start justify-between gap-4 mb-4">
+                    <div>
+                      <h2 className="font-syne text-base font-semibold text-off-white mb-0.5">{dev.name}</h2>
+                      <div className="flex flex-wrap gap-1.5">
+                        {dev.projects.map(p => (
+                          <div
+                            key={p.id}
+                            className="flex items-center gap-1.5"
+                          >
+                            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
+                            <span className={`text-[9px] font-mono ${statusColor(p.status)}`}>{p.name}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className={`font-syne text-5xl font-bold leading-none ${scoreColor(dev.score)}`}>
+                        {dev.score}
+                      </div>
+                      <div className="font-mono text-[9px] mt-1 uppercase tracking-[0.22em] text-gray">Trust Score</div>
+                    </div>
+                  </div>
+
+                  {/* Enforcement warning */}
+                  {dev.enforcement && (
+                    <div className="flex items-start gap-2 bg-red/5 border border-red/20 rounded-sm px-3 py-2 mb-4">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red shrink-0 mt-0.5" />
+                      <p className="text-red text-xs leading-snug">{dev.enforcement}</p>
+                    </div>
+                  )}
+
+                  {/* Component mini bars */}
+                  <div className="space-y-2">
+                    {dev.components.map(c => (
+                      <div key={c.label}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">{c.label}</span>
+                          <span className={`font-mono text-[10px] font-bold ${barColor(c.value).replace('bg-', 'text-')}`}>
+                            {c.value}%
+                          </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-surface2 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${barColor(c.value)}`}
+                            style={{ width: `${c.value}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Expand toggle */}
+                <button
+                  onClick={() => toggle(dev.id)}
+                  className="w-full flex items-center justify-between px-5 py-3 border-t border-border bg-surface2/40 hover:bg-surface2 transition-colors duration-150 text-xs text-gray hover:text-off-white"
+                >
+                  <span>{isExpanded ? 'Hide projects' : 'View projects'}</span>
+                  {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </button>
+
+                {/* Expanded project links */}
+                {isExpanded && (
+                  <div className="border-t border-border bg-surface2/20 px-5 py-4 space-y-2">
+                    {dev.projects.map(p => (
+                      <Link
+                        key={p.id}
+                        href={`/govern/projects/${p.id}`}
+                        className="flex items-center justify-between group py-1.5"
+                      >
+                        <span className="text-xs text-off-white group-hover:text-gold transition-colors duration-150">
                           {p.name}
                         </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <div className={`font-syne text-5xl font-bold leading-none ${scoreColor(dev.score)}`}>
-                      {dev.score}
-                    </div>
-                    <div className="text-gray text-[10px] mt-1 uppercase tracking-widest">Trust Score</div>
-                  </div>
-                </div>
-
-                {/* Enforcement warning */}
-                {dev.enforcement && (
-                  <div className="flex items-start gap-2 bg-red/5 border border-red/20 rounded-sm px-3 py-2 mb-4">
-                    <AlertTriangle className="w-3.5 h-3.5 text-red shrink-0 mt-0.5" />
-                    <p className="text-red text-xs leading-snug">{dev.enforcement}</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
+                            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
+                            <span className={`text-[9px] font-mono ${statusColor(p.status)}`}>{p.status}</span>
+                          </div>
+                          <ExternalLink className="w-3 h-3 text-gray group-hover:text-gold transition-colors duration-150" />
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 )}
+              </motion.div>
+            )
+          })}
 
-                {/* Component mini bars */}
-                <div className="space-y-2">
-                  {dev.components.map(c => (
-                    <div key={c.label}>
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] text-gray">{c.label}</span>
-                        <span className={`font-mono text-[10px] font-bold ${barColor(c.value).replace('bg-', 'text-')}`}>
-                          {c.value}%
-                        </span>
-                      </div>
-                      <div className="w-full h-1.5 bg-surface2 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${barColor(c.value)}`}
-                          style={{ width: `${c.value}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Expand toggle */}
-              <button
-                onClick={() => toggle(dev.id)}
-                className="w-full flex items-center justify-between px-5 py-3 border-t border-border bg-surface2/40 hover:bg-surface2 transition-colors duration-150 text-xs text-gray hover:text-off-white"
-              >
-                <span>{isExpanded ? 'Hide projects' : 'View projects'}</span>
-                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-              </button>
-
-              {/* Expanded project links */}
-              {isExpanded && (
-                <div className="border-t border-border bg-surface2/20 px-5 py-4 space-y-2">
-                  {dev.projects.map(p => (
-                    <Link
-                      key={p.id}
-                      href={`/govern/projects/${p.id}`}
-                      className="flex items-center justify-between group py-1.5"
-                    >
-                      <span className="text-xs text-off-white group-hover:text-gold transition-colors duration-150">
-                        {p.name}
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <span className={`inline-flex items-center gap-1.5 text-[10px] ${statusColor(p.status)}`}>
-                          <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
-                          {p.status}
-                        </span>
-                        <ExternalLink className="w-3 h-3 text-gray group-hover:text-gold transition-colors duration-150" />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
+          {filtered.length === 0 && (
+            <div className="col-span-2 text-center py-12 text-gray text-sm">
+              No developers match &ldquo;{search}&rdquo;
             </div>
-          )
-        })}
+          )}
+        </div>
 
-        {filtered.length === 0 && (
-          <div className="col-span-2 text-center py-12 text-gray text-sm">
-            No developers match &ldquo;{search}&rdquo;
-          </div>
-        )}
       </div>
     </div>
   )

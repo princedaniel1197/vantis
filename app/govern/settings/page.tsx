@@ -74,7 +74,8 @@ export default function Settings() {
 
       {/* Header */}
       <div className="mb-8">
-        <h1 className="font-syne text-2xl sm:text-3xl text-off-white">Settings</h1>
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-1">GOVERN · CONFIGURATION</div>
+        <h1 className="font-syne text-2xl sm:text-3xl text-off-white font-bold">Settings</h1>
         <p className="text-gray text-xs mt-1">Account, notifications, data freshness, and demo mode</p>
       </div>
 
@@ -82,25 +83,25 @@ export default function Settings() {
       <div className="bg-surface border border-border rounded-sm p-5 mb-4">
         <div className="flex items-center gap-2 mb-4">
           <User className="w-4 h-4 text-gold" />
-          <h2 className="font-syne text-sm font-semibold text-off-white uppercase tracking-widest">Current User</h2>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Current User</span>
         </div>
         {officer ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <div className="text-[10px] uppercase tracking-widest text-gray mb-1">Name</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1">Name</div>
               <div className="text-off-white text-sm">{officer.name}</div>
             </div>
             <div>
-              <div className="text-[10px] uppercase tracking-widest text-gray mb-1">Email</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1">Email</div>
               <div className="font-mono text-xs text-gold">{officer.email}</div>
             </div>
             <div>
-              <div className="text-[10px] uppercase tracking-widest text-gray mb-1">Role</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1">Role</div>
               <div className="text-off-white text-sm">{ROLE_DISPLAY[officer.role] ?? officer.role}</div>
             </div>
             <div>
-              <div className="text-[10px] uppercase tracking-widest text-gray mb-1">Session</div>
-              <div className="text-green text-xs flex items-center gap-1">
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1">Session</div>
+              <div className="text-green text-[9px] font-mono flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-green rounded-full inline-block" />
                 Active
               </div>
@@ -115,7 +116,7 @@ export default function Settings() {
       <div className="bg-surface border border-border rounded-sm p-5 mb-4">
         <div className="flex items-center gap-2 mb-4">
           <Bell className="w-4 h-4 text-gold" />
-          <h2 className="font-syne text-sm font-semibold text-off-white uppercase tracking-widest">Notification Preferences</h2>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Notification Preferences</span>
         </div>
         <div className="space-y-4">
           {[
@@ -158,14 +159,14 @@ export default function Settings() {
       <div className="bg-surface border border-border rounded-sm p-5 mb-4">
         <div className="flex items-center gap-2 mb-4">
           <Database className="w-4 h-4 text-gold" />
-          <h2 className="font-syne text-sm font-semibold text-off-white uppercase tracking-widest">Data Freshness</h2>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Data Freshness</span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr className="border-b border-border">
                 {['Data Source', 'Last Sync', 'Frequency', 'Status'].map(h => (
-                  <th key={h} className="text-left pb-2 text-[10px] uppercase tracking-widest text-gray font-semibold">{h}</th>
+                  <th key={h} className="text-left pb-2 font-mono text-[9px] uppercase tracking-[0.22em] text-gray">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -204,7 +205,7 @@ export default function Settings() {
       <div className="bg-surface border border-border rounded-sm p-5">
         <div className="flex items-center gap-2 mb-4">
           <FlaskConical className="w-4 h-4 text-gold" />
-          <h2 className="font-syne text-sm font-semibold text-off-white uppercase tracking-widest">Demo Mode</h2>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Demo Mode</span>
         </div>
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1">

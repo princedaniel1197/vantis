@@ -51,7 +51,7 @@ export default function PartnersPage() {
           <div key={k.label} className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
             <k.icon className="w-4 h-4 mb-2" style={{ color: 'var(--muted)' }} />
             <div className="font-display italic text-2xl sm:text-3xl" style={{ color: k.color }}>{k.value}</div>
-            <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>{k.label}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{k.label}</span>
             <div className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{k.sub}</div>
           </div>
         ))}

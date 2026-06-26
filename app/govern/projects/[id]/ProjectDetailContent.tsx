@@ -8,6 +8,7 @@ import {
   Scale, AlertTriangle, Settings, CheckCircle,
   ChevronRight, XCircle, FileX, FolderOpen, ExternalLink, Satellite,
 } from 'lucide-react'
+import { motion } from 'framer-motion'
 import projectsData from '@/data/projects.json'
 import developersData from '@/data/developers.json'
 import qprData from '@/data/qpr.json'
@@ -99,10 +100,10 @@ function qprRowClass(status: string) {
 }
 
 function qprStatusEl(status: string) {
-  if (status === 'ON_TIME') return <span className="text-green font-medium text-xs">On Time</span>
-  if (status === 'LATE')    return <span className="text-amber font-medium text-xs">Late</span>
-  if (status === 'MISSED')  return <span className="text-red font-medium text-xs">Missed</span>
-  return <span className="text-gray text-xs">N/A</span>
+  if (status === 'ON_TIME') return <span className="text-green font-mono text-[9px] uppercase">On Time</span>
+  if (status === 'LATE')    return <span className="text-amber font-mono text-[9px] uppercase">Late</span>
+  if (status === 'MISSED')  return <span className="text-red font-mono text-[9px] uppercase">Missed</span>
+  return <span className="text-gray font-mono text-[9px] uppercase">N/A</span>
 }
 
 function severityTextColor(s: string) {
@@ -213,7 +214,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
       <div className="space-y-5">
         {/* Facts grid */}
         <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Project Details</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Project Details</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
             {[
               { label: 'RERA Number',      value: project.rera,                     mono: true, gold: true },
@@ -238,7 +239,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         </div>
 
         {/* Units sold */}
-        <div className="bg-surface2 border border-border rounded-sm p-4">
+        <div className="bg-surface border border-border rounded-sm p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-gray text-xs font-semibold uppercase tracking-wide">Units Sold</span>
             <span className="font-mono text-gold text-sm font-bold">{project.units_sold} / {project.total_units}</span>
@@ -250,7 +251,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         </div>
 
         {/* Completion */}
-        <div className="bg-surface2 border border-border rounded-sm p-4">
+        <div className="bg-surface border border-border rounded-sm p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-gray text-xs font-semibold uppercase tracking-wide">Construction Completion</span>
             <span className={`font-mono text-sm font-bold ${completionPct !== null ? 'text-gold' : 'text-red'}`}>
@@ -272,29 +273,29 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         {/* Developer info */}
         {developer && (
           <div>
-            <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Developer</div>
-            <div className="bg-surface2 border border-border rounded-sm p-4">
+            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Developer</div>
+            <div className="bg-surface border border-border rounded-sm p-4">
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div>
                   <div className="text-off-white font-medium text-sm">{developer.name}</div>
                   <div className="text-gray text-xs mt-0.5">{developer.city}, {developer.state} · {developer.years_active} years active</div>
                 </div>
-                <span className={`inline-flex items-center gap-1.5 text-xs shrink-0 ${statusColor(developer.status)}`}>
+                <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono shrink-0 ${statusColor(developer.status)}`}>
                   <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(developer.status)}`} />
                   {developer.status}
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-3 text-center border-t border-border pt-3">
                 <div>
-                  <div className="font-mono text-gold text-base font-bold">{developer.total_projects}</div>
+                  <div className="font-syne font-bold text-xl sm:text-2xl text-gold">{developer.total_projects}</div>
                   <div className="text-gray text-[10px] mt-0.5">Total projects</div>
                 </div>
                 <div>
-                  <div className="font-mono text-off-white text-base font-bold">{developer.active_projects}</div>
+                  <div className="font-syne font-bold text-xl sm:text-2xl text-off-white">{developer.active_projects}</div>
                   <div className="text-gray text-[10px] mt-0.5">Active</div>
                 </div>
                 <div>
-                  <div className={`font-mono text-base font-bold ${riskColor(developer.trust_score)}`}>{developer.trust_score}</div>
+                  <div className={`font-syne font-bold text-xl sm:text-2xl ${riskColor(developer.trust_score)}`}>{developer.trust_score}</div>
                   <div className="text-gray text-[10px] mt-0.5">Trust score</div>
                 </div>
               </div>
@@ -313,7 +314,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
             { label: 'Resolved', value: project.complaints_resolved, color: 'text-green' },
             { label: 'Total',    value: project.complaints_pending + project.complaints_resolved, color: 'text-off-white' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="bg-surface2 border border-border rounded-sm p-3 text-center">
+            <div key={label} className="bg-surface border border-border rounded-sm p-3 text-center">
               <div className={`font-syne text-2xl font-bold ${color}`}>{value}</div>
               <div className="text-gray text-xs mt-1">Complaints {label}</div>
             </div>
@@ -326,7 +327,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   function renderQPR() {
     return (
       <div>
-        <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">
+        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">
           Quarterly Progress Reports · {qprData.quarters.length} quarters
         </div>
 
@@ -425,24 +426,24 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
       <div className="space-y-5">
         {/* Escrow status */}
         <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Escrow Account — Kaveri 2.0</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Escrow Account — Kaveri 2.0</div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            <div className="bg-surface2 border border-border rounded-sm p-4 text-center">
+            <div className="bg-surface border border-border rounded-sm p-4 text-center">
               <div className="text-[10px] text-gray uppercase tracking-wide mb-1.5">Balance</div>
               <div className={`font-syne text-2xl font-bold ${escrowStatusClass[escrow.status].split(' ')[0]}`}>
                 {fmtCrore(escrow.balance_crore)}
               </div>
             </div>
-            <div className="bg-surface2 border border-border rounded-sm p-4 text-center">
+            <div className="bg-surface border border-border rounded-sm p-4 text-center">
               <div className="text-[10px] text-gray uppercase tracking-wide mb-1.5">Total Collected</div>
               <div className="font-syne text-2xl font-bold text-off-white">{fmtCrore(escrow.collected_crore)}</div>
             </div>
-            <div className="bg-surface2 border border-border rounded-sm p-4 text-center">
+            <div className="bg-surface border border-border rounded-sm p-4 text-center">
               <div className="text-[10px] text-gray uppercase tracking-wide mb-1.5">Escrow %</div>
               <div className={`font-syne text-2xl font-bold ${escrowStatusClass[escrow.status].split(' ')[0]}`}>
                 {escrow.pct}%
               </div>
-              <span className={`inline-flex items-center gap-1.5 mt-1.5 text-[10px] ${escrowStatusClass[escrow.status].split(' ')[0]}`}>
+              <span className={`inline-flex items-center gap-1.5 mt-1.5 text-[9px] font-mono ${escrowStatusClass[escrow.status].split(' ')[0]}`}>
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                   escrow.status === 'HEALTHY' ? 'bg-green' :
                   escrow.status === 'CAUTION' ? 'bg-amber' : 'bg-red'
@@ -453,7 +454,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
           </div>
 
           {/* Escrow bar */}
-          <div className="bg-surface2 border border-border rounded-sm p-4">
+          <div className="bg-surface border border-border rounded-sm p-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-gray text-xs">Escrow utilization</span>
               <span className="text-gray text-xs">Last withdrawal: {fmtDate(escrow.last_withdrawal)}</span>
@@ -477,7 +478,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
 
         {/* Financial facts */}
         <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Project Financials</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Project Financials</div>
           <div className="space-y-2">
             {[
               { label: 'Declared Project Cost', value: fmtCrore(project.declared_cost_crore) },
@@ -498,12 +499,12 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   function renderLitigation() {
     return (
       <div>
-        <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">
+        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">
           Active Court Cases · {litigation.length} record{litigation.length !== 1 ? 's' : ''}
         </div>
 
         {litigation.length === 0 ? (
-          <div className="bg-surface2 border border-border rounded-sm p-8 text-center">
+          <div className="bg-surface border border-border rounded-sm p-8 text-center">
             <CheckCircle className="w-8 h-8 text-green mx-auto mb-3" />
             <div className="text-off-white text-sm font-medium mb-1">No Active Litigation</div>
             <div className="text-gray text-xs">No court cases on record for this project.</div>
@@ -511,13 +512,13 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         ) : (
           <div className="space-y-3">
             {litigation.map(l => (
-              <div key={l.id} className="bg-surface2 border border-border rounded-sm p-4">
+              <div key={l.id} className="bg-surface border border-border rounded-sm p-4">
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div>
                     <div className="font-mono text-gold text-xs mb-0.5">{l.case_number}</div>
                     <div className="text-off-white text-sm font-medium">{l.cause}</div>
                   </div>
-                  <span className={`inline-flex items-center gap-1.5 text-[10px] shrink-0 ${severityTextColor(l.severity)}`}>
+                  <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono shrink-0 ${severityTextColor(l.severity)}`}>
                     <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${severityDotBg(l.severity)}`} />
                     {l.severity}
                   </span>
@@ -548,14 +549,14 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   function renderTimeline() {
     if (project.id !== 'ozone-urbana') {
       return (
-        <div className="bg-surface2 border border-border rounded-sm p-8 text-center">
+        <div className="bg-surface border border-border rounded-sm p-8 text-center">
           <TrendingDown className="w-10 h-10 text-gray mx-auto mb-3" />
           <div className="text-off-white text-sm font-medium mb-2">Insufficient Data for Prediction</div>
           <div className="text-gray text-xs max-w-sm mx-auto leading-relaxed mb-5">
             Vantis Risk Timeline requires at least 3 consecutive distress signals. This project does not currently meet the threshold.
           </div>
           <div className="border border-border rounded-sm p-4 text-left max-w-md mx-auto">
-            <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-2">Ozone Urbana — Case Study</div>
+            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Ozone Urbana — Case Study</div>
             <div className="text-gray text-xs leading-relaxed">
               Vantis detected collapse 8 quarters before FIR was filed. Risk score declined from 42 → 9 across
               8 quarters, default probability rose to 97%. 1,847 homebuyers and ₹927 Cr protected if action had been taken early.
@@ -573,12 +574,12 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   function renderActions() {
     return (
       <div className="space-y-3">
-        <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-4">Regulatory Actions</div>
+        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-4">Regulatory Actions</div>
 
         {/* Generate Notice */}
         <Link
           href="/govern/notices"
-          className="flex items-center justify-between w-full bg-surface2 border border-border hover:border-gold rounded-sm p-4 transition-colors duration-150 group"
+          className="flex items-center justify-between w-full bg-surface border border-border hover:border-gold rounded-sm p-4 transition-colors duration-150 group"
         >
           <div>
             <div className="text-off-white text-sm font-medium group-hover:text-gold transition-colors duration-150">Generate Show Cause Notice</div>
@@ -590,7 +591,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         {/* Flag for Inspection */}
         <button
           onClick={() => setInspectionModal(true)}
-          className="flex items-center justify-between w-full bg-surface2 border border-border hover:border-amber rounded-sm p-4 transition-colors duration-150 group text-left"
+          className="flex items-center justify-between w-full bg-surface border border-border hover:border-amber rounded-sm p-4 transition-colors duration-150 group text-left"
         >
           <div>
             <div className="text-off-white text-sm font-medium group-hover:text-amber transition-colors duration-150">Flag for Physical Inspection</div>
@@ -602,7 +603,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         {/* Initiate RRC */}
         <button
           onClick={() => setRrcModal(true)}
-          className="flex items-center justify-between w-full bg-surface2 border border-border hover:border-red rounded-sm p-4 transition-colors duration-150 group text-left"
+          className="flex items-center justify-between w-full bg-surface border border-border hover:border-red rounded-sm p-4 transition-colors duration-150 group text-left"
         >
           <div>
             <div className="text-off-white text-sm font-medium group-hover:text-red transition-colors duration-150">Initiate Recovery Proceedings (RRC)</div>
@@ -621,7 +622,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
           className={`flex items-center justify-between w-full border rounded-sm p-4 transition-colors duration-150 group text-left ${
             watchlisted
               ? 'bg-gold/10 border-gold'
-              : 'bg-surface2 border-border hover:border-gold'
+              : 'bg-surface border-border hover:border-gold'
           }`}
         >
           <div>
@@ -656,7 +657,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
                 </button>
                 <button
                   onClick={() => setInspectionModal(false)}
-                  className="flex-1 bg-surface2 border border-border text-gray text-sm py-2 rounded-sm hover:text-off-white transition-colors duration-150"
+                  className="flex-1 bg-surface border border-border text-gray text-sm py-2 rounded-sm hover:text-off-white transition-colors duration-150"
                 >
                   Cancel
                 </button>
@@ -681,7 +682,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
                 </button>
                 <button
                   onClick={() => setRrcModal(false)}
-                  className="flex-1 bg-surface2 border border-border text-gray text-sm py-2 rounded-sm hover:text-off-white transition-colors duration-150"
+                  className="flex-1 bg-surface border border-border text-gray text-sm py-2 rounded-sm hover:text-off-white transition-colors duration-150"
                 >
                   Cancel
                 </button>
@@ -729,7 +730,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
     function DocSection({ title, children }: { title: string; children: React.ReactNode }) {
       return (
         <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">{title}</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">{title}</div>
           <div className="border border-border rounded-sm overflow-hidden">{children}</div>
         </div>
       )
@@ -790,7 +791,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         </DocSection>
 
         <div>
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-3">Site Progress Photos</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Site Progress Photos</div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {photoKeys.map(key => (
               <img
@@ -1120,30 +1121,27 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
       </Link>
 
       {/* Project header */}
-      <div className="bg-surface border border-border rounded-sm p-5 mb-5">
-        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div className="px-6 sm:px-8 py-5 border-b border-border mb-5">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          K-RERA · Project Profile
+        </div>
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <h1 className="font-syne text-xl sm:text-2xl text-off-white font-bold leading-tight mb-1">
-              {project.name}
-            </h1>
-            <div className="font-mono text-gold text-xs mb-1.5">{project.rera}</div>
-            <div className="text-gray text-xs">{project.developer_name} · {project.location}</div>
+            <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-tight">{project.name}</h1>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="font-mono text-[9px] text-gray">{project.developer_name}</span>
+              <span className="font-mono text-[9px] text-gray">{project.rera}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
-            <span className={`inline-flex items-center gap-1.5 text-xs ${statusColor(project.status)}`}>
-              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(project.status)}`} />
-              {project.status}
-            </span>
-            <div className="text-center">
-              <div className={`font-syne text-3xl font-bold leading-none ${riskColor(project.risk_score)}`}>
-                {project.risk_score}
-              </div>
-              <div className="text-gray text-[10px] mt-0.5">Risk score</div>
+          <div className="shrink-0 text-center">
+            <div className={`font-syne font-bold text-xl sm:text-2xl ${riskColor(project.risk_score)}`}>{project.risk_score}</div>
+            <div className="text-gray text-[9px] font-mono mt-0.5">RISK SCORE</div>
+            <div className="flex items-center gap-1.5 mt-2 justify-center">
+              <div className={`w-1.5 h-1.5 rounded-full ${statusDot(project.status)}`} />
+              <span className={`text-[9px] font-mono ${statusColor(project.status)}`}>{project.status}</span>
             </div>
           </div>
         </div>
-
-        {/* Risk bar */}
         <div className="mt-4 h-1.5 bg-border rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-700 ${riskBarColor(project.risk_score)}`}
@@ -1154,24 +1152,28 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
 
       {/* Tabs */}
       <div className="flex overflow-x-auto gap-0 border-b border-border mb-6 scrollbar-none">
-        {TABS.map(({ id, label, icon: Icon }) => (
+        {TABS.map(({ id, label }) => (
           <button
             key={id}
             onClick={() => setActiveTab(id)}
-            className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-medium whitespace-nowrap border-b-2 transition-colors duration-150 -mb-px ${
+            className={`font-mono text-[9px] uppercase tracking-[0.22em] px-4 py-2.5 border-b-2 transition-colors whitespace-nowrap -mb-px ${
               activeTab === id
-                ? 'border-gold text-gold'
-                : 'border-transparent text-gray hover:text-gold-light'
+                ? 'text-gold border-gold'
+                : 'text-gray border-transparent hover:text-off-white'
             }`}
           >
-            <Icon className="w-3.5 h-3.5 shrink-0" />
             {label}
           </button>
         ))}
       </div>
 
       {/* Tab content */}
-      <div>
+      <motion.div
+        key={activeTab}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: [0.33, 1, 0.68, 1] }}
+      >
         {activeTab === 'overview'   && renderOverview()}
         {activeTab === 'qpr'        && renderQPR()}
         {activeTab === 'financial'  && renderFinancial()}
@@ -1180,7 +1182,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         {activeTab === 'actions'    && renderActions()}
         {activeTab === 'documents'  && renderDocuments()}
         {activeTab === 'satellite'  && renderSatellite()}
-      </div>
+      </motion.div>
     </div>
   )
 }

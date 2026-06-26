@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { Search, CheckCircle, XCircle, AlertTriangle, MapPin } from 'lucide-react'
 import { useVerify, T } from '../VerifyContext'
 import projectsData from '@/data/verify-projects.json'
@@ -65,16 +66,40 @@ export default function ProjectsPage() {
   }, [searchQ, gradeFilter, marketFilter])
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '3rem 1.5rem 6rem' }}>
-      {/* Header */}
-      <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-        <h1 style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: '44px', color: '#F2EBDD', margin: '0 0 0.75rem', fontWeight: 300 }}>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 1.5rem 6rem' }}>
+      {/* Page header */}
+      <div style={{
+        padding: '1.25rem 0 1.25rem',
+        borderBottom: '1px solid #2A2520',
+        marginBottom: '2rem',
+      }}>
+        <div style={{
+          fontFamily: 'var(--font-dm-mono, monospace)',
+          fontSize: '9px',
+          textTransform: 'uppercase',
+          letterSpacing: '0.28em',
+          color: '#4A4238',
+          marginBottom: '0.5rem',
+        }}>
+          Vantis Verify · Karnataka · 2024
+        </div>
+        <h1 style={{
+          fontFamily: 'var(--font-cg, serif)',
+          fontStyle: 'italic',
+          fontSize: 'clamp(28px, 5vw, 44px)',
+          color: '#F2EBDD',
+          margin: 0,
+          fontWeight: 300,
+          lineHeight: 1.1,
+        }}>
           {t.projects_title}
         </h1>
-        <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '17px', color: '#6B6258', margin: 0 }}>
-          {t.projects_sub}
-        </p>
       </div>
+
+      {/* Sub */}
+      <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '17px', color: '#6B6258', margin: '0 0 2rem' }}>
+        {t.projects_sub}
+      </p>
 
       {/* Search + filters */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
@@ -177,14 +202,17 @@ export default function ProjectsPage() {
 
       {/* Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-        {filtered.map(p => {
+        {filtered.map((p, i) => {
           const gc = GRADE_COLORS[p.trust_grade]
           const checks = Object.values(p.checks)
           const passCount = checks.filter(c => c.pass).length
 
           return (
-            <div
+            <motion.div
               key={p.id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.04, duration: 0.35 }}
               style={{
                 background: '#0F0D0B',
                 border: `1px solid ${p.trust_grade === 'C' ? 'rgba(192,57,43,0.2)' : '#1E1A14'}`,
@@ -239,11 +267,11 @@ export default function ProjectsPage() {
 
                 {/* 5-check dots */}
                 <div style={{ display: 'flex', gap: '0.375rem', marginBottom: '1rem' }}>
-                  {Object.values(p.checks).map((c, i) => {
+                  {Object.values(p.checks).map((c, ci) => {
                     const dotColor = c.pass ? '#3FA66A' : c.severity === 'critical' ? '#C0392B' : '#C9A84C'
                     const DotIcon = c.pass ? CheckCircle : c.severity === 'critical' ? XCircle : AlertTriangle
                     return (
-                      <DotIcon key={i} style={{ width: '16px', height: '16px', color: dotColor }} />
+                      <DotIcon key={ci} style={{ width: '16px', height: '16px', color: dotColor }} />
                     )
                   })}
                   <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', color: '#4A4238', marginLeft: '0.25rem', alignSelf: 'center' }}>
@@ -308,7 +336,7 @@ export default function ProjectsPage() {
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </Link>
-            </div>
+            </motion.div>
           )
         })}
       </div>

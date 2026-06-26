@@ -63,7 +63,7 @@ export default function LandPage() {
 
           {/* Sub-score bars */}
           <div className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-4" style={{ color: 'var(--muted)' }}>Risk Breakdown — 5 Dimensions</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-4 block" style={{ color: 'var(--muted)' }}>Risk Breakdown — 5 Dimensions</span>
             <div className="space-y-3">
               {subScores.map((s, i) => {
                 const sc = RISK_COLOR[s.severity] ?? 'var(--muted)'
@@ -92,7 +92,7 @@ export default function LandPage() {
           {/* Title chain */}
           <div className="rounded-sm overflow-hidden" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
             <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--bord)' }}>
-              <div className="font-mono text-[10px] uppercase tracking-[0.15em]" style={{ color: 'var(--muted)' }}>Kaveri 2.0 Title Chain</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Kaveri 2.0 Title Chain</span>
             </div>
             <div className="relative">
               <div className="absolute left-8 top-0 bottom-0 w-px" style={{ background: 'var(--bord)' }} />
@@ -118,7 +118,7 @@ export default function LandPage() {
         <div className="space-y-4">
           {/* Data sources */}
           <div className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-3" style={{ color: 'var(--muted)' }}>Government Data Sources</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-3 block" style={{ color: 'var(--muted)' }}>Government Data Sources</span>
             {[
               { icon: Map, label: 'Kaveri 2.0', sub: 'Title chain · Registrations · Market price' },
               { icon: Database, label: 'Bhoomi', sub: 'RTC · Survey mutations · Land class' },

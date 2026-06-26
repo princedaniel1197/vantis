@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import { CheckCircle2, Clock, AlertTriangle, ChevronRight } from 'lucide-react'
 
 const LISTINGS = [
@@ -73,8 +74,9 @@ export default function MarketplacePage() {
   return (
     <div className="p-5 max-w-[1100px] mx-auto">
       <div className="mb-6">
-        <h1 className="font-syne text-xl text-off-white">Vantis Marketplace</h1>
-        <p className="text-gray text-sm mt-0.5">Pre-screened developer listings. Every project verified before appearing here.</p>
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">Vantis Lend · Deal Origination</div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">Vantis Marketplace</h1>
+        <p className="text-gray text-sm mt-2">Pre-screened developer listings. Every project verified before appearing here.</p>
       </div>
 
       {/* Stats strip */}
@@ -83,11 +85,12 @@ export default function MarketplacePage() {
           { label: 'Active Listings',      value: '3',      color: '#C9A84C' },
           { label: 'Total Seeking',        value: '₹265 Cr', color: '#C9A84C' },
           { label: 'Milestones Verified',  value: '4 / 15', color: '#2ECC71' },
-        ].map(k => (
-          <div key={k.label} className="bg-surface border border-border rounded-sm px-4 py-3">
-            <div className="text-[10px] font-mono uppercase tracking-[0.12em] text-gray mb-1">{k.label}</div>
-            <div className="font-syne text-2xl font-bold" style={{ color: k.color }}>{k.value}</div>
-          </div>
+        ].map((k, i) => (
+          <motion.div key={k.label} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.3 }}
+            className="bg-surface border border-border rounded-sm px-4 py-3 hover:border-gold/30 transition-all">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-1 block">{k.label}</span>
+            <div className="font-syne text-xl sm:text-2xl font-bold" style={{ color: k.color }}>{k.value}</div>
+          </motion.div>
         ))}
       </div>
 
@@ -142,7 +145,7 @@ export default function MarketplacePage() {
                       { label: 'Milestones',  value: `${l.milestones_verified} / ${l.milestones_total} verified` },
                     ].map(f => (
                       <div key={f.label}>
-                        <div className="text-[9px] font-mono uppercase tracking-[0.1em] text-gray mb-0.5">{f.label}</div>
+                        <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5 block">{f.label}</span>
                         <div className="text-xs font-mono text-off-white break-all">{f.value}</div>
                       </div>
                     ))}
@@ -151,7 +154,7 @@ export default function MarketplacePage() {
                   {/* Draw schedule — only for prestige */}
                   {l.id === 'prestige' && (
                     <div>
-                      <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">Draw Schedule — Tranche-Linked Disbursement</div>
+                      <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3 block">Draw Schedule — Tranche-Linked Disbursement</span>
                       <div className="space-y-2">
                         {DRAW_SCHEDULE.map(t => (
                           <div key={t.id} className="flex items-center gap-3 p-3 rounded-sm border" style={{

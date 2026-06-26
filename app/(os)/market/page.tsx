@@ -23,7 +23,7 @@ export default function MarketPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Intelligence · Market</div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Intelligence · Market</span>
         <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Market Truth</h1>
         <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
           Kaveri 2.0 actual registration prices vs guidance circle rates across Bengaluru micro-markets.
@@ -34,7 +34,7 @@ export default function MarketPage() {
       <div className="flex gap-2 mb-5 flex-wrap">
         {markets.map(m => (
           <button key={m.id} onClick={() => setSelected(m.id)}
-            className="px-3 py-1.5 text-xs font-mono rounded-sm"
+            className="px-3 py-1.5 text-xs font-mono rounded-sm hover:border-vgold/30 transition-all"
             style={{ background: selected === m.id ? 'var(--gold)' : 'var(--surf)', color: selected === m.id ? 'var(--bg)' : 'var(--muted)', border: '1px solid var(--bord)' }}>
             {m.label}
           </button>
@@ -50,8 +50,8 @@ export default function MarketPage() {
           { label: 'QoQ Change', value: `${Number(qoqChange) >= 0 ? '+' : ''}${qoqChange}%`, color: Number(qoqChange) >= 0 ? 'var(--ra)' : 'var(--rc)' },
         ].map(k => (
           <div key={k.label} className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-display italic text-2xl mb-0.5" style={{ color: k.color }}>{k.value}</div>
-            <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>{k.label}</div>
+            <div className="font-syne text-2xl font-bold mb-0.5" style={{ color: k.color }}>{k.value}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{k.label}</span>
           </div>
         ))}
       </div>
@@ -60,7 +60,7 @@ export default function MarketPage() {
         {/* Price chart */}
         <div className="lg:col-span-2 p-5 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
           <div className="flex items-center justify-between mb-1">
-            <div className="font-mono text-[10px] uppercase tracking-[0.1em]" style={{ color: 'var(--muted)' }}>Kaveri Registration Price — {market.label}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Kaveri Registration Price — {market.label}</span>
           </div>
           <div className="flex items-center gap-4 mb-3 text-[10px] font-mono">
             <span className="flex items-center gap-1" style={{ color: 'var(--gold)' }}><span className="w-4 h-0.5 inline-block" style={{ background: 'var(--gold)' }} /> Market Actual</span>
@@ -87,12 +87,12 @@ export default function MarketPage() {
           {/* Volume + absorption */}
           <div className="mt-4 pt-4 grid grid-cols-2 gap-4" style={{ borderTop: '1px solid var(--bord)' }}>
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-1" style={{ color: 'var(--muted)' }}>Registrations / Quarter</div>
-              <div className="font-display italic text-2xl" style={{ color: 'var(--ink)' }}>{latest?.deals ?? '—'}</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Registrations / Quarter</span>
+              <div className="font-syne text-2xl font-bold" style={{ color: 'var(--ink)' }}>{latest?.deals ?? '—'}</div>
             </div>
             <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-1" style={{ color: 'var(--muted)' }}>Absorption Rate</div>
-              <div className="font-display italic text-2xl" style={{ color: 'var(--ink)' }}>{latest?.absorption ?? '—'}%</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Absorption Rate</span>
+              <div className="font-syne text-2xl font-bold" style={{ color: 'var(--ink)' }}>{latest?.absorption ?? '—'}%</div>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default function MarketPage() {
         {/* Market comparison sidebar */}
         <div className="space-y-4">
           <div className="p-4 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.15em] mb-3" style={{ color: 'var(--muted)' }}>Market Comparison — Latest Quarter</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-3 block" style={{ color: 'var(--muted)' }}>Market Comparison — Latest Quarter</span>
             <div className="space-y-3">
               {markets.map(m => {
                 const mh = quarterly[m.id] ?? []
@@ -108,7 +108,7 @@ export default function MarketPage() {
                 const isSelected = m.id === selected
                 const maxPrice = Math.max(...markets.map(mx => quarterly[mx.id]?.[quarterly[mx.id].length - 1]?.avg_sqft ?? 0))
                 return (
-                  <button key={m.id} onClick={() => setSelected(m.id)} className="w-full text-left">
+                  <button key={m.id} onClick={() => setSelected(m.id)} className="w-full text-left hover:border-vgold/30 transition-all">
                     <div className="flex items-center justify-between text-xs mb-1">
                       <span style={{ color: isSelected ? 'var(--gold)' : 'var(--ink)' }}>{m.label}</span>
                       <span className="font-mono" style={{ color: isSelected ? 'var(--gold)' : 'var(--muted)' }}>₹{ml?.avg_sqft?.toLocaleString()}/sqft</span>
@@ -124,7 +124,7 @@ export default function MarketPage() {
           </div>
 
           <div className="p-4 rounded-sm" style={{ background: 'color-mix(in srgb, var(--gold) 4%, var(--surf))', border: '1px solid color-mix(in srgb, var(--gold) 25%, var(--bord))' }}>
-            <div className="font-mono text-[10px] uppercase tracking-[0.1em] mb-2" style={{ color: 'var(--gold)' }}>Why Kaveri Data Matters</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-2 block" style={{ color: 'var(--gold)' }}>Why Kaveri Data Matters</span>
             <div className="text-xs leading-relaxed" style={{ color: 'var(--muted)' }}>
               Developer list prices are aspirational. Kaveri 2.0 shows what buyers actually paid at registration — the only ground truth for pricing, feasibility, and valuation decisions.
             </div>

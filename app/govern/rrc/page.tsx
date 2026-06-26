@@ -80,7 +80,8 @@ export default function RRCTracker() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-syne text-2xl sm:text-3xl text-off-white">RRC Tracker</h1>
+          <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-1">GOVERN · ENFORCEMENT</div>
+          <h1 className="font-syne text-2xl sm:text-3xl text-off-white font-bold">RRC Tracker</h1>
           <p className="text-gray text-xs mt-1">Revenue Recovery Certificate proceedings</p>
         </div>
         <Shield className="w-6 h-6 text-gray hidden sm:block" />
@@ -119,8 +120,8 @@ export default function RRCTracker() {
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-mono text-xs text-gold">{rrc.id}</span>
-                    <span className={`inline-flex items-center gap-1.5 text-[10px] font-medium ${cfg.textColor}`}>
+                    <span className="font-mono text-[9px] text-gold tracking-[0.1em]">{rrc.id}</span>
+                    <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono ${cfg.textColor}`}>
                       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${cfg.dotBg}`} />
                       {cfg.label}
                     </span>
@@ -145,7 +146,7 @@ export default function RRCTracker() {
               {/* Progress bar */}
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-[10px] uppercase tracking-widest text-gray">Recovery Progress</span>
+                  <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Recovery Progress</span>
                   <span className={`font-mono text-xs font-bold ${rrc.status === 'RECOVERED' ? 'text-green' : 'text-gray-light'}`}>
                     {rrc.progress_pct}%
                   </span>
@@ -166,11 +167,11 @@ export default function RRCTracker() {
               {/* Meta row */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-3 border-t border-border">
                 <div>
-                  <div className="text-[10px] uppercase tracking-widest text-gray mb-0.5">Issued Date</div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Issued Date</div>
                   <div className="text-xs text-off-white">{fmtDate(rrc.issued_date)}</div>
                 </div>
                 <div>
-                  <div className="text-[10px] uppercase tracking-widest text-gray mb-0.5">Linked Notice</div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Linked Notice</div>
                   <div className="font-mono text-xs text-gold-dim">{rrc.linked_notice}</div>
                 </div>
                 <div className="sm:text-right">
@@ -192,7 +193,7 @@ export default function RRCTracker() {
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-gold shrink-0 mt-0.5" />
           <div>
-            <div className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">Auto-Escalation Policy</div>
+            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gold mb-1">Auto-Escalation Policy</div>
             <div className="text-off-white text-sm leading-relaxed">
               RRCs unacknowledged for <strong>30 days</strong> are automatically escalated to the District Collector's
               office for coercive recovery. RRC-2026-001 is currently <strong className="text-red">2 days from auto-escalation</strong>.

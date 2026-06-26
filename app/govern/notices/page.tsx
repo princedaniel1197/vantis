@@ -228,7 +228,8 @@ export default function NoticeGenerator() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-syne text-2xl sm:text-3xl text-off-white">AI Notice Generator</h1>
+          <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-1">GOVERN · INTELLIGENCE</div>
+          <h1 className="font-syne text-2xl sm:text-3xl text-off-white font-bold">AI Notice Generator</h1>
           <p className="text-gray text-xs mt-1">Draft regulatory notices · Powered by Vantis Intelligence</p>
         </div>
         <FileText className="w-6 h-6 text-gray hidden sm:block" />
@@ -238,11 +239,11 @@ export default function NoticeGenerator() {
 
         {/* Left: Form */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-2">Notice Configuration</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Notice Configuration</div>
 
           {/* Violation Type */}
           <div>
-            <label className="block text-xs text-gray mb-1.5">Violation Type</label>
+            <label className="block font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Violation Type</label>
             <select
               value={violationType}
               onChange={e => { setViolationType(e.target.value); setNoticeText(null) }}
@@ -258,7 +259,7 @@ export default function NoticeGenerator() {
           {/* RERA Section — auto-populated */}
           {violationType && (
             <div>
-              <label className="block text-xs text-gray mb-1.5">Applicable RERA Section</label>
+              <label className="block font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Applicable RERA Section</label>
               <div className="w-full bg-surface2 border border-border rounded-sm px-3 py-2.5 text-sm font-mono text-gold">
                 {selectedSection} — Real Estate (Regulation and Development) Act, 2016
               </div>
@@ -267,7 +268,7 @@ export default function NoticeGenerator() {
 
           {/* Project selector */}
           <div>
-            <label className="block text-xs text-gray mb-1.5">Project</label>
+            <label className="block font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Project</label>
             <select
               value={projectId}
               onChange={e => { setProjectId(e.target.value); setNoticeText(null) }}
@@ -283,7 +284,7 @@ export default function NoticeGenerator() {
           {/* Developer details — auto-populated */}
           {selectedProject && (
             <div className="bg-surface2 border border-border rounded-sm p-3 space-y-2">
-              <div className="text-[10px] text-gray uppercase tracking-widest font-semibold">Auto-populated Developer Details</div>
+              <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Auto-populated Developer Details</div>
               <div className="grid grid-cols-1 gap-1.5 text-xs">
                 <div className="flex items-start gap-2">
                   <span className="text-gray shrink-0 w-20">Developer:</span>
@@ -303,7 +304,7 @@ export default function NoticeGenerator() {
 
           {/* Language toggle */}
           <div>
-            <label className="block text-xs text-gray mb-1.5">Notice Language</label>
+            <label className="block font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-2">Notice Language</label>
             <div className="flex gap-2">
               {(['en', 'kn'] as const).map(l => (
                 <button
@@ -344,7 +345,7 @@ export default function NoticeGenerator() {
 
         {/* Right: Notice Preview */}
         <div className="lg:col-span-3">
-          <div className="text-[10px] text-gray uppercase tracking-widest font-semibold mb-2">Notice Preview</div>
+          <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Notice Preview</div>
 
           {!noticeText && !loading && (
             <div className="h-64 lg:h-full min-h-[300px] flex items-center justify-center bg-surface border border-border rounded-sm">

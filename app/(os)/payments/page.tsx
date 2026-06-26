@@ -30,8 +30,8 @@ export default function PaymentsPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Finance · Collections</div>
-        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Payments & Collections</h1>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Finance · Collections</span>
+        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Payments &amp; Collections</h1>
       </div>
 
       {/* Summary */}
@@ -39,12 +39,12 @@ export default function PaymentsPage() {
         <div className="p-4 rounded-sm sm:col-span-2" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
           <div className="flex items-center gap-4 mb-3">
             <div>
-              <div className="font-display italic text-3xl" style={{ color: 'var(--gold)' }}>₹{cash.collections_mtd_cr} Cr</div>
-              <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Collections this month</div>
+              <div className="font-syne text-3xl font-bold" style={{ color: 'var(--gold)' }}>₹{cash.collections_mtd_cr} Cr</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Collections this month</span>
             </div>
             <div className="text-right ml-auto">
-              <div className="font-display italic text-xl" style={{ color: 'var(--rc)' }}>₹{overdueAmount.toFixed(0)}L</div>
-              <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>Overdue</div>
+              <div className="font-syne text-xl font-bold" style={{ color: 'var(--rc)' }}>₹{overdueAmount.toFixed(0)}L</div>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Overdue</span>
             </div>
           </div>
           <div className="h-20">
@@ -66,7 +66,7 @@ export default function PaymentsPage() {
         </div>
 
         <div className="p-4 rounded-sm space-y-3" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
-          <div className="font-mono text-[10px] uppercase tracking-[0.12em] mb-2" style={{ color: 'var(--muted)' }}>Escrow Status</div>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-2 block" style={{ color: 'var(--muted)' }}>Escrow Status</span>
           {financeData.escrow_accounts.map(acc => (
             <div key={acc.project} className="flex items-center justify-between text-xs gap-2">
               <span className="truncate" style={{ color: 'var(--muted)' }}>{acc.project.split(' ')[1]}</span>
@@ -110,7 +110,7 @@ export default function PaymentsPage() {
           const ic = isOverdue ? 'var(--rc)' : isDue ? 'var(--rb)' : 'var(--ra)'
           const Icon = icon
           return (
-            <motion.div key={c.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}
+            <motion.div key={c.id} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04, duration: 0.3 }}
               className="p-4 rounded-sm"
               style={{ background: 'var(--surf)', border: `1px solid ${isOverdue ? 'color-mix(in srgb, var(--rc) 30%, var(--bord))' : 'var(--bord)'}` }}>
               <div className="flex items-start gap-4">

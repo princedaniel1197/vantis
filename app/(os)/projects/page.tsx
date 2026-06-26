@@ -48,7 +48,7 @@ export default function ProjectsPage() {
         ].map(k => (
           <div key={k.label} className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
             <div className="font-display italic text-2xl" style={{ color: k.color }}>{k.value}</div>
-            <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>{k.label}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{k.label}</span>
           </div>
         ))}
       </div>

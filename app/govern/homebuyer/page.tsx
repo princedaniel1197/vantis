@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { Users, AlertTriangle, ChevronRight, Shield } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { Users, ChevronRight, Shield } from 'lucide-react'
 
 interface HomebuyerRow {
   project_id: string
@@ -80,163 +81,193 @@ export default function HomebuyerEarlyWarning() {
   const criticalCount   = ROWS.filter(r => r.tier === 'CRITICAL').length
 
   return (
-    <div className="px-4 sm:px-6 py-6 max-w-7xl mx-auto">
+    <div className="flex flex-col min-h-full text-off-white">
 
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="font-syne text-2xl sm:text-3xl text-off-white">Homebuyer Early Warning</h1>
-          <p className="text-gray text-xs mt-1">Proactive protection for at-risk homebuyers</p>
+      <div className="px-6 sm:px-8 py-5 border-b border-border shrink-0">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          K-RERA · Karnataka Real Estate Regulatory Authority · Homebuyer Protection
         </div>
-        <Users className="w-6 h-6 text-gray hidden sm:block" />
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">
+          Homebuyer Early Warning
+        </h1>
       </div>
 
-      {/* Metric cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-        <div className="bg-surface border border-red/20 rounded-sm p-4 text-center">
-          <div className="font-syne text-3xl font-bold text-red">{totalDistressed.toLocaleString('en-IN')}</div>
-          <div className="text-gray text-xs mt-1">Homebuyers in Distressed Projects</div>
-        </div>
-        <div className="bg-surface border border-red/20 rounded-sm p-4 text-center">
-          <div className="font-syne text-3xl font-bold text-red">₹{totalCapital.toFixed(0)} Cr</div>
-          <div className="text-gray text-xs mt-1">Total Capital at Risk</div>
-        </div>
-        <div className="bg-surface border border-amber/20 rounded-sm p-4 text-center">
-          <div className="font-syne text-3xl font-bold text-amber">{criticalCount}</div>
-          <div className="text-gray text-xs mt-1">Projects in Critical State</div>
-        </div>
-      </div>
+      <div className="px-6 sm:px-8 py-6">
 
-      {/* Desktop table */}
-      <div className="hidden md:block bg-surface border border-border rounded-sm overflow-hidden mb-6">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-border bg-surface2">
-              {['Project Name', 'Developer', 'Status', 'Homebuyers', 'Capital at Risk', 'Possession Status', 'Alert Tier', ''].map(h => (
-                <th key={h} className="text-left px-4 py-3 text-[10px] uppercase tracking-widest text-gray font-semibold">{h}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {ROWS.map(row => {
-              const tc = tierConfig(row.tier)
-              return (
-                <tr
-                  key={row.project_id}
-                  className={`border-b border-border last:border-0 group ${tc.row}`}
-                >
-                  <td className="px-4 py-4">
+        <p className="text-gray text-xs mb-6">Proactive protection for at-risk homebuyers</p>
+
+        {/* Metric cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-surface border border-red/20 rounded-sm p-4 sm:p-5 text-center hover:border-gold/30 transition-all"
+          >
+            <div className="font-syne text-2xl sm:text-3xl font-bold text-red">{totalDistressed.toLocaleString('en-IN')}</div>
+            <div className="text-gray text-xs mt-1">Homebuyers in Distressed Projects</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-surface border border-red/20 rounded-sm p-4 sm:p-5 text-center hover:border-gold/30 transition-all"
+          >
+            <div className="font-syne text-2xl sm:text-3xl font-bold text-red">₹{totalCapital.toFixed(0)} Cr</div>
+            <div className="text-gray text-xs mt-1">Total Capital at Risk</div>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+            className="bg-surface border border-amber/20 rounded-sm p-4 sm:p-5 text-center hover:border-gold/30 transition-all"
+          >
+            <div className="font-syne text-2xl sm:text-3xl font-bold text-amber">{criticalCount}</div>
+            <div className="text-gray text-xs mt-1">Projects in Critical State</div>
+          </motion.div>
+        </div>
+
+        {/* Desktop table */}
+        <div className="hidden md:block bg-surface border border-border rounded-sm overflow-hidden mb-6">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-border bg-surface2">
+                {['Project Name', 'Developer', 'Status', 'Homebuyers', 'Capital at Risk', 'Possession Status', 'Alert Tier', ''].map(h => (
+                  <th key={h} className="text-left px-4 py-3">
+                    <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">{h}</span>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {ROWS.map((row, index) => {
+                const tc = tierConfig(row.tier)
+                return (
+                  <motion.tr
+                    key={row.project_id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                    className={`border-b border-border last:border-0 group ${tc.row}`}
+                  >
+                    <td className="px-4 py-4">
+                      <div className="text-off-white text-sm font-medium">{row.project_name}</div>
+                    </td>
+                    <td className="px-4 py-4 text-gray text-xs">{row.developer}</td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-1.5">
+                        <div className={`w-1.5 h-1.5 rounded-full ${statusDot(row.status)}`} />
+                        <span className={`text-[9px] font-mono ${statusColor(row.status)}`}>{row.status}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className={`font-syne text-lg font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
+                        {row.homebuyers.toLocaleString('en-IN')}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className={`font-mono text-sm font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
+                        ₹{row.capital_crore} Cr
+                      </span>
+                    </td>
+                    <td className="px-4 py-4">
+                      <span className={`text-xs leading-snug ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-gray'}`}>
+                        {row.possession_status}
+                      </span>
+                    </td>
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-1.5">
+                        <div className={`w-1.5 h-1.5 rounded-full ${tc.dotBg}`} />
+                        <span className={`text-[9px] font-mono font-bold ${tc.textColor}`}>{tc.label}</span>
+                      </div>
+                    </td>
+                    <td className="px-4 py-4">
+                      <Link
+                        href={`/govern/projects/${row.project_id}`}
+                        className="flex items-center gap-1 text-xs text-gray hover:text-gold transition-colors duration-150 whitespace-nowrap group/link"
+                      >
+                        View <ChevronRight className="w-3 h-3 group-hover/link:text-gold" />
+                      </Link>
+                    </td>
+                  </motion.tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="md:hidden space-y-3 mb-6">
+          {ROWS.map((row, index) => {
+            const tc = tierConfig(row.tier)
+            return (
+              <motion.div
+                key={row.project_id}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                className={`border rounded-sm p-4 sm:p-5 hover:border-gold/30 transition-all ${
+                  row.tier === 'CRITICAL' ? 'border-red/30 bg-red/5' :
+                  row.tier === 'WATCH'    ? 'border-amber/30 bg-amber/5' :
+                  'border-border bg-surface'
+                }`}
+              >
+                <div className="flex items-start justify-between gap-3 mb-3">
+                  <div>
                     <div className="text-off-white text-sm font-medium">{row.project_name}</div>
-                  </td>
-                  <td className="px-4 py-4 text-gray text-xs">{row.developer}</td>
-                  <td className="px-4 py-4">
-                    <span className={`inline-flex items-center gap-1.5 text-xs ${statusColor(row.status)}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(row.status)}`} />
-                      {row.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className={`font-syne text-lg font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
+                    <div className="text-gray text-xs">{row.developer}</div>
+                  </div>
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <div className={`w-1.5 h-1.5 rounded-full ${tc.dotBg}`} />
+                    <span className={`text-[9px] font-mono font-bold ${tc.textColor}`}>{tc.label}</span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 mb-3">
+                  <div>
+                    <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Homebuyers</div>
+                    <div className={`font-syne text-xl font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
                       {row.homebuyers.toLocaleString('en-IN')}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className={`font-mono text-sm font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Capital at Risk</div>
+                    <div className={`font-mono text-sm font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
                       ₹{row.capital_crore} Cr
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className={`text-xs leading-snug ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-gray'}`}>
-                      {row.possession_status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold ${tc.textColor}`}>
-                      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tc.dotBg}`} />
-                      {tc.label}
-                    </span>
-                  </td>
-                  <td className="px-4 py-4">
-                    <Link
-                      href={`/govern/projects/${row.project_id}`}
-                      className="flex items-center gap-1 text-xs text-gray hover:text-gold transition-colors duration-150 whitespace-nowrap group/link"
-                    >
-                      View <ChevronRight className="w-3 h-3 group-hover/link:text-gold" />
-                    </Link>
-                  </td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile cards */}
-      <div className="md:hidden space-y-3 mb-6">
-        {ROWS.map(row => {
-          const tc = tierConfig(row.tier)
-          return (
-            <div
-              key={row.project_id}
-              className={`border rounded-sm p-4 ${
-                row.tier === 'CRITICAL' ? 'border-red/30 bg-red/5' :
-                row.tier === 'WATCH'    ? 'border-amber/30 bg-amber/5' :
-                'border-border bg-surface'
-              }`}
-            >
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div>
-                  <div className="text-off-white text-sm font-medium">{row.project_name}</div>
-                  <div className="text-gray text-xs">{row.developer}</div>
-                </div>
-                <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold shrink-0 ${tc.textColor}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tc.dotBg}`} />
-                  {tc.label}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-3 mb-3">
-                <div>
-                  <div className="text-[10px] text-gray uppercase tracking-wide mb-0.5">Homebuyers</div>
-                  <div className={`font-syne text-xl font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
-                    {row.homebuyers.toLocaleString('en-IN')}
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <div className="text-[10px] text-gray uppercase tracking-wide mb-0.5">Capital at Risk</div>
-                  <div className={`font-mono text-sm font-bold ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-off-white'}`}>
-                    ₹{row.capital_crore} Cr
-                  </div>
+                <div className="flex items-center justify-between border-t border-border pt-3">
+                  <span className={`text-xs ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-gray'}`}>
+                    {row.possession_status}
+                  </span>
+                  <Link
+                    href={`/govern/projects/${row.project_id}`}
+                    className="flex items-center gap-1 text-xs text-gray hover:text-gold transition-colors duration-150"
+                  >
+                    View Project <ChevronRight className="w-3 h-3" />
+                  </Link>
                 </div>
-              </div>
-              <div className="flex items-center justify-between border-t border-border pt-3">
-                <span className={`text-xs ${row.tier === 'CRITICAL' ? 'text-red' : row.tier === 'WATCH' ? 'text-amber' : 'text-gray'}`}>
-                  {row.possession_status}
-                </span>
-                <Link
-                  href={`/govern/projects/${row.project_id}`}
-                  className="flex items-center gap-1 text-xs text-gray hover:text-gold transition-colors duration-150"
-                >
-                  View Project <ChevronRight className="w-3 h-3" />
-                </Link>
-              </div>
-            </div>
-          )
-        })}
-      </div>
+              </motion.div>
+            )
+          })}
+        </div>
 
-      {/* Bottom callout */}
-      <div className="border-l-2 border-gold pl-4 bg-surface rounded-sm p-4">
-        <div className="flex items-start gap-3">
-          <Shield className="w-4 h-4 text-gold shrink-0 mt-0.5" />
-          <div>
-            <div className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">Vantis Proactive Intelligence</div>
-            <div className="text-off-white text-sm leading-relaxed">
-              K-RERA currently waits for homebuyers to file complaints.{' '}
-              <strong>Vantis flags projects before the complaints arrive</strong> — using QPR patterns, escrow velocity,
-              and litigation signals to identify distress 6–8 quarters early.
+        {/* Bottom callout */}
+        <div className="border-l-2 border-gold pl-4 bg-surface rounded-sm p-4">
+          <div className="flex items-start gap-3">
+            <Shield className="w-4 h-4 text-gold shrink-0 mt-0.5" />
+            <div>
+              <div className="text-gold text-xs font-semibold uppercase tracking-widest mb-1">Vantis Proactive Intelligence</div>
+              <div className="text-off-white text-sm leading-relaxed">
+                K-RERA currently waits for homebuyers to file complaints.{' '}
+                <strong>Vantis flags projects before the complaints arrive</strong> — using QPR patterns, escrow velocity,
+                and litigation signals to identify distress 6–8 quarters early.
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   )

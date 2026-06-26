@@ -58,7 +58,7 @@ export default function CustomersPage() {
         ].map(k => (
           <div key={k.label} className="p-3 rounded-sm" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
             <div className="font-display italic text-2xl" style={{ color: k.color }}>{k.value}</div>
-            <div className="font-mono text-[10px] uppercase" style={{ color: 'var(--muted)' }}>{k.label}</div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>{k.label}</span>
           </div>
         ))}
       </div>
@@ -132,7 +132,7 @@ export default function CustomersPage() {
                         ['Open Queries', c.open_queries.toString()],
                       ].map(([label, value]) => (
                         <div key={label} className="pt-3">
-                          <div className="font-mono text-[10px] uppercase tracking-[0.08em] mb-0.5" style={{ color: 'var(--muted)' }}>{label}</div>
+                          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-0.5 block" style={{ color: 'var(--muted)' }}>{label}</span>
                           <div className="text-xs font-medium capitalize" style={{ color: 'var(--ink)' }}>{value}</div>
                         </div>
                       ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { motion } from 'framer-motion'
 import {
   CheckCircle, XCircle, AlertTriangle, ChevronDown, ChevronRight,
   FileText, Database, Scale, Lock,
@@ -115,7 +116,13 @@ function TitleChain({ events }: { events: TitleEvent[] }) {
       {/* Vertical line */}
       <div className="absolute left-1.5 top-2 bottom-2 w-px bg-border" />
       {events.map((e, i) => (
-        <div key={i} className="relative">
+        <motion.div
+          key={i}
+          className="relative"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.04, duration: 0.35 }}
+        >
           <div
             className="absolute -left-3.5 top-1 w-3 h-3 rounded-full border-2 flex items-center justify-center"
             style={{
@@ -137,13 +144,13 @@ function TitleChain({ events }: { events: TitleEvent[] }) {
             <div className="text-[10px] text-gray">{e.parties}</div>
             {e.notes && <div className="text-[10px] text-gray-light mt-0.5 italic">{e.notes}</div>}
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   )
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [titleOpen,  setTitleOpen]  = useState(false)
   const [courtOpen,  setCourtOpen]  = useState(false)
 
@@ -155,7 +162,12 @@ function ProjectCard({ project }: { project: Project }) {
   const os = STATUS_STYLES[overallStatus]
 
   return (
-    <div className="bg-surface border border-border rounded-sm overflow-hidden">
+    <motion.div
+      className="bg-surface border border-border rounded-sm overflow-hidden hover:border-gold/30 transition-all"
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.04, duration: 0.35 }}
+    >
       {/* Header */}
       <div className="flex items-start gap-4 p-5 border-b border-border">
         <div className="flex-1">
@@ -217,7 +229,7 @@ function ProjectCard({ project }: { project: Project }) {
           >
             <div className="flex items-center gap-2">
               <FileText className="w-3.5 h-3.5 text-gray" />
-              <span className="text-xs font-mono uppercase tracking-[0.1em] text-gray">Title Chain History</span>
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">Title Chain History</span>
             </div>
             <ChevronDown
               className="w-3.5 h-3.5 text-gray transition-transform duration-150"
@@ -240,7 +252,7 @@ function ProjectCard({ project }: { project: Project }) {
         >
           <div className="flex items-center gap-2">
             <Scale className="w-3.5 h-3.5 text-gray" />
-            <span className="text-xs font-mono uppercase tracking-[0.1em] text-gray">eCourts Litigation Status</span>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">eCourts Litigation Status</span>
             <StatusBadge status={project.court_status} />
           </div>
           <ChevronDown
@@ -254,7 +266,13 @@ function ProjectCard({ project }: { project: Project }) {
             {project.court_cases && project.court_cases.length > 0 && (
               <div className="space-y-2">
                 {project.court_cases.map((c, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-surface border border-border rounded-sm">
+                  <motion.div
+                    key={i}
+                    className="flex items-start gap-3 p-3 bg-surface border border-border rounded-sm"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.35 }}
+                  >
                     <Scale className="w-3.5 h-3.5 text-amber shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -267,41 +285,64 @@ function ProjectCard({ project }: { project: Project }) {
                         {c.amount && <span className="text-red font-mono">{c.amount}</span>}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             )}
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export default function VerifyPage() {
   return (
-    <div className="p-5 max-w-[1000px] mx-auto">
-      <div className="mb-6">
-        <h1 className="font-syne text-xl text-off-white">Title Verification & Litigation</h1>
-        <p className="text-gray text-sm mt-0.5">
+    <div className="flex flex-col min-h-full">
+      {/* Page header */}
+      <div className="px-6 sm:px-8 py-5 border-b border-border shrink-0">
+        <div className="text-[9px] font-mono uppercase tracking-[0.28em] text-gray mb-2">
+          Vantis Lend · Property Verification
+        </div>
+        <h1 className="font-syne text-2xl sm:text-3xl font-bold text-off-white leading-none">
+          Title Verification &amp; Litigation
+        </h1>
+      </div>
+
+      <div className="p-5 sm:p-6 max-w-[1000px] mx-auto w-full">
+        <p className="text-gray text-sm mb-6">
           Three-layer check: RERA document scan · Kaveri registration-portal scrape · eCourts Karnataka API.
         </p>
-      </div>
 
-      {/* Moat callout */}
-      <div className="mb-6 px-4 py-3 bg-gold/8 border border-gold/25 rounded-sm">
-        <p className="text-gold text-xs font-medium mb-1">Why three layers?</p>
-        <p className="text-gray-light text-xs leading-relaxed">
-          A document-authentication API checks what the developer submitted to RERA.
-          A Kaveri registration-portal scraper checks what was actually registered in the sub-registrar&rsquo;s database.
-          The eCourts scrape checks active litigation against the project and developer.
-          Divya Villas&rsquo; encumbrance — a ₹4.2 Cr mortgage from a shadow NBFC — passed the RERA doc check and failed only at the Kaveri scrape.
-          That delta is the moat.
-        </p>
-      </div>
+        {/* Moat callout */}
+        <div className="mb-6 px-4 py-3 bg-gold/8 border border-gold/25 rounded-sm">
+          <p className="text-gold text-xs font-medium mb-1">Why three layers?</p>
+          <p className="text-gray-light text-xs leading-relaxed">
+            A document-authentication API checks what the developer submitted to RERA.
+            A Kaveri registration-portal scraper checks what was actually registered in the sub-registrar&rsquo;s database.
+            The eCourts scrape checks active litigation against the project and developer.
+            Divya Villas&rsquo; encumbrance — a ₹4.2 Cr mortgage from a shadow NBFC — passed the RERA doc check and failed only at the Kaveri scrape.
+            That delta is the moat.
+          </p>
+        </div>
 
-      <div className="space-y-4">
-        {PROJECTS.map(p => <ProjectCard key={p.id} project={p} />)}
+        {/* Check icons legend */}
+        <div className="flex items-center gap-4 mb-5">
+          {[
+            { label: 'RERA Docs', icon: FileText },
+            { label: 'Kaveri Scrape', icon: Database },
+            { label: 'eCourts', icon: Scale },
+          ].map(({ label, icon: Icon }) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <Icon className="w-3.5 h-3.5 text-gray" />
+              <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray">{label}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-4">
+          {PROJECTS.map((p, i) => <ProjectCard key={p.id} project={p} index={i} />)}
+        </div>
       </div>
     </div>
   )

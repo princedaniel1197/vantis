@@ -91,12 +91,10 @@ function SidebarNav({ onClose }: { onClose: () => void }) {
 }
 
 export default function GovernLayout({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [demoMode, setDemoMode] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
     try {
       if (localStorage.getItem('vantis_demo_mode') === 'true') setDemoMode(true)
     } catch {}
@@ -114,8 +112,6 @@ export default function GovernLayout({ children }: { children: React.ReactNode }
     document.addEventListener('keydown', handleKey)
     return () => document.removeEventListener('keydown', handleKey)
   }, [])
-
-  if (!mounted) return <div className="min-h-screen bg-background" />
 
   const officer = DEFAULT_OFFICER
 

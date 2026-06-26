@@ -5,7 +5,7 @@ import { UNITS, type Unit, type UnitStatus } from '@/lib/sales/units'
 import Link from 'next/link'
 import { ArrowLeft, LayoutGrid, Box, CheckCircle2, AlertTriangle, X } from 'lucide-react'
 
-// ── CSS perspective tower ────────────────────────────────────────────────────
+// ── Isometric SVG tower ──────────────────────────────────────────────────────
 interface TowerSceneProps {
   selectedId: string | null
   highlightIds: Set<string>
@@ -13,142 +13,293 @@ interface TowerSceneProps {
 }
 
 function IsoTower({ selectedId, highlightIds, onSelect }: TowerSceneProps) {
-  const floorOrder = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
+  const byFloor = useMemo(() => {
+    const map: Record<number, Unit[]> = {}
+    for (const u of UNITS) {
+      if (!map[u.floor]) map[u.floor] = []
+      map[u.floor].push(u)
+    }
+    for (const f in map) map[+f].sort((a, b) => a.unitOnFloor - b.unitOnFloor)
+    return map
+  }, [])
 
-  const STATUS_BG: Record<UnitStatus, string> = {
-    available: '#12121E',
-    held:      '#3D2E05',
-    booked:    '#0D2B1C',
-    sold:      '#1A2A1A',
+  // Building geometry constants
+  const FX    = 145   // Front face left-x
+  const FY    = 56    // Front face top-y (top of PH)
+  const FW    = 294   // Front face width (7 × 42)
+  const FH    = 30    // Normal floor height
+  const PHH   = 44    // Penthouse floor height
+  const DX    = 84    // Right-face x-offset (isometric depth)
+  const DY    = 42    // Right-face y-offset (isometric depth)
+  const TOTAL = 10 * FH + PHH  // 344px total front-face height
+
+  // Floor top-y on the front face
+  function fTop(f: number) { return f === 11 ? FY : FY + PHH + (10 - f) * FH }
+  function fHt(f: number)  { return f === 11 ? PHH : FH }
+  // Unit width per floor (3 wide PH units, 7 normal)
+  function uW(f: number)   { return f === 11 ? FW / 3 : FW / 7 }
+
+  // Polygon points string helper
+  function pts(...coords: number[]) {
+    const pairs: string[] = []
+    for (let i = 0; i < coords.length; i += 2) pairs.push(`${coords[i]},${coords[i + 1]}`)
+    return pairs.join(' ')
   }
-  const STATUS_BORDER: Record<UnitStatus, string> = {
-    available: '#22223A',
-    held:      '#8B7035',
-    booked:    '#2A5A3A',
-    sold:      '#2ECC71',
+
+  const SC: Record<UnitStatus, { fill: string; stroke: string; win: string }> = {
+    available: { fill: '#0B0B18', stroke: '#1E1E3A', win: '#131326' },
+    held:      { fill: '#1C1000', stroke: '#7A6020', win: '#2A1800' },
+    booked:    { fill: '#001208', stroke: '#185530', win: '#001C10' },
+    sold:      { fill: '#001808', stroke: '#2ECC71', win: '#003012' },
   }
+
+  const FLOORS = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        background: '#0A0A0F',
-        display: 'flex',
-        alignItems: 'flex-end',
-        justifyContent: 'center',
-        perspective: '700px',
-        perspectiveOrigin: '50% 85%',
-        overflow: 'hidden',
-        paddingBottom: '48px',
-      }}
+    <svg
+      viewBox="0 0 660 510"
+      xmlns="http://www.w3.org/2000/svg"
+      style={{ width: '100%', height: '100%', display: 'block' }}
     >
-      <div
-        style={{
-          transformStyle: 'preserve-3d',
-          transform: 'rotateX(52deg)',
-          transformOrigin: 'center bottom',
-        }}
-      >
-        {/* Legend row at top */}
-        <div style={{ display: 'flex', gap: '12px', marginBottom: '16px', paddingLeft: '32px' }}>
-          {[
-            { label: 'Available', color: STATUS_BORDER.available },
-            { label: 'Held', color: STATUS_BORDER.held },
-            { label: 'Booked', color: STATUS_BORDER.booked },
-            { label: 'Sold', color: STATUS_BORDER.sold },
-          ].map(({ label, color }) => (
-            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <div style={{ width: '10px', height: '10px', background: color, borderRadius: '1px' }} />
-              <span style={{ fontSize: '9px', fontFamily: 'monospace', color: '#6B6B88', textTransform: 'uppercase' }}>{label}</span>
-            </div>
-          ))}
-        </div>
+      <defs>
+        <linearGradient id="isoRF" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#0D0D1C" />
+          <stop offset="100%" stopColor="#080810" />
+        </linearGradient>
+        <linearGradient id="isoTop" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#1A1A30" />
+          <stop offset="100%" stopColor="#0E0E26" />
+        </linearGradient>
+        <radialGradient id="isoGnd" cx="50%" cy="0%" r="80%">
+          <stop offset="0%" stopColor="rgba(14,14,28,0.9)" />
+          <stop offset="100%" stopColor="transparent" />
+        </radialGradient>
+      </defs>
 
-        {/* Tower floors */}
-        <div style={{ display: 'flex', gap: '0' }}>
-          {/* Floor labels column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', paddingRight: '6px', alignItems: 'flex-end' }}>
-            {floorOrder.map(floor => (
-              <div
-                key={floor}
-                style={{
-                  height: floor === 11 ? '36px' : '26px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  fontSize: '8px',
-                  fontFamily: 'monospace',
-                  color: '#3A3A5A',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                F{String(floor).padStart(2, '0')}
-              </div>
-            ))}
-          </div>
+      {/* Background */}
+      <rect width="660" height="510" fill="#05050D" />
 
-          {/* Unit columns */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-            {floorOrder.map(floor => {
-              const floorUnits = UNITS
-                .filter(u => u.floor === floor)
-                .sort((a, b) => a.unitOnFloor - b.unitOnFloor)
-              const isPH = floor === 11
+      {/* Ground shadow */}
+      <ellipse
+        cx={FX + FW / 2 + DX / 2} cy={FY + TOTAL + DY + 22}
+        rx={218} ry={28}
+        fill="url(#isoGnd)"
+      />
 
+      {/* ─── RIGHT FACE ────────────────────────────────── */}
+      <polygon
+        points={pts(
+          FX + FW,      FY,
+          FX + FW + DX, FY + DY,
+          FX + FW + DX, FY + TOTAL + DY,
+          FX + FW,      FY + TOTAL,
+        )}
+        fill="url(#isoRF)"
+        stroke="#16163A"
+        strokeWidth="1"
+      />
+      {/* Floor dividers on right face */}
+      {FLOORS.map(f => (
+        <line key={`rd-${f}`}
+          x1={FX + FW}      y1={fTop(f)}
+          x2={FX + FW + DX} y2={fTop(f) + DY}
+          stroke="#101024" strokeWidth="0.6"
+        />
+      ))}
+      {/* Windows on right face (3 per floor) */}
+      {FLOORS.flatMap(f => {
+        const units = byFloor[f] || []
+        const soldFrac = units.filter(u => u.status === 'sold').length / Math.max(units.length, 1)
+        return [0.2, 0.5, 0.8].map((t, wi) => (
+          <rect
+            key={`rw-${f}-${wi}`}
+            x={FX + FW + t * DX - 3.5}
+            y={fTop(f) + t * DY + 7}
+            width={7} height={Math.max(6, fHt(f) - 16)}
+            rx={1}
+            fill={soldFrac > 0.5 ? 'rgba(46,204,113,0.10)' : '#090912'}
+            stroke={soldFrac > 0.5 ? 'rgba(46,204,113,0.20)' : '#12122E'}
+            strokeWidth="0.4"
+          />
+        ))
+      })}
+
+      {/* ─── TOP FACE (roof) ───────────────────────────── */}
+      <polygon
+        points={pts(
+          FX,           FY,
+          FX + FW,      FY,
+          FX + FW + DX, FY + DY,
+          FX + DX,      FY + DY,
+        )}
+        fill="url(#isoTop)"
+        stroke="#20204A"
+        strokeWidth="1"
+      />
+      {/* Water tank */}
+      <polygon
+        points={pts(
+          FX + 88,               FY + 3,
+          FX + 150,              FY + 3,
+          FX + 150 + DX * 0.22,  FY + 3 + DY * 0.22,
+          FX + 88  + DX * 0.22,  FY + 3 + DY * 0.22,
+        )}
+        fill="#0C0C1E" stroke="#20203C" strokeWidth="0.8"
+      />
+      {/* Stair housing */}
+      <polygon
+        points={pts(
+          FX + 178,              FY + 3,
+          FX + 222,              FY + 3,
+          FX + 222 + DX * 0.16,  FY + 3 + DY * 0.16,
+          FX + 178 + DX * 0.16,  FY + 3 + DY * 0.16,
+        )}
+        fill="#0C0C1E" stroke="#20203C" strokeWidth="0.8"
+      />
+      {/* Lift room */}
+      <polygon
+        points={pts(
+          FX + 238,              FY + 3,
+          FX + 262,              FY + 3,
+          FX + 262 + DX * 0.12,  FY + 3 + DY * 0.12,
+          FX + 238 + DX * 0.12,  FY + 3 + DY * 0.12,
+        )}
+        fill="#0C0C1E" stroke="#20203C" strokeWidth="0.8"
+      />
+
+      {/* ─── FRONT FACE — FLOORS ───────────────────────── */}
+      {FLOORS.map(f => {
+        const fy    = fTop(f)
+        const fh    = fHt(f)
+        const uw    = uW(f)
+        const units = byFloor[f] || []
+
+        return (
+          <g key={f}>
+            {/* Floor base */}
+            <rect x={FX} y={fy} width={FW} height={fh} fill="#070710" />
+
+            {/* Unit cells */}
+            {units.map((unit, ui) => {
+              const isSel = unit.id === selectedId
+              const isHi  = highlightIds.size > 0 && highlightIds.has(unit.id)
+              const faded = highlightIds.size > 0 && !highlightIds.has(unit.id) && !isSel
+              const c = SC[unit.status]
               return (
-                <div key={floor} style={{ display: 'flex', gap: '2px', alignItems: 'center' }}>
-                  {/* Side depth wall */}
-                  <div style={{ width: '6px', height: isPH ? '36px' : '26px', background: '#060608', borderLeft: '1px solid #1A1A2E', flexShrink: 0 }} />
-
-                  {floorUnits.map(unit => {
-                    const isSel = unit.id === selectedId
-                    const isHi  = highlightIds.size > 0 && highlightIds.has(unit.id)
-                    const faded = highlightIds.size > 0 && !highlightIds.has(unit.id) && !isSel
-                    const bg  = isSel || isHi ? '#C9A84C' : STATUS_BG[unit.status]
-                    const brd = isSel ? '#F4D48C' : isHi ? '#C9A84C' : STATUS_BORDER[unit.status]
-                    return (
-                      <div
-                        key={unit.id}
-                        onClick={() => {
-                          const u = UNITS.find(x => x.id === unit.id)
-                          if (u) onSelect(u)
-                        }}
-                        title={`${unit.id} · ${unit.type} · ${unit.status}`}
-                        style={{
-                          width: isPH ? '80px' : '52px',
-                          height: isPH ? '36px' : '26px',
-                          background: bg,
-                          border: `1px solid ${brd}`,
-                          borderBottom: isSel ? `3px solid #C9A84C` : `1px solid ${brd}`,
-                          cursor: 'pointer',
-                          opacity: faded ? 0.18 : 1,
-                          transition: 'all 0.1s ease',
-                          boxShadow: isSel ? `0 0 12px rgba(201,168,76,0.4)` : 'none',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontSize: '7px',
-                          fontFamily: 'monospace',
-                          color: isSel ? '#000' : '#2A2A4A',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {unit.unitOnFloor}
-                      </div>
-                    )
-                  })}
-
-                  {/* Penthouse placeholder columns */}
-                  {isPH && Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} style={{ width: '52px', height: '36px', opacity: 0 }} />
-                  ))}
-                </div>
+                <g key={unit.id} onClick={() => onSelect(unit)} style={{ cursor: 'pointer' }}>
+                  {/* Unit body */}
+                  <rect
+                    x={FX + ui * uw + 1.5} y={fy + 2}
+                    width={uw - 3} height={fh - 4}
+                    rx={1}
+                    fill={isSel || isHi ? '#C9A84C' : c.fill}
+                    stroke={isSel ? '#F4D48C' : isHi ? '#C9A84C' : c.stroke}
+                    strokeWidth={isSel ? 1.5 : 0.7}
+                    opacity={faded ? 0.08 : 1}
+                  />
+                  {/* Window highlight */}
+                  {!faded && uw > 22 && fh > 16 && (
+                    <rect
+                      x={FX + ui * uw + uw * 0.2 + 1.5} y={fy + 4}
+                      width={uw * 0.6} height={fh * 0.38}
+                      rx={0.5}
+                      fill={isSel ? 'rgba(0,0,0,0.35)' : c.win}
+                    />
+                  )}
+                  {/* Unit number */}
+                  {!faded && uw > 28 && fh > 20 && (
+                    <text
+                      x={FX + ui * uw + uw / 2} y={fy + fh - 5}
+                      textAnchor="middle"
+                      fontFamily="monospace" fontSize={Math.min(7.5, uw / 4.5)}
+                      fill={isSel ? '#000' : '#1E1E48'}
+                    >
+                      {unit.unitOnFloor}
+                    </text>
+                  )}
+                </g>
               )
             })}
-          </div>
-        </div>
-      </div>
-    </div>
+
+            {/* Floor separator line */}
+            <line x1={FX} y1={fy} x2={FX + FW} y2={fy} stroke="#0C0C28" strokeWidth="0.8" />
+          </g>
+        )
+      })}
+
+      {/* Front face border */}
+      <rect x={FX} y={FY} width={FW} height={TOTAL} fill="none" stroke="#1E1E48" strokeWidth="1.2" />
+
+      {/* Floor labels (left side) */}
+      {FLOORS.map(f => {
+        const fy = fTop(f)
+        const fh = fHt(f)
+        return (
+          <text key={`lbl-${f}`}
+            x={FX - 7} y={fy + fh / 2 + 3}
+            textAnchor="end"
+            fontFamily="monospace" fontSize="7"
+            fill="#1A1A44"
+          >
+            {f === 11 ? 'PH' : `F${String(f).padStart(2, '0')}`}
+          </text>
+        )
+      })}
+
+      {/* ─── STATUS LEGEND ─────────────────────────────── */}
+      {[
+        { label: 'Available', color: '#1E1E3A' },
+        { label: 'Held',      color: '#7A6020' },
+        { label: 'Booked',    color: '#185530' },
+        { label: 'Sold',      color: '#2ECC71' },
+      ].map((item, i) => (
+        <g key={item.label} transform={`translate(${FX + i * 76}, ${FY + TOTAL + DY + 12})`}>
+          <rect x={0} y={0} width={9} height={9} rx={1.5} fill={item.color} opacity="0.9" />
+          <text x={13} y={8} fontFamily="monospace" fontSize="7" fill="#24244E">{item.label}</text>
+        </g>
+      ))}
+
+      {/* ─── CONSTRUCTION CRANE ───────────────────────── */}
+      <g opacity="0.46">
+        {/* Mast */}
+        <line x1={FX+FW+DX-10} y1={FY+DY}    x2={FX+FW+DX-10} y2={FY+DY-92}
+          stroke="#1C1C48" strokeWidth="3" />
+        {/* Boom */}
+        <line x1={FX+FW+DX-70} y1={FY+DY-90} x2={FX+FW+DX+34} y2={FY+DY-90}
+          stroke="#1C1C48" strokeWidth="2.5" />
+        {/* Back stay */}
+        <line x1={FX+FW+DX-10} y1={FY+DY-92} x2={FX+FW+DX-70} y2={FY+DY-90}
+          stroke="#1C1C48" strokeWidth="1.5" />
+        {/* Counter weight */}
+        <rect x={FX+FW+DX-78} y={FY+DY-93} width={11} height={6}
+          rx={1} fill="#10101C" stroke="#1C1C48" strokeWidth="0.7" />
+        {/* Hoist cable */}
+        <line x1={FX+FW+DX+20} y1={FY+DY-90} x2={FX+FW+DX+20} y2={FY+DY-8}
+          stroke="#24245C" strokeWidth="0.8" strokeDasharray="4 3" />
+        {/* Load box */}
+        <rect x={FX+FW+DX+12} y={FY+DY-11} width={16} height={9}
+          rx={1} fill="#0C0C18" stroke="#1C1C48" strokeWidth="0.7" />
+      </g>
+
+      {/* ─── SCAFFOLDING (active construction floors) ─── */}
+      <g opacity="0.2" stroke="#16165A" strokeWidth="0.9">
+        <line x1={FX+5}  y1={FY+PHH}         x2={FX+5}  y2={FY+PHH+5*FH} />
+        <line x1={FX+14} y1={FY+PHH}         x2={FX+14} y2={FY+PHH+5*FH} />
+        {[1, 2, 3, 4, 5].map(i => (
+          <line key={i} x1={FX+3} y1={FY+PHH+i*FH} x2={FX+16} y2={FY+PHH+i*FH} />
+        ))}
+      </g>
+
+      {/* ─── BUILDING LABEL ───────────────────────────── */}
+      <text
+        x={FX + FW / 2 + DX * 0.36} y={FY + TOTAL + DY + 36}
+        textAnchor="middle"
+        fontFamily="monospace" fontSize="8" letterSpacing="1.5"
+        fill="#1E1E50"
+      >
+        DIVYA VILLAS · TOWER A · MYSURU
+      </text>
+    </svg>
   )
 }
 

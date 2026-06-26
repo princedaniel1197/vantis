@@ -235,11 +235,11 @@ export default function GovernProjectRegistry() {
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03, duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
-                      className={`border-b border-border last:border-0 transition-colors duration-150 group ${isHero ? 'cursor-pointer hover:bg-background' : 'cursor-default'}`}
-                      onClick={() => isHero && (window.location.href = `/govern/projects/${p.id}`)}
+                      className="border-b border-border last:border-0 transition-colors duration-150 group cursor-pointer hover:bg-background"
+                      onClick={() => { window.location.href = `/govern/projects/${p.id}` }}
                     >
                       <td className="px-4 py-3.5">
-                        <div className={`text-off-white text-sm font-medium leading-tight ${isHero ? 'group-hover:text-gold transition-colors duration-150' : ''}`}>
+                        <div className="text-off-white text-sm font-medium leading-tight group-hover:text-gold transition-colors duration-150">
                           {p.name}
                           {isHero && <span className="ml-2 text-[8px] font-mono text-gold/60 uppercase tracking-[0.15em]">Featured</span>}
                         </div>
@@ -278,10 +278,7 @@ export default function GovernProjectRegistry() {
                         </span>
                       </td>
                       <td className="px-4 py-3.5">
-                        {isHero
-                          ? <ChevronRight className="w-4 h-4 text-gray group-hover:text-gold transition-colors duration-150" />
-                          : <span className="w-4 h-4 block" />
-                        }
+                        <ChevronRight className="w-4 h-4 text-gray group-hover:text-gold transition-colors duration-150" />
                       </td>
                     </motion.tr>
                   )
@@ -348,9 +345,7 @@ export default function GovernProjectRegistry() {
                         )}
                       </>
                     )
-                    return isHero
-                      ? <Link href={`/govern/projects/${p.id}`} className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</Link>
-                      : <div className="block bg-surface border border-border rounded-sm p-4 sm:p-5">{cardContent}</div>
+                    return <Link href={`/govern/projects/${p.id}`} className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</Link>
                   })()}
                 </motion.div>
               )

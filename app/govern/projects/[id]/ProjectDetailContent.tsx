@@ -19,9 +19,10 @@ const RiskTimeline = dynamic(() => import('@/components/govern/RiskTimeline'), {
 /* ---------- Types ---------- */
 interface Project {
   id: string; name: string; rera: string; developer_id: string; developer_name: string
-  location: string; survey_numbers: string[]; type: string; total_units: number
-  units_sold: number; declared_cost_crore: number; completion_date: string
-  registration_date: string; registration_valid_until: string; extensions: number
+  location: string; district?: string; survey_numbers: string[]; type: string; total_units: number
+  units_sold: number; declared_cost_crore: number; completion_date: string | null
+  registration_date: string | null; registration_valid_until: string | null
+  extensions: number | boolean
   status: string; risk_score: number; certificate_id: string | null
   certificate_status: string; complaints_pending: number; complaints_resolved: number
   litigation: Array<{ type: string; court: string; filed: string; status: string }>
@@ -130,6 +131,138 @@ const ESCROW: Record<string, {
 
 const escrowStatusClass = { HEALTHY: 'text-green bg-green/10 border-green/30', CAUTION: 'text-amber bg-amber/10 border-amber/30', CRITICAL: 'text-red bg-red/10 border-red/30' }
 
+/* ================================================================
+   GENERATED PROJECT DATA (deterministic from project index)
+   ================================================================ */
+
+type EscrowInfo = {
+  balance_crore: number; collected_crore: number; pct: number
+  status: 'HEALTHY' | 'CAUTION' | 'CRITICAL'; last_withdrawal: string; note: string
+}
+
+function mkRng(seed: number) {
+  let s = (Math.abs(seed) * 1664525 + 1013904223) >>> 0
+  const next = (): number => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0
+    return s / 4294967296
+  }
+  return {
+    next,
+    int: (min: number, max: number) => min + Math.floor(next() * (max - min + 1)),
+    pick: <T,>(arr: readonly T[]): T => arr[Math.floor(next() * arr.length)],
+  }
+}
+
+function genN(id: string): number {
+  return parseInt(id.replace('gen-', ''), 10) || 1
+}
+
+function generateQPRRows(p: Project): { quarter: string; entry: QPREntry }[] {
+  const rng = mkRng(genN(p.id) * 7919)
+  const startPct = rng.int(8, 30)
+  const endPct   = p.status === 'COMPLIANT' ? rng.int(78, 97) :
+                   p.status === 'CAUTION'   ? rng.int(42, 68) : rng.int(12, 38)
+  const quarters = qprData.quarters
+  return quarters.map((quarter, i) => {
+    const frac   = quarters.length > 1 ? i / (quarters.length - 1) : 1
+    const target = Math.round(startPct + (endPct - startPct) * frac)
+    let status: string
+    if (p.status === 'COMPLIANT') {
+      status = rng.next() < 0.87 ? 'ON_TIME' : 'LATE'
+    } else if (p.status === 'CAUTION') {
+      const r = rng.next()
+      status = r < 0.52 ? 'ON_TIME' : r < 0.80 ? 'LATE' : 'MISSED'
+    } else {
+      const r = rng.next()
+      status = i < 3 ? (r < 0.42 ? 'ON_TIME' : r < 0.65 ? 'LATE' : 'MISSED') : (r < 0.18 ? 'LATE' : 'MISSED')
+    }
+    const due = getDueDate(quarter)
+    let filed_date: string | null = null
+    if (status === 'ON_TIME') {
+      const d = new Date(due); d.setDate(d.getDate() - rng.int(0, 4))
+      filed_date = d.toISOString().split('T')[0]
+    } else if (status === 'LATE') {
+      const d = new Date(due); d.setDate(d.getDate() + rng.int(8, 45))
+      filed_date = d.toISOString().split('T')[0]
+    }
+    const completion_pct = (status === 'MISSED' && i >= 4) ? null
+      : Math.max(5, Math.min(99, target + rng.int(-3, 3)))
+    return { quarter, entry: { status, filed_date, completion_pct } }
+  })
+}
+
+function generateEscrow(p: Project): EscrowInfo {
+  const rng = mkRng(genN(p.id) * 3571)
+  const rate      = 0.55 + rng.next() * 0.30
+  const collected = Math.max(0.5, Math.round(p.declared_cost_crore * (p.units_sold / p.total_units) * rate * 100) / 100)
+  const pct       = p.status === 'COMPLIANT' ? rng.int(22, 40) :
+                    p.status === 'CAUTION'   ? rng.int(9, 19)  : rng.int(2, 8)
+  const balance   = Math.max(0.05, Math.round(collected * pct / 100 * 100) / 100)
+  const status: EscrowInfo['status'] = pct >= 20 ? 'HEALTHY' : pct >= 10 ? 'CAUTION' : 'CRITICAL'
+  const daysAgo   = p.status === 'COMPLIANT' ? rng.int(14, 75) :
+                    p.status === 'CAUTION'   ? rng.int(60, 180) : rng.int(180, 600)
+  const wd = new Date('2026-05-13'); wd.setDate(wd.getDate() - daysAgo)
+  const note = status === 'HEALTHY'
+    ? 'Balance within regulatory threshold. Withdrawals aligned with construction milestones.'
+    : status === 'CAUTION'
+    ? 'Balance below recommended 20% floor. Withdrawal pattern requires monitoring.'
+    : 'Escrow balance critically low. Withdrawals inconsistent with declared construction progress.'
+  return { balance_crore: balance, collected_crore: collected, pct, status, last_withdrawal: wd.toISOString().split('T')[0], note }
+}
+
+function generateLitigation(p: Project): LitigationItem[] {
+  const rng = mkRng(genN(p.id) * 1597)
+  const r = rng.next()
+  const count = p.status === 'COMPLIANT' ? (r < 0.06 ? 1 : 0) :
+                p.status === 'CAUTION'   ? (r < 0.40 ? 1 : 0) :
+                (r < 0.25 ? 3 : r < 0.60 ? 2 : 1)
+  if (count === 0) return []
+  const COURTS     = ['City Civil Court, Bengaluru', 'District Court, Mysuru', 'RERA Tribunal, Bengaluru', 'City Civil Court, Mangaluru'] as const
+  const LIT_TYPES  = ['Civil', 'Consumer', 'Writ', 'Civil'] as const
+  const CAUSES     = [
+    'Possession delay — RERA Section 31',
+    'Refund with interest — RERA Section 18',
+    'Non-compliance with registered sale agreement',
+    'Occupancy certificate not furnished as per terms',
+  ] as const
+  const PLAINTIFFS = [
+    "Homebuyer(s) — Unit allottees",
+    "Apartment Owners' Association",
+    "Plot Allottees' Group",
+    "Affected homebuyers (multiple)",
+  ] as const
+  return Array.from({ length: count }, (_, i): LitigationItem => {
+    const r2  = mkRng(genN(p.id) * 1597 + (i + 1) * 9001)
+    const yr  = r2.int(2022, 2025)
+    const mm  = String(r2.int(1, 12)).padStart(2, '0')
+    const dd  = String(r2.int(1, 28)).padStart(2, '0')
+    const nmm = String(r2.int(6, 11)).padStart(2, '0')
+    const ndd = String(r2.int(1, 28)).padStart(2, '0')
+    const sev = p.status === 'HIGH RISK'
+      ? (['HIGH', 'HIGH', 'CRITICAL'] as const)[r2.int(0, 2)]
+      : 'MEDIUM'
+    return {
+      id:                  `LIT-${yr}-GEN${genN(p.id)}-${i + 1}`,
+      project_id:          p.id,
+      type:                r2.pick(LIT_TYPES),
+      court:               r2.pick(COURTS),
+      case_number:         `OS ${yr}/${r2.int(1000, 9999)}`,
+      filed_date:          `${yr}-${mm}-${dd}`,
+      plaintiff:           r2.pick(PLAINTIFFS),
+      cause:               r2.pick(CAUSES),
+      relief_sought_crore: Math.round((0.5 + r2.next() * (p.status === 'HIGH RISK' ? 44.5 : 17.5)) * 10) / 10,
+      status:              'Pending',
+      next_hearing:        `2026-${nmm}-${ndd}`,
+      severity:            sev,
+    }
+  })
+}
+
+function safeFmtDate(d: string | null | undefined): string {
+  if (!d) return '—'
+  try { return fmtDate(d) } catch { return '—' }
+}
+
 /* ---------- Tabs ---------- */
 const TABS = [
   { id: 'overview',   label: 'Overview',     icon: Building2 },
@@ -189,10 +322,17 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   }
 
   const project: Project = projectMaybe
+  const isGenerated = project.id.startsWith('gen-')
+  const extensionsCount = typeof project.extensions === 'boolean'
+    ? (project.extensions ? 1 : 0)
+    : Number(project.extensions)
+
   const developer = (developersData as Developer[]).find(d => d.id === project.developer_id)
   const qprSub = qprData.submissions.find(s => s.project_id === project.id)
-  const litigation = (litigationData as LitigationItem[]).filter(l => l.project_id === project.id)
-  const escrow = ESCROW[project.id]
+  const litigation: LitigationItem[] = isGenerated
+    ? generateLitigation(project)
+    : (litigationData as LitigationItem[]).filter(l => l.project_id === project.id)
+  const escrow: EscrowInfo = ESCROW[project.id] || generateEscrow(project)
 
   const qprRows = qprSub
     ? qprData.quarters.map(q => {
@@ -200,7 +340,9 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         const entry = (qprSub as Record<string, unknown>)[key] as QPREntry
         return { quarter: q, entry }
       })
-    : []
+    : isGenerated
+      ? generateQPRRows(project)
+      : []
 
   const latestQPR = qprRows.length ? qprRows[qprRows.length - 1].entry : null
   const completionPct = latestQPR?.completion_pct ??
@@ -220,12 +362,16 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
               { label: 'RERA Number',      value: project.rera,                     mono: true, gold: true },
               { label: 'Project Type',     value: project.type },
               { label: 'Location',         value: project.location },
-              { label: 'Survey Numbers',   value: project.survey_numbers.join(', ') },
+              { label: 'Survey Numbers',   value: project.survey_numbers.length > 0
+                  ? project.survey_numbers.join(', ')
+                  : isGenerated
+                    ? `Sy. No. ${50 + (genN(project.id) % 200)}/${1 + (genN(project.id) % 8)}, ${50 + (genN(project.id) % 200)}/${2 + (genN(project.id) % 8)}`
+                    : '—' },
               { label: 'Declared Cost',    value: fmtCrore(project.declared_cost_crore) },
-              { label: 'Registration Date',value: fmtDate(project.registration_date) },
-              { label: 'Valid Until',      value: fmtDate(project.registration_valid_until) },
-              { label: 'Extensions',       value: project.extensions > 0 ? `${project.extensions} extension${project.extensions > 1 ? 's' : ''}` : 'None' },
-              { label: 'Completion Date',  value: fmtDate(project.completion_date) },
+              { label: 'Registration Date',value: safeFmtDate(project.registration_date) },
+              { label: 'Valid Until',      value: safeFmtDate(project.registration_valid_until) },
+              { label: 'Extensions',       value: extensionsCount > 0 ? `${extensionsCount} extension${extensionsCount > 1 ? 's' : ''}` : 'None' },
+              { label: 'Completion Date',  value: safeFmtDate(project.completion_date) },
               { label: 'Certificate',      value: project.certificate_status === 'NONE' ? 'Not issued' : project.certificate_status },
             ].map(({ label, value, mono, gold }) => (
               <div key={label} className="flex items-start justify-between gap-3 py-2 border-b border-border/60">
@@ -302,6 +448,27 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
               <div className="mt-3 pt-3 border-t border-border grid grid-cols-1 sm:grid-cols-2 gap-1.5">
                 <div className="text-gray text-xs">{developer.contact_email}</div>
                 <div className="text-gray text-xs">{developer.contact_phone}</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Developer info — generated projects (developer_id not in developers.json) */}
+        {!developer && isGenerated && (
+          <div>
+            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Developer</div>
+            <div className="bg-surface border border-border rounded-sm p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <div className="text-off-white font-medium text-sm">{project.developer_name}</div>
+                  <div className="text-gray text-xs mt-0.5">
+                    {project.district ?? project.location} · K-RERA Registered Promoter
+                  </div>
+                </div>
+                <span className={`inline-flex items-center gap-1.5 text-[9px] font-mono shrink-0 ${statusColor(project.status)}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(project.status)}`} />
+                  {project.status}
+                </span>
               </div>
             </div>
           </div>
@@ -483,7 +650,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
             {[
               { label: 'Declared Project Cost', value: fmtCrore(project.declared_cost_crore) },
               { label: 'Units Sold',             value: `${project.units_sold} / ${project.total_units} (${unitsPct}%)` },
-              { label: 'Extensions Granted',     value: project.extensions > 0 ? `${project.extensions}` : 'None' },
+              { label: 'Extensions Granted',     value: extensionsCount > 0 ? `${extensionsCount}` : 'None' },
             ].map(({ label, value }) => (
               <div key={label} className="flex items-center justify-between py-2.5 border-b border-border">
                 <span className="text-gray text-sm">{label}</span>
@@ -696,6 +863,68 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
 
   function renderDocuments() {
     if (project.id !== 'divya-villas') {
+      if (isGenerated) {
+        const rng = mkRng(genN(project.id) * 5557)
+        const ALL_DOCS: { name: string; critical: boolean }[] = [
+          { name: 'RERA Registration Certificate',     critical: true  },
+          { name: 'Approved Building Plan',             critical: true  },
+          { name: 'Title Documents — Survey Numbers',   critical: true  },
+          { name: 'CA Certificate — Project Cost',      critical: true  },
+          { name: 'Encumbrance Certificate',            critical: false },
+          { name: 'CESCOM / BESCOM NOC',               critical: false },
+          { name: 'Water Supply NOC',                   critical: false },
+          { name: 'Occupancy / Completion Certificate', critical: false },
+        ]
+        const docs = ALL_DOCS.map(d => {
+          const r = rng.next()
+          let status: 'present' | 'pending' | 'expired'
+          if (d.critical) {
+            status = project.status === 'COMPLIANT' ? 'present'
+              : project.status === 'CAUTION' ? (r < 0.80 ? 'present' : 'pending')
+              : (r < 0.48 ? 'present' : r < 0.80 ? 'pending' : 'expired')
+          } else {
+            status = project.status === 'COMPLIANT' ? (r < 0.85 ? 'present' : 'pending')
+              : project.status === 'CAUTION' ? (r < 0.55 ? 'present' : r < 0.82 ? 'pending' : 'expired')
+              : (r < 0.28 ? 'present' : r < 0.62 ? 'pending' : 'expired')
+          }
+          return { ...d, status }
+        })
+        const present = docs.filter(d => d.status === 'present').length
+        const pending = docs.filter(d => d.status === 'pending').length
+        const expired = docs.filter(d => d.status === 'expired').length
+        const allOk   = pending === 0 && expired === 0
+        return (
+          <div className="space-y-4">
+            <div className={`border rounded-sm px-4 py-3 flex items-center gap-3 ${
+              allOk ? 'bg-green/10 border-green/20' : expired > 0 ? 'bg-red/10 border-red/20' : 'bg-amber/10 border-amber/20'
+            }`}>
+              {allOk
+                ? <CheckCircle className="w-4 h-4 text-green shrink-0" />
+                : <AlertTriangle className="w-4 h-4 text-amber shrink-0" />}
+              <span className={`text-sm font-medium ${allOk ? 'text-green' : expired > 0 ? 'text-red' : 'text-amber'}`}>
+                {allOk
+                  ? `All ${present} required documents submitted.`
+                  : `${present} submitted${pending > 0 ? ` · ${pending} pending` : ''}${expired > 0 ? ` · ${expired} expired` : ''}.`}
+              </span>
+            </div>
+            <div className="border border-border rounded-sm overflow-hidden">
+              {docs.map(d => (
+                <div key={d.name} className="flex items-center justify-between px-4 py-3 border-b border-border last:border-0">
+                  <div className="flex items-center gap-3">
+                    <FileText className="w-4 h-4 text-gray shrink-0" />
+                    <span className="text-off-white text-sm">{d.name}</span>
+                  </div>
+                  <span className={`text-[9px] font-mono uppercase tracking-wider ${
+                    d.status === 'present' ? 'text-green' : d.status === 'pending' ? 'text-amber' : 'text-red'
+                  }`}>
+                    {d.status === 'present' ? '✓ Submitted' : d.status === 'pending' ? '○ Pending' : '✕ Expired'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      }
       return (
         <div className="bg-surface border border-border rounded-sm p-8 text-center">
           <FileX className="w-8 h-8 text-gray mx-auto mb-3" />

@@ -1,12 +1,8 @@
 import ProjectDetailContent from './ProjectDetailContent'
+import projectsData from '@/data/projects.json'
 
 export function generateStaticParams() {
-  return [
-    { id: 'divya-villas' },
-    { id: 'ozone-urbana' },
-    { id: 'prestige-lakeside' },
-    { id: 'skylark-arcadia' },
-  ]
+  return (projectsData as { id: string }[]).map(p => ({ id: p.id }))
 }
 
 export default function Page({ params }: { params: { id: string } }) {

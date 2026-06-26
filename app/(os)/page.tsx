@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, TrendingDown, Database, Brain, Search, ChevronRight, Globe } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, Database, Brain, Search, ChevronRight } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -184,22 +184,6 @@ export default function HubPage() {
               <ChevronRight style={{ width: '14px', height: '14px' }} />
             </div>
           </Link>
-        ))}
-      </div>
-
-      {/* Coming soon */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
-        {['Vantis Diligence', 'Vantis Public API'].map(name => (
-          <div
-            key={name}
-            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.375rem 0.875rem', borderRadius: '2px', border: '1px solid #1C1C28' }}
-          >
-            <Globe style={{ width: '12px', height: '12px', color: '#2A2A3E' }} />
-            <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: '#2E2E45' }}>{name}</span>
-            <span style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', letterSpacing: '0.1em', textTransform: 'uppercase', padding: '2px 6px', borderRadius: '2px', background: '#14141E', color: '#2E2E45' }}>
-              Soon
-            </span>
-          </div>
         ))}
       </div>
 

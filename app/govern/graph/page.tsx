@@ -1,21 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
-import dynamic from 'next/dynamic'
 import { Search, X, Network, RotateCcw, Play, ZoomIn, ZoomOut } from 'lucide-react'
-
-/* ── Dynamic import — canvas API not available on SSR ────────────────────── */
-const ForceGraph2D = dynamic(
-  () => import('react-force-graph').then(m => ({ default: m.ForceGraph2D })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex-1 flex items-center justify-center text-gray text-sm font-mono tracking-wider">
-        Initialising investigation canvas…
-      </div>
-    ),
-  }
-)
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
 type NodeType = 'developer' | 'project' | 'person' | 'asset' | 'litigation' | 'rrc'
@@ -34,8 +20,8 @@ interface CanvasNode {
   y?: number
   vx?: number
   vy?: number
-  fx?: number
-  fy?: number
+  fx?: number | null
+  fy?: number | null
 }
 
 interface CanvasLink {
@@ -74,7 +60,6 @@ const DB: Record<string, CanvasNode> = {
       Status: 'HIGH RISK', 'Trust Score': '9 / 100', City: 'Bengaluru',
       'Active Projects': 4, 'Homebuyers Affected': 1847,
       'Capital at Risk': '₹927 Cr', 'FIR Filed': 'Q3 2023',
-      'RERA ID': 'DEV/KA/RERA/OG/001',
     },
   },
   'ozone-urbana': {
@@ -98,7 +83,7 @@ const DB: Record<string, CanvasNode> = {
   'ozone-spe': {
     id: 'ozone-spe', label: 'Ozone Urbana Promoters Pvt. Ltd.', type: 'person', anomaly: true,
     data: {
-      Type: 'Project SPE (Special Purpose Entity)', Role: 'Project Promoter / Escrow Holder',
+      Type: 'Project SPE', Role: 'Project Promoter / Escrow Holder',
       'RERA Reg': 'KA/RERA/1251/2016',
       'Escrow Balance': '₹3.88 Cr', 'Escrow Status': 'CRITICAL',
     },
@@ -108,7 +93,7 @@ const DB: Record<string, CanvasNode> = {
     data: {
       Role: 'Managing Director / Key Promoter',
       Status: 'Withheld pending service of notice',
-      Note: 'Director of Ozone Urbana Promoters Pvt. Ltd. and Ozone Group Holdings. Signatory to all project agreements.',
+      Note: 'Director of Ozone Urbana Promoters and Ozone Group Holdings.',
       '⚑ Anomaly Flag': 'Related-party land holding traced via Bhoomi cross-reference',
     },
   },
@@ -117,8 +102,8 @@ const DB: Record<string, CanvasNode> = {
     data: {
       Role: 'Registered holder of related-party agricultural land',
       Status: 'Withheld — Benami notice pending',
-      '⚑ Key Discovery': 'Holds 179-acre Kannehalli parcel not surfaced in any prior enforcement record',
-      Note: 'Land acquired Feb 2019 — coincides with Ozone Urbana peak collection phase (FY 2018-19)',
+      '⚑ Key Discovery': 'Holds 179-acre Kannehalli parcel not in any prior enforcement record',
+      Note: 'Land acquired Feb 2019 — during Ozone Urbana peak collection phase (FY 2018-19)',
     },
   },
   'lit-os-1124': {
@@ -127,7 +112,7 @@ const DB: Record<string, CanvasNode> = {
       Court: 'City Civil Court, Bengaluru', Filed: '2022-03-14',
       Plaintiff: 'Homebuyers Association (42 members)',
       Cause: 'Possession delay & breach of agreement',
-      'Relief Sought': '₹24.8 Cr', Severity: 'HIGH', Status: 'Pending',
+      'Relief Sought': '₹24.8 Cr', Severity: 'HIGH',
     },
   },
   'lit-os-2247': {
@@ -136,7 +121,7 @@ const DB: Record<string, CanvasNode> = {
       Court: 'City Civil Court, Bengaluru', Filed: '2022-07-22',
       Plaintiff: 'Sanjay Kapoor & 18 Others',
       Cause: 'Refund with interest — RERA Sec 18',
-      'Relief Sought': '₹11.2 Cr', Severity: 'HIGH', Status: 'Pending',
+      'Relief Sought': '₹11.2 Cr', Severity: 'HIGH',
     },
   },
   'lit-wp-1842': {
@@ -145,7 +130,7 @@ const DB: Record<string, CanvasNode> = {
       Court: 'Karnataka High Court', Filed: '2023-01-05',
       Plaintiff: 'Ozone Urbana Homebuyers Forum',
       Cause: 'Mandamus to K-RERA to initiate enforcement action',
-      Severity: 'CRITICAL', Status: 'Pending',
+      Severity: 'CRITICAL',
     },
   },
   'rrc-oz-001': {
@@ -153,9 +138,8 @@ const DB: Record<string, CanvasNode> = {
     data: {
       'Amount Ordered': '₹423 Cr', 'Amount Recovered': '₹0',
       Stage: 'Stage 5 / 8 — Asset Identification (STALLED)',
-      'Issued': '11 April 2026',
+      Issued: '11 April 2026',
       'HC Deadline': '06 June 2026 (20 days overdue)',
-      Status: 'ISSUED — Unacknowledged 32 days',
     },
   },
   'asset-devanahalli': {
@@ -165,27 +149,24 @@ const DB: Record<string, CanvasNode> = {
       Type: 'Agricultural / Development Land',
       Value: '₹82 Cr', Source: 'Kaveri 2.0 + Bhoomi',
       Status: 'Verified — Partial mortgage',
-      Attachment: 'Eligible under RERA Sec 40',
     },
   },
   'asset-bank': {
     id: 'asset-bank', label: 'Bank Accounts ×3', type: 'asset',
     data: {
-      Description: 'RERA Escrow (KA/RERA/ESC/1251/2016) + Karnataka Bank + HDFC Bank',
+      Description: 'RERA Escrow + Karnataka Bank + HDFC Bank',
       Type: 'Liquid / Bank Accounts',
-      Value: '₹12.4 Cr', 'Escrow Balance': '₹3.88 Cr',
-      Source: 'RERA Escrow Records + RBI CERSAI',
+      Value: '₹12.4 Cr', Source: 'RERA Escrow Records + RBI CERSAI',
       Attachment: 'Freezable immediately',
     },
   },
   'asset-whitefield': {
     id: 'asset-whitefield', label: 'Whitefield Office (8,400 sqft)', type: 'asset',
     data: {
-      Description: 'EPIP Zone, Whitefield, Bengaluru — BBMP Ref KA/WH/BBMP/2019/4421',
+      Description: 'EPIP Zone, Whitefield, Bengaluru',
       Type: 'Commercial Property',
       Value: '₹14.2 Cr', Source: 'BBMP Property Tax + Kaveri 2.0',
-      Note: 'Held in Ozone Group Holdings — corporate veil. IBC s.66 required.',
-      Attachment: 'Requires lifting corporate veil',
+      Note: 'Held in Ozone Group Holdings — IBC s.66 required to pierce corporate veil',
     },
   },
   'asset-sadashiva': {
@@ -194,8 +175,7 @@ const DB: Record<string, CanvasNode> = {
       Description: 'No. 28, 4th Cross, Sadashivanagar, Bengaluru — Khata No. 841/20/SN',
       Type: 'Residential Property',
       Value: '₹6.8 Cr', Source: 'BBMP + Kaveri 2.0',
-      Status: 'Clear title — no mortgage or encumbrance',
-      Attachment: 'Straightforward — RERA Sec 40',
+      Status: 'Clear title — straightforward RERA Sec 40 attachment',
     },
   },
   'asset-kannehalli': {
@@ -205,8 +185,7 @@ const DB: Record<string, CanvasNode> = {
       Description: 'Sy. No. 48/1–48/9, Kannehalli Village, Tumkur Taluk, Tumkur District',
       Type: 'Agricultural Land',
       Value: '₹202.6 Cr', 'Registered Holder': "Promoter's Spouse",
-      'Registered': 'February 2019', Source: 'Bhoomi + Kaveri 2.0 cross-reference',
-      Note: 'Purchase during Ozone Urbana peak collection phase FY 2018-19.',
+      Registered: 'February 2019', Source: 'Bhoomi + Kaveri 2.0',
       'Proceedings Required': 'Benami Transactions Act + PMLA proceedings',
     },
   },
@@ -218,7 +197,7 @@ const DB: Record<string, CanvasNode> = {
     id: 'skylark-arcadia', label: 'Skylark Arcadia', type: 'project',
     data: {
       RERA: 'PRM/KA/RERA/1251/309/PR/220614/009134', Status: 'CAUTION',
-      Location: 'Hennur, Bengaluru', Units: '98 sold / 156 total', 'Declared Cost': '₹62 Cr',
+      Location: 'Hennur, Bengaluru', Units: '98 / 156', 'Declared Cost': '₹62 Cr',
     },
   },
   'lit-os-3891': {
@@ -328,7 +307,6 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
 
   return (
     <div className="flex flex-col w-72 shrink-0 border-l border-border bg-surface overflow-hidden">
-      {/* Header */}
       <div className="px-4 pt-4 pb-3 border-b border-border shrink-0">
         <div className="flex items-center justify-between mb-2">
           <span
@@ -350,7 +328,6 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
         )}
       </div>
 
-      {/* Data fields */}
       <div className="flex-1 overflow-y-auto divide-y divide-border/50">
         {Object.entries(node.data).map(([k, v]) => (
           <div key={k} className="px-4 py-2.5">
@@ -362,7 +339,6 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
         ))}
       </div>
 
-      {/* Actions */}
       <div className="p-3 border-t border-border space-y-2 shrink-0">
         {hasConns && !isExpanded && (
           <button
@@ -426,7 +402,7 @@ function LegendPanel({ isEmpty }: { isEmpty: boolean }) {
           </div>
           <div className="flex items-center gap-2.5">
             <div className="w-8 border-t-2 border-dashed border-[#9B59B6] shrink-0" />
-            <span className="font-mono text-[10px] text-gray">Spouse / family link</span>
+            <span className="font-mono text-[10px] text-gray">Spouse / family</span>
           </div>
           <div className="flex items-center gap-2.5">
             <div className="w-8 border-t-2 border-dashed border-red shrink-0" />
@@ -436,7 +412,7 @@ function LegendPanel({ isEmpty }: { isEmpty: boolean }) {
       </div>
 
       <div className="px-4 pt-3 pb-3">
-        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Node Indicators</div>
+        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-3">Indicators</div>
         <div className="space-y-2">
           <div className="flex items-center gap-2.5">
             <div className="w-2.5 h-2.5 rounded-full bg-red shrink-0" />
@@ -454,10 +430,10 @@ function LegendPanel({ isEmpty }: { isEmpty: boolean }) {
           <div className="border border-border rounded-sm p-3">
             <div className="font-mono text-[9px] uppercase tracking-[0.15em] text-gray mb-2">How to use</div>
             <ol className="space-y-1.5 font-mono text-[10px] text-gray leading-relaxed">
-              <li>1. Search for any developer, project, or entity</li>
-              <li>2. Click a result to add it to the canvas</li>
+              <li>1. Search for any entity above</li>
+              <li>2. Click to add it to the canvas</li>
               <li>3. Click a node to open its dossier</li>
-              <li>4. Click "Expand Connections" to reveal links</li>
+              <li>4. Click "Expand Connections"</li>
               <li>5. Or press "Ozone Trail" for the demo</li>
             </ol>
           </div>
@@ -478,9 +454,9 @@ export default function InvestigationCanvas() {
   const [hoveredNode, setHoveredNode] = useState<CanvasNode | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<CanvasNode[]>([])
-  const [canvasSize, setCanvasSize] = useState({ w: 900, h: 600 })
   const [isAnimating, setIsAnimating] = useState(false)
   const [showKannehalli, setShowKannehalli] = useState(false)
+  const [canvasReady, setCanvasReady] = useState(false)
 
   const fgRef = useRef<any>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -491,18 +467,194 @@ export default function InvestigationCanvas() {
   useEffect(() => { selectedIdRef.current = selectedNode?.id ?? null }, [selectedNode])
   useEffect(() => { expandedRef.current = expandedNodes }, [expandedNodes])
 
-  /* resize observer */
-  useEffect(() => {
-    if (!containerRef.current) return
-    const ro = new ResizeObserver(entries => {
-      const rect = entries[0].contentRect
-      setCanvasSize({ w: Math.floor(rect.width), h: Math.floor(rect.height) })
-    })
-    ro.observe(containerRef.current)
-    return () => ro.disconnect()
+  /* ── Canvas node draw function (reads from refs) ─────────────── */
+  const drawNode = useCallback((node: any, ctx: CanvasRenderingContext2D, gs: number) => {
+    const { x = 0, y = 0, id, type, label, anomaly } = node as CanvasNode & { x: number; y: number }
+    const color = NODE_COLORS[type as NodeType] ?? '#888'
+    const selected = selectedIdRef.current === id
+    const hasMore = !!CONNECTIONS[id] && !expandedRef.current.has(id)
+
+    if (selected) {
+      ctx.beginPath()
+      ctx.arc(x, y, NODE_R + 7, 0, 2 * Math.PI)
+      ctx.fillStyle = color + '18'
+      ctx.fill()
+    }
+
+    ctx.beginPath()
+    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
+    ctx.fillStyle = selected ? color + '35' : color + '20'
+    ctx.fill()
+
+    ctx.beginPath()
+    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
+    ctx.strokeStyle = selected ? color : anomaly ? color + 'CC' : color + '66'
+    ctx.lineWidth = selected ? 2 : 1.5
+    ctx.stroke()
+
+    ctx.font = `bold ${NODE_R * 0.95}px monospace`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillStyle = color
+    ctx.fillText(NODE_LETTER[type as NodeType] ?? '?', x, y)
+
+    if (gs > 0.45) {
+      const truncated = label.replace('⚑ ', '').slice(0, 22)
+      ctx.font = `${9 / gs}px sans-serif`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'top'
+      ctx.fillStyle = '#F0EEE8BB'
+      ctx.fillText(truncated, x, y + NODE_R + 3)
+    }
+
+    if (anomaly) {
+      ctx.beginPath()
+      ctx.arc(x + NODE_R * 0.68, y - NODE_R * 0.68, 3.5, 0, 2 * Math.PI)
+      ctx.fillStyle = '#E74C3C'
+      ctx.fill()
+    }
+
+    if (hasMore) {
+      ctx.beginPath()
+      ctx.arc(x, y + NODE_R + 1.5, 2.5, 0, 2 * Math.PI)
+      ctx.fillStyle = '#C9A84C'
+      ctx.fill()
+    }
+
+    if (selected) {
+      ctx.beginPath()
+      ctx.arc(x, y, NODE_R + 5, 0, 2 * Math.PI)
+      ctx.strokeStyle = color + 'AA'
+      ctx.lineWidth = 1
+      ctx.setLineDash([3, 2])
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
   }, [])
 
-  /* search */
+  const drawPointerArea = useCallback((node: any, color: string, ctx: CanvasRenderingContext2D) => {
+    ctx.fillStyle = color
+    ctx.beginPath()
+    ctx.arc(node.x ?? 0, node.y ?? 0, NODE_R + 8, 0, 2 * Math.PI)
+    ctx.fill()
+  }, [])
+
+  const drawLink = useCallback((link: any, ctx: CanvasRenderingContext2D, gs: number) => {
+    const src = link.source as CanvasNode & { x: number; y: number }
+    const tgt = link.target as CanvasNode & { x: number; y: number }
+    if (src.x == null || tgt.x == null) return
+
+    const isRelated = link.type === 'related-party'
+    const isSpouse  = link.type === 'spouse-of'
+
+    const dx   = tgt.x - src.x
+    const dy   = tgt.y - src.y
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    if (dist === 0) return
+
+    const sx = src.x + (dx / dist) * NODE_R
+    const sy = src.y + (dy / dist) * NODE_R
+    const ex = tgt.x - (dx / dist) * (NODE_R + 5)
+    const ey = tgt.y - (dy / dist) * (NODE_R + 5)
+
+    ctx.beginPath()
+    if (isRelated) {
+      ctx.setLineDash([5, 4])
+      ctx.strokeStyle = '#E74C3C'
+      ctx.lineWidth = 2
+    } else if (isSpouse) {
+      ctx.setLineDash([3, 3])
+      ctx.strokeStyle = '#9B59B6AA'
+      ctx.lineWidth = 1.5
+    } else {
+      ctx.setLineDash([])
+      ctx.strokeStyle = '#2A2A3EDD'
+      ctx.lineWidth = 1
+    }
+    ctx.moveTo(sx, sy)
+    ctx.lineTo(ex, ey)
+    ctx.stroke()
+    ctx.setLineDash([])
+
+    const angle = Math.atan2(ey - sy, ex - sx)
+    const al = 6
+    ctx.beginPath()
+    ctx.moveTo(ex, ey)
+    ctx.lineTo(ex - al * Math.cos(angle - 0.42), ey - al * Math.sin(angle - 0.42))
+    ctx.lineTo(ex - al * Math.cos(angle + 0.42), ey - al * Math.sin(angle + 0.42))
+    ctx.closePath()
+    ctx.fillStyle = isRelated ? '#E74C3C' : '#2A2A3EDD'
+    ctx.fill()
+
+    if (gs > 0.85 && link.label) {
+      const mx = (sx + ex) / 2
+      const my = (sy + ey) / 2
+      ctx.font = `${9 / gs}px monospace`
+      ctx.textAlign = 'center'
+      ctx.textBaseline = 'middle'
+      ctx.fillStyle = isRelated ? '#E74C3CAA' : '#6B6B88'
+      ctx.fillText(link.label as string, mx, my - 8 / gs)
+    }
+  }, [])
+
+  /* ── Init force-graph via dynamic import ─────────────────────── */
+  useEffect(() => {
+    if (!containerRef.current) return
+    const container = containerRef.current
+    let disposed = false
+    let ro: ResizeObserver | null = null
+
+    import('force-graph').then(mod => {
+      if (disposed) return
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const ForceGraph = (mod as any).default ?? mod
+      const fg = ForceGraph()(container)
+      fg
+        .width(container.offsetWidth)
+        .height(container.offsetHeight)
+        .backgroundColor('#0A0A0F')
+        .nodeId('id')
+        .nodeCanvasObject(drawNode)
+        .nodeCanvasObjectMode(() => 'replace')
+        .nodePointerAreaPaint(drawPointerArea)
+        .linkCanvasObject(drawLink)
+        .linkCanvasObjectMode(() => 'replace')
+        .onNodeClick((node: any) => setSelectedNode({ ...(node as CanvasNode) }))
+        .onNodeHover((node: any) => setHoveredNode(node ? { ...(node as CanvasNode) } : null))
+        .onNodeDragEnd((node: any) => { node.fx = node.x; node.fy = node.y })
+        .onBackgroundClick(() => setSelectedNode(null))
+        .cooldownTicks(100)
+        .d3AlphaDecay(0.02)
+        .d3VelocityDecay(0.3)
+        .graphData({ nodes: [], links: [] })
+
+      fgRef.current = fg
+      setCanvasReady(true)
+
+      ro = new ResizeObserver(() => {
+        if (fg && container) fg.width(container.offsetWidth).height(container.offsetHeight)
+      })
+      ro.observe(container)
+    }).catch(() => {
+      // force-graph failed to load — canvas stays empty, no crash
+    })
+
+    return () => {
+      disposed = true
+      ro?.disconnect()
+      if (container) container.innerHTML = ''
+      fgRef.current = null
+    }
+  }, [drawNode, drawPointerArea, drawLink])
+
+  /* ── Sync graph data to force-graph instance ─────────────────── */
+  useEffect(() => {
+    if (fgRef.current) {
+      fgRef.current.graphData(graphData)
+    }
+  }, [graphData])
+
+  /* ── Search ──────────────────────────────────────────────────── */
   useEffect(() => {
     if (!searchQuery.trim()) { setSearchResults([]); return }
     const q = searchQuery.toLowerCase()
@@ -511,7 +663,7 @@ export default function InvestigationCanvas() {
     )
   }, [searchQuery])
 
-  /* ── Actions ─────────────────────────────────────────────────── */
+  /* ── Canvas actions ──────────────────────────────────────────── */
   function addToCanvas(entity: CanvasNode) {
     setGraphData(prev => {
       if (prev.nodes.find(n => n.id === entity.id)) return prev
@@ -567,7 +719,7 @@ export default function InvestigationCanvas() {
         return s !== nodeId && t !== nodeId
       }),
     }))
-    setExpandedNodes(prev => { const s = new Set(prev); s.delete(nodeId); return s })
+    setExpandedNodes(prev => { const s = new Set(Array.from(prev)); s.delete(nodeId); return s })
     if (selectedNode?.id === nodeId) setSelectedNode(null)
   }
 
@@ -578,33 +730,32 @@ export default function InvestigationCanvas() {
     setShowKannehalli(false)
   }
 
-  /* ── Animated Ozone trail ─────────────────────────────────────── */
+  /* ── Animated Ozone trail ────────────────────────────────────── */
   async function runOzoneTrail() {
     if (isAnimating) return
     setIsAnimating(true)
     setShowKannehalli(false)
-    // Reset
     setGraphData({ nodes: [], links: [] })
     setExpandedNodes(new Set())
     setSelectedNode(null)
     await sleep(300)
-    // Step 1: drop Ozone Group
+
     setGraphData({ nodes: [{ ...DB['ozone-group'] }], links: [] })
     setSelectedNode(DB['ozone-group'])
     await sleep(1200)
-    // Step 2: expand group
+
     expandNode('ozone-group')
     setSelectedNode(DB['ozone-spe'])
     await sleep(1500)
-    // Step 3: expand SPE
+
     expandNode('ozone-spe')
     setSelectedNode(DB['ozone-promoter'])
     await sleep(1500)
-    // Step 4: expand promoter
+
     expandNode('ozone-promoter')
     setSelectedNode(DB['ozone-spouse'])
     await sleep(1500)
-    // Step 5: expand spouse → KANNEHALLI
+
     expandNode('ozone-spouse')
     setSelectedNode(DB['asset-kannehalli'])
     setIsAnimating(false)
@@ -614,153 +765,12 @@ export default function InvestigationCanvas() {
     return new Promise<void>(resolve => setTimeout(resolve, ms))
   }
 
-  /* ── Canvas callbacks ────────────────────────────────────────── */
-  const nodeCanvasObject = useCallback((node: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const { x = 0, y = 0, id, type, label, anomaly } = node as CanvasNode & { x: number; y: number }
-    const color = NODE_COLORS[type as NodeType] ?? '#888'
-    const selected = selectedIdRef.current === id
-    const hasMore = !!CONNECTIONS[id] && !expandedRef.current.has(id)
-
-    // Glow for selected / kannehalli discovery
-    if (selected) {
-      ctx.beginPath()
-      ctx.arc(x, y, NODE_R + 7, 0, 2 * Math.PI)
-      ctx.fillStyle = color + '18'
-      ctx.fill()
-    }
-
-    // Fill
-    ctx.beginPath()
-    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
-    ctx.fillStyle = selected ? color + '35' : color + '20'
-    ctx.fill()
-
-    // Stroke
-    ctx.beginPath()
-    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
-    ctx.strokeStyle = selected ? color : anomaly ? color + 'CC' : color + '66'
-    ctx.lineWidth = selected ? 2 : 1.5
-    ctx.stroke()
-
-    // Type letter
-    ctx.font = `bold ${NODE_R * 0.95}px monospace`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillStyle = color
-    ctx.fillText(NODE_LETTER[type as NodeType] ?? '?', x, y)
-
-    // Label (below node)
-    if (gs > 0.45) {
-      const truncated = label.replace('⚑ ', '').slice(0, 22)
-      ctx.font = `${9 / gs}px sans-serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'top'
-      ctx.fillStyle = '#F0EEE8BB'
-      ctx.fillText(truncated, x, y + NODE_R + 3)
-    }
-
-    // Anomaly red dot (top-right)
-    if (anomaly) {
-      ctx.beginPath()
-      ctx.arc(x + NODE_R * 0.68, y - NODE_R * 0.68, 3.5, 0, 2 * Math.PI)
-      ctx.fillStyle = '#E74C3C'
-      ctx.fill()
-    }
-
-    // Gold "has more" dot (bottom)
-    if (hasMore) {
-      ctx.beginPath()
-      ctx.arc(x, y + NODE_R + 1.5, 2.5, 0, 2 * Math.PI)
-      ctx.fillStyle = '#C9A84C'
-      ctx.fill()
-    }
-
-    // Selection dashed ring
-    if (selected) {
-      ctx.beginPath()
-      ctx.arc(x, y, NODE_R + 5, 0, 2 * Math.PI)
-      ctx.strokeStyle = color + 'AA'
-      ctx.lineWidth = 1
-      ctx.setLineDash([3, 2])
-      ctx.stroke()
-      ctx.setLineDash([])
-    }
-  }, [])
-
-  const nodePointerAreaPaint = useCallback((node: any, color: string, ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = color
-    ctx.beginPath()
-    ctx.arc(node.x ?? 0, node.y ?? 0, NODE_R + 8, 0, 2 * Math.PI)
-    ctx.fill()
-  }, [])
-
-  const linkCanvasObject = useCallback((link: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const src = link.source as CanvasNode & { x: number; y: number }
-    const tgt = link.target as CanvasNode & { x: number; y: number }
-    if (src.x == null || tgt.x == null) return
-
-    const isRelated = link.type === 'related-party'
-    const isSpouse  = link.type === 'spouse-of'
-
-    const dx   = tgt.x - src.x
-    const dy   = tgt.y - src.y
-    const dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist === 0) return
-
-    const sx = src.x + (dx / dist) * NODE_R
-    const sy = src.y + (dy / dist) * NODE_R
-    const ex = tgt.x - (dx / dist) * (NODE_R + 5)
-    const ey = tgt.y - (dy / dist) * (NODE_R + 5)
-
-    ctx.beginPath()
-    if (isRelated) {
-      ctx.setLineDash([5, 4])
-      ctx.strokeStyle = '#E74C3C'
-      ctx.lineWidth = 2
-    } else if (isSpouse) {
-      ctx.setLineDash([3, 3])
-      ctx.strokeStyle = '#9B59B6AA'
-      ctx.lineWidth = 1.5
-    } else {
-      ctx.setLineDash([])
-      ctx.strokeStyle = '#2A2A3EDD'
-      ctx.lineWidth = 1
-    }
-    ctx.moveTo(sx, sy)
-    ctx.lineTo(ex, ey)
-    ctx.stroke()
-    ctx.setLineDash([])
-
-    // Arrowhead
-    const angle = Math.atan2(ey - sy, ex - sx)
-    const al = 6
-    ctx.beginPath()
-    ctx.moveTo(ex, ey)
-    ctx.lineTo(ex - al * Math.cos(angle - 0.42), ey - al * Math.sin(angle - 0.42))
-    ctx.lineTo(ex - al * Math.cos(angle + 0.42), ey - al * Math.sin(angle + 0.42))
-    ctx.closePath()
-    ctx.fillStyle = isRelated ? '#E74C3C' : '#2A2A3EDD'
-    ctx.fill()
-
-    // Edge label at midpoint (only when zoomed in)
-    if (gs > 0.85 && link.label) {
-      const mx = (sx + ex) / 2
-      const my = (sy + ey) / 2
-      ctx.font = `${9 / gs}px monospace`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillStyle = isRelated ? '#E74C3CAA' : '#6B6B88'
-      ctx.fillText(link.label as string, mx, my - 8 / gs)
-    }
-  }, [])
-
-  /* ── Render ─────────────────────────────────────────────────────────────── */
   const nodeCount = graphData.nodes.length
 
   return (
     <div className="flex flex-col overflow-hidden" style={{ height: 'calc(100dvh - 48px)' }}>
-      {/* ── Toolbar ─────────────────────────────────────────────────── */}
-      <div className="shrink-0 flex items-center gap-3 px-4 py-2.5 border-b border-border bg-surface/95 backdrop-blur-sm z-10">
+      {/* ── Toolbar ──────────────────────────────────────────────── */}
+      <div className="shrink-0 flex items-center gap-3 px-4 py-2.5 border-b border-border bg-surface/95 z-10">
         <div className="flex items-center gap-2 shrink-0">
           <Network className="w-4 h-4 text-gold" />
           <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-gray hidden sm:block">
@@ -800,10 +810,10 @@ export default function InvestigationCanvas() {
           )}
         </div>
 
-        {/* Ozone trail */}
+        {/* Ozone Trail */}
         <button
           onClick={runOzoneTrail}
-          disabled={isAnimating}
+          disabled={isAnimating || !canvasReady}
           className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 disabled:opacity-40 transition-colors"
         >
           <Play className="w-3 h-3" />
@@ -811,30 +821,29 @@ export default function InvestigationCanvas() {
         </button>
 
         {/* Zoom */}
-        <div className="flex items-center gap-1 shrink-0">
+        <div className="flex items-center gap-0.5 shrink-0">
           <button
-            onClick={() => fgRef.current?.zoom(fgRef.current.zoom() * 1.3, 200)}
+            onClick={() => {
+              const fg = fgRef.current
+              if (fg) fg.zoom(fg.zoom() * 1.35, 200)
+            }}
             className="p-1.5 text-gray hover:text-gold transition-colors"
-            title="Zoom in"
           >
             <ZoomIn className="w-3.5 h-3.5" />
           </button>
           <button
-            onClick={() => fgRef.current?.zoom(fgRef.current.zoom() / 1.3, 200)}
+            onClick={() => {
+              const fg = fgRef.current
+              if (fg) fg.zoom(fg.zoom() / 1.35, 200)
+            }}
             className="p-1.5 text-gray hover:text-gold transition-colors"
-            title="Zoom out"
           >
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
         </div>
 
-        {/* Reset */}
         {nodeCount > 0 && (
-          <button
-            onClick={resetCanvas}
-            className="shrink-0 p-1.5 text-gray hover:text-red transition-colors"
-            title="Reset canvas"
-          >
+          <button onClick={resetCanvas} className="shrink-0 p-1.5 text-gray hover:text-red transition-colors">
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         )}
@@ -846,35 +855,21 @@ export default function InvestigationCanvas() {
         )}
       </div>
 
-      {/* ── Main area ───────────────────────────────────────────────── */}
+      {/* ── Main ─────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Canvas */}
+        {/* Canvas container — force-graph injects canvas here */}
         <div ref={containerRef} className="flex-1 relative bg-[#0A0A0F]">
-          {canvasSize.w > 0 && (
-            <ForceGraph2D
-              ref={fgRef}
-              graphData={graphData as any}
-              width={canvasSize.w}
-              height={canvasSize.h}
-              backgroundColor="#0A0A0F"
-              nodeCanvasObject={nodeCanvasObject}
-              nodeCanvasObjectMode={() => 'replace'}
-              nodePointerAreaPaint={nodePointerAreaPaint}
-              linkCanvasObject={linkCanvasObject}
-              linkCanvasObjectMode={() => 'replace'}
-              onNodeClick={(node: any) => setSelectedNode(node as CanvasNode)}
-              onNodeHover={(node: any) => setHoveredNode(node as CanvasNode | null)}
-              onNodeDragEnd={(node: any) => { node.fx = node.x; node.fy = node.y }}
-              onBackgroundClick={() => setSelectedNode(null)}
-              cooldownTicks={100}
-              d3AlphaDecay={0.02}
-              d3VelocityDecay={0.3}
-              linkDirectionalArrowLength={0}
-            />
+          {/* Loading state */}
+          {!canvasReady && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <span className="font-mono text-[10px] text-gray tracking-wider">
+                Initialising investigation canvas…
+              </span>
+            </div>
           )}
 
           {/* Empty state */}
-          {nodeCount === 0 && !isAnimating && (
+          {canvasReady && nodeCount === 0 && !isAnimating && (
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
               <Network className="w-14 h-14 text-border mb-4" />
               <div className="text-gray font-mono text-sm">Investigation canvas is empty</div>
@@ -892,7 +887,7 @@ export default function InvestigationCanvas() {
             </div>
           )}
 
-          {/* Kannehalli discovery alert */}
+          {/* Kannehalli discovery toast */}
           {showKannehalli && (
             <div className="absolute bottom-4 right-4 w-72 bg-[#0A0A0F] border border-gold/60 rounded-sm p-4 shadow-2xl z-20">
               <div className="flex items-start gap-2.5">
@@ -902,24 +897,18 @@ export default function InvestigationCanvas() {
                     ⚑ Key Discovery
                   </div>
                   <div className="text-off-white text-xs leading-relaxed">
-                    <strong>Kannehalli Land — 179 acres (₹202.6 Cr)</strong> surfaced via Vantis
-                    Bhoomi cross-reference. Registered in the promoter's spouse's name — not
-                    in any prior enforcement record.
+                    <strong>Kannehalli Land — 179 acres (₹202.6 Cr)</strong> surfaced via
+                    Vantis Bhoomi cross-reference. Registered in the promoter&apos;s spouse&apos;s
+                    name — not in any prior enforcement record.
                   </div>
                   <button
-                    onClick={() => {
-                      setSelectedNode(DB['asset-kannehalli'])
-                      setShowKannehalli(false)
-                    }}
-                    className="mt-2 text-[9px] font-mono text-gold hover:text-gold-light transition-colors pointer-events-auto"
+                    onClick={() => { setSelectedNode(DB['asset-kannehalli']); setShowKannehalli(false) }}
+                    className="mt-2 text-[9px] font-mono text-gold hover:text-gold-light transition-colors"
                   >
                     View asset dossier →
                   </button>
                 </div>
-                <button
-                  onClick={() => setShowKannehalli(false)}
-                  className="text-gray hover:text-off-white transition-colors shrink-0 pointer-events-auto"
-                >
+                <button onClick={() => setShowKannehalli(false)} className="text-gray hover:text-off-white transition-colors shrink-0">
                   <X className="w-3.5 h-3.5" />
                 </button>
               </div>

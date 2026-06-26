@@ -592,4 +592,31 @@ New lender-facing module at `/lend` — 4 screens + data:
 
 ✅ npm run build — 104/104 routes, zero TypeScript errors
 
-### DEMO STATUS: READY FOR DK SHIVAKUMAR MEETING
+### Session 16 — Completed (2026-06-27): CHATBOTS + LOAN LAYER DATA
+
+Phase 0–4 build completing the data-dense, chatbot-enabled, API-ready state:
+
+**Phase 1 — Lend Data Layer:**
+1. ✅ `lib/lend-portfolio.ts` — Added `CovenantStatus`, `RepaymentStatus`, `QPRStatus` types to `LendProject` interface. Populated all 3 RED + 9 AMBER projects with: `covenant_status`, `repayment_status`, `escrow_pct`, `construction_pct`, `last_qpr_status`, `qpr_consecutive_misses`, `early_warning_signals[]`, `stress_note`. Added `TRANCHE_DATA` record with tranche schedules for Concord Meridian and Regent Heights.
+2. ✅ `app/lend/project/[id]/LendProjectContent.tsx` — Non-Ozone project detail pages now surface a rich Loan Status Panel (covenant, repayment, escrow %, QPR status) + Early Warning Signals list + Credit Officer Stress Note. Signal feed auto-generated from `project.early_warning_signals` when available.
+
+**Phase 2 — Per-Product Chatbots:**
+3. ✅ `components/shared/ProductChatbot.tsx` — New configurable per-product chatbot bubble (product, title, subtitle props). Same design as VantisIntelligence.
+4. ✅ `app/verify/layout.tsx` — Vantis Verify AI chatbot added.
+5. ✅ `app/(os)/ClientOSLayout.tsx` — Context-aware chatbot: `/connect/*` → Connect AI, all other OS routes → Build AI.
+
+**Phase 3 — Caged General Chatbot:**
+6. ✅ `lib/chatbot-knowledge.ts` — Unified knowledge base (35+ Q&A entries, all 5 products). `CAGED_SYSTEM_PROMPT` + `OPEN_SYSTEM_PROMPT`. `SEEDED_QUESTIONS` per product.
+7. ✅ `components/shared/VantisIntelligence.tsx` — Demo mode: deterministic KB lookup with citations. Live mode: client-side Anthropic fetch (NEXT_PUBLIC_ANTHROPIC_API_KEY). Silent fallback to demo on API failure. Dev triple-click toggle badge → OPEN mode (no restrictions).
+
+**Phase 4 — K-RERA API Hook:**
+8. ✅ `lib/krera-api.ts` — Pluggable API interface (searchKRERAProjects, getKRERAProject, getProjectsByDeveloper, getApiStatus). Runs on 1,004 hardcoded projects by default. Set NEXT_PUBLIC_KRERA_API_KEY + NEXT_PUBLIC_KRERA_API_URL in .env.local to switch to live API — zero other changes needed.
+
+**Chatbot Knowledge Enrichment:**
+9. ✅ 3 new Lend knowledge entries added: covenant-breaches (portfolio-wide status), concord-meridian-detail (NPA + recovery path), regent-heights-detail (SMA-0 cure period).
+10. ✅ `components/lend/LendChatbot.tsx` — 3 new response handlers: stress test scenario, micro-market prices, portfolio health/NPA/provision shortfall.
+
+✅ npm run build — 1169/1169 static pages, zero TypeScript errors
+✅ Git: pushed as bb6c5ec + e44bc2b (GitHub: main branch)
+
+### DEMO STATUS: FULLY DATA-DENSE + CHATBOT-READY FOR DK SHIVAKUMAR MEETING

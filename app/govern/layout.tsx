@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   LayoutDashboard, Building2, BarChart2, Scale, ScanLine,
   AlertTriangle, TrendingDown, Users, MessageCircle, Gavel,
-  FileText, Sparkles, Settings, Menu, X, Shield, ChevronLeft,
+  FileText, Sparkles, Settings, Menu, X, Shield, ChevronLeft, Network,
 } from 'lucide-react'
 
 const DEFAULT_OFFICER = { name: 'K-RERA Chairman', role: 'Chairman' }
@@ -22,6 +22,7 @@ const NAV = [
   { href: '/govern/homebuyer',    label: 'Homebuyer Warning',   icon: Users },
   { href: '/govern/complaints',   label: 'Complaints',          icon: MessageCircle },
   { href: '/govern/rrc',          label: 'RRC Tracker',         icon: Gavel },
+  { href: '/govern/graph',        label: 'Link Analysis',       icon: Network },
   { href: '/govern/notices',      label: 'Notice Generator',    icon: FileText },
   { href: '/govern/intelligence', label: 'Vantis Intelligence', icon: Sparkles },
   { href: '/govern/settings',     label: 'Settings',            icon: Settings },

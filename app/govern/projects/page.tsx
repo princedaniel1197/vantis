@@ -1,11 +1,14 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Search, ChevronRight, Building2, Filter } from 'lucide-react'
+import { Search, ChevronRight, Building2, Filter, ChevronLeft } from 'lucide-react'
 import projectsData from '@/data/projects.json'
 import qprData from '@/data/qpr.json'
+
+const ITEMS_PER_PAGE = 25
+const HERO_IDS = new Set(['ozone-urbana', 'divya-villas', 'prestige-lakeside', 'skylark-arcadia'])
 
 interface Project {
   id: string
@@ -87,9 +90,10 @@ const UNIQUE_DEVELOPERS = Array.from(
 )
 
 export default function GovernProjectRegistry() {
-  const [search, setSearch]     = useState('')
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('ALL')
-  const [devFilter, setDevFilter]       = useState('ALL')
+  const [search, setSearch]               = useState('')
+  const [statusFilter, setStatusFilter]   = useState<StatusFilter>('ALL')
+  const [devFilter, setDevFilter]         = useState('ALL')
+  const [page, setPage]                   = useState(1)
 
   const projects = projectsData as Project[]
 
@@ -106,6 +110,11 @@ export default function GovernProjectRegistry() {
       return matchSearch && matchStatus && matchDev
     })
   }, [projects, search, statusFilter, devFilter])
+
+  useEffect(() => { setPage(1) }, [search, statusFilter, devFilter])
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE))
+  const paginated  = filtered.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
   return (
     <div className="flex flex-col min-h-full text-off-white">
@@ -217,20 +226,22 @@ export default function GovernProjectRegistry() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((p, index) => {
-                  const qpr = getLastQPR(p.id)
+                paginated.map((p, index) => {
+                  const qpr    = getLastQPR(p.id)
+                  const isHero = HERO_IDS.has(p.id)
                   return (
                     <motion.tr
                       key={p.id}
                       initial={{ opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
-                      className="border-b border-border last:border-0 hover:bg-background transition-colors duration-150 cursor-pointer group"
-                      onClick={() => window.location.href = `/govern/projects/${p.id}`}
+                      transition={{ delay: index * 0.03, duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
+                      className={`border-b border-border last:border-0 transition-colors duration-150 group ${isHero ? 'cursor-pointer hover:bg-background' : 'cursor-default'}`}
+                      onClick={() => isHero && (window.location.href = `/govern/projects/${p.id}`)}
                     >
                       <td className="px-4 py-3.5">
-                        <div className="text-off-white text-sm font-medium group-hover:text-gold transition-colors duration-150 leading-tight">
+                        <div className={`text-off-white text-sm font-medium leading-tight ${isHero ? 'group-hover:text-gold transition-colors duration-150' : ''}`}>
                           {p.name}
+                          {isHero && <span className="ml-2 text-[8px] font-mono text-gold/60 uppercase tracking-[0.15em]">Featured</span>}
                         </div>
                         <div className="font-mono text-gray text-[10px] mt-0.5 truncate max-w-[180px]">{p.rera}</div>
                       </td>
@@ -267,7 +278,10 @@ export default function GovernProjectRegistry() {
                         </span>
                       </td>
                       <td className="px-4 py-3.5">
-                        <ChevronRight className="w-4 h-4 text-gray group-hover:text-gold transition-colors duration-150" />
+                        {isHero
+                          ? <ChevronRight className="w-4 h-4 text-gray group-hover:text-gold transition-colors duration-150" />
+                          : <span className="w-4 h-4 block" />
+                        }
                       </td>
                     </motion.tr>
                   )
@@ -284,67 +298,120 @@ export default function GovernProjectRegistry() {
               No projects match your search.
             </div>
           ) : (
-            filtered.map((p, index) => {
-              const qpr = getLastQPR(p.id)
+            paginated.map((p, index) => {
+              const qpr    = getLastQPR(p.id)
+              const isHero = HERO_IDS.has(p.id)
               return (
                 <motion.div
                   key={p.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.04, duration: 0.35, ease: [0.33, 1, 0.68, 1] }}
+                  transition={{ delay: index * 0.03, duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
                 >
-                  <Link
-                    href={`/govern/projects/${p.id}`}
-                    className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group"
-                  >
-                    <div className="flex items-start justify-between gap-3 mb-3">
-                      <div className="flex-1 min-w-0">
-                        <div className="text-off-white text-sm font-medium group-hover:text-gold transition-colors duration-150 leading-tight mb-0.5">
-                          {p.name}
+                  {(() => {
+                    const cardContent = (
+                      <>
+                        <div className="flex items-start justify-between gap-3 mb-3">
+                          <div className="flex-1 min-w-0">
+                            <div className={`text-off-white text-sm font-medium leading-tight mb-0.5 ${isHero ? 'group-hover:text-gold transition-colors duration-150' : ''}`}>
+                              {p.name}
+                              {isHero && <span className="ml-2 text-[8px] font-mono text-gold/60 uppercase tracking-[0.15em]">Featured</span>}
+                            </div>
+                            <div className="text-gray text-xs">{p.developer_name}</div>
+                            <div className="text-gray text-xs">{p.location}</div>
+                          </div>
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
+                            <span className={`text-[9px] font-mono whitespace-nowrap ${statusColor(p.status)}`}>{p.status}</span>
+                          </div>
                         </div>
-                        <div className="text-gray text-xs">{p.developer_name}</div>
-                        <div className="text-gray text-xs">{p.location}</div>
-                      </div>
-                      <div className="flex items-center gap-1.5 shrink-0">
-                        <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${statusDot(p.status)}`} />
-                        <span className={`text-[9px] font-mono whitespace-nowrap ${statusColor(p.status)}`}>{p.status}</span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-3 text-center border-t border-border pt-3">
-                      <div>
-                        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Risk Score</div>
-                        <div className={`font-mono text-sm font-bold ${riskScoreColor(p.risk_score)}`}>{p.risk_score}</div>
-                      </div>
-                      <div>
-                        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">QPR</div>
-                        <div className={`text-sm font-medium ${qprClasses(qpr)}`}>{qprLabel(qpr)}</div>
-                      </div>
-                      <div>
-                        <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Cert</div>
-                        <div className={`text-sm font-medium ${certClasses(p.certificate_status)}`}>
-                          {p.certificate_status === 'NONE' ? 'None' : p.certificate_status.charAt(0) + p.certificate_status.slice(1).toLowerCase()}
+                        <div className="grid grid-cols-3 gap-3 text-center border-t border-border pt-3">
+                          <div>
+                            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Risk Score</div>
+                            <div className={`font-mono text-sm font-bold ${riskScoreColor(p.risk_score)}`}>{p.risk_score}</div>
+                          </div>
+                          <div>
+                            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">QPR</div>
+                            <div className={`text-sm font-medium ${qprClasses(qpr)}`}>{qprLabel(qpr)}</div>
+                          </div>
+                          <div>
+                            <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gray mb-0.5">Cert</div>
+                            <div className={`text-sm font-medium ${certClasses(p.certificate_status)}`}>
+                              {p.certificate_status === 'NONE' ? 'None' : p.certificate_status.charAt(0) + p.certificate_status.slice(1).toLowerCase()}
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-
-                    {p.complaints_pending > 0 && (
-                      <div className="mt-2 text-xs text-amber">
-                        {p.complaints_pending} complaint{p.complaints_pending > 1 ? 's' : ''} pending
-                      </div>
-                    )}
-                  </Link>
+                        {p.complaints_pending > 0 && (
+                          <div className="mt-2 text-xs text-amber">
+                            {p.complaints_pending} complaint{p.complaints_pending > 1 ? 's' : ''} pending
+                          </div>
+                        )}
+                      </>
+                    )
+                    return isHero
+                      ? <Link href={`/govern/projects/${p.id}`} className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</Link>
+                      : <div className="block bg-surface border border-border rounded-sm p-4 sm:p-5">{cardContent}</div>
+                  })()}
                 </motion.div>
               )
             })
           )}
         </div>
 
-        {/* Table footer */}
-        {filtered.length > 0 && (
-          <div className="mt-3 text-gray text-xs text-right">
+        {/* Pagination */}
+        {filtered.length > ITEMS_PER_PAGE && (
+          <div className="mt-4 flex items-center justify-between gap-4">
+            <div className="text-gray text-xs font-mono">
+              Showing {(page - 1) * ITEMS_PER_PAGE + 1}–{Math.min(page * ITEMS_PER_PAGE, filtered.length)} of {filtered.length.toLocaleString()} projects
+            </div>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-mono border border-border rounded-sm bg-surface text-gray hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
+              >
+                <ChevronLeft className="w-3 h-3" /> Prev
+              </button>
+
+              {/* Page number pills — show at most 7 */}
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter(n => n === 1 || n === totalPages || Math.abs(n - page) <= 2)
+                .reduce<(number | '…')[]>((acc, n, i, arr) => {
+                  if (i > 0 && n - (arr[i - 1] as number) > 1) acc.push('…')
+                  acc.push(n)
+                  return acc
+                }, [])
+                .map((item, i) =>
+                  item === '…'
+                    ? <span key={`ellipsis-${i}`} className="px-2 text-gray text-xs">…</span>
+                    : <button
+                        key={item}
+                        onClick={() => setPage(item as number)}
+                        className={`w-8 h-8 text-xs font-mono rounded-sm border transition-colors duration-150 ${
+                          page === item
+                            ? 'bg-gold/20 border-gold text-gold'
+                            : 'bg-surface border-border text-gray hover:border-gold hover:text-gold'
+                        }`}
+                      >{item}</button>
+                )
+              }
+
+              <button
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages}
+                className="flex items-center gap-1 px-3 py-1.5 text-xs font-mono border border-border rounded-sm bg-surface text-gray hover:border-gold hover:text-gold disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-150"
+              >
+                Next <ChevronRight className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Simple footer count when no pagination needed */}
+        {filtered.length > 0 && filtered.length <= ITEMS_PER_PAGE && (
+          <div className="mt-3 text-gray text-xs text-right font-mono">
             {filtered.length} project{filtered.length !== 1 ? 's' : ''}
-            {(statusFilter !== 'ALL' || devFilter !== 'ALL' || search) && ' shown (filtered)'}
+            {(statusFilter !== 'ALL' || devFilter !== 'ALL' || search) && ' (filtered)'}
           </div>
         )}
 

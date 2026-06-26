@@ -49,10 +49,15 @@ interface KPIItem {
 }
 
 /* ── Data ───────────────────────────────────────────────────────────────── */
+const _allProjects = projectsData as { status: string; complaints_pending?: number }[]
+const _totalProjects    = _allProjects.length
+const _distressed       = _allProjects.filter(p => p.status === 'HIGH RISK').length
+const _openComplaints   = _allProjects.reduce((s, p) => s + (p.complaints_pending ?? 0), 0)
+
 const KPIS: KPIItem[] = [
   {
     label: 'Registered Projects',
-    value: 8357,
+    value: _totalProjects,
     icon: Building2,
     color: 'text-off-white',
     accentBg: '',
@@ -61,7 +66,7 @@ const KPIS: KPIItem[] = [
   },
   {
     label: 'Distressed Projects',
-    value: 234,
+    value: _distressed,
     icon: AlertTriangle,
     color: 'text-red',
     accentBg: 'bg-red/[0.03]',
@@ -88,7 +93,7 @@ const KPIS: KPIItem[] = [
   },
   {
     label: 'Open Complaints',
-    value: 1243,
+    value: _openComplaints,
     icon: Users,
     color: 'text-amber',
     accentBg: 'bg-amber/[0.02]',

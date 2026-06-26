@@ -44,12 +44,12 @@ export const NODE_COLORS: Record<NodeType, string> = {
 }
 
 export const NODE_RADIUS: Record<NodeType, number> = {
-  developer: 12,
-  project:   5,
-  person:    9,
-  asset:     8,
-  litigation: 7,
-  rrc:       8,
+  developer: 7,
+  project:   2.5,
+  person:    5,
+  asset:     4,
+  litigation: 4,
+  rrc:       4.5,
 }
 
 export const NODE_LETTER: Record<NodeType, string> = {

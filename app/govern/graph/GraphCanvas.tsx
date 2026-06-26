@@ -120,7 +120,7 @@ export default function GraphCanvas({
     ctx.fillText(NODE_LETTER[type as NodeType] ?? '?', x, y)
 
     // ── Level 3: label (zoomed in enough) ────────────────────────────
-    if (screenR > 10) {
+    if (screenR > 7) {
       const truncated = (label || '').replace('⚑ ', '').slice(0, 24)
       ctx.font = `${Math.max(8, 9 / gs)}px sans-serif`
       ctx.textAlign = 'center'; ctx.textBaseline = 'top'
@@ -163,8 +163,8 @@ export default function GraphCanvas({
     const tgt = link.target as FGNode & { x: number; y: number }
     if (src.x == null || tgt.x == null) return
 
-    // Skip link rendering at very low zoom for performance
-    if (gs < 0.06) return
+    // Skip link rendering at extremely low zoom only
+    if (gs < 0.012) return
 
     const dx = tgt.x - src.x, dy = tgt.y - src.y
     const dist = Math.sqrt(dx * dx + dy * dy)
@@ -180,8 +180,8 @@ export default function GraphCanvas({
     const isRelated = link.type === 'related-party'
     const isSpouse  = link.type === 'spouse-of'
 
-    // Simplified line at medium zoom, full style when zoomed in
-    const detailed = gs > 0.15
+    // Simplified line at low zoom, full style when zoomed in
+    const detailed = gs > 0.06
     ctx.beginPath()
     if (detailed) {
       if (isRelated)      { ctx.setLineDash([5, 4]); ctx.strokeStyle = '#E74C3C'; ctx.lineWidth = 2 }
@@ -248,17 +248,17 @@ export default function GraphCanvas({
           if (!sType || !tType) return true // links before force-graph resolves nodes
           return visibleTypesRef.current.has(sType) && visibleTypesRef.current.has(tType)
         })
-        // Pre-cool: 100 warmup ticks synchronously (~40ms), then freeze immediately
-        .warmupTicks(100)
+        // Pre-cool: 150 warmup ticks (~60ms), then freeze — enough to reach tight equilibrium
+        .warmupTicks(150)
         .cooldownTicks(0)
         // Keep render loop alive so nodeVisibility updates paint without user interaction
         .autoPauseRedraw(false)
         .d3AlphaDecay(0.03)
         .d3VelocityDecay(0.3)
 
-      // Stronger repulsion so developer clusters spread out
-      fg.d3Force('charge')?.strength(-120)
-      fg.d3Force('link')?.distance(40)
+      // Tight packing — low repulsion + very short links = dense constellation
+      fg.d3Force('charge')?.strength(-18)
+      fg.d3Force('link')?.distance(6)
 
       // Load data — warmupTicks run synchronously inside graphData(), positions are ready
       fg.graphData({ nodes: nodesRef.current, links: linksRef.current })

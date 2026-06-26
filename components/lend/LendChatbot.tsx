@@ -71,6 +71,38 @@ function getResponse(input: string): string {
       `The Stress Test module allows you to model these scenarios in real time. The early-warning advantage means Kaveri HFC can engage developers proactively in the mild-stress scenario before the book deteriorates further.`
   }
 
+  if (q.includes('stress test') || q.includes('scenario') || q.includes('price correction') || q.includes('15%')) {
+    return `Under a 15% price correction scenario:\n\n` +
+      `• **RED portfolio (₹420 Cr)** drops to 8% collateral coverage from current 18%\n` +
+      `• Expected loss increases from ₹361 Cr to ₹394 Cr\n` +
+      `• AMBER projects: 3 would likely migrate to RED, adding ₹167 Cr to the at-risk pool\n\n` +
+      `In a severe scenario (–40% RE, +30% cost, +350 bps):\n` +
+      `• 7 additional projects flip from Healthy → Watch\n` +
+      `• 4 additional projects flip to High Risk\n` +
+      `• Total capital at risk: ~₹732 Cr\n\n` +
+      `The Stress Test module lets you model these in real time. Early-warning advantage means Kaveri HFC can engage developers proactively in the mild-stress scenario before the book deteriorates.`
+  }
+
+  if (q.includes('market') || q.includes('bengaluru') || q.includes('price') || q.includes('sqft') || q.includes('whitefield') || q.includes('sarjapur')) {
+    return `Bengaluru residential market Q1 2026:\n\n` +
+      `• **Whitefield** — ₹7,240/sqft (+8.4% YoY)\n` +
+      `• **Sarjapur Road** — ₹6,820/sqft (+11.2% YoY)\n` +
+      `• **Electronic City** — ₹5,980/sqft (+6.1% YoY)\n` +
+      `• **Devanahalli** — ₹4,980/sqft (absorption 71%, supply pressure)\n\n` +
+      `Demand remains strong in tech corridors. Whitefield and Sarjapur lead absorption at 94% and 88% respectively. Devanahalli shows supply build-up — caution for collateral in that micro-market.\n\n` +
+      `Source: Kaveri 2.0 registered transaction data (not listing price). Guidance prices from K-RERA declarations.`
+  }
+
+  if (q.includes('portfolio health') || q.includes('npa') || q.includes('provision') || q.includes('shortfall')) {
+    return `Kaveri HFC portfolio health Q2 2026:\n\n` +
+      `• **Gross NPA risk:** ₹420 Cr (3 RED projects)\n` +
+      `• **Expected loss** given historical Karnataka RE recovery rate (14%): ₹361 Cr\n` +
+      `• **Provision coverage required** under RBI IRAC: ₹252 Cr (60%)\n` +
+      `• **Current provision:** ₹180 Cr — **₹72 Cr shortfall**\n\n` +
+      `Recommend stepping up provisions before Q3 close to avoid a regulatory classification event. Proactive provisioning also gives leverage in restructuring negotiations with Ozone Group.\n\n` +
+      `See the Portfolio tab for project-level provision coverage.`
+  }
+
   if (q.includes('health') || q.includes('book') || q.includes('portfolio') || q.includes('total')) {
     return `Kaveri HFC portfolio summary (40 projects · ₹2,400 Cr):\n\n` +
       `• **3 HIGH RISK** — ₹420 Cr at risk (Ozone Urbana, Concord Meridian, Regent Heights)\n` +

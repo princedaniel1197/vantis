@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { VerifyProvider, useVerify, T } from './VerifyContext'
+import ProductChatbot from '@/components/shared/ProductChatbot'
 
 function VerifyNav({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -130,6 +131,12 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
       </header>
 
       {children}
+
+      <ProductChatbot
+        product="verify"
+        title="Vantis Verify AI"
+        subtitle="Trust & Verification Assistant"
+      />
 
       {/* Footer */}
       <footer style={{

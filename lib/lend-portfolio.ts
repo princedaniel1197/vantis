@@ -1,5 +1,9 @@
 export type RiskBand = 'green' | 'amber' | 'red'
 
+export type CovenantStatus = 'GREEN' | 'AMBER' | 'BREACHED'
+export type RepaymentStatus = 'CURRENT' | 'SMA_0' | 'SMA_1' | 'NPA'
+export type QPRStatus = 'ON_TIME' | 'LATE' | 'MISSED'
+
 export interface LendProject {
   id: string
   name: string
@@ -15,12 +19,20 @@ export interface LendProject {
   rera_id: string
   loan_sanctioned: string
   loan_type: 'Construction Finance' | 'Term Loan' | 'LAP'
-  // Anchor fields — only populated for hero project
+  // Detailed loan layer — populated for RED / AMBER; optional for GREEN
   sanctioned_cr?: number
   drawn_pct?: number
   built_pct?: number
   next_tranche_cr?: number
   undisbursed_cr?: number
+  escrow_pct?: number
+  construction_pct?: number
+  covenant_status?: CovenantStatus
+  repayment_status?: RepaymentStatus
+  last_qpr_status?: QPRStatus
+  qpr_consecutive_misses?: number
+  early_warning_signals?: string[]
+  stress_note?: string
 }
 
 export interface DeveloperFactor {
@@ -64,6 +76,20 @@ export const LEND_PROJECTS: LendProject[] = [
     built_pct: 43,
     next_tranche_cr: 40,
     undisbursed_cr: 70,
+    escrow_pct: 8,
+    construction_pct: 43,
+    covenant_status: 'BREACHED',
+    repayment_status: 'SMA_1',
+    last_qpr_status: 'MISSED',
+    qpr_consecutive_misses: 8,
+    early_warning_signals: [
+      'QPR non-filing 8 consecutive quarters',
+      'Escrow balance 8% vs 70% RERA minimum',
+      'Drawn-vs-built gap: 29 percentage points',
+      'ED FEMA attachment ₹423 Cr on developer assets',
+      'HC stay on all refund orders',
+    ],
+    stress_note: 'Covenant breach on escrow maintenance ratio (RERA 70% minimum). EMI SMA-1 as of Q1 2024. Recommend formal notice and cross-collateral demand.',
   },
   {
     id: 'concord-meridian',
@@ -80,6 +106,25 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/181024/000241',
     loan_sanctioned: 'Oct 2020',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 140,
+    drawn_pct: 100,
+    built_pct: 52,
+    next_tranche_cr: 0,
+    undisbursed_cr: 0,
+    escrow_pct: 6,
+    construction_pct: 52,
+    covenant_status: 'BREACHED',
+    repayment_status: 'NPA',
+    last_qpr_status: 'MISSED',
+    qpr_consecutive_misses: 5,
+    early_warning_signals: [
+      'Fully drawn — no undisbursed capital as leverage',
+      'Escrow 6% — worst in amber/red portfolio',
+      'Construction halted Q3 2023 (worker dispute)',
+      'Developer directors under Look-out Notice',
+      'Pending NCLT filing by sub-contractor',
+    ],
+    stress_note: 'NPA classification likely Q2 2024 if no restructure. 100% drawn, construction stalled. Recovery window closed without court-ordered asset attachment.',
   },
   {
     id: 'regent-heights',
@@ -96,6 +141,25 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/200315/000318',
     loan_sanctioned: 'Jan 2021',
     loan_type: 'Term Loan',
+    sanctioned_cr: 100,
+    drawn_pct: 95,
+    built_pct: 61,
+    next_tranche_cr: 5,
+    undisbursed_cr: 5,
+    escrow_pct: 11,
+    construction_pct: 61,
+    covenant_status: 'BREACHED',
+    repayment_status: 'SMA_0',
+    last_qpr_status: 'LATE',
+    qpr_consecutive_misses: 2,
+    early_warning_signals: [
+      '2 consecutive late QPR filings Q3–Q4 2023',
+      'Escrow 11% — 59 pp below RERA minimum',
+      'Drawn-vs-built gap: 34 percentage points',
+      '3 consumer forum complaints filed Q4 2023',
+      'Term loan covenant: minimum 25% escrow — BREACHED',
+    ],
+    stress_note: 'SMA-0 since Q4 2023. Remaining ₹5 Cr undisbursed on hold pending escrow remediation. 60-day cure period expires July 2024.',
   },
 
   // ── AMBER (9) ─────────────────────────────────────────────────
@@ -114,6 +178,21 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/190211/000178',
     loan_sanctioned: 'Feb 2020',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 65,
+    drawn_pct: 68,
+    built_pct: 57,
+    escrow_pct: 19,
+    construction_pct: 57,
+    covenant_status: 'AMBER',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'LATE',
+    qpr_consecutive_misses: 0,
+    early_warning_signals: [
+      'QPR filing 11 days late Q3 2025',
+      'Construction 11% behind schedule',
+      'Escrow 19% — marginally above floor',
+      'Sub-contractor dispute (₹3.2 Cr claim pending)',
+    ],
   },
   {
     id: 'mantri-techzone',
@@ -130,6 +209,15 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/180822/000156',
     loan_sanctioned: 'Aug 2019',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 88,
+    drawn_pct: 81,
+    built_pct: 69,
+    escrow_pct: 14,
+    construction_pct: 69,
+    covenant_status: 'AMBER',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'LATE',
+    early_warning_signals: ['4 late QPR filings in 12 quarters', 'Escrow dipped to 14% — regulatory notice received', 'Contractor dispute Q2 2023 (₹6.2 Cr HC claim)'],
   },
   {
     id: 'confident-crystal',
@@ -146,6 +234,16 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/200614/000332',
     loan_sanctioned: 'Jun 2021',
     loan_type: 'Term Loan',
+    sanctioned_cr: 70,
+    drawn_pct: 74,
+    built_pct: 66,
+    escrow_pct: 22,
+    construction_pct: 66,
+    covenant_status: 'AMBER',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'MISSED',
+    qpr_consecutive_misses: 1,
+    early_warning_signals: ['1 missed QPR Q3 2023 — show-cause notice received', 'Monsoon delay cited; K-RERA accepted extension'],
   },
   {
     id: 'shriram-suhaana',
@@ -162,6 +260,15 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/210308/000389',
     loan_sanctioned: 'Mar 2022',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 45,
+    drawn_pct: 62,
+    built_pct: 54,
+    escrow_pct: 24,
+    construction_pct: 54,
+    covenant_status: 'GREEN',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'ON_TIME',
+    early_warning_signals: ['Sales velocity slowed — 18 units unsold (28% of inventory)', 'Minor delay in BBMP occupancy certificate application'],
   },
   {
     id: 'mana-palms',
@@ -178,6 +285,15 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/211119/000412',
     loan_sanctioned: 'Nov 2022',
     loan_type: 'LAP',
+    sanctioned_cr: 38,
+    drawn_pct: 100,
+    built_pct: 78,
+    escrow_pct: 16,
+    construction_pct: 78,
+    covenant_status: 'AMBER',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'LATE',
+    early_warning_signals: ['LAP — collateral at risk if LAP-funded project stalls', 'Escrow 16% below RERA minimum for 2 quarters', '1 consumer complaint filed Q1 2024'],
   },
   {
     id: 'hubli-grand-central',
@@ -194,6 +310,16 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/200921/000301',
     loan_sanctioned: 'Sep 2021',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 32,
+    drawn_pct: 79,
+    built_pct: 65,
+    escrow_pct: 17,
+    construction_pct: 65,
+    covenant_status: 'AMBER',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'MISSED',
+    qpr_consecutive_misses: 1,
+    early_warning_signals: ['First QPR non-filing Q2 2023 — show-cause issued', 'Lowest risk score of AMBER book', 'Tier-2 city: resale liquidity limited in stress scenario'],
   },
   {
     id: 'mangalore-heights',
@@ -210,6 +336,15 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/191205/000204',
     loan_sanctioned: 'Dec 2020',
     loan_type: 'Term Loan',
+    sanctioned_cr: 41,
+    drawn_pct: 88,
+    built_pct: 72,
+    escrow_pct: 21,
+    construction_pct: 72,
+    covenant_status: 'GREEN',
+    repayment_status: 'CURRENT',
+    last_qpr_status: 'ON_TIME',
+    early_warning_signals: ['Coastal regulation zone clearance pending OC', 'Developer cash flow squeezed — sister project dispute'],
   },
   {
     id: 'bellary-emerald',
@@ -226,6 +361,17 @@ export const LEND_PROJECTS: LendProject[] = [
     rera_id: 'PRM/KA/RERA/1251/309/PR/220103/000445',
     loan_sanctioned: 'Jan 2023',
     loan_type: 'Construction Finance',
+    sanctioned_cr: 35,
+    drawn_pct: 71,
+    built_pct: 55,
+    escrow_pct: 13,
+    construction_pct: 55,
+    covenant_status: 'AMBER',
+    repayment_status: 'SMA_0',
+    last_qpr_status: 'LATE',
+    qpr_consecutive_misses: 0,
+    early_warning_signals: ['SMA-0 since Q4 2023 — 1 EMI 31 days late', 'Ballari market slowdown — absorption rate 58%', 'Escrow 13% for 3 consecutive quarters'],
+    stress_note: 'SMA-0 classification. Ballari micro-market illiquidity compounds recovery risk. Recommend enhanced monitoring and site inspection within 30 days.',
   },
 
   // ── GREEN (28) ────────────────────────────────────────────────
@@ -906,6 +1052,27 @@ export interface CascadeProject {
   escrow_pct: number
   escrow_concern: string
   city: string
+}
+
+// Tranche schedules for all RED projects (keyed by project ID)
+export const TRANCHE_DATA: Record<string, TrancheRow[]> = {
+  'ozone-urbana': OZONE_TRANCHES, // populated below — forward ref resolved at runtime
+  'concord-meridian': [
+    { id: 'T1', amount_cr: 35, date: 'Jan 2021', status: 'DISBURSED',    milestone: 'Foundation complete',            milestone_met: true  },
+    { id: 'T2', amount_cr: 28, date: 'Apr 2021', status: 'DISBURSED',    milestone: 'Basement slab complete',          milestone_met: true  },
+    { id: 'T3', amount_cr: 30, date: 'Aug 2021', status: 'DISBURSED',    milestone: 'Ground floor structure',          milestone_met: true  },
+    { id: 'T4', amount_cr: 22, date: 'Dec 2021', status: 'DISBURSED',    milestone: '4th floor slab complete',         milestone_met: true  },
+    { id: 'T5', amount_cr: 25, date: 'Feb 2022', status: 'DISBURSED',    milestone: 'Roof slab (6th floor) complete',  milestone_met: false },
+    { id: 'T6', amount_cr:  0, date: 'STALLED',  status: 'CONDITIONAL',  milestone: 'Possession-ready (OC applied)',   milestone_met: false },
+  ],
+  'regent-heights': [
+    { id: 'T1', amount_cr: 25, date: 'Mar 2021', status: 'DISBURSED',    milestone: 'Foundation complete',            milestone_met: true  },
+    { id: 'T2', amount_cr: 20, date: 'Jul 2021', status: 'DISBURSED',    milestone: 'Plinth & basement complete',      milestone_met: true  },
+    { id: 'T3', amount_cr: 22, date: 'Nov 2021', status: 'DISBURSED',    milestone: 'Ground floor structure',          milestone_met: true  },
+    { id: 'T4', amount_cr: 18, date: 'Mar 2022', status: 'DISBURSED',    milestone: '3rd floor slab',                  milestone_met: true  },
+    { id: 'T5', amount_cr: 10, date: 'Sep 2022', status: 'DISBURSED',    milestone: 'Roof slab — partial',             milestone_met: false },
+    { id: 'T6', amount_cr:  5, date: 'PENDING',  status: 'PENDING',      milestone: 'Waterproofing & interiors done',  milestone_met: false },
+  ],
 }
 
 export const OZONE_CASCADE: CascadeProject[] = [

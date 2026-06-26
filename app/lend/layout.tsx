@@ -134,7 +134,9 @@ function LendSidebar({ onClose }: { onClose?: () => void }) {
           <TrendingDown className="w-4 h-4 text-gold shrink-0" />
           <div className="min-w-0">
             <div className="font-syne text-xs text-gold leading-tight truncate">{personaMeta.shortName}</div>
-            <div className="text-[9px] font-mono text-gray mt-0.5">via Vantis Lend</div>
+            <Link href="/" onClick={onClose} className="text-[9px] font-mono text-gray mt-0.5 hover:text-gold transition-colors">
+              ← Workspace
+            </Link>
           </div>
         </div>
         {onClose && (

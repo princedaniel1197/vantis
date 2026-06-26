@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   LayoutDashboard, Building2, BarChart2, Scale, ScanLine,
   AlertTriangle, TrendingDown, Users, MessageCircle, Gavel,
-  FileText, Sparkles, Settings, Menu, X, Shield,
+  FileText, Sparkles, Settings, Menu, X, Shield, ChevronLeft,
 } from 'lucide-react'
 
 const DEFAULT_OFFICER = { name: 'K-RERA Chairman', role: 'Chairman' }
@@ -46,14 +46,20 @@ function SidebarNav({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col h-full w-[220px] bg-surface border-r border-border">
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-border shrink-0">
+      <div className="flex flex-col px-4 pt-3 pb-4 border-b border-border shrink-0">
+        <div className="flex items-center justify-between mb-2">
+          <Link href="/" onClick={onClose} className="flex items-center gap-1 text-[10px] font-mono text-gray hover:text-gold transition-colors duration-150">
+            <ChevronLeft className="w-3 h-3" />
+            Workspace
+          </Link>
+          <button onClick={onClose} className="md:hidden text-gray hover:text-gold transition-colors duration-150">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4 text-gold" />
           <span className="font-syne text-base text-gold">Vantis Govern</span>
         </div>
-        <button onClick={onClose} className="md:hidden text-gray hover:text-gold transition-colors duration-150">
-          <X className="w-4 h-4" />
-        </button>
       </div>
 
       {/* Nav links */}

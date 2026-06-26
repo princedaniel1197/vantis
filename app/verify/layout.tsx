@@ -36,6 +36,16 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
           alignItems: 'center',
           gap: '2rem',
         }}>
+          {/* Back to workspace */}
+          <Link
+            href="/"
+            style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3A3530', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0, transition: 'color 0.1s' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#C9A84C' }}
+            onMouseLeave={e => { e.currentTarget.style.color = '#3A3530' }}
+          >
+            ← Hub
+          </Link>
+
           {/* Logo */}
           <Link href="/verify" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }}>
             <Image

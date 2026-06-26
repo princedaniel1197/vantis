@@ -221,6 +221,13 @@ export default function OSNav() {
         {/* Right actions */}
         <div className="flex items-center gap-2 ml-auto">
           <Link
+            href="/"
+            className="hidden sm:flex items-center text-[10px] font-mono uppercase tracking-[0.1em] px-2.5 py-1.5 rounded-sm transition-colors"
+            style={{ color: 'var(--muted)', border: '1px solid var(--bord)' }}
+          >
+            Hub
+          </Link>
+          <Link
             href="/vision"
             className="hidden sm:flex items-center text-[10px] font-mono uppercase tracking-[0.1em] px-2.5 py-1.5 rounded-sm transition-colors"
             style={{ color: pathname === '/vision' ? 'var(--gold)' : 'var(--muted)', border: '1px solid var(--bord)' }}

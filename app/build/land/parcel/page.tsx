@@ -1,6 +1,7 @@
 'use client'
 
-import { CheckCircle2, AlertTriangle } from 'lucide-react'
+import { CheckCircle2, AlertTriangle, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { resolveGovTruth } from '@/lib/gov-truth'
 
 export default function ParcelPage() {
@@ -9,6 +10,14 @@ export default function ParcelPage() {
   return (
     <div className="min-h-screen bg-background p-5 max-w-[900px] mx-auto">
       <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Link href="/build" className="text-gray hover:text-gold transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <span className="text-[10px] font-mono text-gray uppercase tracking-[0.12em]">Build Hub</span>
+          <span className="text-border text-xs">/</span>
+          <span className="text-[10px] font-mono text-gray-light uppercase tracking-[0.12em]">Parcel Intelligence</span>
+        </div>
         <h1 className="font-syne text-2xl text-off-white">Parcel Intelligence</h1>
         <p className="text-gray text-sm mt-1">
           Survey boundary cross-checked against Bhoomi land records and Kaveri registration history.

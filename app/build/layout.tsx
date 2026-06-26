@@ -90,17 +90,17 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
               key={item.href}
               href={item.href}
               onClick={onClose}
-              className="flex items-start gap-2.5 px-2.5 py-2 rounded-sm transition-colors block"
+              className="flex items-start gap-2.5 px-3 py-2 transition-colors block border-l-2"
               style={
                 active
                   ? {
-                      background: 'rgba(201,168,76,0.10)',
+                      background: 'rgba(201,168,76,0.07)',
                       color: '#C9A84C',
-                      border: '1px solid rgba(201,168,76,0.25)',
+                      borderLeftColor: '#C9A84C',
                     }
                   : {
                       color: '#6B6B88',
-                      border: '1px solid transparent',
+                      borderLeftColor: 'transparent',
                     }
               }
             >

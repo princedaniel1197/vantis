@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 
 const COMPETITORS = [
   { id: 'divya-villas',     name: 'Divya Villas',           developer: 'JDA Projects',       units: 73,  sold: 4,   monthly: 1.2, price_sqft: 3800, rera: 'PRM/KA/RERA/1251/309/PR/2021/001', km: 0,   angle: 0 },
@@ -52,6 +54,14 @@ export default function MarketPage() {
   return (
     <div className="min-h-screen bg-background p-5 max-w-[1100px] mx-auto">
       <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Link href="/build" className="text-gray hover:text-gold transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <span className="text-[10px] font-mono text-gray uppercase tracking-[0.12em]">Build Hub</span>
+          <span className="text-border text-xs">/</span>
+          <span className="text-[10px] font-mono text-gray-light uppercase tracking-[0.12em]">Competitive Supply</span>
+        </div>
         <h1 className="font-syne text-2xl text-off-white">Competitive Supply Intelligence</h1>
         <p className="text-gray text-sm mt-1">
           Every RERA-registered project within 2.5km · K-RERA-filed pricing · real absorption velocity.

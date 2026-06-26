@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import { CheckCircle2, AlertTriangle } from 'lucide-react'
+import { CheckCircle2, AlertTriangle, ArrowLeft } from 'lucide-react'
+import Link from 'next/link'
 import { resolveGovTruth } from '@/lib/gov-truth'
 
 const PROJECTS = {
@@ -219,6 +220,14 @@ export default function ReconciliationPage() {
   return (
     <div className="min-h-screen bg-background p-5 max-w-[1000px] mx-auto">
       <div className="mb-6">
+        <div className="flex items-center gap-2 mb-3">
+          <Link href="/build" className="text-gray hover:text-gold transition-colors">
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+          <span className="text-[10px] font-mono text-gray uppercase tracking-[0.12em]">Build Hub</span>
+          <span className="text-border text-xs">/</span>
+          <span className="text-[10px] font-mono text-gray-light uppercase tracking-[0.12em]">Drone Reconciliation</span>
+        </div>
         <h1 className="font-syne text-2xl text-off-white">Drone Reconciliation</h1>
         <p className="text-gray text-sm mt-1">
           The three-way gap: what the drone sees vs what was claimed vs what finance assumed.

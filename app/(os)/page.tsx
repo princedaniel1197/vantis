@@ -159,7 +159,7 @@ export default function HubPage() {
             </div>
 
             {/* Name */}
-            <div style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: '26px', lineHeight: 1.2, color: '#F0EEE8', marginBottom: '0.75rem' }}>
+            <div style={{ fontFamily: 'var(--font-syne, sans-serif)', fontSize: '20px', fontWeight: '700', lineHeight: 1.3, color: '#F0EEE8', marginBottom: '0.75rem' }}>
               {p.name}
             </div>
 

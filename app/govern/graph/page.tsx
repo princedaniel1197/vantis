@@ -1,7 +1,22 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
+import dynamic from 'next/dynamic'
 import { Search, X, Network, RotateCcw, Play, ZoomIn, ZoomOut } from 'lucide-react'
+import type { GraphNode, GraphLink } from './GraphCanvas'
+
+/* ── Dynamic import — ssr:false prevents force-graph's window.innerWidth
+      from running on the server (it's called at module-level in the bundle). ── */
+const GraphCanvas = dynamic(() => import('./GraphCanvas'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex-1 flex items-center justify-center bg-[#0A0A0F]">
+      <span className="font-mono text-[10px] text-gray tracking-wider">
+        Initialising investigation canvas…
+      </span>
+    </div>
+  ),
+})
 
 /* ── Types ───────────────────────────────────────────────────────────────── */
 type NodeType = 'developer' | 'project' | 'person' | 'asset' | 'litigation' | 'rrc'
@@ -9,47 +24,14 @@ type LinkType =
   | 'owns' | 'controls' | 'spouse-of' | 'subject-of'
   | 'holds' | 'directed-by' | 'related-party'
 
-interface CanvasNode {
-  id: string
-  label: string
+interface CanvasNode extends GraphNode {
   type: NodeType
   data: Record<string, string | number | null>
   anomaly?: boolean
-  expanded?: boolean
-  x?: number
-  y?: number
-  vx?: number
-  vy?: number
-  fx?: number | null
-  fy?: number | null
 }
 
-interface CanvasLink {
-  source: string | CanvasNode
-  target: string | CanvasNode
-  label: string
+interface CanvasLink extends GraphLink {
   type: LinkType
-}
-
-/* ── Visual constants ────────────────────────────────────────────────────── */
-const NODE_R = 10
-
-const NODE_COLORS: Record<NodeType, string> = {
-  developer:  '#C9A84C',
-  project:    '#3498DB',
-  person:     '#9B59B6',
-  asset:      '#2ECC71',
-  litigation: '#E74C3C',
-  rrc:        '#E67E22',
-}
-
-const NODE_LETTER: Record<NodeType, string> = {
-  developer:  'D',
-  project:    'P',
-  person:     'Pe',
-  asset:      'A',
-  litigation: 'Li',
-  rrc:        'R',
 }
 
 /* ── Entity database ─────────────────────────────────────────────────────── */
@@ -204,8 +186,7 @@ const DB: Record<string, CanvasNode> = {
     id: 'lit-os-3891', label: 'OS 3891/2024', type: 'litigation',
     data: {
       Court: 'City Civil Court, Bengaluru', Filed: '2024-11-03',
-      Plaintiff: 'Ramesh Gowda',
-      Cause: 'Construction defect — structural cracks, Block A',
+      Plaintiff: 'Ramesh Gowda', Cause: 'Construction defect — structural cracks, Block A',
       'Relief Sought': '₹1.8 Cr', Severity: 'MEDIUM',
     },
   },
@@ -256,13 +237,13 @@ type Conn = { node: CanvasNode; link: { label: string; type: LinkType } }
 
 const CONNECTIONS: Record<string, Conn[]> = {
   'ozone-group': [
-    { node: DB['ozone-urbana'],   link: { label: 'owns',        type: 'owns' } },
-    { node: DB['ozone-holdings'], link: { label: 'controls',    type: 'controls' } },
-    { node: DB['ozone-spe'],      link: { label: 'controls',    type: 'controls' } },
-    { node: DB['lit-os-1124'],    link: { label: 'subject of',  type: 'subject-of' } },
-    { node: DB['lit-os-2247'],    link: { label: 'subject of',  type: 'subject-of' } },
-    { node: DB['lit-wp-1842'],    link: { label: 'subject of',  type: 'subject-of' } },
-    { node: DB['rrc-oz-001'],     link: { label: 'subject of',  type: 'subject-of' } },
+    { node: DB['ozone-urbana'],   link: { label: 'owns',       type: 'owns' } },
+    { node: DB['ozone-holdings'], link: { label: 'controls',   type: 'controls' } },
+    { node: DB['ozone-spe'],      link: { label: 'controls',   type: 'controls' } },
+    { node: DB['lit-os-1124'],    link: { label: 'subject of', type: 'subject-of' } },
+    { node: DB['lit-os-2247'],    link: { label: 'subject of', type: 'subject-of' } },
+    { node: DB['lit-wp-1842'],    link: { label: 'subject of', type: 'subject-of' } },
+    { node: DB['rrc-oz-001'],     link: { label: 'subject of', type: 'subject-of' } },
   ],
   'ozone-spe': [
     { node: DB['asset-devanahalli'], link: { label: 'owns',        type: 'owns' } },
@@ -291,17 +272,18 @@ const CONNECTIONS: Record<string, Conn[]> = {
 
 const SEARCH_INDEX = Object.values(DB)
 
-/* ── Dossier panel ───────────────────────────────────────────────────────── */
-interface DossierProps {
-  node: CanvasNode
-  isExpanded: boolean
-  onExpand: () => void
-  onFocus: () => void
-  onRemove: () => void
-  onClose: () => void
+const NODE_COLORS: Record<NodeType, string> = {
+  developer: '#C9A84C', project: '#3498DB', person: '#9B59B6',
+  asset: '#2ECC71', litigation: '#E74C3C', rrc: '#E67E22',
 }
 
-function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }: DossierProps) {
+/* ── Dossier panel ───────────────────────────────────────────────────────── */
+function DossierPanel({
+  node, isExpanded, onExpand, onFocus, onRemove, onClose,
+}: {
+  node: CanvasNode; isExpanded: boolean
+  onExpand: () => void; onFocus: () => void; onRemove: () => void; onClose: () => void
+}) {
   const color = NODE_COLORS[node.type]
   const hasConns = !!CONNECTIONS[node.id]
 
@@ -309,10 +291,8 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
     <div className="flex flex-col w-72 shrink-0 border-l border-border bg-surface overflow-hidden">
       <div className="px-4 pt-4 pb-3 border-b border-border shrink-0">
         <div className="flex items-center justify-between mb-2">
-          <span
-            className="font-mono text-[9px] uppercase tracking-[0.22em] px-2 py-0.5 rounded-sm border"
-            style={{ color, borderColor: color + '55', backgroundColor: color + '15' }}
-          >
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] px-2 py-0.5 rounded-sm border"
+            style={{ color, borderColor: color + '55', backgroundColor: color + '15' }}>
             {node.type}
           </span>
           <button onClick={onClose} className="text-gray hover:text-off-white transition-colors">
@@ -341,10 +321,8 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
 
       <div className="p-3 border-t border-border space-y-2 shrink-0">
         {hasConns && !isExpanded && (
-          <button
-            onClick={onExpand}
-            className="w-full py-2 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 transition-colors"
-          >
+          <button onClick={onExpand}
+            className="w-full py-2 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 transition-colors">
             Expand Connections →
           </button>
         )}
@@ -354,18 +332,8 @@ function DossierPanel({ node, isExpanded, onExpand, onFocus, onRemove, onClose }
           </div>
         )}
         <div className="flex gap-2">
-          <button
-            onClick={onFocus}
-            className="flex-1 py-1.5 bg-surface2 border border-border text-gray-light text-xs font-mono rounded-sm hover:text-gold hover:border-gold/40 transition-colors"
-          >
-            Focus
-          </button>
-          <button
-            onClick={onRemove}
-            className="flex-1 py-1.5 bg-surface2 border border-border text-gray-light text-xs font-mono rounded-sm hover:text-red hover:border-red/40 transition-colors"
-          >
-            Remove
-          </button>
+          <button onClick={onFocus} className="flex-1 py-1.5 bg-surface2 border border-border text-gray-light text-xs font-mono rounded-sm hover:text-gold hover:border-gold/40 transition-colors">Focus</button>
+          <button onClick={onRemove} className="flex-1 py-1.5 bg-surface2 border border-border text-gray-light text-xs font-mono rounded-sm hover:text-red hover:border-red/40 transition-colors">Remove</button>
         </div>
       </div>
     </div>
@@ -381,11 +349,11 @@ function LegendPanel({ isEmpty }: { isEmpty: boolean }) {
         <div className="space-y-2">
           {(Object.entries(NODE_COLORS) as [NodeType, string][]).map(([type, color]) => (
             <div key={type} className="flex items-center gap-2.5">
-              <div
-                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border"
-                style={{ backgroundColor: color + '20', borderColor: color + '80' }}
-              >
-                <span className="font-mono text-[7px]" style={{ color }}>{NODE_LETTER[type]}</span>
+              <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 border"
+                style={{ backgroundColor: color + '20', borderColor: color + '80' }}>
+                <span className="font-mono text-[7px]" style={{ color }}>
+                  {type === 'developer' ? 'D' : type === 'project' ? 'P' : type === 'person' ? 'Pe' : type === 'asset' ? 'A' : type === 'litigation' ? 'Li' : 'R'}
+                </span>
               </div>
               <span className="font-mono text-[10px] text-gray-light capitalize">{type}</span>
             </div>
@@ -445,10 +413,8 @@ function LegendPanel({ isEmpty }: { isEmpty: boolean }) {
 
 /* ── Page component ──────────────────────────────────────────────────────── */
 export default function InvestigationCanvas() {
-  const [graphData, setGraphData] = useState<{ nodes: CanvasNode[]; links: CanvasLink[] }>({
-    nodes: [],
-    links: [],
-  })
+  const [nodes, setNodes] = useState<CanvasNode[]>([])
+  const [links, setLinks] = useState<CanvasLink[]>([])
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set())
   const [selectedNode, setSelectedNode] = useState<CanvasNode | null>(null)
   const [hoveredNode, setHoveredNode] = useState<CanvasNode | null>(null)
@@ -456,203 +422,11 @@ export default function InvestigationCanvas() {
   const [searchResults, setSearchResults] = useState<CanvasNode[]>([])
   const [isAnimating, setIsAnimating] = useState(false)
   const [showKannehalli, setShowKannehalli] = useState(false)
-  const [canvasReady, setCanvasReady] = useState(false)
 
   const fgRef = useRef<any>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const selectedIdRef = useRef<string | null>(null)
-  const expandedRef = useRef<Set<string>>(new Set())
-
-  /* sync refs */
-  useEffect(() => { selectedIdRef.current = selectedNode?.id ?? null }, [selectedNode])
+  // Keep a ref to expandedNodes to avoid stale closure in expandNode
+  const expandedRef = useRef<Set<string>>(expandedNodes)
   useEffect(() => { expandedRef.current = expandedNodes }, [expandedNodes])
-
-  /* ── Canvas node draw function (reads from refs) ─────────────── */
-  const drawNode = useCallback((node: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const { x = 0, y = 0, id, type, label, anomaly } = node as CanvasNode & { x: number; y: number }
-    const color = NODE_COLORS[type as NodeType] ?? '#888'
-    const selected = selectedIdRef.current === id
-    const hasMore = !!CONNECTIONS[id] && !expandedRef.current.has(id)
-
-    if (selected) {
-      ctx.beginPath()
-      ctx.arc(x, y, NODE_R + 7, 0, 2 * Math.PI)
-      ctx.fillStyle = color + '18'
-      ctx.fill()
-    }
-
-    ctx.beginPath()
-    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
-    ctx.fillStyle = selected ? color + '35' : color + '20'
-    ctx.fill()
-
-    ctx.beginPath()
-    ctx.arc(x, y, NODE_R, 0, 2 * Math.PI)
-    ctx.strokeStyle = selected ? color : anomaly ? color + 'CC' : color + '66'
-    ctx.lineWidth = selected ? 2 : 1.5
-    ctx.stroke()
-
-    ctx.font = `bold ${NODE_R * 0.95}px monospace`
-    ctx.textAlign = 'center'
-    ctx.textBaseline = 'middle'
-    ctx.fillStyle = color
-    ctx.fillText(NODE_LETTER[type as NodeType] ?? '?', x, y)
-
-    if (gs > 0.45) {
-      const truncated = label.replace('⚑ ', '').slice(0, 22)
-      ctx.font = `${9 / gs}px sans-serif`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'top'
-      ctx.fillStyle = '#F0EEE8BB'
-      ctx.fillText(truncated, x, y + NODE_R + 3)
-    }
-
-    if (anomaly) {
-      ctx.beginPath()
-      ctx.arc(x + NODE_R * 0.68, y - NODE_R * 0.68, 3.5, 0, 2 * Math.PI)
-      ctx.fillStyle = '#E74C3C'
-      ctx.fill()
-    }
-
-    if (hasMore) {
-      ctx.beginPath()
-      ctx.arc(x, y + NODE_R + 1.5, 2.5, 0, 2 * Math.PI)
-      ctx.fillStyle = '#C9A84C'
-      ctx.fill()
-    }
-
-    if (selected) {
-      ctx.beginPath()
-      ctx.arc(x, y, NODE_R + 5, 0, 2 * Math.PI)
-      ctx.strokeStyle = color + 'AA'
-      ctx.lineWidth = 1
-      ctx.setLineDash([3, 2])
-      ctx.stroke()
-      ctx.setLineDash([])
-    }
-  }, [])
-
-  const drawPointerArea = useCallback((node: any, color: string, ctx: CanvasRenderingContext2D) => {
-    ctx.fillStyle = color
-    ctx.beginPath()
-    ctx.arc(node.x ?? 0, node.y ?? 0, NODE_R + 8, 0, 2 * Math.PI)
-    ctx.fill()
-  }, [])
-
-  const drawLink = useCallback((link: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const src = link.source as CanvasNode & { x: number; y: number }
-    const tgt = link.target as CanvasNode & { x: number; y: number }
-    if (src.x == null || tgt.x == null) return
-
-    const isRelated = link.type === 'related-party'
-    const isSpouse  = link.type === 'spouse-of'
-
-    const dx   = tgt.x - src.x
-    const dy   = tgt.y - src.y
-    const dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist === 0) return
-
-    const sx = src.x + (dx / dist) * NODE_R
-    const sy = src.y + (dy / dist) * NODE_R
-    const ex = tgt.x - (dx / dist) * (NODE_R + 5)
-    const ey = tgt.y - (dy / dist) * (NODE_R + 5)
-
-    ctx.beginPath()
-    if (isRelated) {
-      ctx.setLineDash([5, 4])
-      ctx.strokeStyle = '#E74C3C'
-      ctx.lineWidth = 2
-    } else if (isSpouse) {
-      ctx.setLineDash([3, 3])
-      ctx.strokeStyle = '#9B59B6AA'
-      ctx.lineWidth = 1.5
-    } else {
-      ctx.setLineDash([])
-      ctx.strokeStyle = '#2A2A3EDD'
-      ctx.lineWidth = 1
-    }
-    ctx.moveTo(sx, sy)
-    ctx.lineTo(ex, ey)
-    ctx.stroke()
-    ctx.setLineDash([])
-
-    const angle = Math.atan2(ey - sy, ex - sx)
-    const al = 6
-    ctx.beginPath()
-    ctx.moveTo(ex, ey)
-    ctx.lineTo(ex - al * Math.cos(angle - 0.42), ey - al * Math.sin(angle - 0.42))
-    ctx.lineTo(ex - al * Math.cos(angle + 0.42), ey - al * Math.sin(angle + 0.42))
-    ctx.closePath()
-    ctx.fillStyle = isRelated ? '#E74C3C' : '#2A2A3EDD'
-    ctx.fill()
-
-    if (gs > 0.85 && link.label) {
-      const mx = (sx + ex) / 2
-      const my = (sy + ey) / 2
-      ctx.font = `${9 / gs}px monospace`
-      ctx.textAlign = 'center'
-      ctx.textBaseline = 'middle'
-      ctx.fillStyle = isRelated ? '#E74C3CAA' : '#6B6B88'
-      ctx.fillText(link.label as string, mx, my - 8 / gs)
-    }
-  }, [])
-
-  /* ── Init force-graph via dynamic import ─────────────────────── */
-  useEffect(() => {
-    if (!containerRef.current) return
-    const container = containerRef.current
-    let disposed = false
-    let ro: ResizeObserver | null = null
-
-    import('force-graph').then(mod => {
-      if (disposed) return
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ForceGraph = (mod as any).default ?? mod
-      const fg = ForceGraph()(container)
-      fg
-        .width(container.offsetWidth)
-        .height(container.offsetHeight)
-        .backgroundColor('#0A0A0F')
-        .nodeId('id')
-        .nodeCanvasObject(drawNode)
-        .nodeCanvasObjectMode(() => 'replace')
-        .nodePointerAreaPaint(drawPointerArea)
-        .linkCanvasObject(drawLink)
-        .linkCanvasObjectMode(() => 'replace')
-        .onNodeClick((node: any) => setSelectedNode({ ...(node as CanvasNode) }))
-        .onNodeHover((node: any) => setHoveredNode(node ? { ...(node as CanvasNode) } : null))
-        .onNodeDragEnd((node: any) => { node.fx = node.x; node.fy = node.y })
-        .onBackgroundClick(() => setSelectedNode(null))
-        .cooldownTicks(100)
-        .d3AlphaDecay(0.02)
-        .d3VelocityDecay(0.3)
-        .graphData({ nodes: [], links: [] })
-
-      fgRef.current = fg
-      setCanvasReady(true)
-
-      ro = new ResizeObserver(() => {
-        if (fg && container) fg.width(container.offsetWidth).height(container.offsetHeight)
-      })
-      ro.observe(container)
-    }).catch(() => {
-      // force-graph failed to load — canvas stays empty, no crash
-    })
-
-    return () => {
-      disposed = true
-      ro?.disconnect()
-      if (container) container.innerHTML = ''
-      fgRef.current = null
-    }
-  }, [drawNode, drawPointerArea, drawLink])
-
-  /* ── Sync graph data to force-graph instance ─────────────────── */
-  useEffect(() => {
-    if (fgRef.current) {
-      fgRef.current.graphData(graphData)
-    }
-  }, [graphData])
 
   /* ── Search ──────────────────────────────────────────────────── */
   useEffect(() => {
@@ -663,84 +437,68 @@ export default function InvestigationCanvas() {
     )
   }, [searchQuery])
 
-  /* ── Canvas actions ──────────────────────────────────────────── */
+  /* ── Graph mutations ─────────────────────────────────────────── */
   function addToCanvas(entity: CanvasNode) {
-    setGraphData(prev => {
-      if (prev.nodes.find(n => n.id === entity.id)) return prev
-      return { ...prev, nodes: [...prev.nodes, { ...entity }] }
-    })
-    setSearchQuery('')
-    setSearchResults([])
+    setNodes(prev => prev.find(n => n.id === entity.id) ? prev : [...prev, { ...entity }])
+    setSearchQuery(''); setSearchResults([])
     setTimeout(() => fgRef.current?.centerAt(0, 0, 600), 200)
   }
 
   function expandNode(nodeId: string) {
     if (expandedRef.current.has(nodeId)) return
     const conns = CONNECTIONS[nodeId] ?? []
-    setGraphData(prev => {
-      const existIds = new Set(prev.nodes.map(n => n.id))
-      const existLinkKeys = new Set(
-        prev.links.map(l => {
-          const s = typeof l.source === 'string' ? l.source : (l.source as CanvasNode).id
-          const t = typeof l.target === 'string' ? l.target : (l.target as CanvasNode).id
-          return `${s}→${t}`
-        })
-      )
-      const newNodes = conns.filter(c => !existIds.has(c.node.id)).map(c => ({ ...c.node }))
-      const newLinks: CanvasLink[] = conns
-        .filter(c => !existLinkKeys.has(`${nodeId}→${c.node.id}`))
-        .map(c => ({ source: nodeId, target: c.node.id, label: c.link.label, type: c.link.type }))
 
+    setNodes(prev => {
+      const existIds = new Set(prev.map(n => n.id))
+      const newNodes = conns.filter(c => !existIds.has(c.node.id)).map(c => ({ ...c.node }))
       if (conns.some(c => c.node.id === 'asset-kannehalli') && !existIds.has('asset-kannehalli')) {
         setTimeout(() => setShowKannehalli(true), 900)
       }
-
-      return {
-        nodes: [...prev.nodes.map(n => n.id === nodeId ? { ...n, expanded: true } : n), ...newNodes],
-        links: [...prev.links, ...newLinks],
-      }
+      return [...prev.map(n => n.id === nodeId ? { ...n, expanded: true } : n), ...newNodes]
     })
+
+    setLinks(prev => {
+      const existKeys = new Set(prev.map(l => {
+        const s = typeof l.source === 'string' ? l.source : (l.source as CanvasNode).id
+        const t = typeof l.target === 'string' ? l.target : (l.target as CanvasNode).id
+        return `${s}→${t}`
+      }))
+      const newLinks: CanvasLink[] = conns
+        .filter(c => !existKeys.has(`${nodeId}→${c.node.id}`))
+        .map(c => ({ source: nodeId, target: c.node.id, label: c.link.label, type: c.link.type }))
+      return [...prev, ...newLinks]
+    })
+
     setExpandedNodes(prev => new Set(Array.from(prev).concat(nodeId)))
   }
 
-  function focusNode(node: CanvasNode) {
-    if (fgRef.current && node.x != null && node.y != null) {
-      fgRef.current.centerAt(node.x, node.y, 500)
-      fgRef.current.zoom(2.5, 500)
-    }
-  }
-
   function removeNode(nodeId: string) {
-    setGraphData(prev => ({
-      nodes: prev.nodes.filter(n => n.id !== nodeId),
-      links: prev.links.filter(l => {
-        const s = typeof l.source === 'string' ? l.source : (l.source as CanvasNode).id
-        const t = typeof l.target === 'string' ? l.target : (l.target as CanvasNode).id
-        return s !== nodeId && t !== nodeId
-      }),
+    setNodes(prev => prev.filter(n => n.id !== nodeId))
+    setLinks(prev => prev.filter(l => {
+      const s = typeof l.source === 'string' ? l.source : (l.source as CanvasNode).id
+      const t = typeof l.target === 'string' ? l.target : (l.target as CanvasNode).id
+      return s !== nodeId && t !== nodeId
     }))
     setExpandedNodes(prev => { const s = new Set(Array.from(prev)); s.delete(nodeId); return s })
     if (selectedNode?.id === nodeId) setSelectedNode(null)
   }
 
   function resetCanvas() {
-    setGraphData({ nodes: [], links: [] })
-    setExpandedNodes(new Set())
-    setSelectedNode(null)
-    setShowKannehalli(false)
+    setNodes([]); setLinks([])
+    setExpandedNodes(new Set()); setSelectedNode(null); setShowKannehalli(false)
   }
 
-  /* ── Animated Ozone trail ────────────────────────────────────── */
+  /* ── Ozone trail ─────────────────────────────────────────────── */
   async function runOzoneTrail() {
     if (isAnimating) return
     setIsAnimating(true)
     setShowKannehalli(false)
-    setGraphData({ nodes: [], links: [] })
-    setExpandedNodes(new Set())
-    setSelectedNode(null)
+    setNodes([]); setLinks([]); setExpandedNodes(new Set()); setSelectedNode(null)
+    // also reset the ref immediately
+    expandedRef.current = new Set()
     await sleep(300)
 
-    setGraphData({ nodes: [{ ...DB['ozone-group'] }], links: [] })
+    setNodes([{ ...DB['ozone-group'] }])
     setSelectedNode(DB['ozone-group'])
     await sleep(1200)
 
@@ -761,11 +519,22 @@ export default function InvestigationCanvas() {
     setIsAnimating(false)
   }
 
-  function sleep(ms: number) {
-    return new Promise<void>(resolve => setTimeout(resolve, ms))
-  }
+  function sleep(ms: number) { return new Promise<void>(r => setTimeout(r, ms)) }
 
-  const nodeCount = graphData.nodes.length
+  /* ── Stable callbacks for GraphCanvas ───────────────────────── */
+  const handleNodeClick = useCallback((node: GraphNode) => {
+    setSelectedNode(DB[node.id] ?? (node as CanvasNode))
+  }, [])
+
+  const handleNodeHover = useCallback((node: GraphNode | null) => {
+    setHoveredNode(node ? (DB[node.id] ?? (node as CanvasNode)) : null)
+  }, [])
+
+  const handleBackgroundClick = useCallback(() => setSelectedNode(null), [])
+
+  const handleReady = useCallback((fg: any) => { fgRef.current = fg }, [])
+
+  const nodeCount = nodes.length
 
   return (
     <div className="flex flex-col overflow-hidden" style={{ height: 'calc(100dvh - 48px)' }}>
@@ -777,15 +546,13 @@ export default function InvestigationCanvas() {
             Investigation Canvas
           </span>
         </div>
-
         <div className="w-px h-5 bg-border shrink-0 hidden sm:block" />
 
         {/* Search */}
         <div className="relative flex-1 max-w-xs">
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray pointer-events-none" />
           <input
-            type="text"
-            value={searchQuery}
+            type="text" value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search entity…"
             className="w-full pl-7 pr-3 py-1.5 bg-surface2 border border-border rounded-sm text-off-white text-xs font-mono placeholder:text-gray focus:outline-none focus:border-gold/50 transition-colors"
@@ -793,15 +560,10 @@ export default function InvestigationCanvas() {
           {searchResults.length > 0 && (
             <div className="absolute top-full left-0 right-0 mt-1 bg-surface border border-border rounded-sm shadow-2xl z-50 overflow-hidden">
               {searchResults.map(r => (
-                <button
-                  key={r.id}
-                  onClick={() => addToCanvas(r)}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 text-left hover:bg-surface2 transition-colors"
-                >
-                  <div
-                    className="w-3 h-3 rounded-full shrink-0"
-                    style={{ backgroundColor: NODE_COLORS[r.type] + '55', border: `1px solid ${NODE_COLORS[r.type]}` }}
-                  />
+                <button key={r.id} onClick={() => addToCanvas(r)}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 text-left hover:bg-surface2 transition-colors">
+                  <div className="w-3 h-3 rounded-full shrink-0"
+                    style={{ backgroundColor: NODE_COLORS[r.type] + '55', border: `1px solid ${NODE_COLORS[r.type]}` }} />
                   <span className="text-off-white text-xs flex-1 truncate">{r.label}</span>
                   <span className="font-mono text-[9px] text-gray shrink-0">{r.type}</span>
                 </button>
@@ -810,34 +572,19 @@ export default function InvestigationCanvas() {
           )}
         </div>
 
-        {/* Ozone Trail */}
-        <button
-          onClick={runOzoneTrail}
-          disabled={isAnimating || !canvasReady}
-          className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 disabled:opacity-40 transition-colors"
-        >
+        <button onClick={runOzoneTrail} disabled={isAnimating}
+          className="shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 bg-gold/15 border border-gold/40 text-gold text-xs font-mono rounded-sm hover:bg-gold/25 disabled:opacity-40 transition-colors">
           <Play className="w-3 h-3" />
           <span className="hidden sm:inline">{isAnimating ? 'Investigating…' : 'Ozone Trail'}</span>
         </button>
 
-        {/* Zoom */}
         <div className="flex items-center gap-0.5 shrink-0">
-          <button
-            onClick={() => {
-              const fg = fgRef.current
-              if (fg) fg.zoom(fg.zoom() * 1.35, 200)
-            }}
-            className="p-1.5 text-gray hover:text-gold transition-colors"
-          >
+          <button onClick={() => { const fg = fgRef.current; if (fg) fg.zoom(fg.zoom() * 1.35, 200) }}
+            className="p-1.5 text-gray hover:text-gold transition-colors">
             <ZoomIn className="w-3.5 h-3.5" />
           </button>
-          <button
-            onClick={() => {
-              const fg = fgRef.current
-              if (fg) fg.zoom(fg.zoom() / 1.35, 200)
-            }}
-            className="p-1.5 text-gray hover:text-gold transition-colors"
-          >
+          <button onClick={() => { const fg = fgRef.current; if (fg) fg.zoom(fg.zoom() / 1.35, 200) }}
+            className="p-1.5 text-gray hover:text-gold transition-colors">
             <ZoomOut className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -847,64 +594,56 @@ export default function InvestigationCanvas() {
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
         )}
-
         {nodeCount > 0 && (
           <span className="shrink-0 font-mono text-[9px] text-gray hidden md:block">
-            {nodeCount}N · {graphData.links.length}E
+            {nodeCount}N · {links.length}E
           </span>
         )}
       </div>
 
       {/* ── Main ─────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Canvas container — force-graph injects canvas here */}
-        <div ref={containerRef} className="flex-1 relative bg-[#0A0A0F]">
-          {/* Loading state */}
-          {!canvasReady && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <span className="font-mono text-[10px] text-gray tracking-wider">
-                Initialising investigation canvas…
-              </span>
-            </div>
-          )}
+        <div className="flex-1 relative bg-[#0A0A0F] overflow-hidden">
+          {/* GraphCanvas is never SSR'd — force-graph module stays browser-only */}
+          <GraphCanvas
+            nodes={nodes}
+            links={links}
+            selectedNodeId={selectedNode?.id ?? null}
+            expandedNodeIds={Array.from(expandedNodes)}
+            onNodeClick={handleNodeClick}
+            onNodeHover={handleNodeHover}
+            onBackgroundClick={handleBackgroundClick}
+            onReady={handleReady}
+          />
 
-          {/* Empty state */}
-          {canvasReady && nodeCount === 0 && !isAnimating && (
+          {nodeCount === 0 && !isAnimating && (
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none">
               <Network className="w-14 h-14 text-border mb-4" />
               <div className="text-gray font-mono text-sm">Investigation canvas is empty</div>
-              <div className="text-gray/50 font-mono text-xs mt-1">
-                Search for an entity above, or click Ozone Trail
-              </div>
+              <div className="text-gray/50 font-mono text-xs mt-1">Search for an entity above, or click Ozone Trail</div>
             </div>
           )}
 
-          {/* Hover tooltip */}
           {hoveredNode && !selectedNode && (
-            <div className="absolute bottom-4 left-4 bg-surface border border-border rounded-sm px-3 py-2 pointer-events-none shadow-xl">
+            <div className="absolute bottom-4 left-4 bg-surface border border-border rounded-sm px-3 py-2 pointer-events-none shadow-xl z-10">
               <div className="font-mono text-xs text-off-white">{hoveredNode.label}</div>
               <div className="font-mono text-[9px] text-gray capitalize mt-0.5">{hoveredNode.type}</div>
             </div>
           )}
 
-          {/* Kannehalli discovery toast */}
           {showKannehalli && (
             <div className="absolute bottom-4 right-4 w-72 bg-[#0A0A0F] border border-gold/60 rounded-sm p-4 shadow-2xl z-20">
               <div className="flex items-start gap-2.5">
                 <div className="w-2 h-2 rounded-full bg-gold shrink-0 mt-0.5 animate-pulse" />
                 <div className="flex-1 min-w-0">
-                  <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gold mb-1.5">
-                    ⚑ Key Discovery
-                  </div>
+                  <div className="font-mono text-[9px] uppercase tracking-[0.22em] text-gold mb-1.5">⚑ Key Discovery</div>
                   <div className="text-off-white text-xs leading-relaxed">
-                    <strong>Kannehalli Land — 179 acres (₹202.6 Cr)</strong> surfaced via
-                    Vantis Bhoomi cross-reference. Registered in the promoter&apos;s spouse&apos;s
-                    name — not in any prior enforcement record.
+                    <strong>Kannehalli Land — 179 acres (₹202.6 Cr)</strong> surfaced via Vantis Bhoomi
+                    cross-reference. Registered in the promoter&apos;s spouse&apos;s name — not in any prior enforcement record.
                   </div>
                   <button
                     onClick={() => { setSelectedNode(DB['asset-kannehalli']); setShowKannehalli(false) }}
-                    className="mt-2 text-[9px] font-mono text-gold hover:text-gold-light transition-colors"
-                  >
+                    className="mt-2 text-[9px] font-mono text-gold hover:text-gold-light transition-colors">
                     View asset dossier →
                   </button>
                 </div>
@@ -916,13 +655,18 @@ export default function InvestigationCanvas() {
           )}
         </div>
 
-        {/* Side panel */}
         {selectedNode ? (
           <DossierPanel
             node={selectedNode}
             isExpanded={expandedNodes.has(selectedNode.id)}
             onExpand={() => expandNode(selectedNode.id)}
-            onFocus={() => focusNode(selectedNode)}
+            onFocus={() => {
+              const n = nodes.find(n => n.id === selectedNode.id)
+              if (fgRef.current && n?.x != null && n?.y != null) {
+                fgRef.current.centerAt(n.x, n.y, 500)
+                fgRef.current.zoom(2.5, 500)
+              }
+            }}
             onRemove={() => removeNode(selectedNode.id)}
             onClose={() => setSelectedNode(null)}
           />

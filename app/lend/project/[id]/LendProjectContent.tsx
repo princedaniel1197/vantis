@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import {
   ArrowLeft, AlertTriangle, Clock, Database, Scale, HardHat, TrendingDown,
-  ChevronRight,
+  ChevronRight, ShieldAlert, CheckCircle2,
 } from 'lucide-react'
 import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine,
@@ -130,7 +130,15 @@ export default function LendProjectContent({ id }: { id: string }) {
 
   const isOzone          = project.id === 'ozone-urbana'
   const { text: bandText } = BAND_COLOR[project.risk_band]
-  const signals          = isOzone ? OZONE_SIGNALS : GENERIC_SIGNALS
+
+  // Build signal feed from early_warning_signals when available
+  const derivedSignals = project.early_warning_signals?.map(sig => ({
+    icon: AlertTriangle,
+    source: 'Vantis Composite Monitor',
+    date: project.flagged_quarter ?? 'Q1 2024',
+    text: sig,
+  }))
+  const signals = isOzone ? OZONE_SIGNALS : (derivedSignals?.length ? derivedSignals : GENERIC_SIGNALS)
 
   return (
     <div className="p-5 max-w-[1100px] mx-auto">
@@ -291,26 +299,103 @@ export default function LendProjectContent({ id }: { id: string }) {
           </div>
         </>
       ) : (
-        <div className="bg-surface border border-border rounded-sm p-5 mb-6">
-          <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
-            Risk Score · {project.name}
-          </div>
-          <div className="flex items-center gap-3">
-            <div
-              className="text-4xl font-syne font-bold"
-              style={{ color: project.risk_score >= 650 ? '#2ECC71' : project.risk_score >= 450 ? '#F39C12' : '#E74C3C' }}
-            >
-              {project.risk_score}
+        <>
+          {/* Risk score */}
+          <div className="bg-surface border border-border rounded-sm p-5 mb-4">
+            <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-3">
+              Risk Score · {project.name}
             </div>
-            <div>
-              <div className="text-gray text-xs">Current Vantis Score</div>
-              <div className="text-gray text-xs mt-0.5">{BAND_LABEL[project.risk_band]} — no active flags</div>
+            <div className="flex items-center gap-3">
+              <div
+                className="text-4xl font-syne font-bold"
+                style={{ color: project.risk_score >= 650 ? '#2ECC71' : project.risk_score >= 450 ? '#F39C12' : '#E74C3C' }}
+              >
+                {project.risk_score}
+              </div>
+              <div>
+                <div className="text-gray text-xs">Current Vantis Score</div>
+                <div className="text-gray text-xs mt-0.5">{BAND_LABEL[project.risk_band]}</div>
+              </div>
             </div>
           </div>
-          <div className="mt-3 text-gray text-xs border-l-2 border-gold pl-3">
-            Score stable within ±15 points over the past 6 quarters. No escalation triggers active.
-          </div>
-        </div>
+
+          {/* Loan status panel — only for projects with enriched data */}
+          {(project.covenant_status || project.repayment_status || project.escrow_pct !== undefined) && (
+            <div className="bg-surface border border-border rounded-sm p-5 mb-4">
+              <div className="text-[10px] font-mono uppercase tracking-[0.15em] text-gray mb-4">Loan Status</div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                {project.covenant_status && (
+                  <div className="bg-surface2 border border-border rounded-sm px-3 py-2">
+                    <div className="text-[9px] font-mono text-gray uppercase tracking-[0.1em] mb-1">Covenants</div>
+                    <div
+                      className="text-sm font-mono font-bold"
+                      style={{ color: project.covenant_status === 'BREACHED' ? '#E74C3C' : project.covenant_status === 'AMBER' ? '#F39C12' : '#2ECC71' }}
+                    >
+                      {project.covenant_status}
+                    </div>
+                  </div>
+                )}
+                {project.repayment_status && (
+                  <div className="bg-surface2 border border-border rounded-sm px-3 py-2">
+                    <div className="text-[9px] font-mono text-gray uppercase tracking-[0.1em] mb-1">Repayment</div>
+                    <div
+                      className="text-sm font-mono font-bold"
+                      style={{ color: project.repayment_status === 'NPA' || project.repayment_status === 'SMA_1' ? '#E74C3C' : project.repayment_status === 'SMA_0' ? '#F39C12' : '#2ECC71' }}
+                    >
+                      {project.repayment_status.replace('_', '-')}
+                    </div>
+                  </div>
+                )}
+                {project.escrow_pct !== undefined && (
+                  <div className="bg-surface2 border border-border rounded-sm px-3 py-2">
+                    <div className="text-[9px] font-mono text-gray uppercase tracking-[0.1em] mb-1">Escrow</div>
+                    <div className="text-sm font-mono font-bold" style={{ color: project.escrow_pct >= 70 ? '#2ECC71' : project.escrow_pct >= 20 ? '#F39C12' : '#E74C3C' }}>
+                      {project.escrow_pct}%
+                    </div>
+                    <div className="text-[9px] text-gray mt-0.5">vs 70% mandate</div>
+                  </div>
+                )}
+                {project.last_qpr_status && (
+                  <div className="bg-surface2 border border-border rounded-sm px-3 py-2">
+                    <div className="text-[9px] font-mono text-gray uppercase tracking-[0.1em] mb-1">Last QPR</div>
+                    <div
+                      className="text-sm font-mono font-bold"
+                      style={{ color: project.last_qpr_status === 'ON_TIME' ? '#2ECC71' : project.last_qpr_status === 'LATE' ? '#F39C12' : '#E74C3C' }}
+                    >
+                      {project.last_qpr_status.replace('_', ' ')}
+                    </div>
+                    {project.qpr_consecutive_misses !== undefined && project.qpr_consecutive_misses > 0 && (
+                      <div className="text-[9px] text-red mt-0.5">{project.qpr_consecutive_misses} consecutive</div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Early warning signals */}
+              {project.early_warning_signals && project.early_warning_signals.length > 0 && (
+                <div className="mt-2">
+                  <div className="text-[9px] font-mono text-gray uppercase tracking-[0.1em] mb-2">Early Warning Signals</div>
+                  <div className="space-y-1.5">
+                    {project.early_warning_signals.map((sig, i) => (
+                      <div key={i} className="flex items-start gap-2">
+                        <ShieldAlert className="w-3.5 h-3.5 text-amber shrink-0 mt-0.5" />
+                        <span className="text-xs text-gray-light leading-relaxed">{sig}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Stress note */}
+              {project.stress_note && (
+                <div className="mt-4 px-3 py-2.5 bg-red/6 border border-red/20 rounded-sm">
+                  <div className="text-[9px] font-mono text-red uppercase tracking-[0.1em] mb-1">Credit Officer Note</div>
+                  <p className="text-xs text-gray-light leading-relaxed">{project.stress_note}</p>
+                </div>
+              )}
+            </div>
+          )}
+        </>
       )}
 
       {/* Signal feed */}

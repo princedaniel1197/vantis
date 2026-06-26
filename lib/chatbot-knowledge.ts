@@ -241,6 +241,58 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   },
 
   {
+    id: 'covenant-breaches',
+    product: 'lend',
+    keywords: ['covenant', 'breach', 'breached', 'escrow breach', 'violation', 'npa', 'sma', 'repayment'],
+    question: 'Which projects have active covenant breaches or repayment issues?',
+    answer: `**Portfolio Covenant Status — Q2 2026:**\n\n` +
+      `**3 COVENANT BREACHES (RED):**\n` +
+      `• **Ozone Urbana** — Escrow 8% vs 70% mandate · SMA-1 · 8 consecutive QPR misses · T5 tranche HELD · Recommend formal breach notice + cross-collateral demand\n` +
+      `• **Concord Meridian** — Escrow 6% vs 70% mandate · NPA classification Q2 2024 · Construction stalled Q3 2023 · Fully drawn, no leverage remaining\n` +
+      `• **Regent Heights** — Escrow 11% vs 70% mandate · SMA-0 (60-day cure period expires Jul 2024) · ₹5 Cr undisbursed on hold\n\n` +
+      `**2 SMA CASES (AMBER):**\n` +
+      `• **Ballari Emerald** — SMA-0 since Q4 2023 · Escrow 13% · Tier-2 city liquidity risk\n` +
+      `• **Mantri Techzone** — Escrow 14% + K-RERA regulatory notice received\n\n` +
+      `**NPA provision shortfall across 3 REDs:** ₹420 Cr × 14% recovery = ₹58.8 Cr recoverable. Full provision needed: **₹361 Cr.**`,
+    source: 'Kaveri HFC Covenant Monitor · Vantis Lend · K-RERA Escrow Data',
+  },
+
+  {
+    id: 'concord-meridian-detail',
+    product: 'lend',
+    keywords: ['concord', 'concord meridian', 'concord buildcon', 'npa'],
+    question: 'What is the Concord Meridian NPA status?',
+    answer: `**Concord Meridian — NPA Classification Q2 2024:**\n\n` +
+      `Loan: ₹140 Cr sanctioned · **₹140 Cr drawn (100%)** · ₹0 undisbursed · No leverage remaining.\n\n` +
+      `• Escrow: **6%** vs 70% RERA mandate — lowest in entire portfolio\n` +
+      `• Repayment: **NPA** (overdue >90 days as of Q2 2024)\n` +
+      `• Covenant: BREACHED — escrow + DCCO extension covenant both violated\n` +
+      `• QPR: 5 consecutive misses · Show-cause not yet responded\n` +
+      `• Construction stalled Q3 2023 following contractor dispute (NCLT filing pending)\n` +
+      `• Developer directors under Look-out Notice\n\n` +
+      `**Recovery path:** Court-ordered asset attachment required. No voluntary resolution visible.\n` +
+      `**Provision needed:** ₹140 Cr × 86% expected loss = **₹120.4 Cr.**`,
+    source: 'Kaveri HFC Portfolio · Vantis Covenant Tracker · K-RERA',
+  },
+
+  {
+    id: 'regent-heights-detail',
+    product: 'lend',
+    keywords: ['regent', 'regent heights', 'regent estates', 'sma'],
+    question: 'What is the Regent Heights status?',
+    answer: `**Regent Heights — SMA-0 Watch:**\n\n` +
+      `Loan: ₹100 Cr sanctioned · ₹95 Cr drawn (95%) · **₹5 Cr undisbursed — on hold**\n\n` +
+      `• Escrow: **11%** vs 70% RERA mandate\n` +
+      `• Repayment: **SMA-0** (1 EMI 31 days late as of Q4 2023)\n` +
+      `• Covenant: BREACHED — term loan covenant requires minimum 25% escrow\n` +
+      `• Last QPR: LATE (2 consecutive late filings Q3–Q4 2023)\n` +
+      `• 3 consumer forum complaints filed Q4 2023\n` +
+      `• **60-day cure period expires July 2024** — if not remediated, SMA-1 classification follows\n\n` +
+      `**Recommended action:** Issue cure notice immediately. Hold ₹5 Cr tranche pending escrow remediation. Site inspection within 15 days.`,
+    source: 'Kaveri HFC Portfolio · Vantis Covenant Monitor',
+  },
+
+  {
     id: 'group-exposure',
     product: 'lend',
     keywords: ['ozone group', 'cascade', 'developer exposure', 'group risk', 'concentration'],

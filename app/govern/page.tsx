@@ -107,7 +107,7 @@ function NumberTicker({ target, color }: { target: number; color: string }) {
   return (
     <span
       ref={nodeRef}
-      style={{ color, fontFamily: 'var(--font-syne)', fontSize: '3.25rem', fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em', fontVariantNumeric: 'tabular-nums' }}
+      style={{ color, fontFamily: 'var(--font-syne)', fontSize: '2rem', fontWeight: 700, lineHeight: 1, letterSpacing: '-0.01em', fontVariantNumeric: 'tabular-nums' }}
     >0</span>
   )
 }
@@ -119,14 +119,14 @@ function KPIStrip() {
       {KPIS.map((kpi, i) => (
         <motion.div
           key={kpi.label}
-          className="flex flex-col px-6 py-5 relative overflow-hidden"
+          className="flex flex-col px-5 py-4 relative overflow-hidden"
           style={{ background: kpi.alert ? 'rgba(239,68,68,0.03)' : '#0A0A0F' }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.12 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           {kpi.alert && <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-red opacity-60" />}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3">
             <span className="font-mono text-[8px] uppercase tracking-[0.28em]" style={{ color: '#3A3A5A' }}>
               {kpi.label}
             </span>
@@ -382,7 +382,7 @@ export default function GovernCommandCentre() {
 
       {/* ── Page header ───────────────────────────────────────────────── */}
       <motion.div
-        className="flex items-center justify-between shrink-0 px-8 py-5"
+        className="flex items-center justify-between shrink-0 px-6 py-4"
         style={{ borderBottom: '1px solid #1E1E2E' }}
         initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
@@ -392,7 +392,7 @@ export default function GovernCommandCentre() {
           <div className="font-mono text-[8px] uppercase tracking-[0.3em] mb-2" style={{ color: '#3A3A5A' }}>
             K-RERA · Karnataka Real Estate Regulatory Authority · Q1 2026
           </div>
-          <h1 style={{ fontFamily: 'var(--font-syne)', fontSize: '3rem', fontWeight: 800, color: '#F0EEE8', lineHeight: 1, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontFamily: 'var(--font-syne)', fontSize: '1.75rem', fontWeight: 700, color: '#F0EEE8', lineHeight: 1, letterSpacing: '-0.01em' }}>
             Command Centre
           </h1>
         </div>

@@ -115,12 +115,12 @@ function NumberTicker({ target, color }: { target: number; color: string }) {
 /* ── KPI Strip ──────────────────────────────────────────────────────────── */
 function KPIStrip() {
   return (
-    <div className="grid grid-cols-5 gap-px shrink-0" style={{ background: '#1E1E2E', borderBottom: '1px solid #1E1E2E' }}>
+    <div className="flex shrink-0" style={{ borderBottom: '1px solid #1E1E2E' }}>
       {KPIS.map((kpi, i) => (
         <motion.div
           key={kpi.label}
           className="flex flex-col px-5 py-4 relative overflow-hidden"
-          style={{ background: kpi.alert ? 'rgba(239,68,68,0.03)' : '#0A0A0F' }}
+          style={{ width: '190px', flexShrink: 0, borderRight: '1px solid #1E1E2E', background: kpi.alert ? 'rgba(239,68,68,0.03)' : '#0A0A0F' }}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.12 + i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}

@@ -96,6 +96,11 @@ export default function VantisIntelligence() {
     setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, isHidden])
 
+  // Auto-open when navigated to the Intelligence page
+  useEffect(() => {
+    if (pathname === '/govern/intelligence') setOpen(true)
+  }, [pathname])
+
   // Must be before the early return to satisfy Rules of Hooks
   const handleBadgeClick = useCallback(() => {
     const next = badgeClickCount + 1

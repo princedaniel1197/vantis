@@ -21,6 +21,23 @@ interface ChatEntry {
   kn: string
 }
 
+const DEV_SYSTEM_PROMPT = `You are Vantis Intelligence — AI assistant for Vantis Build, helping Karnataka real estate developers with portfolio management, market intelligence, RERA compliance, land due diligence, and feasibility analysis. Be concise and actionable.`
+
+async function callAPI(query: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/chat/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system: DEV_SYSTEM_PROMPT, messages: [{ role: 'user', content: query }] }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.text ?? null
+  } catch {
+    return null
+  }
+}
+
 function findResponse(query: string, lang: Lang): string {
   const q = query.toLowerCase()
   for (const r of chatData.responses as ChatEntry[]) {
@@ -95,10 +112,7 @@ export default function DevAssistant() {
     setInput('')
     setMessages(prev => [...prev, { role: 'user', content: query }])
     setIsStreaming(true)
-
-    // Realistic pre-stream delay
-    await new Promise(r => setTimeout(r, 600 + Math.random() * 400))
-    const response = findResponse(query, lang)
+    const response = await callAPI(query) ?? findResponse(query, lang)
     await streamText(response)
     setIsStreaming(false)
   }

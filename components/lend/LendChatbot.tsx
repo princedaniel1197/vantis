@@ -145,6 +145,23 @@ function MessageBubble({ msg }: { msg: Message }) {
   )
 }
 
+const SYSTEM_PROMPT = `You are Vantis Intelligence for Kaveri HFC — a Karnataka housing finance company's AI credit analyst. Portfolio: 40 projects, ₹2,400 Cr total. 3 HIGH RISK (₹420 Cr at risk: Ozone Urbana ₹180 Cr, Concord Meridian ₹120 Cr, Regent Heights ₹120 Cr). 9 WATCH, 28 HEALTHY. Ozone Group total exposure ₹520 Cr across 3 projects. Karnataka RE recovery rate post-NPA: 14%. RBI (Project Finance) Directions 2025 compliant. Be concise and data-driven.`
+
+async function callAPI(text: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/chat/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system: SYSTEM_PROMPT, messages: [{ role: 'user', content: text }] }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.text ?? null
+  } catch {
+    return null
+  }
+}
+
 export default function LendChatbot() {
   const [open, setOpen]         = useState(false)
   const [input, setInput]       = useState('')
@@ -169,17 +186,14 @@ export default function LendChatbot() {
     if (open) setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
-  function send(text: string) {
+  async function send(text: string) {
     if (!text.trim()) return
-    const userMsg: Message = { role: 'user', text: text.trim() }
-    setMessages(prev => [...prev, userMsg])
+    setMessages(prev => [...prev, { role: 'user', text: text.trim() }])
     setInput('')
     setTyping(true)
-
-    setTimeout(() => {
-      setTyping(false)
-      setMessages(prev => [...prev, { role: 'assistant', text: getResponse(text) }])
-    }, 900 + Math.random() * 600)
+    const reply = await callAPI(text.trim()) ?? getResponse(text)
+    setTyping(false)
+    setMessages(prev => [...prev, { role: 'assistant', text: reply }])
   }
 
   function handleKey(e: React.KeyboardEvent) {

@@ -57,7 +57,7 @@ export default function ProductChatbot({
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [mode, setMode] = useState<'demo' | 'live'>('demo')
+  const [mode, setMode] = useState<'demo' | 'live'>('live')
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -95,7 +95,7 @@ export default function ProductChatbot({
           `You are ${title},`,
         ) + `\n\nYou are specifically focused on the Vantis ${product.charAt(0).toUpperCase() + product.slice(1)} product.`
 
-        const res = await fetch('/api/chat', {
+        const res = await fetch('/api/chat/', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({

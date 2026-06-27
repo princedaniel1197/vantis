@@ -10,6 +10,23 @@ interface Message { role: 'user' | 'assistant'; content: string; streaming?: boo
 type Lang = 'en' | 'kn'
 interface ChatEntry { id: string; keywords: string[]; en: string; kn: string }
 
+const OS_SYSTEM_PROMPT = `You are Vantis Intelligence — the AI assistant for Vantis Build OS, a developer intelligence platform for Karnataka real estate developers. You help with CRM, construction monitoring, land due diligence, feasibility analysis, market intelligence, and K-RERA compliance. Demo context: Divya Villas project by JDA Projects, Mysore. Be concise and actionable.`
+
+async function callAPI(query: string): Promise<string | null> {
+  try {
+    const res = await fetch('/api/chat/', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ system: OS_SYSTEM_PROMPT, messages: [{ role: 'user', content: query }] }),
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.text ?? null
+  } catch {
+    return null
+  }
+}
+
 function findResponse(query: string, lang: Lang): string {
   const q = query.toLowerCase()
   for (const r of chatData.responses as ChatEntry[]) {
@@ -70,8 +87,8 @@ export default function OSAssistant() {
     setInput('')
     setMessages(prev => [...prev, { role: 'user', content: q }])
     setStreaming(true)
-    await new Promise(r => setTimeout(r, 500 + Math.random() * 300))
-    await streamText(findResponse(q, lang))
+    const reply = await callAPI(q) ?? findResponse(q, lang)
+    await streamText(reply)
     setStreaming(false)
   }
 

@@ -65,7 +65,7 @@ async function callAnthropicAPI(
   messages: { role: string; content: string }[],
   systemPrompt: string,
 ): Promise<string> {
-  const res = await fetch('/api/chat', {
+  const res = await fetch('/api/chat/', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ system: systemPrompt, messages }),
@@ -84,7 +84,7 @@ export default function VantisIntelligence() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const [chatMode, setChatMode] = useState<ChatMode>('demo')
+  const [chatMode, setChatMode] = useState<ChatMode>('live')
   const [devMode, setDevMode] = useState<DevMode>('caged')
   const [badgeClickCount, setBadgeClickCount] = useState(0)
   const [badgeClickTimer, setBadgeClickTimer] = useState<ReturnType<typeof setTimeout> | null>(null)

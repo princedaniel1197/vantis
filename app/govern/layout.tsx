@@ -11,21 +11,49 @@ import {
 
 const DEFAULT_OFFICER = { name: 'K-RERA Chairman', role: 'Chairman' }
 
-const NAV = [
-  { href: '/govern',              label: 'Command Centre',      icon: LayoutDashboard, exact: true },
-  { href: '/govern/projects',     label: 'Project Registry',    icon: Building2 },
-  { href: '/govern/qpr',          label: 'QPR Tracker',         icon: BarChart2 },
-  { href: '/govern/litigation',   label: 'Litigation Watchlist', icon: Scale },
-  { href: '/govern/scanner',      label: 'Submission Scanner',  icon: ScanLine },
-  { href: '/govern/risk',         label: 'Developer Risk',      icon: AlertTriangle },
-  { href: '/govern/predictive',   label: 'Predictive Default',  icon: TrendingDown },
-  { href: '/govern/homebuyer',    label: 'Homebuyer Warning',   icon: Users },
-  { href: '/govern/complaints',   label: 'Complaints',          icon: MessageCircle },
-  { href: '/govern/rrc',          label: 'RRC Tracker',         icon: Gavel },
-  { href: '/govern/graph',        label: 'Link Analysis',       icon: Network },
-  { href: '/govern/notices',      label: 'Notice Generator',    icon: FileText },
-  { href: '/govern/intelligence', label: 'Vantis Intelligence', icon: Sparkles },
-  { href: '/govern/settings',     label: 'Settings',            icon: Settings },
+type NavItem  = { href: string; label: string; icon: React.ComponentType<{ className?: string }>; exact?: boolean }
+type NavGroup = { label: string; items: NavItem[] }
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: 'OVERVIEW',
+    items: [
+      { href: '/govern', label: 'Command Centre', icon: LayoutDashboard, exact: true },
+    ],
+  },
+  {
+    label: 'REGISTRY',
+    items: [
+      { href: '/govern/projects',  label: 'Project Registry',   icon: Building2 },
+      { href: '/govern/qpr',       label: 'QPR Tracker',        icon: BarChart2 },
+      { href: '/govern/scanner',   label: 'Submission Scanner', icon: ScanLine },
+    ],
+  },
+  {
+    label: 'ENFORCEMENT',
+    items: [
+      { href: '/govern/litigation', label: 'Litigation',        icon: Scale },
+      { href: '/govern/complaints', label: 'Complaints',        icon: MessageCircle },
+      { href: '/govern/rrc',        label: 'RRC Tracker',       icon: Gavel },
+      { href: '/govern/notices',    label: 'Notice Generator',  icon: FileText },
+    ],
+  },
+  {
+    label: 'INTELLIGENCE',
+    items: [
+      { href: '/govern/risk',         label: 'Developer Risk',       icon: AlertTriangle },
+      { href: '/govern/predictive',   label: 'Predictive Default',   icon: TrendingDown },
+      { href: '/govern/homebuyer',    label: 'Homebuyer Warning',    icon: Users },
+      { href: '/govern/graph',        label: 'Link Analysis',        icon: Network },
+      { href: '/govern/intelligence', label: 'Vantis Intelligence',  icon: Sparkles },
+    ],
+  },
+  {
+    label: 'ADMIN',
+    items: [
+      { href: '/govern/settings', label: 'Settings', icon: Settings },
+    ],
+  },
 ]
 
 function roleTextColor(role: string) {
@@ -64,25 +92,33 @@ function SidebarNav({ onClose }: { onClose: () => void }) {
       </div>
 
       {/* Nav links */}
-      <nav className="flex-1 overflow-y-auto py-2">
-        {NAV.map(({ href, label, icon: Icon, exact }) => {
-          const active = exact ? pathname === href : pathname.startsWith(href)
-          return (
-            <Link
-              key={href}
-              href={href}
-              onClick={onClose}
-              className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors duration-150 border-l-2 ${
-                active
-                  ? 'text-gold bg-accent-tint border-gold'
-                  : 'text-gray-light hover:text-gold hover:bg-surface2 border-transparent'
-              }`}
-            >
-              <Icon className="w-4 h-4 shrink-0" />
-              <span>{label}</span>
-            </Link>
-          )
-        })}
+      <nav className="flex-1 overflow-y-auto py-1">
+        {NAV_GROUPS.map(group => (
+          <div key={group.label}>
+            <div className="px-3 pt-4 pb-1 text-[9px] font-mono uppercase tracking-[0.18em] text-gray/40 select-none">
+              {group.label}
+            </div>
+            {group.items.map(({ href, label, icon: Icon, exact }) => {
+              const active = exact ? pathname === href : pathname.startsWith(href)
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  onClick={onClose}
+                  className="flex items-center gap-2.5 px-4 py-2 text-[11px] transition-colors duration-100 relative"
+                  style={{
+                    color:      active ? 'var(--accent)' : 'var(--muted)',
+                    background: active ? 'var(--accent-tint)' : 'transparent',
+                  }}
+                >
+                  {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gold rounded-r-sm" />}
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span className={active ? 'font-medium' : ''}>{label}</span>
+                </Link>
+              )
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* Officer identity */}

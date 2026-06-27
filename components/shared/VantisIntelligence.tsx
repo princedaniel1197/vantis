@@ -65,24 +65,14 @@ async function callAnthropicAPI(
   messages: { role: string; content: string }[],
   systemPrompt: string,
 ): Promise<string> {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('/api/chat', {
     method: 'POST',
-    headers: {
-      'x-api-key': process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY ?? '',
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-      'anthropic-dangerous-direct-browser-access': 'true',
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20251001',
-      max_tokens: 512,
-      system: systemPrompt,
-      messages,
-    }),
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ system: systemPrompt, messages }),
   })
   if (!res.ok) throw new Error(`API error ${res.status}`)
   const data = await res.json()
-  return data.content[0].text as string
+  return data.text as string
 }
 
 export default function VantisIntelligence() {

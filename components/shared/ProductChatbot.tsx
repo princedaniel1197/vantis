@@ -95,23 +95,16 @@ export default function ProductChatbot({
           `You are ${title},`,
         ) + `\n\nYou are specifically focused on the Vantis ${product.charAt(0).toUpperCase() + product.slice(1)} product.`
 
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
+        const res = await fetch('/api/chat', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-api-key': process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY ?? '',
-            'anthropic-version': '2023-06-01',
-            'anthropic-dangerous-direct-browser-access': 'true',
-          },
+          headers: { 'content-type': 'application/json' },
           body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
-            max_tokens: 512,
             system: systemPrompt,
             messages: [{ role: 'user', content: query }],
           }),
         })
         const data = await res.json()
-        const reply = data?.content?.[0]?.text ?? 'No response from AI.'
+        const reply = data?.text ?? 'No response from AI.'
         setIsTyping(false)
         setMessages(prev => [...prev, { role: 'assistant', content: reply }])
       } catch {

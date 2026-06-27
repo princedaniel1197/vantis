@@ -75,7 +75,7 @@
           "type": "Sale Deed",
           "from": "Karnataka State Government",
           "to": "Divya Projects Pvt. Ltd.",
-          "value_lakh": 180.0,
+          "value_lakh": 180,
           "doc_no": "KAR/MSR/SD/2016/00412"
         },
         {
@@ -83,7 +83,7 @@
           "type": "Construction Mortgage",
           "from": "Divya Projects Pvt. Ltd.",
           "to": "Canara Bank",
-          "value_lakh": 150.0,
+          "value_lakh": 150,
           "doc_no": "KAR/MSR/CM/2018/01203",
           "note": "Discharged 2021-03-15"
         },
@@ -348,6 +348,463 @@
       "title_chain": [],
       "litigation_cases": [],
       "developer_projects": []
+    },
+    {
+      "id": "prestige-raintree-park",
+      "name": "Prestige Raintree Park",
+      "developer": "Prestige Group",
+      "micro_market": "Bengaluru Urban",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ನಗರ",
+      "address": "Whitefield, Bengaluru Urban, Karnataka",
+      "type": "Apartment",
+      "config_types": [
+        "2BHK",
+        "3BHK",
+        "4BHK",
+        "Penthouse"
+      ],
+      "rera_id": "PRM/KA/RERA/1251/446/PR/270824/006981",
+      "rera_expiry": "2027-08-27",
+      "survey_no": "",
+      "trust_grade": "A",
+      "trust_score": 88,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. No encumbrances. Clean developer history.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "Active K-RERA registration. Prestige Group — 40 years track record.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "Kaveri 2.0 records show no encumbrance or pending mortgage on surveyed land.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "eCourts database shows no active litigation for this project.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "BBMP sanctioned plan on record. No deviation notices.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: Excellent Track Record",
+          "detail": "89% of 81 Prestige projects delivered on time. Zero K-RERA enforcement actions.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 1.45,
+      "asking_price_max": 2.8,
+      "kaveri_price": 1.38,
+      "possession": "Dec 2026",
+      "units_total": 320,
+      "units_sold": 287,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "no-litigation",
+        "prestige-group"
+      ],
+      "amenities": [
+        "Clubhouse",
+        "Swimming Pool",
+        "Gymnasium",
+        "EV Charging",
+        "Rainwater Harvesting",
+        "Landscaped Gardens"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
+    },
+    {
+      "id": "prestige-greenbrook",
+      "name": "Prestige Greenbrook",
+      "developer": "Prestige Group",
+      "micro_market": "Bengaluru Rural",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ",
+      "address": "Devanahalli Hobli, Bengaluru Rural, Karnataka",
+      "type": "Plotted Development",
+      "config_types": [
+        "Residential Plot"
+      ],
+      "rera_id": "PRM/KA/RERA/1250/303/PR/260925/008123",
+      "rera_expiry": "2027-09-26",
+      "survey_no": "",
+      "trust_grade": "A",
+      "trust_score": 84,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. Prestige brand with clean title and no litigation.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "K-RERA registration active. Prestige Group — consistent QPR filer.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "No encumbrances on surveyed land as per Kaveri 2.0.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "No active or historical litigation found.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "Layout approval in place. No deviation notices.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: Excellent Track Record",
+          "detail": "Prestige Group — 81 K-RERA projects, 89% on-time delivery.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 0.65,
+      "asking_price_max": 1.2,
+      "kaveri_price": 0.6,
+      "possession": "Sep 2027",
+      "units_total": 180,
+      "units_sold": 142,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "plotted-development",
+        "prestige-group"
+      ],
+      "amenities": [
+        "Gated Community",
+        "Underground Utilities",
+        "24/7 Security",
+        "Parks & Walkways"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
+    },
+    {
+      "id": "sobha-altair",
+      "name": "Sobha Altair",
+      "developer": "Sobha Ltd",
+      "micro_market": "Bengaluru Urban",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ನಗರ",
+      "address": "Bannerghatta Road, Bengaluru Urban, Karnataka",
+      "type": "Apartment",
+      "config_types": [
+        "3BHK",
+        "4BHK"
+      ],
+      "rera_id": "PRM/KA/RERA/1251/446/PR/070126/008388",
+      "rera_expiry": "2028-01-07",
+      "survey_no": "",
+      "trust_grade": "A",
+      "trust_score": 92,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. Sobha — in-house construction, 98% QPR compliance rate.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "Active K-RERA registration. Sobha Ltd — 122 registered projects.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "No encumbrances on record per Kaveri 2.0.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "No litigation on this project.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "BBMP approved plan. No deviations.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: Industry Benchmark",
+          "detail": "Sobha Ltd — NSE/BSE listed. 91% on-time delivery. Zero K-RERA enforcement.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 2.1,
+      "asking_price_max": 3.8,
+      "kaveri_price": 1.98,
+      "possession": "Jan 2028",
+      "units_total": 220,
+      "units_sold": 195,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "no-litigation",
+        "sobha-group",
+        "listed-company"
+      ],
+      "amenities": [
+        "Clubhouse",
+        "Swimming Pool",
+        "Gymnasium",
+        "Concierge",
+        "EV Charging",
+        "Rainwater Harvesting"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
+    },
+    {
+      "id": "brigade-lumina",
+      "name": "Brigade Lumina",
+      "developer": "Brigade Group",
+      "micro_market": "Bengaluru Urban",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ನಗರ",
+      "address": "Hebbal, Bengaluru Urban, Karnataka",
+      "type": "Apartment",
+      "config_types": [
+        "2BHK",
+        "3BHK",
+        "4BHK"
+      ],
+      "rera_id": "PRM/KA/RERA/1251/309/PR/230326/008545",
+      "rera_expiry": "2027-03-23",
+      "survey_no": "",
+      "trust_grade": "A",
+      "trust_score": 90,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. Brigade Group — 38 year track record, clean record.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "Active K-RERA registration. Brigade Group — 59 registered projects.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "No encumbrances on surveyed land.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "No active litigation found.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "BBMP sanctioned. No deviation notices.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: Strong Track Record",
+          "detail": "Brigade Group — 85% on-time delivery, zero enforcement actions.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 1.2,
+      "asking_price_max": 2.4,
+      "kaveri_price": 1.14,
+      "possession": "Mar 2027",
+      "units_total": 280,
+      "units_sold": 245,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "no-litigation",
+        "brigade-group"
+      ],
+      "amenities": [
+        "Clubhouse",
+        "Swimming Pool",
+        "Jogging Track",
+        "Gymnasium",
+        "Landscaped Gardens"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
+    },
+    {
+      "id": "godrej-parkshire",
+      "name": "Godrej Parkshire",
+      "developer": "Godrej Properties",
+      "micro_market": "Bengaluru Rural",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ಗ್ರಾಮಾಂತರ",
+      "address": "Devanahalli, Bengaluru Rural, Karnataka",
+      "type": "Apartment",
+      "config_types": [
+        "2BHK",
+        "3BHK",
+        "4BHK"
+      ],
+      "rera_id": "PRM/KA/RERA/1250/304/PR/090126/008393",
+      "rera_expiry": "2028-01-09",
+      "survey_no": "",
+      "trust_grade": "A",
+      "trust_score": 91,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. Godrej Properties — NSE listed, strong compliance history.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "Active K-RERA registration. Godrej Properties.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "No encumbrances per Kaveri 2.0 records.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "No active litigation.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "Approved. No deviations.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: NSE Listed, Strong Compliance",
+          "detail": "Godrej Properties — listed company, clean K-RERA record.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 0.95,
+      "asking_price_max": 1.85,
+      "kaveri_price": 0.9,
+      "possession": "Jan 2028",
+      "units_total": 340,
+      "units_sold": 298,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "no-litigation",
+        "godrej",
+        "listed-company"
+      ],
+      "amenities": [
+        "Clubhouse",
+        "Swimming Pool",
+        "Gymnasium",
+        "EV Charging",
+        "Solar Panels",
+        "Rainwater Harvesting"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
+    },
+    {
+      "id": "mahindra-blossom",
+      "name": "Mahindra Blossom",
+      "developer": "Mahindra Lifespace",
+      "micro_market": "Bengaluru Urban",
+      "micro_market_kn": "ಬೆಂಗಳೂರು ನಗರ",
+      "address": "Whitefield, Bengaluru Urban, Karnataka",
+      "type": "Apartment",
+      "config_types": [
+        "2BHK",
+        "3BHK"
+      ],
+      "rera_id": "PRM/KA/RERA/1251/446/PR/171225/008348",
+      "rera_expiry": "2027-12-17",
+      "survey_no": "",
+      "trust_grade": "B",
+      "trust_score": 79,
+      "verdict": "Safe to proceed",
+      "verdict_detail": "RERA compliant. Mahindra Lifespace — listed developer with solid track record.",
+      "checks": {
+        "rera": {
+          "pass": true,
+          "label": "RERA Registered & Active",
+          "detail": "Active K-RERA registration. Mahindra Lifespace Developers.",
+          "source": "K-RERA"
+        },
+        "title": {
+          "pass": true,
+          "label": "Clear Title — No Encumbrance",
+          "detail": "No encumbrances per Kaveri 2.0.",
+          "source": "Kaveri 2.0"
+        },
+        "court": {
+          "pass": true,
+          "label": "No Court Cases Found",
+          "detail": "No active litigation.",
+          "source": "eCourts"
+        },
+        "plan": {
+          "pass": true,
+          "label": "Building Plan Approved",
+          "detail": "BBMP approved. No deviations.",
+          "source": "BBMP/MUDA"
+        },
+        "developer": {
+          "pass": true,
+          "label": "Developer: Listed Company",
+          "detail": "Mahindra Lifespace Developers — NSE listed. Steady delivery history.",
+          "source": "Vantis"
+        }
+      },
+      "asking_price_min": 1.1,
+      "asking_price_max": 1.95,
+      "kaveri_price": 1.04,
+      "possession": "Dec 2027",
+      "units_total": 196,
+      "units_sold": 164,
+      "tags": [
+        "rera-registered",
+        "clean-title",
+        "mahindra",
+        "listed-company"
+      ],
+      "amenities": [
+        "Clubhouse",
+        "Swimming Pool",
+        "Gymnasium",
+        "Jogging Track",
+        "Power Backup"
+      ],
+      "title_chain": [],
+      "litigation_cases": [],
+      "developer_projects": [],
+      "plan_details": {}
     },
     {
       "id": "embassy-springs",
@@ -619,7 +1076,7 @@
         }
       },
       "asking_price_min": 1.2,
-      "asking_price_max": 2.0,
+      "asking_price_max": 2,
       "kaveri_price": 1.15,
       "possession": "Jun 2026",
       "units_total": 516,
@@ -1415,7 +1872,7 @@
       },
       "asking_price_min": 1.05,
       "asking_price_max": 1.85,
-      "kaveri_price": 1.0,
+      "kaveri_price": 1,
       "possession": "Ready to Move",
       "units_total": 1368,
       "units_sold": 1340,
@@ -1864,7 +2321,7 @@
           "type": "Sale Deed",
           "from": "Karnataka Land Authority",
           "to": "Ozone Group",
-          "value_lakh": 420.0,
+          "value_lakh": 420,
           "doc_no": "KAR/BLR/SD/2017/00891"
         },
         {
@@ -1872,7 +2329,7 @@
           "type": "Construction Mortgage",
           "from": "Ozone Group",
           "to": "Axis Bank",
-          "value_lakh": 4720.0,
+          "value_lakh": 4720,
           "doc_no": "KAR/BLR/CM/2018/02341",
           "note": "ACTIVE — NOT DISCHARGED"
         },
@@ -16253,7 +16710,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 4.0,
+      "asking_price_min": 4,
       "asking_price_max": 7.38,
       "kaveri_price": 3.57,
       "possession": "Ready to Move",
@@ -16645,7 +17102,7 @@
         }
       },
       "asking_price_min": 3.58,
-      "asking_price_max": 7.0,
+      "asking_price_max": 7,
       "kaveri_price": 3.02,
       "possession": "Nov 2027",
       "units_total": 2,
@@ -17100,7 +17557,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 1.0,
+      "asking_price_min": 1,
       "asking_price_max": 2.17,
       "kaveri_price": 0.87,
       "possession": "Ready to Move",
@@ -17889,7 +18346,7 @@
       },
       "asking_price_min": 2.22,
       "asking_price_max": 4.55,
-      "kaveri_price": 2.0,
+      "kaveri_price": 2,
       "possession": "Ready to Move",
       "units_total": 320,
       "units_sold": 250,
@@ -20390,7 +20847,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 4.0,
+      "asking_price_min": 4,
       "asking_price_max": 5.86,
       "kaveri_price": 3.72,
       "possession": "Ready to Move",
@@ -21839,7 +22296,7 @@
       },
       "asking_price_min": 3.22,
       "asking_price_max": 6.87,
-      "kaveri_price": 3.0,
+      "kaveri_price": 3,
       "possession": "Nov 2026",
       "units_total": 15,
       "units_sold": 9,
@@ -24852,7 +25309,7 @@
       },
       "asking_price_min": 2.24,
       "asking_price_max": 4.86,
-      "kaveri_price": 2.0,
+      "kaveri_price": 2,
       "possession": "Delayed — Was Aug 2021 (58mo overdue)",
       "units_total": 295,
       "units_sold": 266,
@@ -25701,7 +26158,7 @@
         }
       },
       "asking_price_min": 3.15,
-      "asking_price_max": 6.0,
+      "asking_price_max": 6,
       "kaveri_price": 2.77,
       "possession": "Ready to Move",
       "units_total": 302,
@@ -27537,7 +27994,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 4.0,
+      "asking_price_min": 4,
       "asking_price_max": 7.99,
       "kaveri_price": 3.5,
       "possession": "Ready to Move",
@@ -28520,7 +28977,7 @@
         }
       },
       "asking_price_min": 1.52,
-      "asking_price_max": 3.0,
+      "asking_price_max": 3,
       "kaveri_price": 1.34,
       "possession": "Jul 2027",
       "units_total": 410,
@@ -29719,7 +30176,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 3.0,
+      "asking_price_min": 3,
       "asking_price_max": 4.38,
       "kaveri_price": 2.69,
       "possession": "Mar 2025",
@@ -29912,7 +30369,7 @@
       },
       "asking_price_min": 3.14,
       "asking_price_max": 6.73,
-      "kaveri_price": 3.0,
+      "kaveri_price": 3,
       "possession": "Delayed — Was Feb 2025 (16mo overdue)",
       "units_total": 130,
       "units_sold": 112,
@@ -32815,7 +33272,7 @@
       },
       "asking_price_min": 1.12,
       "asking_price_max": 2.46,
-      "kaveri_price": 1.0,
+      "kaveri_price": 1,
       "possession": "Delayed — Was Jun 2028 (1mo overdue)",
       "units_total": 86,
       "units_sold": 73,
@@ -33407,7 +33864,7 @@
         }
       },
       "asking_price_min": 0.5,
-      "asking_price_max": 1.0,
+      "asking_price_max": 1,
       "kaveri_price": 0.48,
       "possession": "Ready to Move",
       "units_total": 239,
@@ -33670,7 +34127,7 @@
       },
       "asking_price_min": 3.35,
       "asking_price_max": 6.65,
-      "kaveri_price": 3.0,
+      "kaveri_price": 3,
       "possession": "May 2021",
       "units_total": 567,
       "units_sold": 326,
@@ -36830,7 +37287,7 @@
         }
       },
       "asking_price_min": 3.93,
-      "asking_price_max": 7.0,
+      "asking_price_max": 7,
       "kaveri_price": 3.23,
       "possession": "Dec 2022",
       "units_total": 266,
@@ -40463,7 +40920,7 @@
         }
       },
       "asking_price_min": 1.03,
-      "asking_price_max": 2.0,
+      "asking_price_max": 2,
       "kaveri_price": 0.87,
       "possession": "Ready to Move",
       "units_total": 235,
@@ -43995,7 +44452,7 @@
         }
       },
       "asking_price_min": 1.77,
-      "asking_price_max": 3.0,
+      "asking_price_max": 3,
       "kaveri_price": 1.64,
       "possession": "Ready to Move",
       "units_total": 248,
@@ -45178,7 +45635,7 @@
       },
       "asking_price_min": 1.14,
       "asking_price_max": 2.34,
-      "kaveri_price": 1.0,
+      "kaveri_price": 1,
       "possession": "Delayed — Was Jun 2029 (1mo overdue)",
       "units_total": 66,
       "units_sold": 27,
@@ -48139,7 +48596,7 @@
         }
       },
       "asking_price_min": 1.59,
-      "asking_price_max": 3.0,
+      "asking_price_max": 3,
       "kaveri_price": 1.32,
       "possession": "Ready to Move",
       "units_total": 210,
@@ -57095,7 +57552,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 1.0,
+      "asking_price_min": 1,
       "asking_price_max": 1.46,
       "kaveri_price": 0.89,
       "possession": "Apr 2027",
@@ -57488,7 +57945,7 @@
       },
       "asking_price_min": 1.11,
       "asking_price_max": 2.27,
-      "kaveri_price": 1.0,
+      "kaveri_price": 1,
       "possession": "Ready to Move",
       "units_total": 802,
       "units_sold": 414,
@@ -57678,7 +58135,7 @@
           "note": "No enforcement history"
         }
       },
-      "asking_price_min": 1.0,
+      "asking_price_min": 1,
       "asking_price_max": 1.72,
       "kaveri_price": 0.88,
       "possession": "Ready to Move",
@@ -62278,7 +62735,7 @@
         }
       },
       "asking_price_min": 1.15,
-      "asking_price_max": 2.0,
+      "asking_price_max": 2,
       "kaveri_price": 1.02,
       "possession": "Ready to Move",
       "units_total": 444,
@@ -63534,7 +63991,7 @@
       },
       "asking_price_min": 1.21,
       "asking_price_max": 2.13,
-      "kaveri_price": 1.0,
+      "kaveri_price": 1,
       "possession": "Ready to Move",
       "units_total": 106,
       "units_sold": 77,
@@ -67786,7 +68243,7 @@
         }
       },
       "asking_price_min": 1.52,
-      "asking_price_max": 3.0,
+      "asking_price_max": 3,
       "kaveri_price": 1.34,
       "possession": "Dec 2022",
       "units_total": 897,

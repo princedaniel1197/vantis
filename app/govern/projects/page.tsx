@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Search, ChevronRight, Building2, Filter, ChevronLeft } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Search, ChevronRight, Building2, Filter, ChevronLeft, X, ExternalLink } from 'lucide-react'
 import projectsData from '@/data/projects.json'
 import qprData from '@/data/qpr.json'
 
@@ -94,6 +94,7 @@ export default function GovernProjectRegistry() {
   const [statusFilter, setStatusFilter]   = useState<StatusFilter>('ALL')
   const [devFilter, setDevFilter]         = useState('ALL')
   const [page, setPage]                   = useState(1)
+  const [drawer, setDrawer]               = useState<Project | null>(null)
 
   const projects = projectsData as Project[]
 
@@ -236,7 +237,7 @@ export default function GovernProjectRegistry() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.03, duration: 0.3, ease: [0.33, 1, 0.68, 1] }}
                       className="border-b border-border last:border-0 transition-colors duration-150 group cursor-pointer hover:bg-background"
-                      onClick={() => { window.location.href = `/govern/projects/${p.id}` }}
+                      onClick={() => isHero ? window.location.href = `/govern/projects/${p.id}` : setDrawer(p)}
                     >
                       <td className="px-4 py-3.5">
                         <div className="text-off-white text-sm font-medium leading-tight group-hover:text-gold transition-colors duration-150">
@@ -345,7 +346,9 @@ export default function GovernProjectRegistry() {
                         )}
                       </>
                     )
-                    return <Link href={`/govern/projects/${p.id}`} className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</Link>
+                    return isHero
+                      ? <Link href={`/govern/projects/${p.id}`} className="block bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</Link>
+                      : <button onClick={() => setDrawer(p)} className="block w-full text-left bg-surface border border-border hover:border-gold/30 rounded-sm p-4 sm:p-5 transition-all group">{cardContent}</button>
                   })()}
                 </motion.div>
               )
@@ -411,6 +414,88 @@ export default function GovernProjectRegistry() {
         )}
 
       </div>
+
+      {/* Quick-view drawer for non-hero (real scraped) projects */}
+      <AnimatePresence>
+        {drawer && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              key="backdrop"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 bg-black/50 z-40"
+              onClick={() => setDrawer(null)}
+            />
+            {/* Panel */}
+            <motion.div
+              key="panel"
+              initial={{ x: '100%' }} animate={{ x: 0 }} exit={{ x: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="fixed right-0 top-0 h-full w-full max-w-md bg-background border-l border-border z-50 overflow-y-auto"
+            >
+              <div className="p-6">
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4 mb-6">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[9px] font-mono uppercase tracking-[0.22em] text-gray mb-1">K-RERA Project</div>
+                    <h2 className="font-syne text-xl font-bold text-off-white leading-snug">{drawer.name}</h2>
+                    <div className="font-mono text-[10px] text-gray mt-1 break-all">{drawer.rera}</div>
+                  </div>
+                  <button onClick={() => setDrawer(null)} className="shrink-0 p-1.5 rounded-sm text-gray hover:text-off-white transition-colors">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Status badge */}
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-sm border mb-6 ${
+                  drawer.status === 'COMPLIANT' ? 'bg-green/10 border-green/30 text-green' :
+                  drawer.status === 'CAUTION'   ? 'bg-amber/10 border-amber/30 text-amber' :
+                                                  'bg-red/10 border-red/30 text-red'
+                }`}>
+                  <div className={`w-1.5 h-1.5 rounded-full ${statusDot(drawer.status)}`} />
+                  <span className="text-xs font-mono">{drawer.status}</span>
+                  <span className="text-xs font-mono ml-1">· Risk {drawer.risk_score}/100</span>
+                </div>
+
+                {/* Info grid */}
+                <div className="space-y-0 border border-border rounded-sm overflow-hidden mb-6">
+                  {[
+                    { label: 'Developer', value: drawer.developer_name },
+                    { label: 'Location', value: drawer.location },
+                    { label: 'Type', value: drawer.type },
+                    { label: 'Total Units', value: drawer.total_units ? drawer.total_units.toLocaleString() : '—' },
+                    { label: 'Certificate', value: drawer.certificate_status },
+                    { label: 'Complaints Pending', value: drawer.complaints_pending ?? 0 },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex items-start gap-4 px-4 py-3 border-b border-border last:border-0">
+                      <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-gray w-32 shrink-0 pt-0.5">{label}</span>
+                      <span className="text-sm text-off-white break-words">{String(value)}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Risk bar */}
+                <div className="mb-6">
+                  <div className="flex justify-between text-[9px] font-mono uppercase tracking-[0.18em] text-gray mb-2">
+                    <span>Risk Score</span><span>{drawer.risk_score}/100</span>
+                  </div>
+                  <div className="h-2 bg-border rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all ${riskBarColor(drawer.risk_score)}`}
+                      style={{ width: `${drawer.risk_score}%` }}
+                    />
+                  </div>
+                </div>
+
+                <div className="text-[10px] text-gray border-t border-border pt-4">
+                  Source: K-RERA live registry · Full detail pages available for featured projects only.
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   )
 }

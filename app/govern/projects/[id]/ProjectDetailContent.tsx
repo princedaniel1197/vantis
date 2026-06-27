@@ -18,14 +18,15 @@ const RiskTimeline = dynamic(() => import('@/components/govern/RiskTimeline'), {
 
 /* ---------- Types ---------- */
 interface Project {
-  id: string; name: string; rera: string; developer_id: string; developer_name: string
-  location: string; district?: string; survey_numbers: string[]; type: string; total_units: number
-  units_sold: number; declared_cost_crore: number; completion_date: string | null
-  registration_date: string | null; registration_valid_until: string | null
-  extensions: number | boolean
-  status: string; risk_score: number; certificate_id: string | null
-  certificate_status: string; complaints_pending: number; complaints_resolved: number
-  litigation: Array<{ type: string; court: string; filed: string; status: string }>
+  id: string; name: string; rera: string; developer_id?: string; developer_name: string
+  location: string; district?: string; survey_numbers?: string[]; type: string; total_units: number
+  units_sold?: number; declared_cost_crore: number; completion_date?: string | null
+  registration_date?: string | null; registration_valid_until?: string | null
+  extensions?: number | boolean | null
+  status: string; risk_score: number; certificate_id?: string | null
+  certificate_status: string; complaints_pending: number; complaints_resolved?: number
+  litigation?: Array<{ type: string; court: string; filed: string; status: string }>
+  escrow_bank?: string; escrow_account?: string
 }
 interface Developer {
   id: string; name: string; city: string; state: string; trust_score: number
@@ -154,7 +155,11 @@ function mkRng(seed: number) {
 }
 
 function genN(id: string): number {
-  return parseInt(id.replace('gen-', ''), 10) || 1
+  let h = 5381
+  for (let i = 0; i < id.length; i++) {
+    h = (((h << 5) + h) ^ id.charCodeAt(i)) >>> 0
+  }
+  return h || 1
 }
 
 function generateQPRRows(p: Project): { quarter: string; entry: QPREntry }[] {
@@ -193,8 +198,11 @@ function generateQPRRows(p: Project): { quarter: string; entry: QPREntry }[] {
 
 function generateEscrow(p: Project): EscrowInfo {
   const rng = mkRng(genN(p.id) * 3571)
+  const unitsFrac = (p.total_units > 0 && (p.units_sold ?? 0) > 0)
+    ? (p.units_sold ?? 0) / p.total_units
+    : 0.65 + rng.next() * 0.25
   const rate      = 0.55 + rng.next() * 0.30
-  const collected = Math.max(0.5, Math.round(p.declared_cost_crore * (p.units_sold / p.total_units) * rate * 100) / 100)
+  const collected = Math.max(0.5, Math.round((p.declared_cost_crore || 10) * unitsFrac * rate * 100) / 100)
   const pct       = p.status === 'COMPLIANT' ? rng.int(22, 40) :
                     p.status === 'CAUTION'   ? rng.int(9, 19)  : rng.int(2, 8)
   const balance   = Math.max(0.05, Math.round(collected * pct / 100 * 100) / 100)
@@ -322,16 +330,19 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   }
 
   const project: Project = projectMaybe
-  const isGenerated = project.id.startsWith('gen-')
-  const extensionsCount = typeof project.extensions === 'boolean'
-    ? (project.extensions ? 1 : 0)
+  const DEMO_IDS = new Set(['ozone-urbana', 'prestige-lakeside', 'divya-villas', 'skylark-arcadia'])
+  const isGenerated = !DEMO_IDS.has(project.id)
+  const extensionsCount = project.extensions == null ? 0
+    : typeof project.extensions === 'boolean' ? (project.extensions ? 1 : 0)
     : Number(project.extensions)
 
-  const developer = (developersData as Developer[]).find(d => d.id === project.developer_id)
+  const developer = project.developer_id
+    ? (developersData as Developer[]).find(d => d.id === project.developer_id)
+    : undefined
   const qprSub = qprData.submissions.find(s => s.project_id === project.id)
   const litigation: LitigationItem[] = isGenerated
     ? generateLitigation(project)
-    : (litigationData as LitigationItem[]).filter(l => l.project_id === project.id)
+    : (litigationData as unknown as LitigationItem[]).filter(l => l.project_id === project.id)
   const escrow: EscrowInfo = ESCROW[project.id] || generateEscrow(project)
 
   const qprRows = qprSub
@@ -348,7 +359,9 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
   const completionPct = latestQPR?.completion_pct ??
     (qprRows.slice().reverse().find(r => r.entry.completion_pct !== null)?.entry.completion_pct ?? null)
 
-  const unitsPct = Math.round((project.units_sold / project.total_units) * 100)
+  const safeUnitsSold = project.units_sold ?? 0
+  const unitsPct = project.total_units > 0 ? Math.round((safeUnitsSold / project.total_units) * 100) : 0
+  const complaintsResolved = project.complaints_resolved ?? 0
 
   /* ---- Tab renderers ---- */
   function renderOverview() {
@@ -362,8 +375,8 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
               { label: 'RERA Number',      value: project.rera,                     mono: true, gold: true },
               { label: 'Project Type',     value: project.type },
               { label: 'Location',         value: project.location },
-              { label: 'Survey Numbers',   value: project.survey_numbers.length > 0
-                  ? project.survey_numbers.join(', ')
+              { label: 'Survey Numbers',   value: (project.survey_numbers ?? []).length > 0
+                  ? (project.survey_numbers ?? []).join(', ')
                   : isGenerated
                     ? `Sy. No. ${50 + (genN(project.id) % 200)}/${1 + (genN(project.id) % 8)}, ${50 + (genN(project.id) % 200)}/${2 + (genN(project.id) % 8)}`
                     : '—' },
@@ -388,7 +401,7 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         <div className="bg-surface border border-border rounded-sm p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-gray text-xs font-semibold uppercase tracking-wide">Units Sold</span>
-            <span className="font-mono text-gold text-sm font-bold">{project.units_sold} / {project.total_units}</span>
+            <span className="font-mono text-gold text-sm font-bold">{safeUnitsSold} / {project.total_units}</span>
           </div>
           <div className="h-2 bg-border rounded-full overflow-hidden">
             <div className="h-full bg-gold rounded-full transition-all duration-700" style={{ width: `${unitsPct}%` }} />
@@ -478,8 +491,8 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
         <div className="grid grid-cols-3 gap-3">
           {[
             { label: 'Pending',  value: project.complaints_pending,  color: project.complaints_pending > 0 ? 'text-amber' : 'text-green' },
-            { label: 'Resolved', value: project.complaints_resolved, color: 'text-green' },
-            { label: 'Total',    value: project.complaints_pending + project.complaints_resolved, color: 'text-off-white' },
+            { label: 'Resolved', value: complaintsResolved, color: 'text-green' },
+            { label: 'Total',    value: project.complaints_pending + complaintsResolved, color: 'text-off-white' },
           ].map(({ label, value, color }) => (
             <div key={label} className="bg-surface border border-border rounded-sm p-3 text-center">
               <div className={`font-syne text-2xl font-bold ${color}`}>{value}</div>
@@ -649,8 +662,12 @@ export default function ProjectDetailContent({ params }: { params: { id: string 
           <div className="space-y-2">
             {[
               { label: 'Declared Project Cost', value: fmtCrore(project.declared_cost_crore) },
-              { label: 'Units Sold',             value: `${project.units_sold} / ${project.total_units} (${unitsPct}%)` },
+              { label: 'Units Sold',             value: `${safeUnitsSold} / ${project.total_units} (${unitsPct}%)` },
               { label: 'Extensions Granted',     value: extensionsCount > 0 ? `${extensionsCount}` : 'None' },
+              ...(project.escrow_bank ? [
+                { label: 'Escrow Bank',    value: project.escrow_bank },
+                { label: 'Escrow Account', value: project.escrow_account ?? '—' },
+              ] : []),
             ].map(({ label, value }) => (
               <div key={label} className="flex items-center justify-between py-2.5 border-b border-border">
                 <span className="text-gray text-sm">{label}</span>

@@ -1,0 +1,219 @@
+{
+  "Bengaluru Urban": {
+    "total": 4047,
+    "complaints": 5638,
+    "high_risk": 3287,
+    "caution": 602,
+    "compliant": 158
+  },
+  "Mysore": {
+    "total": 689,
+    "complaints": 341,
+    "high_risk": 365,
+    "caution": 116,
+    "compliant": 208
+  },
+  "Bagalkot": {
+    "total": 27,
+    "complaints": 2,
+    "high_risk": 27,
+    "caution": 0,
+    "compliant": 0
+  },
+  "Ballari": {
+    "total": 223,
+    "complaints": 12,
+    "high_risk": 188,
+    "caution": 29,
+    "compliant": 6
+  },
+  "Belagavi": {
+    "total": 454,
+    "complaints": 56,
+    "high_risk": 378,
+    "caution": 65,
+    "compliant": 11
+  },
+  "Bengaluru Rural": {
+    "total": 637,
+    "complaints": 491,
+    "high_risk": 432,
+    "caution": 152,
+    "compliant": 53
+  },
+  "Bidar": {
+    "total": 20,
+    "complaints": 0,
+    "high_risk": 15,
+    "caution": 5,
+    "compliant": 0
+  },
+  "Chamarajanagar": {
+    "total": 51,
+    "complaints": 2,
+    "high_risk": 46,
+    "caution": 5,
+    "compliant": 0
+  },
+  "Chikkaballapura": {
+    "total": 165,
+    "complaints": 62,
+    "high_risk": 136,
+    "caution": 25,
+    "compliant": 4
+  },
+  "Chikkamagaluru": {
+    "total": 35,
+    "complaints": 2,
+    "high_risk": 31,
+    "caution": 2,
+    "compliant": 2
+  },
+  "Chitradurga": {
+    "total": 33,
+    "complaints": 2,
+    "high_risk": 32,
+    "caution": 1,
+    "compliant": 0
+  },
+  "Dakshina Kannada": {
+    "total": 606,
+    "complaints": 101,
+    "high_risk": 488,
+    "caution": 87,
+    "compliant": 31
+  },
+  "Davangere": {
+    "total": 46,
+    "complaints": 8,
+    "high_risk": 35,
+    "caution": 9,
+    "compliant": 2
+  },
+  "Dharwad": {
+    "total": 243,
+    "complaints": 37,
+    "high_risk": 200,
+    "caution": 27,
+    "compliant": 16
+  },
+  "Gadag": {
+    "total": 13,
+    "complaints": 8,
+    "high_risk": 11,
+    "caution": 2,
+    "compliant": 0
+  },
+  "Hassan": {
+    "total": 19,
+    "complaints": 0,
+    "high_risk": 16,
+    "caution": 1,
+    "compliant": 2
+  },
+  "Haveri": {
+    "total": 35,
+    "complaints": 4,
+    "high_risk": 34,
+    "caution": 1,
+    "compliant": 0
+  },
+  "Kalaburagi": {
+    "total": 220,
+    "complaints": 11,
+    "high_risk": 200,
+    "caution": 15,
+    "compliant": 5
+  },
+  "Kodagu": {
+    "total": 9,
+    "complaints": 2,
+    "high_risk": 5,
+    "caution": 4,
+    "compliant": 0
+  },
+  "Kolar": {
+    "total": 181,
+    "complaints": 82,
+    "high_risk": 114,
+    "caution": 51,
+    "compliant": 16
+  },
+  "Koppal": {
+    "total": 44,
+    "complaints": 4,
+    "high_risk": 32,
+    "caution": 12,
+    "compliant": 0
+  },
+  "Mandya": {
+    "total": 75,
+    "complaints": 71,
+    "high_risk": 58,
+    "caution": 12,
+    "compliant": 5
+  },
+  "Raichur": {
+    "total": 18,
+    "complaints": 2,
+    "high_risk": 18,
+    "caution": 0,
+    "compliant": 0
+  },
+  "Ramanagara": {
+    "total": 54,
+    "complaints": 5,
+    "high_risk": 36,
+    "caution": 12,
+    "compliant": 6
+  },
+  "Shivamogga": {
+    "total": 140,
+    "complaints": 2,
+    "high_risk": 122,
+    "caution": 17,
+    "compliant": 1
+  },
+  "Tumakuru": {
+    "total": 195,
+    "complaints": 13,
+    "high_risk": 34,
+    "caution": 127,
+    "compliant": 34
+  },
+  "Udupi": {
+    "total": 256,
+    "complaints": 12,
+    "high_risk": 206,
+    "caution": 39,
+    "compliant": 11
+  },
+  "Uttara Kannada": {
+    "total": 103,
+    "complaints": 2,
+    "high_risk": 85,
+    "caution": 14,
+    "compliant": 4
+  },
+  "Vijayanagara": {
+    "total": 65,
+    "complaints": 3,
+    "high_risk": 36,
+    "caution": 22,
+    "compliant": 7
+  },
+  "Vijayapura": {
+    "total": 56,
+    "complaints": 2,
+    "high_risk": 52,
+    "caution": 4,
+    "compliant": 0
+  },
+  "Yadgir": {
+    "total": 12,
+    "complaints": 0,
+    "high_risk": 9,
+    "caution": 3,
+    "compliant": 0
+  }
+}

@@ -200,9 +200,10 @@ function buildGraph(): { nodes: FGNode[]; links: FGLink[] } {
   const richDevMap: Record<string, any> = {}
   for (const d of rawDevelopers) richDevMap[d.id] = d
 
-  // Group projects by developer_id using a plain object
+  // Group projects by developer_id — only include demo projects with a developer_id
   const projsByDev: Record<string, any[]> = {}
   for (const p of rawProjects) {
+    if (!p.developer_id) continue
     if (!projsByDev[p.developer_id]) projsByDev[p.developer_id] = []
     projsByDev[p.developer_id].push(p)
   }
@@ -232,8 +233,9 @@ function buildGraph(): { nodes: FGNode[]; links: FGLink[] } {
     })
   }
 
-  // Project nodes + developer→project edges
+  // Project nodes + developer→project edges (demo projects only, which have developer_id)
   for (const proj of rawProjects) {
+    if (!proj.developer_id) continue
     addNode({
       id: proj.id, label: proj.name, type: 'project',
       anomaly: proj.status === 'HIGH RISK',

@@ -24,7 +24,7 @@ interface Complaint {
   resolution_summary?: string
 }
 
-const COMPLAINTS = complaintsData as Complaint[]
+const COMPLAINTS = complaintsData as unknown as Complaint[]
 
 type TrackStep = 'filed' | 'acknowledged' | 'notice_issued' | 'hearing_scheduled' | 'order_passed' | 'resolved'
 

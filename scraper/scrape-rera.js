@@ -24,7 +24,8 @@ const path   = require('path')
 
 /* ── Config ───────────────────────────────────────────────────────────────── */
 const DELAY_MS       = 1500   // ms between requests
-const DETAIL_DELAY   = 800    // ms between detail requests (lighter)
+const DETAIL_DELAY   = 200    // ms between detail requests (lighter)
+const DETAIL_CONCURRENCY = 5  // parallel detail requests
 const MAX_RETRIES    = 3
 const DATA_DIR       = path.join(__dirname, '..', 'data')
 const CHECKPOINT     = path.join(__dirname, 'checkpoint.json')
@@ -362,12 +363,12 @@ async function runDetail(projects) {
   console.log(`\nPhase 2: ${toFetch.length} projects to detail-scrape (${cp.phase2_done.length} already done)`)
 
   let done = 0
-  for (const proj of toFetch) {
+
+  async function fetchOne(proj) {
     try {
       const html = await postRaw('/projectDetails', { action: proj._numeric_id })
       const detailed = parseDetail(html, proj)
       detailedProjects.push(detailed)
-
       if (detailed.complaints && detailed.complaints.length) {
         allComplaints.push(...detailed.complaints.map(c => ({
           ...c,
@@ -377,20 +378,23 @@ async function runDetail(projects) {
           district: proj.location
         })))
       }
-
       cp.phase2_done.push(proj._numeric_id)
       done++
-
       if (done % 50 === 0) {
         saveCheckpoint(cp)
         writeOutputs(detailedProjects, allComplaints)
-        console.log(`  Progress: ${done}/${toFetch.length}`)
+        console.log(`  Progress: ${done}/${toFetch.length} (${Math.round(done/toFetch.length*100)}%)`)
       }
-
-      await sleep(DETAIL_DELAY)
     } catch (e) {
       console.log(`  ERROR ${proj.rera_id}: ${e.message}`)
     }
+  }
+
+  // Process in batches of DETAIL_CONCURRENCY
+  for (let i = 0; i < toFetch.length; i += DETAIL_CONCURRENCY) {
+    const batch = toFetch.slice(i, i + DETAIL_CONCURRENCY)
+    await Promise.all(batch.map(proj => fetchOne(proj)))
+    await sleep(DETAIL_DELAY)
   }
 
   // Final save
@@ -401,24 +405,48 @@ async function runDetail(projects) {
 }
 
 /* ── Output writers ───────────────────────────────────────────────────────── */
-function writeOutputs(projects, complaints) {
+function writeOutputs(detailedInThisRun, complaints) {
   fs.mkdirSync(DATA_DIR, { recursive: true })
 
+  // Load all base projects from checkpoint, merge in detail data
+  const cp = loadCheckpoint()
+  const detailMap = new Map(detailedInThisRun.map(p => [p.rera_id, p]))
+
+  // Also load any previously written detailed projects
+  const prevPath = path.join(DATA_DIR, 'projects.json')
+  if (fs.existsSync(prevPath)) {
+    const prev = JSON.parse(fs.readFileSync(prevPath, 'utf8'))
+    for (const p of prev) {
+      if (!detailMap.has(p.rera_id)) detailMap.set(p.rera_id, p)
+    }
+  }
+
+  // Merge: start with base project, overlay detail if available
   const seen = new Set()
-  const deduped = projects.filter(p => {
-    if (seen.has(p.rera_id)) return false
-    seen.add(p.rera_id)
-    return true
-  })
+  const merged = []
+  for (const base of cp.projects) {
+    if (seen.has(base.rera_id)) continue
+    seen.add(base.rera_id)
+    const detail = detailMap.get(base.rera_id)
+    merged.push(detail ? { ...base, ...detail } : base)
+  }
 
-  fs.writeFileSync(path.join(DATA_DIR, 'projects.json'), JSON.stringify(deduped, null, 2))
+  fs.writeFileSync(path.join(DATA_DIR, 'projects.json'), JSON.stringify(merged, null, 2))
 
-  if (complaints.length) {
-    fs.writeFileSync(path.join(DATA_DIR, 'complaints.json'), JSON.stringify(complaints, null, 2))
+  // Complaints: merge with existing
+  const prevComplaintsPath = path.join(DATA_DIR, 'complaints.json')
+  let allComplaints = complaints
+  if (fs.existsSync(prevComplaintsPath)) {
+    const prev = JSON.parse(fs.readFileSync(prevComplaintsPath, 'utf8'))
+    const cSeen = new Set(complaints.map(c => c.complaint_no))
+    allComplaints = [...complaints, ...prev.filter(c => !cSeen.has(c.complaint_no))]
+  }
+  if (allComplaints.length) {
+    fs.writeFileSync(path.join(DATA_DIR, 'complaints.json'), JSON.stringify(allComplaints, null, 2))
   }
 
   const stats = {}
-  for (const p of deduped) {
+  for (const p of merged) {
     const d = p.location || 'Unknown'
     if (!stats[d]) stats[d] = { total: 0, complaints: 0, high_risk: 0 }
     stats[d].total++

@@ -186,12 +186,12 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     keywords: ['what is vantis', 'vantis platform', 'what can vantis', 'what does vantis', 'products', 'modules', 'about vantis'],
     question: 'What does Vantis offer?',
     answer: `Vantis by Orianode is Karnataka's regulatory intelligence platform for real estate. Five integrated products:\n\n` +
-      `• **Govern** — K-RERA officer command centre: 1,004 projects, QPR compliance, litigation, predictive default, RRC recovery\n` +
+      `• **Govern** — K-RERA officer command centre: 8,767 projects, QPR compliance, litigation, predictive default, RRC recovery\n` +
       `• **Lend** — Lender early-warning system: ₹2,400 Cr Kaveri HFC portfolio, loan monitoring, tranche control, drawn-vs-built verification\n` +
       `• **Build** — Developer OS: sales pipeline, inventory, construction progress, feasibility, channel management\n` +
       `• **Connect** — Broker/buyer matching: leads CRM, micro-market intelligence, verified listings\n` +
       `• **Verify** — 5-point trust verification for buyers: RERA, title, courts, plan sanction, developer track record\n\n` +
-      `All five products run on the same 1,004-project spine — one fact, consistent across every lens.`,
+      `All five products run on the same 8,767-project spine — one fact, consistent across every lens.`,
     source: 'Vantis Platform',
   },
 
@@ -240,16 +240,16 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     id: 'project-count',
     product: 'all',
-    keywords: ['how many projects', 'total projects', '1004', '1,004', 'all projects', 'database'],
+    keywords: ['how many projects', 'total projects', '8767', '8,767', 'all projects', 'database'],
     question: 'How many projects are in the Vantis database?',
-    answer: `Vantis tracks **1,004 K-RERA registered projects** across Karnataka as of Q2 2026:\n\n` +
-      `• **659 COMPLIANT** (65.6%) — Full or provisional certificate\n` +
-      `• **218 CAUTION** (21.7%) — Delayed filings, minor complaints, or litigation\n` +
-      `• **127 HIGH RISK** (12.7%) — Persistent QPR defaults, active enforcement, or distress signals\n\n` +
-      `By geography: Bengaluru Urban (47%), Mysuru (11%), Dakshina Kannada (9%), Belagavi (7%), Others (26%)\n\n` +
-      `By type: Apartments (61%), Layouts (28%), Villas (7%), Commercial (4%)\n\n` +
-      `All 1,004 projects are visible in Vantis Govern, searchable in Vantis Verify, and cross-referenced in Lend.`,
-    source: 'K-RERA Registry · Vantis Govern',
+    answer: `Vantis tracks **8,767 K-RERA registered projects** across all 31 Karnataka districts as of Q2 2026:\n\n` +
+      `• **6,728 HIGH RISK** (76.7%) — Past completion date, escrow shortfall, or enforcement action\n` +
+      `• **1,461 CAUTION** (16.7%) — Moderate delays or minor compliance issues\n` +
+      `• **582 COMPLIANT** (6.6%) — On track with valid certification\n\n` +
+      `By geography: Bengaluru Urban (4,044 · 46%), Mysore (688 · 8%), Dakshina Kannada (606 · 7%), Belagavi (454 · 5%)\n\n` +
+      `By type: Plotted Development (majority), Apartments, Villas, Commercial\n\n` +
+      `5,742 total complaints captured. All projects visible in Govern, searchable in Verify, cross-referenced in Lend.`,
+    source: 'K-RERA Registry (live scrape) · Vantis Govern',
   },
 
   // ── GOVERN ─────────────────────────────────────────────────────────────────
@@ -260,7 +260,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     keywords: ['command centre', 'dashboard', 'overview', 'summary', 'kpis', 'status overview', 'registry'],
     question: 'Give me an overview of the K-RERA portfolio.',
     answer: `**K-RERA Statewide Overview — Q2 2026:**\n\n` +
-      `• **1,004 registered projects** · 127 HIGH RISK · 218 CAUTION · 659 COMPLIANT\n` +
+      `• **8,767 registered projects** · 6,728 HIGH RISK · 1,461 CAUTION · 582 COMPLIANT\n` +
       `• **₹927 Cr** homebuyer capital in critical distress (Ozone Urbana alone)\n` +
       `• **₹2,340 Cr** total homebuyer capital at risk across all HIGH RISK projects\n` +
       `• **7 consecutive QPR defaults** — Ozone Group (all 8 quarters missed)\n` +
@@ -782,7 +782,7 @@ export const SEEDED_QUESTIONS: Record<ProductScope, string[]> = {
 export const CAGED_SYSTEM_PROMPT = `You are Vantis Intelligence, the AI assistant for Vantis by Orianode — Karnataka's regulatory intelligence platform for real estate.
 
 PLATFORM DATA (use ONLY this for your answers):
-- 1,004 K-RERA registered projects: 127 HIGH RISK · 218 CAUTION · 659 COMPLIANT
+- 8,767 K-RERA registered projects: 6,728 HIGH RISK · 1,461 CAUTION · 582 COMPLIANT
 - Hero case: Ozone Urbana (Ozone Group, Bengaluru) — HIGH RISK, risk score 9, 8 QPR quarters missed, 1,847 homebuyers affected, ₹927 Cr at risk, flagged 8 quarters before FIR (Q1 2021 → FIR Q3 2023)
 - Kaveri HFC lend portfolio: ₹2,400 Cr · 40 projects · 3 RED (₹420 Cr outstanding) · 9 AMBER · 28 GREEN
   - Ozone Urbana loan: ₹250 Cr sanctioned · ₹180 Cr drawn · 43% construction vs 72% drawn (29pt gap) · 8% escrow vs 70% RERA minimum · Tranche T5 ON HOLD

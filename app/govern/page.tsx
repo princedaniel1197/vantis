@@ -177,10 +177,22 @@ function KPICell({ kpi, index }: { kpi: KPIItem; index: number }) {
 export default function GovernCommandCentre() {
   const [selectedDistrict, setSelectedDistrict] = useState<District | null>(null)
 
+  const DISTRICT_LOCATION: Record<string, string> = {
+    'Mysuru': 'Mysore', 'Chikkaballapur': 'Chikkaballapura',
+    'Chikmagalur': 'Chikkamagaluru', 'Tumkur': 'Tumakuru',
+    'Davanagere': 'Davangere', 'Chamarajanagara': 'Chamarajanagar',
+  }
+
   const projects = projectsData as Project[]
-  const criticalProjects = projects.filter(p => p.status === 'HIGH RISK')
+  const criticalProjects = projects.filter(p => p.status === 'HIGH RISK').slice(0, 50)
+  const locationKey = selectedDistrict
+    ? (DISTRICT_LOCATION[selectedDistrict.label] ?? selectedDistrict.label)
+    : ''
   const districtProjects = selectedDistrict
-    ? projects.filter(p => selectedDistrict.projects.includes(p.id))
+    ? projects
+        .filter(p => selectedDistrict.projects.includes(p.id) || p.location === locationKey)
+        .sort((a, b) => a.risk_score - b.risk_score)
+        .slice(0, 20)
     : []
 
   const lastQKey = qprKey(qprData.quarters[qprData.quarters.length - 1])

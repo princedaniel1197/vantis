@@ -84,13 +84,19 @@ export function lookupProjectsByFilter(query: string): ProjectListResult | null 
     }
   }
 
-  // 4. Developer name — return list only when >1 project found
+  // 4. Developer name — query words found inside developer name, any match count
+  const STOP = new Set(['projects', 'project', 'builders', 'builder', 'developers', 'developer',
+    'constructions', 'construction', 'properties', 'property', 'development', 'infrastructure',
+    'limited', 'private', 'those', 'their', 'there', 'about', 'would', 'could', 'should',
+    'where', 'other', 'these', 'give', 'show', 'list', 'find', 'from', 'tell', 'what',
+    'that', 'this', 'have', 'been', 'with', 'they', 'will', 'your', 'more', 'than', 'into',
+    'just', 'also', 'some', 'when', 'then', 'only', 'over', 'such', 'each'])
+  const sigWords = q.split(/\s+/).filter(w => w.length > 4 && !STOP.has(w))
   for (const p of PROJECT_SPINE) {
-    const devWords = p.developer_name.toLowerCase().split(/\s+/).filter(w => w.length > 4)
-    if (devWords.length > 0 && devWords.some(w => q.includes(w))) {
-      const devName = p.developer_name.toLowerCase()
-      const matches = PROJECT_SPINE.filter(x => x.developer_name.toLowerCase() === devName)
-      if (matches.length > 1) return { projects: matches.slice(0, 8), label: `${p.developer_name} projects`, total: matches.length }
+    const devLower = p.developer_name.toLowerCase()
+    if (sigWords.some(w => devLower.includes(w))) {
+      const matches = PROJECT_SPINE.filter(x => x.developer_name.toLowerCase() === devLower)
+      if (matches.length > 0) return { projects: matches.slice(0, 8), label: `${p.developer_name} projects`, total: matches.length }
     }
   }
 
@@ -139,8 +145,16 @@ export function lookupProjectInSpine(query: string): SpineProject | null {
     const words = p.name.toLowerCase().split(/[\s\-/]+/).filter(w => w.length > 4)
     return words.length >= 2 && words.every(w => q.includes(w))
   })
+  if (byWords) return byWords
 
-  return byWords ?? null
+  // 4. Developer name word appears in query — return first matching project
+  const qWords = q.split(/\s+/).filter(w => w.length > 4)
+  const byDev = PROJECT_SPINE.find(p => {
+    const devLower = p.developer_name.toLowerCase()
+    return qWords.some(w => devLower.includes(w) && !['project', 'builder', 'developer', 'limited', 'private', 'construction', 'properties'].includes(w))
+  })
+
+  return byDev ?? null
 }
 
 export function formatProjectAnswer(p: SpineProject): string {

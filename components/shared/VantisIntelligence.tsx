@@ -7,12 +7,27 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   lookupKnowledge,
   lookupProjectInSpine,
+  lookupProjectsByFilter,
   formatProjectAnswer,
+  formatProjectList,
   SEEDED_QUESTIONS,
   CAGED_SYSTEM_PROMPT,
   OPEN_SYSTEM_PROMPT,
   type ProductScope,
 } from '@/lib/chatbot-knowledge'
+import type { ReactNode } from 'react'
+
+function renderMarkdown(text: string): ReactNode {
+  return text.split('\n').map((line, li, arr) => {
+    const parts = line.split(/\*\*(.*?)\*\*/g)
+    const nodes = parts.map((part, pi) =>
+      pi % 2 === 1
+        ? <strong key={pi} className="text-off-white font-semibold">{part}</strong>
+        : part
+    )
+    return <span key={li}>{nodes}{li < arr.length - 1 ? '\n' : null}</span>
+  })
+}
 
 interface Message {
   role: 'user' | 'assistant'
@@ -135,12 +150,16 @@ export default function VantisIntelligence() {
     let assistantText = ''
     let citation: string | undefined
 
-    // Project spine lookup — works for any of the 1,004 K-RERA projects
-    const projectHit = lookupProjectInSpine(query)
+    // Lookup chain: region/filter list → single project → KB → fallback
+    const filterHit  = lookupProjectsByFilter(query)
+    const projectHit = filterHit ? null : lookupProjectInSpine(query)
 
     if (chatMode === 'demo' && !isOpen) {
       await new Promise(r => setTimeout(r, 1400))
-      if (projectHit) {
+      if (filterHit) {
+        assistantText = formatProjectList(filterHit)
+        citation = `K-RERA Registry · ${filterHit.total} projects`
+      } else if (projectHit) {
         assistantText = formatProjectAnswer(projectHit)
         citation = `K-RERA Registry · ${projectHit.rera}`
       } else {
@@ -153,14 +172,19 @@ export default function VantisIntelligence() {
         }
       }
     } else {
-      const dynamicCtx = projectHit
+      const dynamicCtx = filterHit
+        ? `\n\nFILTER RESULTS FOR THIS QUERY:\n${formatProjectList(filterHit)}\nSource: K-RERA Registry`
+        : projectHit
         ? `\n\nPROJECT DATA FOR THIS QUERY:\n${formatProjectAnswer(projectHit)}\nSource: K-RERA Registry`
         : ''
       const systemPrompt = (isOpen ? OPEN_SYSTEM_PROMPT : CAGED_SYSTEM_PROMPT) + dynamicCtx
       try {
         assistantText = await callAnthropicAPI(conversationRef.current, systemPrompt)
       } catch {
-        if (projectHit) {
+        if (filterHit) {
+          assistantText = formatProjectList(filterHit)
+          citation = `K-RERA Registry · ${filterHit.total} projects`
+        } else if (projectHit) {
           assistantText = formatProjectAnswer(projectHit)
           citation = `K-RERA Registry · ${projectHit.rera}`
         } else {
@@ -269,7 +293,7 @@ export default function VantisIntelligence() {
                         : 'bg-background border border-border text-off-white'
                     }`}
                   >
-                    <pre className="whitespace-pre-wrap font-sans leading-relaxed">{m.content}</pre>
+                    <div className="whitespace-pre-wrap font-sans leading-relaxed">{renderMarkdown(m.content)}</div>
                     {m.role === 'assistant' && m.citation && (
                       <div className="mt-2 pt-2 border-t border-border text-[10px] text-gold-dim font-mono tracking-wide">
                         [Source: {m.citation}]

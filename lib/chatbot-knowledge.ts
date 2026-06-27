@@ -28,6 +28,101 @@ interface SpineProject {
 
 const PROJECT_SPINE = projectsRaw as unknown as SpineProject[]
 
+// ── Region / filter lookup — answers for location, status, and developer queries ─
+
+const REGION_KEYWORDS: Record<string, string[]> = {
+  'south karnataka': ['bengaluru', 'mysuru', 'mysore', 'tumakuru', 'hassan', 'mandya', 'kodagu', 'chikkaballapur', 'kolar', 'ramanagara', 'chamarajanagara'],
+  'north karnataka': ['hubballi', 'hubli', 'dharwad', 'belagavi', 'belgaum', 'vijayapura', 'bijapur', 'bagalkote', 'gadag', 'haveri', 'koppal', 'raichur', 'bidar', 'kalaburagi', 'gulbarga', 'yadgir', 'ballari', 'bellary'],
+  'coastal karnataka': ['mangaluru', 'mangalore', 'udupi', 'karwar', 'uttara kannada'],
+  'hyderabad karnataka': ['kalaburagi', 'gulbarga', 'bidar', 'raichur', 'koppal', 'yadgir', 'ballari'],
+}
+
+// Unique city names from the spine for direct city lookup
+const SPINE_LOCATIONS = [...new Set(PROJECT_SPINE.map(p => p.location?.toLowerCase()).filter(Boolean))] as string[]
+
+export interface ProjectListResult {
+  projects: SpineProject[]
+  label: string
+  total: number
+}
+
+export function lookupProjectsByFilter(query: string): ProjectListResult | null {
+  const q = query.toLowerCase()
+
+  // 1. Region name (south karnataka, north karnataka, etc.)
+  for (const [region, keywords] of Object.entries(REGION_KEYWORDS)) {
+    if (q.includes(region)) {
+      const matches = PROJECT_SPINE.filter(p => {
+        const loc = `${p.location ?? ''} ${p.district ?? ''}`.toLowerCase()
+        return keywords.some(k => loc.includes(k))
+      })
+      if (matches.length > 0) return { projects: matches.slice(0, 8), label: region, total: matches.length }
+    }
+  }
+
+  // 2. Specific city/district mentioned with a "show" / "list" / "projects in" intent
+  const hasListIntent = /show|list|find|give|all|projects?\s+in|projects?\s+from/.test(q)
+  if (hasListIntent) {
+    for (const loc of SPINE_LOCATIONS) {
+      if (q.includes(loc)) {
+        const matches = PROJECT_SPINE.filter(p => p.location?.toLowerCase() === loc)
+        if (matches.length > 0) return { projects: matches.slice(0, 8), label: loc, total: matches.length }
+      }
+    }
+  }
+
+  // 3. Risk / status filter
+  const STATUS_MAP: Array<[string, string]> = [
+    ['high risk', 'HIGH RISK'], ['high-risk', 'HIGH RISK'],
+    ['caution', 'CAUTION'], ['amber', 'CAUTION'],
+    ['compliant', 'COMPLIANT'], ['green', 'COMPLIANT'],
+  ]
+  for (const [keyword, status] of STATUS_MAP) {
+    if (q.includes(keyword) && hasListIntent) {
+      const matches = PROJECT_SPINE.filter(p => p.status === status)
+      return { projects: matches.slice(0, 8), label: `${status.toLowerCase()} projects`, total: matches.length }
+    }
+  }
+
+  // 4. Developer name — return list only when >1 project found
+  for (const p of PROJECT_SPINE) {
+    const devWords = p.developer_name.toLowerCase().split(/\s+/).filter(w => w.length > 4)
+    if (devWords.length > 0 && devWords.some(w => q.includes(w))) {
+      const devName = p.developer_name.toLowerCase()
+      const matches = PROJECT_SPINE.filter(x => x.developer_name.toLowerCase() === devName)
+      if (matches.length > 1) return { projects: matches.slice(0, 8), label: `${p.developer_name} projects`, total: matches.length }
+    }
+  }
+
+  return null
+}
+
+export function formatProjectList(result: ProjectListResult): string {
+  const { projects, label, total } = result
+  const compliant = projects.filter(p => p.status === 'COMPLIANT').length
+  const caution   = projects.filter(p => p.status === 'CAUTION').length
+  const highRisk  = projects.filter(p => p.status === 'HIGH RISK').length
+  const cap = label.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+
+  const rows = projects.map(p => {
+    const icon = p.status === 'COMPLIANT' ? '✓' : p.status === 'CAUTION' ? '⚠' : '✕'
+    return `${icon}  **${p.name}** · ${p.location} · Score ${p.risk_score}/100`
+  })
+
+  const lines = [
+    `**${cap}** — ${total} project${total !== 1 ? 's' : ''}`,
+    `${compliant} compliant · ${caution} caution · ${highRisk} high risk`,
+    '',
+    ...rows,
+  ]
+
+  if (projects.length < total) {
+    lines.push('', `Showing ${projects.length} of ${total}. Ask about a specific project for full details.`)
+  }
+
+  return lines.join('\n')
+}
+
 export function lookupProjectInSpine(query: string): SpineProject | null {
   const q = query.toLowerCase()
 

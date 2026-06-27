@@ -1,9 +1,22 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import type { ReactNode } from 'react'
 import { MessageSquare, X, Send, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { lookupKnowledge, lookupProjectInSpine, formatProjectAnswer, SEEDED_QUESTIONS, CAGED_SYSTEM_PROMPT, ProductScope } from '@/lib/chatbot-knowledge'
+import { lookupKnowledge, lookupProjectInSpine, lookupProjectsByFilter, formatProjectAnswer, formatProjectList, SEEDED_QUESTIONS, CAGED_SYSTEM_PROMPT, ProductScope } from '@/lib/chatbot-knowledge'
+
+function renderMarkdown(text: string): ReactNode {
+  return text.split('\n').map((line, li, arr) => {
+    const parts = line.split(/\*\*(.*?)\*\*/g)
+    const nodes = parts.map((part, pi) =>
+      pi % 2 === 1
+        ? <strong key={pi} className="text-off-white font-semibold">{part}</strong>
+        : part
+    )
+    return <span key={li}>{nodes}{li < arr.length - 1 ? '\n' : null}</span>
+  })
+}
 
 export interface ProductChatbotProps {
   product: 'lend' | 'build' | 'connect' | 'verify'
@@ -111,12 +124,19 @@ export default function ProductChatbot({
       return
     }
 
-    // Demo mode: project spine lookup first, then keyword lookup
+    // Demo mode: filter list → single project → KB → fallback
     await new Promise(r => setTimeout(r, 1200))
-    const projectHit = lookupProjectInSpine(query)
+    const filterHit  = lookupProjectsByFilter(query)
+    const projectHit = filterHit ? null : lookupProjectInSpine(query)
     setIsTyping(false)
 
-    if (projectHit) {
+    if (filterHit) {
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: formatProjectList(filterHit),
+        source: `K-RERA Registry · ${filterHit.total} projects`,
+      }])
+    } else if (projectHit) {
       setMessages(prev => [...prev, {
         role: 'assistant',
         content: formatProjectAnswer(projectHit),
@@ -220,7 +240,7 @@ export default function ProductChatbot({
                         : 'bg-background border border-border text-off-white'
                     }`}
                   >
-                    <pre className="whitespace-pre-wrap font-sans leading-relaxed">{m.content}</pre>
+                    <div className="whitespace-pre-wrap font-sans leading-relaxed">{renderMarkdown(m.content)}</div>
                   </div>
                   {m.role === 'assistant' && m.source && (
                     <p className="text-[10px] text-gray font-mono mt-1 px-1 max-w-[90%] truncate" title={m.source}>

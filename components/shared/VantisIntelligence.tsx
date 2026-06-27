@@ -96,11 +96,7 @@ export default function VantisIntelligence() {
     setTimeout(() => inputRef.current?.focus(), 150)
   }, [open, isHidden])
 
-  if (isHidden) return null
-
-  const seeds = SEEDED_QUESTIONS[product] ?? SEEDED_QUESTIONS.all
-  const isOpen = devMode === 'open'
-
+  // Must be before the early return to satisfy Rules of Hooks
   const handleBadgeClick = useCallback(() => {
     const next = badgeClickCount + 1
     setBadgeClickCount(next)
@@ -113,6 +109,11 @@ export default function VantisIntelligence() {
     const t = setTimeout(() => setBadgeClickCount(0), 800)
     setBadgeClickTimer(t)
   }, [badgeClickCount, badgeClickTimer])
+
+  if (isHidden) return null
+
+  const seeds = SEEDED_QUESTIONS[product] ?? SEEDED_QUESTIONS.all
+  const isOpen = devMode === 'open'
 
   async function handleSend(text?: string) {
     const query = (text ?? input).trim()

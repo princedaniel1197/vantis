@@ -9,8 +9,8 @@
     {
       "id": "qpr_flag",
       "keywords": ["qpr", "flag this quarter", "which projects", "compliance deadline", "missed qpr", "will flag"],
-      "en": "Based on your portfolio, here are the projects K-RERA will flag this quarter:\n\n🔴 CRITICAL — Meridian Edge (MRD-010)\n• QPR Q4 2024 overdue · 32.5L penalty accrued\n• Possession 2023-12-31 missed — 108 buyers affected\n• BBMP stop-work notice not vacated\n\n🔴 CRITICAL — Meridian Court (MRD-009)\n• QPR Q1 2025 overdue · 22.5L penalty accrued\n• Title dispute active on survey 45/3A\n\n🟡 WATCH — Meridian Hills (MRD-006)\n• QPR Q2 2025 late — file before end of quarter\n• Possession delayed 8 months — 68 buyers watching\n\n🟡 WATCH — Meridian Heights (MRD-005)\n• QPR LATE — submit Q4 2025 filing immediately\n• BBMP irregularity: plan sanction query pending\n\nRecommend: File MRD-010 and MRD-009 QPRs today to stop penalty clock.",
-      "kn": "ನಿಮ್ಮ ಪೋರ್ಟ್‌ಫೋಲಿಯೊದಲ್ಲಿ K-RERA ಈ ತ್ರೈಮಾಸಿಕ ಫ್ಲ್ಯಾಗ್ ಮಾಡಲಿರುವ ಯೋಜನೆಗಳು:\n\n🔴 Meridian Edge - QPR ತಡ, ₹32.5L ದಂಡ\n🔴 Meridian Court - QPR ತಡ, ₹22.5L ದಂಡ\n🟡 Meridian Hills - QPR ತಡ, ತಕ್ಷಣ ಸಲ್ಲಿಸಿ"
+      "en": "Based on your portfolio, here are the projects K-RERA will flag this quarter:\n\n🔴 CRITICAL — Meridian Edge (PRG-010)\n• QPR Q4 2024 overdue · 32.5L penalty accrued\n• Possession 2023-12-31 missed — 108 buyers affected\n• BBMP stop-work notice not vacated\n\n🔴 CRITICAL — Meridian Court (PRG-009)\n• QPR Q1 2025 overdue · 22.5L penalty accrued\n• Title dispute active on survey 45/3A\n\n🟡 WATCH — Prestige Crystal Lawns (PRG-006)\n• QPR Q2 2025 late — file before end of quarter\n• Possession delayed 8 months — 68 buyers watching\n\n🟡 WATCH — Prestige Greenbrook (PRG-005)\n• QPR LATE — submit Q4 2025 filing immediately\n• BBMP irregularity: plan sanction query pending\n\nRecommend: File PRG-010 and PRG-009 QPRs today to stop penalty clock.",
+      "kn": "ನಿಮ್ಮ ಪೋರ್ಟ್‌ಫೋಲಿಯೊದಲ್ಲಿ K-RERA ಈ ತ್ರೈಮಾಸಿಕ ಫ್ಲ್ಯಾಗ್ ಮಾಡಲಿರುವ ಯೋಜನೆಗಳು:\n\n🔴 Meridian Edge - QPR ತಡ, ₹32.5L ದಂಡ\n🔴 Meridian Court - QPR ತಡ, ₹22.5L ದಂಡ\n🟡 Prestige Crystal Lawns - QPR ತಡ, ತಕ್ಷಣ ಸಲ್ಲಿಸಿ"
     },
     {
       "id": "jda_partner",
@@ -69,7 +69,7 @@
     {
       "id": "meridian_edge",
       "keywords": ["meridian edge", "mrd-010", "mrd010", "89/1a"],
-      "en": "Meridian Edge (MRD-010) — Grade C · Score 28/100\n\nYour highest-risk own project. Immediate action required:\n\n🔴 Kaveri: Undisclosed mortgage ₹8.4 Cr (Bank of Baroda) — not in Form A\n🔴 Bhoomi: 0.8 acres E-category (tank bed) included in project — not buildable\n🔴 BBMP: G+18 vs sanctioned G+14 — stop-work notice active Jun 2023\n🔴 eCourts: Bank of Baroda foreclosure suit OS 841/2024\n🔴 Satellite: Construction on tank bed confirmed Feb 2024\n\nPenalty accrued: ₹32.5L (QPR Q4 2024 + Q1 2025 missed)\n108 homebuyers affected · Possession due Dec 2023 (missed)\n\nRecommend: Engage legal counsel immediately on mortgage disclosure and BBMP stop-work.",
+      "en": "Meridian Edge (PRG-010) — Grade C · Score 28/100\n\nYour highest-risk own project. Immediate action required:\n\n🔴 Kaveri: Undisclosed mortgage ₹8.4 Cr (Bank of Baroda) — not in Form A\n🔴 Bhoomi: 0.8 acres E-category (tank bed) included in project — not buildable\n🔴 BBMP: G+18 vs sanctioned G+14 — stop-work notice active Jun 2023\n🔴 eCourts: Bank of Baroda foreclosure suit OS 841/2024\n🔴 Satellite: Construction on tank bed confirmed Feb 2024\n\nPenalty accrued: ₹32.5L (QPR Q4 2024 + Q1 2025 missed)\n108 homebuyers affected · Possession due Dec 2023 (missed)\n\nRecommend: Engage legal counsel immediately on mortgage disclosure and BBMP stop-work.",
       "kn": "Meridian Edge — ಗ್ರೇಡ್ C · ತಕ್ಷಣ ಕ್ರಮ ಅಗತ್ಯ:\n• ₹8.4 ಕೋಟಿ ಅಡಮಾನ ಬಹಿರಂಗಪಡಿಸಲಿಲ್ಲ\n• BBMP ನಿಲ್ಲಿಸು ಸೂಚನೆ ಸಕ್ರಿಯ\n• ₹32.5L ದಂಡ ಸಂಗ್ರಹ"
     },
     {
@@ -81,8 +81,8 @@
     {
       "id": "portfolio_overview",
       "keywords": ["portfolio", "my projects", "overview", "how are my projects", "all projects", "project health"],
-      "en": "Your Meridian Realty Portfolio — Current Status:\n\n📊 10 projects · 4 Grade A · 4 Grade B · 2 Grade C\n\n✅ Grade A (Safe)\n• Meridian One — Whitefield — Score 82 — QPR ON TIME\n• Meridian Towers — Hebbal — Score 76 — QPR ON TIME\n• Meridian Vista — Yelahanka — Score 69 — QPR ON TIME\n• Meridian Enclave — Bannerghatta — Score 72 — QPR ON TIME\n\n⚠️ Grade B (Watch)\n• Meridian Park — QPR ON TIME — Escrow slightly low\n• Meridian Residences — QPR LATE — Possession delay flagged\n• Meridian Heights — QPR LATE — BBMP query pending\n• Meridian Hills — QPR MISSED — ₹12.5L penalty\n\n🚨 Grade C (Critical — Act Now)\n• Meridian Court — QPR MISSED — ₹22.5L penalty — Title dispute\n• Meridian Edge — QPR MISSED — ₹32.5L penalty — BBMP stop-work\n\nTotal QPR penalty exposure: ₹67.5L\nRecommend: Prioritize MRD-010 and MRD-009 filings today.",
-      "kn": "ನಿಮ್ಮ Meridian Realty ಪೋರ್ಟ್‌ಫೋಲಿಯೊ:\n• 10 ಯೋಜನೆಗಳು · 4 A · 4 B · 2 C\n• ₹67.5L QPR ದಂಡ ಒಟ್ಟು\n• MRD-010 ಮತ್ತು MRD-009 ತಕ್ಷಾಣ ಸಲ್ಲಿಸಿ"
+      "en": "Your Prestige Group Portfolio — Current Status:\n\n📊 10 projects · 4 Grade A · 4 Grade B · 2 Grade C\n\n✅ Grade A (Safe)\n• Evergreen @ Prestige Raintree Park — Whitefield — Score 82 — QPR ON TIME\n• Eaton Park @ The Prestige City — Hebbal — Score 76 — QPR ON TIME\n• Meridian Vista — Yelahanka — Score 69 — QPR ON TIME\n• Meridian Enclave — Bannerghatta — Score 72 — QPR ON TIME\n\n⚠️ Grade B (Watch)\n• Fernvale @ The Prestige City — QPR ON TIME — Escrow slightly low\n• Prestige Gardenia Phase 2 — QPR LATE — Possession delay flagged\n• Prestige Greenbrook — QPR LATE — BBMP query pending\n• Prestige Crystal Lawns — QPR MISSED — ₹12.5L penalty\n\n🚨 Grade C (Critical — Act Now)\n• Meridian Court — QPR MISSED — ₹22.5L penalty — Title dispute\n• Meridian Edge — QPR MISSED — ₹32.5L penalty — BBMP stop-work\n\nTotal QPR penalty exposure: ₹67.5L\nRecommend: Prioritize PRG-010 and PRG-009 filings today.",
+      "kn": "ನಿಮ್ಮ Prestige Group ಪೋರ್ಟ್‌ಫೋಲಿಯೊ:\n• 10 ಯೋಜನೆಗಳು · 4 A · 4 B · 2 C\n• ₹67.5L QPR ದಂಡ ಒಟ್ಟು\n• PRG-010 ಮತ್ತು PRG-009 ತಕ್ಷಾಣ ಸಲ್ಲಿಸಿ"
     },
     {
       "id": "feasibility_basic",

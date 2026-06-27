@@ -1,265 +1,329 @@
 [
   {
-    "id": "MRD-001",
-    "name": "Meridian One",
-    "developer_name": "Meridian Realty",
+    "id": "PRG-001",
+    "name": "Evergreen @ Prestige Raintree Park",
+    "developer_name": "Prestige Group",
     "micro_market": "Whitefield",
-    "survey": "125/2, Krishnarajapuram Hobli, Bengaluru East",
+    "survey": "48/1, 48/2, Varthur Hobli, Bengaluru East",
     "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/220514/003842",
-    "rera_expiry": "2026-12-31",
-    "possession_due": "2025-06-30",
-    "units_total": 260,
-    "units_sold": 228,
+    "rera_id": "PRM/KA/RERA/1251/446/PR/010126/008374",
+    "rera_expiry": "2028-01-01",
+    "possession_due": "2027-12-31",
+    "units_total": 2000,
+    "units_sold": 1720,
     "risk_grade": "A",
-    "risk_score": 82,
+    "risk_score": 70,
     "status": "UNDER_CONSTRUCTION",
     "qpr_status": "ON_TIME",
     "last_qpr": "Q4 2025",
     "qpr_penalty_lakh": 0,
-    "flags": [],
-    "litigation_count": 0,
-    "guidance_sqft": 7200,
-    "market_sqft": 9850,
-    "ka_area_acres": 4.2,
-    "is_own": true,
-    "sub_scores": { "title": 91, "land": 88, "litigation": 95, "bbmp": 84, "encroachment": 79 }
-  },
-  {
-    "id": "MRD-002",
-    "name": "Meridian Towers",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Hebbal",
-    "survey": "48/3, 49/1, Jakkur Hobli, Bengaluru North",
-    "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/210302/002914",
-    "rera_expiry": "2027-03-31",
-    "possession_due": "2026-06-30",
-    "units_total": 180,
-    "units_sold": 162,
-    "risk_grade": "A",
-    "risk_score": 76,
-    "status": "UNDER_CONSTRUCTION",
-    "qpr_status": "ON_TIME",
-    "last_qpr": "Q4 2025",
-    "qpr_penalty_lakh": 0,
-    "flags": [],
-    "litigation_count": 0,
-    "guidance_sqft": 6800,
-    "market_sqft": 9200,
-    "ka_area_acres": 3.1,
-    "is_own": true,
-    "sub_scores": { "title": 85, "land": 80, "litigation": 92, "bbmp": 77, "encroachment": 72 }
-  },
-  {
-    "id": "MRD-003",
-    "name": "Meridian Park",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Sarjapur",
-    "survey": "67/4, 68/1A, Varthur Hobli, Bengaluru East",
-    "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/220819/004106",
-    "rera_expiry": "2027-09-30",
-    "possession_due": "2026-12-31",
-    "units_total": 340,
-    "units_sold": 278,
-    "risk_grade": "B",
-    "risk_score": 58,
-    "status": "UNDER_CONSTRUCTION",
-    "qpr_status": "ON_TIME",
-    "last_qpr": "Q4 2025",
-    "qpr_penalty_lakh": 0,
-    "flags": ["ESCROW_LOW"],
-    "litigation_count": 0,
-    "guidance_sqft": 5600,
-    "market_sqft": 7800,
-    "ka_area_acres": 6.5,
-    "is_own": true,
-    "sub_scores": { "title": 72, "land": 66, "litigation": 85, "bbmp": 61, "encroachment": 54 }
-  },
-  {
-    "id": "MRD-004",
-    "name": "Meridian Residences",
-    "developer_name": "Meridian Realty",
-    "micro_market": "JP Nagar",
-    "survey": "22/2, Begur Hobli, Bengaluru South",
-    "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/210615/003021",
-    "rera_expiry": "2026-06-30",
-    "possession_due": "2025-12-31",
-    "units_total": 150,
-    "units_sold": 138,
-    "risk_grade": "B",
-    "risk_score": 52,
-    "status": "UNDER_CONSTRUCTION",
-    "qpr_status": "LATE",
-    "last_qpr": "Q3 2025",
-    "qpr_penalty_lakh": 2.5,
-    "flags": ["POSSESSION_DELAY"],
+    "flags": {},
     "litigation_count": 0,
     "guidance_sqft": 7800,
-    "market_sqft": 10200,
-    "ka_area_acres": 2.8,
+    "market_sqft": 18500,
+    "ka_area_acres": 55,
     "is_own": true,
-    "sub_scores": { "title": 65, "land": 60, "litigation": 78, "bbmp": 55, "encroachment": 50 }
+    "sub_scores": {
+      "title": 92,
+      "land": 89,
+      "litigation": 96,
+      "bbmp": 88,
+      "encroachment": 91
+    }
   },
   {
-    "id": "MRD-005",
-    "name": "Meridian Heights",
-    "developer_name": "Meridian Realty",
-    "micro_market": "KR Puram",
-    "survey": "89/3, 90/1, Krishnarajapuram Hobli, Bengaluru East",
-    "type": "Commercial",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/210901/003214",
-    "rera_expiry": "2026-09-30",
-    "possession_due": "2026-03-31",
-    "units_total": 0,
-    "units_sold": 0,
-    "area_sqft_total": 45000,
-    "area_sqft_sold": 28000,
-    "risk_grade": "B",
-    "risk_score": 48,
+    "id": "PRG-002",
+    "name": "Eaton Park @ The Prestige City",
+    "developer_name": "Prestige Group",
+    "micro_market": "ITPL Road",
+    "survey": "52/3, 53/1, Varthur Hobli, Bengaluru East",
+    "type": "Apartment",
+    "rera_id": "PRM/KA/RERA/1251/308/PR/180326/008537",
+    "rera_expiry": "2028-03-18",
+    "possession_due": "2028-06-30",
+    "units_total": 600,
+    "units_sold": 528,
+    "risk_grade": "A",
+    "risk_score": 70,
     "status": "UNDER_CONSTRUCTION",
-    "qpr_status": "LATE",
-    "last_qpr": "Q3 2025",
-    "qpr_penalty_lakh": 5.0,
-    "flags": ["BBMP_IRREGULARITY"],
-    "litigation_count": 1,
-    "guidance_sqft": 5200,
-    "market_sqft": 6800,
-    "ka_area_acres": 1.2,
+    "qpr_status": "ON_TIME",
+    "last_qpr": "Q4 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {},
+    "litigation_count": 0,
+    "guidance_sqft": 7400,
+    "market_sqft": 17200,
+    "ka_area_acres": 18.5,
     "is_own": true,
-    "sub_scores": { "title": 62, "land": 58, "litigation": 45, "bbmp": 38, "encroachment": 55 }
+    "sub_scores": {
+      "title": 90,
+      "land": 87,
+      "litigation": 95,
+      "bbmp": 86,
+      "encroachment": 89
+    }
   },
   {
-    "id": "MRD-006",
-    "name": "Meridian Hills",
-    "developer_name": "Meridian Realty",
+    "id": "PRG-003",
+    "name": "Fernvale @ The Prestige City",
+    "developer_name": "Prestige Group",
+    "micro_market": "ITPL Road",
+    "survey": "54/2, 55/1, Varthur Hobli, Bengaluru East",
+    "type": "Apartment",
+    "rera_id": "PRM/KA/RERA/1251/308/PR/110326/008519",
+    "rera_expiry": "2028-03-11",
+    "possession_due": "2028-09-30",
+    "units_total": 400,
+    "units_sold": 344,
+    "risk_grade": "A",
+    "risk_score": 70,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "ON_TIME",
+    "last_qpr": "Q4 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {},
+    "litigation_count": 0,
+    "guidance_sqft": 7400,
+    "market_sqft": 16800,
+    "ka_area_acres": 12.2,
+    "is_own": true,
+    "sub_scores": {
+      "title": 91,
+      "land": 88,
+      "litigation": 97,
+      "bbmp": 85,
+      "encroachment": 90
+    }
+  },
+  {
+    "id": "PRG-004",
+    "name": "Prestige Gardenia Phase 2",
+    "developer_name": "Prestige Group",
     "micro_market": "Devanahalli",
-    "survey": "14/2, 15/1, Devanahalli Hobli, Bengaluru Rural",
-    "type": "Villa",
-    "rera_id": "PRM/KA/RERA/1251/308/PR/201104/002187",
-    "rera_expiry": "2025-12-31",
-    "possession_due": "2024-06-30",
-    "units_total": 72,
-    "units_sold": 68,
+    "survey": "112/1, 113/2, Devanahalli Hobli, Bengaluru Rural",
+    "type": "Plotted Development",
+    "rera_id": "PRM/KA/RERA/1250/303/PR/080626/008705",
+    "rera_expiry": "2028-06-08",
+    "possession_due": "2027-12-31",
+    "units_total": 620,
+    "units_sold": 527,
+    "risk_grade": "A",
+    "risk_score": 70,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "ON_TIME",
+    "last_qpr": "Q4 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {},
+    "litigation_count": 0,
+    "guidance_sqft": 4200,
+    "market_sqft": 6800,
+    "ka_area_acres": 42,
+    "is_own": true,
+    "sub_scores": {
+      "title": 88,
+      "land": 86,
+      "litigation": 94,
+      "bbmp": 83,
+      "encroachment": 88
+    }
+  },
+  {
+    "id": "PRG-005",
+    "name": "Prestige Greenbrook",
+    "developer_name": "Prestige Group",
+    "micro_market": "Devanahalli Hobli",
+    "survey": "88/3, 89/1, Devanahalli Hobli, Bengaluru Rural",
+    "type": "Plotted Development",
+    "rera_id": "PRM/KA/RERA/1250/303/PR/260925/008123",
+    "rera_expiry": "2027-09-26",
+    "possession_due": "2027-09-30",
+    "units_total": 700,
+    "units_sold": 532,
     "risk_grade": "B",
-    "risk_score": 41,
-    "status": "DELAYED",
-    "qpr_status": "MISSED",
-    "last_qpr": "Q2 2025",
-    "qpr_penalty_lakh": 12.5,
-    "flags": ["POSSESSION_DELAY", "QPR_MISSED"],
-    "litigation_count": 2,
+    "risk_score": 60,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "ON_TIME",
+    "last_qpr": "Q4 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {},
+    "litigation_count": 1,
+    "guidance_sqft": 3800,
+    "market_sqft": 5400,
+    "ka_area_acres": 65,
+    "is_own": true,
+    "sub_scores": {
+      "title": 82,
+      "land": 80,
+      "litigation": 88,
+      "bbmp": 78,
+      "encroachment": 84
+    }
+  },
+  {
+    "id": "PRG-006",
+    "name": "Prestige Autumn Leaves",
+    "developer_name": "Prestige Group",
+    "micro_market": "Devanahalli Hobli",
+    "survey": "70/2, 71/1, Devanahalli Hobli, Bengaluru Rural",
+    "type": "Plotted Development",
+    "rera_id": "PRM/KA/RERA/1250/303/PR/240925/008116",
+    "rera_expiry": "2027-09-24",
+    "possession_due": "2027-06-30",
+    "units_total": 600,
+    "units_sold": 420,
+    "risk_grade": "B",
+    "risk_score": 60,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "DUE_SOON",
+    "last_qpr": "Q3 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {
+      "qpr_due": "Q4 2025 QPR due 15 Jan — 8 days remaining"
+    },
+    "litigation_count": 1,
     "guidance_sqft": 3800,
     "market_sqft": 5200,
-    "ka_area_acres": 8.4,
+    "ka_area_acres": 58,
     "is_own": true,
-    "sub_scores": { "title": 55, "land": 48, "litigation": 40, "bbmp": 44, "encroachment": 42 }
+    "sub_scores": {
+      "title": 80,
+      "land": 79,
+      "litigation": 87,
+      "bbmp": 76,
+      "encroachment": 82
+    }
   },
   {
-    "id": "MRD-007",
-    "name": "Meridian Vista",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Yelahanka",
-    "survey": "103/1, 104/3, Yelahanka Hobli, Bengaluru North",
-    "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/221102/004312",
-    "rera_expiry": "2027-12-31",
-    "possession_due": "2027-03-31",
-    "units_total": 220,
-    "units_sold": 158,
-    "risk_grade": "A",
-    "risk_score": 69,
-    "status": "UNDER_CONSTRUCTION",
-    "qpr_status": "ON_TIME",
-    "last_qpr": "Q4 2025",
-    "qpr_penalty_lakh": 0,
-    "flags": [],
-    "litigation_count": 0,
-    "guidance_sqft": 5400,
-    "market_sqft": 7100,
-    "ka_area_acres": 4.8,
-    "is_own": true,
-    "sub_scores": { "title": 78, "land": 72, "litigation": 88, "bbmp": 70, "encroachment": 66 }
-  },
-  {
-    "id": "MRD-008",
-    "name": "Meridian Enclave",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Bannerghatta",
-    "survey": "56/2A, 57/1, Begur Hobli, Bengaluru South",
-    "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/230201/004589",
-    "rera_expiry": "2028-03-31",
+    "id": "PRG-007",
+    "name": "Prestige Crystal Lawns",
+    "developer_name": "Prestige Group",
+    "micro_market": "Devanahalli Hobli",
+    "survey": "95/1, 96/2, Devanahalli Hobli, Bengaluru Rural",
+    "type": "Plotted Development",
+    "rera_id": "PRM/KA/RERA/1250/303/PR/300925/008132",
+    "rera_expiry": "2027-09-30",
     "possession_due": "2027-09-30",
+    "units_total": 550,
+    "units_sold": 385,
+    "risk_grade": "B",
+    "risk_score": 60,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "DUE_SOON",
+    "last_qpr": "Q3 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {
+      "qpr_due": "Q4 2025 QPR due 15 Jan"
+    },
+    "litigation_count": 1,
+    "guidance_sqft": 3800,
+    "market_sqft": 5100,
+    "ka_area_acres": 51,
+    "is_own": true,
+    "sub_scores": {
+      "title": 81,
+      "land": 78,
+      "litigation": 86,
+      "bbmp": 77,
+      "encroachment": 83
+    }
+  },
+  {
+    "id": "PRG-008",
+    "name": "Prestige White Meadows — Clover Leaf",
+    "developer_name": "Prestige Group",
+    "micro_market": "Hebbal",
+    "survey": "22/1, 23/2, Jakkur Hobli, Bengaluru North",
+    "type": "Apartment",
+    "rera_id": "PRM/KA/RERA/1251/446/PR/071124/007202",
+    "rera_expiry": "2027-11-07",
+    "possession_due": "2027-11-30",
     "units_total": 280,
-    "units_sold": 196,
-    "risk_grade": "A",
-    "risk_score": 72,
+    "units_sold": 168,
+    "risk_grade": "B",
+    "risk_score": 45,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "DUE_SOON",
+    "last_qpr": "Q3 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {
+      "qpr_due": "Q4 2025 QPR due 15 Jan — 8 days remaining"
+    },
+    "litigation_count": 2,
+    "guidance_sqft": 6800,
+    "market_sqft": 12200,
+    "ka_area_acres": 9.5,
+    "is_own": true,
+    "sub_scores": {
+      "title": 76,
+      "land": 74,
+      "litigation": 80,
+      "bbmp": 72,
+      "encroachment": 78
+    }
+  },
+  {
+    "id": "PRG-009",
+    "name": "Prestige Suncrest",
+    "developer_name": "Prestige Group",
+    "micro_market": "Bannerghatta Road",
+    "survey": "34/2, 35/1, Begur Hobli, Bengaluru South",
+    "type": "Apartment",
+    "rera_id": "PRM/KA/RERA/1251/308/PR/170225/007512",
+    "rera_expiry": "2027-02-17",
+    "possession_due": "2027-03-31",
+    "units_total": 450,
+    "units_sold": 270,
+    "risk_grade": "B",
+    "risk_score": 45,
     "status": "UNDER_CONSTRUCTION",
     "qpr_status": "ON_TIME",
     "last_qpr": "Q4 2025",
     "qpr_penalty_lakh": 0,
-    "flags": [],
-    "litigation_count": 0,
-    "guidance_sqft": 4900,
-    "market_sqft": 6800,
-    "ka_area_acres": 5.6,
+    "flags": {},
+    "litigation_count": 2,
+    "guidance_sqft": 7200,
+    "market_sqft": 13500,
+    "ka_area_acres": 14.2,
     "is_own": true,
-    "sub_scores": { "title": 80, "land": 76, "litigation": 90, "bbmp": 73, "encroachment": 68 }
+    "sub_scores": {
+      "title": 75,
+      "land": 73,
+      "litigation": 81,
+      "bbmp": 71,
+      "encroachment": 77
+    }
   },
   {
-    "id": "MRD-009",
-    "name": "Meridian Court",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Sarjapur",
-    "survey": "45/3A, Varthur Hobli — DISPUTED",
-    "type": "Villa",
-    "rera_id": "PRM/KA/RERA/1251/309/PR/200706/001842",
-    "rera_expiry": "2025-09-30",
-    "possession_due": "2024-03-31",
-    "units_total": 48,
-    "units_sold": 42,
-    "risk_grade": "C",
-    "risk_score": 33,
-    "status": "DELAYED",
-    "qpr_status": "MISSED",
-    "last_qpr": "Q1 2025",
-    "qpr_penalty_lakh": 22.5,
-    "flags": ["TITLE_DISPUTE", "QPR_MISSED", "POSSESSION_DELAY"],
-    "litigation_count": 3,
-    "guidance_sqft": 5200,
-    "market_sqft": 5000,
-    "ka_area_acres": 4.1,
-    "is_own": true,
-    "sub_scores": { "title": 22, "land": 38, "litigation": 28, "bbmp": 45, "encroachment": 40 }
-  },
-  {
-    "id": "MRD-010",
-    "name": "Meridian Edge",
-    "developer_name": "Meridian Realty",
-    "micro_market": "Devanahalli",
-    "survey": "89/1A, Devanahalli Hobli — ENCROACHMENT FLAG",
+    "id": "PRG-010",
+    "name": "Prestige Southern Star",
+    "developer_name": "Prestige Group",
+    "micro_market": "Kanakapura Road",
+    "survey": "12/1, 13/2, 14/3, Uttarahalli Hobli, Bengaluru South",
     "type": "Apartment",
-    "rera_id": "PRM/KA/RERA/1251/308/PR/191215/002401",
-    "rera_expiry": "2025-03-31",
-    "possession_due": "2023-12-31",
-    "units_total": 120,
-    "units_sold": 108,
-    "risk_grade": "C",
-    "risk_score": 28,
-    "status": "CRITICAL",
-    "qpr_status": "MISSED",
-    "last_qpr": "Q4 2024",
-    "qpr_penalty_lakh": 32.5,
-    "flags": ["ENCROACHMENT", "QPR_MISSED", "POSSESSION_DELAY", "BBMP_IRREGULARITY"],
-    "litigation_count": 4,
-    "guidance_sqft": 3600,
-    "market_sqft": 3200,
-    "ka_area_acres": 3.8,
+    "rera_id": "PRM/KA/RERA/1251/310/PR/210325/007603",
+    "rera_expiry": "2027-03-21",
+    "possession_due": "2027-06-30",
+    "units_total": 2200,
+    "units_sold": 1210,
+    "risk_grade": "B",
+    "risk_score": 45,
+    "status": "UNDER_CONSTRUCTION",
+    "qpr_status": "ON_TIME",
+    "last_qpr": "Q4 2025",
+    "qpr_penalty_lakh": 0,
+    "flags": {},
+    "litigation_count": 0,
+    "guidance_sqft": 6200,
+    "market_sqft": 11800,
+    "ka_area_acres": 72,
     "is_own": true,
-    "sub_scores": { "title": 30, "land": 18, "litigation": 22, "bbmp": 25, "encroachment": 15 }
+    "sub_scores": {
+      "title": 74,
+      "land": 72,
+      "litigation": 82,
+      "bbmp": 70,
+      "encroachment": 76
+    }
   },
   {
     "id": "PRE-001",
@@ -285,7 +349,13 @@
     "market_sqft": 9600,
     "ka_area_acres": 18.5,
     "is_own": false,
-    "sub_scores": { "title": 94, "land": 91, "litigation": 96, "bbmp": 88, "encroachment": 84 }
+    "sub_scores": {
+      "title": 94,
+      "land": 91,
+      "litigation": 96,
+      "bbmp": 88,
+      "encroachment": 84
+    }
   },
   {
     "id": "PRE-002",
@@ -311,7 +381,13 @@
     "market_sqft": 14800,
     "ka_area_acres": 2.4,
     "is_own": false,
-    "sub_scores": { "title": 90, "land": 87, "litigation": 93, "bbmp": 85, "encroachment": 80 }
+    "sub_scores": {
+      "title": 90,
+      "land": 87,
+      "litigation": 93,
+      "bbmp": 85,
+      "encroachment": 80
+    }
   },
   {
     "id": "BGD-001",
@@ -337,7 +413,13 @@
     "market_sqft": 8900,
     "ka_area_acres": 8.2,
     "is_own": false,
-    "sub_scores": { "title": 87, "land": 83, "litigation": 91, "bbmp": 79, "encroachment": 75 }
+    "sub_scores": {
+      "title": 87,
+      "land": 83,
+      "litigation": 91,
+      "bbmp": 79,
+      "encroachment": 75
+    }
   },
   {
     "id": "SOB-001",
@@ -361,9 +443,15 @@
     "litigation_count": 0,
     "guidance_sqft": 6800,
     "market_sqft": 9200,
-    "ka_area_acres": 81.0,
+    "ka_area_acres": 81,
     "is_own": false,
-    "sub_scores": { "title": 92, "land": 88, "litigation": 95, "bbmp": 86, "encroachment": 82 }
+    "sub_scores": {
+      "title": 92,
+      "land": 88,
+      "litigation": 95,
+      "bbmp": 86,
+      "encroachment": 82
+    }
   },
   {
     "id": "EMB-001",
@@ -387,9 +475,15 @@
     "litigation_count": 0,
     "guidance_sqft": 4200,
     "market_sqft": 5800,
-    "ka_area_acres": 288.0,
+    "ka_area_acres": 288,
     "is_own": false,
-    "sub_scores": { "title": 82, "land": 78, "litigation": 85, "bbmp": 72, "encroachment": 68 }
+    "sub_scores": {
+      "title": 82,
+      "land": 78,
+      "litigation": 85,
+      "bbmp": 72,
+      "encroachment": 68
+    }
   },
   {
     "id": "PUR-001",
@@ -409,13 +503,21 @@
     "qpr_status": "ON_TIME",
     "last_qpr": "Q4 2025",
     "qpr_penalty_lakh": 0,
-    "flags": ["ESCROW_LOW"],
+    "flags": [
+      "ESCROW_LOW"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 5400,
     "market_sqft": 7200,
     "ka_area_acres": 4.8,
     "is_own": false,
-    "sub_scores": { "title": 70, "land": 65, "litigation": 80, "bbmp": 62, "encroachment": 58 }
+    "sub_scores": {
+      "title": 70,
+      "land": 65,
+      "litigation": 80,
+      "bbmp": 62,
+      "encroachment": 58
+    }
   },
   {
     "id": "GOD-001",
@@ -441,7 +543,13 @@
     "market_sqft": 7600,
     "ka_area_acres": 11.2,
     "is_own": false,
-    "sub_scores": { "title": 85, "land": 80, "litigation": 88, "bbmp": 76, "encroachment": 72 }
+    "sub_scores": {
+      "title": 85,
+      "land": 80,
+      "litigation": 88,
+      "bbmp": 76,
+      "encroachment": 72
+    }
   },
   {
     "id": "MAN-001",
@@ -461,13 +569,21 @@
     "qpr_status": "LATE",
     "last_qpr": "Q3 2025",
     "qpr_penalty_lakh": 2.5,
-    "flags": ["POSSESSION_DELAY"],
+    "flags": [
+      "POSSESSION_DELAY"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 5500,
     "market_sqft": 7400,
     "ka_area_acres": 6.8,
     "is_own": false,
-    "sub_scores": { "title": 74, "land": 68, "litigation": 82, "bbmp": 65, "encroachment": 60 }
+    "sub_scores": {
+      "title": 74,
+      "land": 68,
+      "litigation": 82,
+      "bbmp": 65,
+      "encroachment": 60
+    }
   },
   {
     "id": "NCC-001",
@@ -486,14 +602,22 @@
     "status": "UNDER_CONSTRUCTION",
     "qpr_status": "LATE",
     "last_qpr": "Q3 2025",
-    "qpr_penalty_lakh": 5.0,
-    "flags": ["ESCROW_LOW"],
+    "qpr_penalty_lakh": 5,
+    "flags": [
+      "ESCROW_LOW"
+    ],
     "litigation_count": 1,
     "guidance_sqft": 6800,
     "market_sqft": 8800,
     "ka_area_acres": 6.2,
     "is_own": false,
-    "sub_scores": { "title": 65, "land": 60, "litigation": 55, "bbmp": 58, "encroachment": 52 }
+    "sub_scores": {
+      "title": 65,
+      "land": 60,
+      "litigation": 55,
+      "bbmp": 58,
+      "encroachment": 52
+    }
   },
   {
     "id": "SAL-001",
@@ -519,7 +643,13 @@
     "market_sqft": 8800,
     "ka_area_acres": 7.6,
     "is_own": false,
-    "sub_scores": { "title": 88, "land": 84, "litigation": 90, "bbmp": 80, "encroachment": 76 }
+    "sub_scores": {
+      "title": 88,
+      "land": 84,
+      "litigation": 90,
+      "bbmp": 80,
+      "encroachment": 76
+    }
   },
   {
     "id": "MAH-001",
@@ -545,7 +675,13 @@
     "market_sqft": 10200,
     "ka_area_acres": 5.8,
     "is_own": false,
-    "sub_scores": { "title": 78, "land": 72, "litigation": 85, "bbmp": 68, "encroachment": 65 }
+    "sub_scores": {
+      "title": 78,
+      "land": 72,
+      "litigation": 85,
+      "bbmp": 68,
+      "encroachment": 65
+    }
   },
   {
     "id": "CEN-001",
@@ -565,13 +701,21 @@
     "qpr_status": "ON_TIME",
     "last_qpr": "Q4 2025",
     "qpr_penalty_lakh": 0,
-    "flags": ["ESCROW_LOW"],
+    "flags": [
+      "ESCROW_LOW"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 7500,
     "market_sqft": 9800,
     "ka_area_acres": 2.6,
     "is_own": false,
-    "sub_scores": { "title": 62, "land": 58, "litigation": 72, "bbmp": 55, "encroachment": 50 }
+    "sub_scores": {
+      "title": 62,
+      "land": 58,
+      "litigation": 72,
+      "bbmp": 55,
+      "encroachment": 50
+    }
   },
   {
     "id": "ASS-001",
@@ -591,13 +735,21 @@
     "qpr_status": "LATE",
     "last_qpr": "Q3 2025",
     "qpr_penalty_lakh": 7.5,
-    "flags": ["POSSESSION_DELAY"],
+    "flags": [
+      "POSSESSION_DELAY"
+    ],
     "litigation_count": 1,
     "guidance_sqft": 7000,
     "market_sqft": 9200,
     "ka_area_acres": 7.4,
     "is_own": false,
-    "sub_scores": { "title": 58, "land": 52, "litigation": 48, "bbmp": 50, "encroachment": 45 }
+    "sub_scores": {
+      "title": 58,
+      "land": 52,
+      "litigation": 48,
+      "bbmp": 50,
+      "encroachment": 45
+    }
   },
   {
     "id": "NIT-001",
@@ -616,14 +768,24 @@
     "status": "CRITICAL",
     "qpr_status": "MISSED",
     "last_qpr": "Q1 2024",
-    "qpr_penalty_lakh": 85.0,
-    "flags": ["LITIGATION_PENDING", "QPR_MISSED", "POSSESSION_DELAY"],
+    "qpr_penalty_lakh": 85,
+    "flags": [
+      "LITIGATION_PENDING",
+      "QPR_MISSED",
+      "POSSESSION_DELAY"
+    ],
     "litigation_count": 6,
     "guidance_sqft": 15000,
     "market_sqft": 8200,
     "ka_area_acres": 1.8,
     "is_own": false,
-    "sub_scores": { "title": 35, "land": 28, "litigation": 12, "bbmp": 32, "encroachment": 28 }
+    "sub_scores": {
+      "title": 35,
+      "land": 28,
+      "litigation": 12,
+      "bbmp": 32,
+      "encroachment": 28
+    }
   },
   {
     "id": "OZU-001",
@@ -643,15 +805,27 @@
     "qpr_status": "MISSED",
     "last_qpr": "Q2 2022",
     "qpr_penalty_lakh": 458.25,
-    "flags": ["ED_ATTACHMENT", "QPR_MISSED", "POSSESSION_DELAY", "TITLE_DISPUTE", "LITIGATION_PENDING"],
+    "flags": [
+      "ED_ATTACHMENT",
+      "QPR_MISSED",
+      "POSSESSION_DELAY",
+      "TITLE_DISPUTE",
+      "LITIGATION_PENDING"
+    ],
     "litigation_count": 14,
     "ka_collected_cr": 927.22,
     "ed_attached_cr": 423.38,
     "guidance_sqft": 3500,
     "market_sqft": 1200,
-    "ka_area_acres": 179.0,
+    "ka_area_acres": 179,
     "is_own": false,
-    "sub_scores": { "title": 6, "land": 8, "litigation": 4, "bbmp": 15, "encroachment": 9 }
+    "sub_scores": {
+      "title": 6,
+      "land": 8,
+      "litigation": 4,
+      "bbmp": 15,
+      "encroachment": 9
+    }
   },
   {
     "id": "MTZ-001",
@@ -672,15 +846,25 @@
     "status": "CRITICAL",
     "qpr_status": "MISSED",
     "last_qpr": "Q1 2023",
-    "qpr_penalty_lakh": 320.0,
-    "flags": ["NGT_VIOLATION", "LITIGATION_PENDING", "QPR_MISSED"],
+    "qpr_penalty_lakh": 320,
+    "flags": [
+      "NGT_VIOLATION",
+      "LITIGATION_PENDING",
+      "QPR_MISSED"
+    ],
     "litigation_count": 9,
     "ngt_fine_cr": 117.35,
     "guidance_sqft": 6200,
     "market_sqft": 2800,
     "ka_area_acres": 6.4,
     "is_own": false,
-    "sub_scores": { "title": 18, "land": 12, "litigation": 8, "bbmp": 20, "encroachment": 14 }
+    "sub_scores": {
+      "title": 18,
+      "land": 12,
+      "litigation": 8,
+      "bbmp": 20,
+      "encroachment": 14
+    }
   },
   {
     "id": "MDV-001",
@@ -699,15 +883,26 @@
     "status": "FAILED",
     "qpr_status": "MISSED",
     "last_qpr": "Q4 2021",
-    "qpr_penalty_lakh": 580.0,
-    "flags": ["IBC_PROCEEDING", "QPR_MISSED", "POSSESSION_DELAY", "LITIGATION_PENDING"],
+    "qpr_penalty_lakh": 580,
+    "flags": [
+      "IBC_PROCEEDING",
+      "QPR_MISSED",
+      "POSSESSION_DELAY",
+      "LITIGATION_PENDING"
+    ],
     "litigation_count": 11,
     "ibc_default_cr": 456.68,
     "guidance_sqft": 5400,
     "market_sqft": 1800,
     "ka_area_acres": 9.2,
     "is_own": false,
-    "sub_scores": { "title": 10, "land": 14, "litigation": 6, "bbmp": 18, "encroachment": 12 }
+    "sub_scores": {
+      "title": 10,
+      "land": 14,
+      "litigation": 6,
+      "bbmp": 18,
+      "encroachment": 12
+    }
   },
   {
     "id": "DIV-001",
@@ -733,7 +928,13 @@
     "market_sqft": 3800,
     "ka_area_acres": 5.2,
     "is_own": false,
-    "sub_scores": { "title": 95, "land": 92, "litigation": 98, "bbmp": 90, "encroachment": 88 }
+    "sub_scores": {
+      "title": 95,
+      "land": 92,
+      "litigation": 98,
+      "bbmp": 90,
+      "encroachment": 88
+    }
   },
   {
     "id": "RNB-001",
@@ -752,14 +953,24 @@
     "status": "CRITICAL",
     "qpr_status": "MISSED",
     "last_qpr": "Q2 2023",
-    "qpr_penalty_lakh": 180.0,
-    "flags": ["QPR_MISSED", "POSSESSION_DELAY", "ESCROW_LOW"],
+    "qpr_penalty_lakh": 180,
+    "flags": [
+      "QPR_MISSED",
+      "POSSESSION_DELAY",
+      "ESCROW_LOW"
+    ],
     "litigation_count": 5,
     "guidance_sqft": 4800,
     "market_sqft": 3200,
     "ka_area_acres": 3.4,
     "is_own": false,
-    "sub_scores": { "title": 28, "land": 22, "litigation": 18, "bbmp": 26, "encroachment": 20 }
+    "sub_scores": {
+      "title": 28,
+      "land": 22,
+      "litigation": 18,
+      "bbmp": 26,
+      "encroachment": 20
+    }
   },
   {
     "id": "STR-001",
@@ -778,14 +989,25 @@
     "status": "CRITICAL",
     "qpr_status": "MISSED",
     "last_qpr": "Q1 2022",
-    "qpr_penalty_lakh": 340.0,
-    "flags": ["TITLE_DISPUTE", "QPR_MISSED", "POSSESSION_DELAY", "LITIGATION_PENDING"],
+    "qpr_penalty_lakh": 340,
+    "flags": [
+      "TITLE_DISPUTE",
+      "QPR_MISSED",
+      "POSSESSION_DELAY",
+      "LITIGATION_PENDING"
+    ],
     "litigation_count": 8,
     "guidance_sqft": 4200,
     "market_sqft": 2400,
     "ka_area_acres": 8.8,
     "is_own": false,
-    "sub_scores": { "title": 14, "land": 20, "litigation": 10, "bbmp": 24, "encroachment": 18 }
+    "sub_scores": {
+      "title": 14,
+      "land": 20,
+      "litigation": 10,
+      "bbmp": 24,
+      "encroachment": 18
+    }
   },
   {
     "id": "ADR-001",
@@ -805,13 +1027,21 @@
     "qpr_status": "ON_TIME",
     "last_qpr": "Q4 2025",
     "qpr_penalty_lakh": 0,
-    "flags": ["ESCROW_LOW"],
+    "flags": [
+      "ESCROW_LOW"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 6500,
     "market_sqft": 8800,
     "ka_area_acres": 5.2,
     "is_own": false,
-    "sub_scores": { "title": 64, "land": 60, "litigation": 72, "bbmp": 58, "encroachment": 52 }
+    "sub_scores": {
+      "title": 64,
+      "land": 60,
+      "litigation": 72,
+      "bbmp": 58,
+      "encroachment": 52
+    }
   },
   {
     "id": "DNR-001",
@@ -837,7 +1067,13 @@
     "market_sqft": 9400,
     "ka_area_acres": 2.8,
     "is_own": false,
-    "sub_scores": { "title": 82, "land": 78, "litigation": 86, "bbmp": 75, "encroachment": 70 }
+    "sub_scores": {
+      "title": 82,
+      "land": 78,
+      "litigation": 86,
+      "bbmp": 75,
+      "encroachment": 70
+    }
   },
   {
     "id": "SHA-001",
@@ -863,7 +1099,13 @@
     "market_sqft": 7800,
     "ka_area_acres": 8.4,
     "is_own": false,
-    "sub_scores": { "title": 70, "land": 66, "litigation": 80, "bbmp": 64, "encroachment": 60 }
+    "sub_scores": {
+      "title": 70,
+      "land": 66,
+      "litigation": 80,
+      "bbmp": 64,
+      "encroachment": 60
+    }
   },
   {
     "id": "KAN-001",
@@ -889,7 +1131,13 @@
     "market_sqft": 7400,
     "ka_area_acres": 12.8,
     "is_own": false,
-    "sub_scores": { "title": 79, "land": 74, "litigation": 84, "bbmp": 70, "encroachment": 66 }
+    "sub_scores": {
+      "title": 79,
+      "land": 74,
+      "litigation": 84,
+      "bbmp": 70,
+      "encroachment": 66
+    }
   },
   {
     "id": "ROH-001",
@@ -908,14 +1156,23 @@
     "status": "UNDER_CONSTRUCTION",
     "qpr_status": "LATE",
     "last_qpr": "Q3 2025",
-    "qpr_penalty_lakh": 5.0,
-    "flags": ["ESCROW_LOW", "POSSESSION_DELAY"],
+    "qpr_penalty_lakh": 5,
+    "flags": [
+      "ESCROW_LOW",
+      "POSSESSION_DELAY"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 5200,
     "market_sqft": 6800,
-    "ka_area_acres": 4.0,
+    "ka_area_acres": 4,
     "is_own": false,
-    "sub_scores": { "title": 55, "land": 50, "litigation": 60, "bbmp": 48, "encroachment": 44 }
+    "sub_scores": {
+      "title": 55,
+      "land": 50,
+      "litigation": 60,
+      "bbmp": 48,
+      "encroachment": 44
+    }
   },
   {
     "id": "SAT-001",
@@ -941,7 +1198,13 @@
     "market_sqft": 5600,
     "ka_area_acres": 8.6,
     "is_own": false,
-    "sub_scores": { "title": 76, "land": 70, "litigation": 82, "bbmp": 68, "encroachment": 64 }
+    "sub_scores": {
+      "title": 76,
+      "land": 70,
+      "litigation": 82,
+      "bbmp": 68,
+      "encroachment": 64
+    }
   },
   {
     "id": "KPL-001",
@@ -960,14 +1223,22 @@
     "status": "UNDER_CONSTRUCTION",
     "qpr_status": "LATE",
     "last_qpr": "Q3 2025",
-    "qpr_penalty_lakh": 5.0,
-    "flags": ["ESCROW_LOW"],
+    "qpr_penalty_lakh": 5,
+    "flags": [
+      "ESCROW_LOW"
+    ],
     "litigation_count": 0,
     "guidance_sqft": 4800,
     "market_sqft": 6400,
     "ka_area_acres": 44.2,
     "is_own": false,
-    "sub_scores": { "title": 61, "land": 56, "litigation": 68, "bbmp": 54, "encroachment": 48 }
+    "sub_scores": {
+      "title": 61,
+      "land": 56,
+      "litigation": 68,
+      "bbmp": 54,
+      "encroachment": 48
+    }
   },
   {
     "id": "NAM-001",
@@ -993,7 +1264,13 @@
     "market_sqft": 6200,
     "ka_area_acres": 14.8,
     "is_own": false,
-    "sub_scores": { "title": 80, "land": 76, "litigation": 84, "bbmp": 72, "encroachment": 68 }
+    "sub_scores": {
+      "title": 80,
+      "land": 76,
+      "litigation": 84,
+      "bbmp": 72,
+      "encroachment": 68
+    }
   },
   {
     "id": "PHX-001",
@@ -1019,7 +1296,13 @@
     "market_sqft": 16500,
     "ka_area_acres": 2.2,
     "is_own": false,
-    "sub_scores": { "title": 86, "land": 82, "litigation": 88, "bbmp": 79, "encroachment": 74 }
+    "sub_scores": {
+      "title": 86,
+      "land": 82,
+      "litigation": 88,
+      "bbmp": 79,
+      "encroachment": 74
+    }
   },
   {
     "id": "VBC-001",
@@ -1038,13 +1321,24 @@
     "status": "FAILED",
     "qpr_status": "MISSED",
     "last_qpr": "Q3 2020",
-    "qpr_penalty_lakh": 420.0,
-    "flags": ["LITIGATION_PENDING", "QPR_MISSED", "POSSESSION_DELAY", "TITLE_DISPUTE"],
+    "qpr_penalty_lakh": 420,
+    "flags": [
+      "LITIGATION_PENDING",
+      "QPR_MISSED",
+      "POSSESSION_DELAY",
+      "TITLE_DISPUTE"
+    ],
     "litigation_count": 10,
     "guidance_sqft": 3200,
     "market_sqft": 1400,
     "ka_area_acres": 28.6,
     "is_own": false,
-    "sub_scores": { "title": 12, "land": 18, "litigation": 10, "bbmp": 20, "encroachment": 14 }
+    "sub_scores": {
+      "title": 12,
+      "land": 18,
+      "litigation": 10,
+      "bbmp": 20,
+      "encroachment": 14
+    }
   }
 ]

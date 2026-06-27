@@ -6,7 +6,7 @@ import { ShieldCheck, Award, CheckCircle2, Search, ExternalLink } from 'lucide-r
 import projectsData from '@/data/dev-projects.json'
 
 const OWN_CERTS = projectsData.filter(p => p.is_own && p.risk_grade !== 'C').map(p => ({
-  id: `VG-2026-${p.id.replace('MRD-', '00')}-MRD`,
+  id: `VG-2026-${p.id.replace('MRD-', '00').replace('PRG-', '00')}-PRG`,
   project: p.name,
   rera: p.rera_id,
   grade: p.risk_grade,

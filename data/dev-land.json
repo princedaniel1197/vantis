@@ -45,11 +45,11 @@
     ]
   },
   "mrd010": {
-    "project_id": "MRD-010",
+    "project_id": "PRG-010",
     "name": "Meridian Edge",
     "survey": "89/1A, Devanahalli Hobli, Bengaluru Rural District",
     "rera_id": "PRM/KA/RERA/1251/308/PR/191215/002401",
-    "developer": "Meridian Realty",
+    "developer": "Prestige Group",
     "ka_area_acres": 3.8,
     "risk_grade": "C",
     "risk_score": 28,
@@ -65,7 +65,7 @@
       { "date": "2008-11-24", "event": "Sale to R. Krishnamurthy ₹12L, Deed 1144/08",    "status": "ok",       "db": "Kaveri 2.0" },
       { "date": "2015-03-18", "event": "Conversion to Non-Agricultural (DC office)",       "status": "ok",       "db": "Bhoomi" },
       { "date": "2018-07-04", "event": "Simple Mortgage Deed 882/2018 — ₹8.4 Cr Bank of Baroda (NOT disclosed)", "status": "flag", "db": "Kaveri 2.0" },
-      { "date": "2019-12-15", "event": "Sale to Meridian Realty ₹2.8 Cr, Deed 3612/19 (mortgage not cleared)", "status": "flag", "db": "Kaveri 2.0" },
+      { "date": "2019-12-15", "event": "Sale to Prestige Group ₹2.8 Cr, Deed 3612/19 (mortgage not cleared)", "status": "flag", "db": "Kaveri 2.0" },
       { "date": "2019-12-15", "event": "K-RERA registration — 120 units, mortgage not disclosed in Form A", "status": "flag", "db": "K-RERA" },
       { "date": "2023-06-12", "event": "BBMP stop-work notice — 4 excess floors",         "status": "critical", "db": "BBMP" },
       { "date": "2023-12-31", "event": "Possession deadline missed — 108 buyers affected", "status": "critical", "db": "K-RERA" },

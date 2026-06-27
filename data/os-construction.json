@@ -1,7 +1,7 @@
 {
   "sites": [
     {
-      "project_id": "MRD-001",
+      "project_id": "PRG-001",
       "project": "Meridian Skyline",
       "location": "Whitefield",
       "completion_pct": 68,
@@ -31,7 +31,7 @@
       ]
     },
     {
-      "project_id": "MRD-003",
+      "project_id": "PRG-003",
       "project": "Meridian Grande",
       "location": "Sarjapur Road",
       "completion_pct": 45,

@@ -18,15 +18,15 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
   ]
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#F2EBDD' }}>
+    <div data-theme="sage" style={{ minHeight: '100vh', background: 'var(--bg)', color: 'var(--ink)' }}>
       {/* Top nav */}
       <header style={{
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        background: 'rgba(10,10,10,0.96)',
+        background: 'var(--chrome)',
         backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #1E1A14',
+        borderBottom: '1px solid var(--border)',
       }}>
         <div style={{
           maxWidth: '1100px',
@@ -40,9 +40,9 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
           {/* Back to workspace */}
           <Link
             href="/"
-            style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#3A3530', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0, transition: 'color 0.1s' }}
-            onMouseEnter={e => { e.currentTarget.style.color = '#C9A84C' }}
-            onMouseLeave={e => { e.currentTarget.style.color = '#3A3530' }}
+            style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--dim)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0, transition: 'color 0.1s' }}
+            onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)' }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'var(--dim)' }}
           >
             ← Hub
           </Link>
@@ -50,7 +50,7 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
           {/* Logo */}
           <Link href="/verify" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, textDecoration: 'none' }}>
             <Image
-              src="/vantislockuponnight.png"
+              src="/vantismarkink.png"
               alt="Vantis"
               width={90}
               height={28}
@@ -63,7 +63,7 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
           <div style={{
             width: '1px',
             height: '20px',
-            background: '#2A2520',
+            background: 'var(--border)',
             flexShrink: 0,
           }} />
           <span style={{
@@ -71,7 +71,7 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
             fontSize: '10px',
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            color: '#C9A84C',
+            color: 'var(--accent)',
             flexShrink: 0,
           }}>
             Verify
@@ -94,8 +94,8 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
                     fontSize: '14px',
                     fontWeight: active ? '500' : '400',
                     textDecoration: 'none',
-                    color: active ? '#F2EBDD' : '#6B6258',
-                    borderBottom: active ? '2px solid #C9A84C' : '2px solid transparent',
+                    color: active ? 'var(--ink)' : 'var(--muted)',
+                    borderBottom: active ? '2px solid var(--accent)' : '2px solid transparent',
                     transition: 'color 0.1s, border-color 0.1s',
                     whiteSpace: 'nowrap',
                   }}
@@ -112,18 +112,18 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
             style={{
               padding: '0.375rem 0.875rem',
               borderRadius: '4px',
-              border: '1px solid #2A2520',
+              border: '1px solid var(--border)',
               background: 'transparent',
               fontFamily: 'var(--font-dm-mono, monospace)',
               fontSize: '11px',
-              color: '#C9A84C',
+              color: 'var(--accent)',
               cursor: 'pointer',
               letterSpacing: '0.06em',
               flexShrink: 0,
               transition: 'border-color 0.1s',
             }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#C9A84C' }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = '#2A2520' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--accent)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--border)' }}
           >
             {t.lang_toggle}
           </button>
@@ -140,22 +140,22 @@ function VerifyNav({ children }: { children: React.ReactNode }) {
 
       {/* Footer */}
       <footer style={{
-        borderTop: '1px solid #1A1510',
+        borderTop: '1px solid var(--border)',
         padding: '2.5rem 1.5rem',
         marginTop: '6rem',
       }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', textAlign: 'center' }}>
           <Image
-            src="/vantislockuponnight.png"
+            src="/vantismarkink.png"
             alt="Vantis"
             width={80}
             height={26}
             style={{ height: '20px', width: 'auto', opacity: 0.5 }}
           />
-          <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '13px', color: '#4A4238', margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '13px', color: 'var(--muted)', margin: 0 }}>
             Data sourced from K-RERA · Kaveri 2.0 · eCourts · BBMP · Bhoomi. For informational purposes. Not legal advice.
           </p>
-          <p style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: '#2A2520', margin: 0, letterSpacing: '0.12em' }}>
+          <p style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: 'var(--dim)', margin: 0, letterSpacing: '0.12em' }}>
             ORIANODE TECHNOLOGIES PVT. LTD.
           </p>
         </div>

@@ -115,7 +115,7 @@ export default function ProjectProfile({ params }: { params: { id: string } }) {
 
   if (!project) {
     return (
-      <main className="min-h-screen bg-background flex items-center justify-center px-4">
+      <main data-theme="slate" className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
           <div className="font-syne text-xl text-off-white mb-2">Project Not Found</div>
           <div className="text-gray text-sm mb-6">No project with ID &quot;{params.id}&quot; found in our database.</div>
@@ -134,7 +134,7 @@ export default function ProjectProfile({ params }: { params: { id: string } }) {
   const complaintsInData = (complaintsData as Array<{ project_id: string }>).filter(c => c.project_id === project.id)
 
   return (
-    <main className="min-h-screen bg-background">
+    <main data-theme="slate" className="min-h-screen bg-background">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/95 border-b border-border px-4 sm:px-8 py-3 flex items-center justify-between backdrop-blur-sm">
         <Link

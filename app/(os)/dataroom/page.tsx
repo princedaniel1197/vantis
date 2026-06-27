@@ -103,8 +103,8 @@ function verdictStyle(v: Verdict) {
 
 function CheckRow({ item, open, onToggle, compact }: { item: CheckItem; open: boolean; onToggle: () => void; compact?: boolean }) {
   return (
-    <div className={`border border-border/50 rounded-sm overflow-hidden ${
-      item.status === 'fail' ? 'bg-red/[0.04]' : item.status === 'warn' ? 'bg-amber/[0.03]' : 'bg-surface2/40'
+    <div className={`border border-border rounded-sm overflow-hidden ${
+      item.status === 'fail' ? 'bg-red/[0.04]' : item.status === 'warn' ? 'bg-amber/[0.03]' : 'bg-surface2'
     }`}>
       <button
         onClick={onToggle}

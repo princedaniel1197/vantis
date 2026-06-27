@@ -1,6 +1,6 @@
 export default function MyAlerts() {
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center">
+    <main data-theme="slate" className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
         <p className="font-mono text-gray-light text-sm tracking-widest uppercase mb-2">Route: /alerts</p>
         <h1 className="font-syne text-2xl text-off-white">My Project Alerts</h1>

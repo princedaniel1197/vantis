@@ -57,25 +57,25 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       className="flex flex-col h-full"
       style={{
         width: '220px',
-        background: '#0F0F1A',
-        borderRight: '1px solid #1E1E2E',
+        background: 'var(--surface)',
+        borderRight: '1px solid var(--border)',
       }}
     >
       {/* Logo area */}
-      <div className="px-4 pt-5 pb-4" style={{ borderBottom: '1px solid #1E1E2E' }}>
+      <div className="px-4 pt-5 pb-4" style={{ borderBottom: '1px solid var(--border)' }}>
         <Link
           href="/"
           className="inline-flex items-center gap-1.5 text-xs font-mono mb-3 transition-colors"
-          style={{ color: '#6B6B88' }}
+          style={{ color: 'var(--muted)' }}
           onClick={onClose}
         >
           <ChevronLeft className="w-3 h-3" />
           Vantis OS
         </Link>
-        <div className="font-syne text-sm font-bold" style={{ color: '#F0EEE8' }}>
+        <div className="font-syne text-sm font-bold" style={{ color: 'var(--ink)' }}>
           Vantis Build
         </div>
-        <div className="text-[9px] font-mono uppercase tracking-[0.12em] mt-0.5" style={{ color: '#6B6B88' }}>
+        <div className="text-[9px] font-mono uppercase tracking-[0.12em] mt-0.5" style={{ color: 'var(--muted)' }}>
           Developer Intelligence OS
         </div>
       </div>
@@ -94,12 +94,12 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
               style={
                 active
                   ? {
-                      background: 'rgba(201,168,76,0.07)',
-                      color: '#C9A84C',
-                      borderLeftColor: '#C9A84C',
+                      background: 'var(--accent-tint)',
+                      color: 'var(--accent)',
+                      borderLeftColor: 'var(--accent)',
                     }
                   : {
-                      color: '#6B6B88',
+                      color: 'var(--muted)',
                       borderLeftColor: 'transparent',
                     }
               }
@@ -110,7 +110,7 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
                 {item.desc && (
                   <div
                     className="text-[9px] font-mono mt-0.5 leading-tight"
-                    style={{ color: active ? 'rgba(201,168,76,0.7)' : '#3A3A5A' }}
+                    style={{ color: active ? 'var(--accent)' : 'var(--dim)' }}
                   >
                     {item.desc}
                   </div>
@@ -122,11 +122,11 @@ function Sidebar({ onClose }: { onClose?: () => void }) {
       </nav>
 
       {/* Footer */}
-      <div className="px-4 py-3" style={{ borderTop: '1px solid #1E1E2E' }}>
-        <div className="text-[9px] font-mono leading-relaxed" style={{ color: '#3A3A5A' }}>
+      <div className="px-4 py-3" style={{ borderTop: '1px solid var(--border)' }}>
+        <div className="text-[9px] font-mono leading-relaxed" style={{ color: 'var(--dim)' }}>
           Demo Project
         </div>
-        <div className="text-[9px] font-mono" style={{ color: '#3A3A5A' }}>
+        <div className="text-[9px] font-mono" style={{ color: 'var(--dim)' }}>
           Divya Villas · JDA Projects
         </div>
       </div>
@@ -138,7 +138,7 @@ export default function BuildLayout({ children }: { children: ReactNode }) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
-    <div className="min-h-screen bg-background text-off-white flex">
+    <div data-theme="daylight" className="min-h-screen bg-background text-ink flex">
       {/* Desktop sidebar */}
       <div className="hidden md:flex flex-col shrink-0 h-screen sticky top-0">
         <Sidebar />
@@ -149,19 +149,19 @@ export default function BuildLayout({ children }: { children: ReactNode }) {
         className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center px-4"
         style={{
           height: '48px',
-          background: '#0F0F1A',
-          borderBottom: '1px solid #1E1E2E',
+          background: 'var(--surface)',
+          borderBottom: '1px solid var(--border)',
         }}
       >
         <button
           onClick={() => setMobileOpen(true)}
           className="p-1.5 rounded-sm transition-colors"
-          style={{ color: '#6B6B88' }}
+          style={{ color: 'var(--muted)' }}
           aria-label="Open menu"
         >
           <Menu className="w-5 h-5" />
         </button>
-        <span className="font-syne text-sm ml-3" style={{ color: '#F0EEE8' }}>
+        <span className="font-syne text-sm ml-3" style={{ color: 'var(--ink)' }}>
           Vantis Build
         </span>
       </div>
@@ -172,7 +172,7 @@ export default function BuildLayout({ children }: { children: ReactNode }) {
           {/* Backdrop */}
           <div
             className="absolute inset-0"
-            style={{ background: 'rgba(10,10,15,0.8)' }}
+            style={{ background: 'rgba(0,0,0,0.4)' }}
             onClick={() => setMobileOpen(false)}
           />
           {/* Drawer */}
@@ -181,7 +181,7 @@ export default function BuildLayout({ children }: { children: ReactNode }) {
               <button
                 onClick={() => setMobileOpen(false)}
                 className="p-2 rounded-sm"
-                style={{ color: '#6B6B88' }}
+                style={{ color: 'var(--muted)' }}
                 aria-label="Close menu"
               >
                 <X className="w-5 h-5" />

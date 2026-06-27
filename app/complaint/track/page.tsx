@@ -330,8 +330,10 @@ function TrackContent() {
 
 export default function TrackComplaint() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-background" />}>
-      <TrackContent />
-    </Suspense>
+    <div data-theme="slate">
+      <Suspense fallback={<div className="min-h-screen bg-background" />}>
+        <TrackContent />
+      </Suspense>
+    </div>
   )
 }

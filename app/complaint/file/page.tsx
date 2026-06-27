@@ -140,7 +140,7 @@ export default function FileComplaint() {
 
   if (step === 'success') {
     return (
-      <main className="min-h-screen bg-background flex flex-col">
+      <main data-theme="slate" className="min-h-screen bg-background flex flex-col">
         <Header lang={lang} setLang={setLang} tx={tx} />
         <div className="flex-1 flex items-center justify-center px-5 py-10">
           <div className="w-full max-w-md text-center">

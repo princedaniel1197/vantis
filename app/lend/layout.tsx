@@ -80,7 +80,7 @@ function PersonaSwitcher() {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(o => !o)}
-        className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-surface2 border border-border hover:border-gold/40 transition-colors"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm bg-surface2 border border-border hover:border-[var(--soft)] transition-colors"
       >
         <div className="w-1.5 h-1.5 rounded-full bg-gold shrink-0" />
         <span className="text-off-white text-[11px] font-mono">{personaMeta.shortName}</span>
@@ -161,8 +161,8 @@ function LendSidebar({ onClose }: { onClose?: () => void }) {
                   onClick={onClose}
                   className="flex items-center gap-2.5 px-4 py-2 text-[11px] transition-colors duration-100 relative"
                   style={{
-                    color:      active ? '#C9A84C' : '#6B6B88',
-                    background: active ? 'rgba(201,168,76,0.07)' : 'transparent',
+                    color:      active ? 'var(--accent)' : 'var(--muted)',
+                    background: active ? 'var(--accent-tint)' : 'transparent',
                   }}
                 >
                   {active && <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-gold rounded-r-sm" />}
@@ -190,7 +190,7 @@ function LendLayoutInner({ children }: { children: ReactNode }) {
   const { personaMeta }               = useLendContext()
 
   return (
-    <div className="min-h-screen bg-background text-off-white font-sans flex">
+    <div data-theme="forest" className="min-h-screen bg-background text-off-white font-sans flex">
       {/* Desktop sidebar */}
       <div className="hidden md:block fixed left-0 top-0 h-full z-30">
         <LendSidebar />

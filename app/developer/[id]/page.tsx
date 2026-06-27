@@ -10,5 +10,5 @@ export function generateStaticParams() {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
-  return <DeveloperContent params={params} />
+  return <div data-theme="slate"><DeveloperContent params={params} /></div>
 }

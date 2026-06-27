@@ -5,7 +5,7 @@ import DevAssistant from '@/components/dev/DevAssistant'
 export default function DevLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
-      <div className="min-h-screen bg-bg text-ink font-sans">
+      <div data-theme="daylight" className="min-h-screen bg-background text-ink font-sans">
         <DevTopBar />
         <main className="pt-14">
           {children}

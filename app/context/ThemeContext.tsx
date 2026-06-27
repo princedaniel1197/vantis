@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 type Theme = 'pitch' | 'work'
 
@@ -9,19 +9,10 @@ interface ThemeCtx {
   toggle: () => void
 }
 
-const ThemeContext = createContext<ThemeCtx>({ theme: 'pitch', toggle: () => {} })
+const ThemeContext = createContext<ThemeCtx>({ theme: 'work', toggle: () => {} })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('pitch')
-
-  useEffect(() => {
-    const el = document.documentElement
-    if (theme === 'work') {
-      el.classList.add('work')
-    } else {
-      el.classList.remove('work')
-    }
-  }, [theme])
+  const [theme, setTheme] = useState<Theme>('work')
 
   function toggle() {
     setTheme(t => (t === 'pitch' ? 'work' : 'pitch'))

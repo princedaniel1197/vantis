@@ -100,9 +100,10 @@ const PRODUCTS = [
 export default function HubPage() {
   return (
     <div
+      data-theme="void"
       style={{
         minHeight: '100vh',
-        background: '#0A0A0F',
+        background: 'var(--bg)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -120,7 +121,7 @@ export default function HubPage() {
           style={{ height: '36px', width: 'auto', marginBottom: '1.25rem' }}
           priority
         />
-        <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase', color: '#3A3A55' }}>
+        <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', letterSpacing: '0.28em', textTransform: 'uppercase', color: 'var(--dim)' }}>
           Choose your workspace
         </div>
       </div>
@@ -159,19 +160,19 @@ export default function HubPage() {
             </div>
 
             {/* Name */}
-            <div style={{ fontFamily: 'var(--font-syne, sans-serif)', fontSize: '20px', fontWeight: '700', lineHeight: 1.3, color: '#F0EEE8', marginBottom: '0.75rem' }}>
+            <div style={{ fontFamily: 'var(--font-syne, sans-serif)', fontSize: '20px', fontWeight: '700', lineHeight: 1.3, color: 'var(--ink)', marginBottom: '0.75rem' }}>
               {p.name}
             </div>
 
             {/* Description */}
-            <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', lineHeight: 1.6, color: '#5A5A72', marginBottom: '1.5rem', flexGrow: 1 }}>
+            <p style={{ fontFamily: 'var(--font-dm-sans, sans-serif)', fontSize: '14px', lineHeight: 1.6, color: 'var(--muted)', marginBottom: '1.5rem', flexGrow: 1 }}>
               {p.desc}
             </p>
 
             {/* Feature list */}
             <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 1.75rem 0', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {p.features.map(f => (
-                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: '#6B6B88' }}>
+                <li key={f} style={{ display: 'flex', alignItems: 'center', gap: '0.625rem', fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '11px', color: 'var(--muted)' }}>
                   <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: p.accent, opacity: 0.7, flexShrink: 0 }} />
                   {f}
                 </li>
@@ -188,7 +189,7 @@ export default function HubPage() {
       </div>
 
       {/* Footer */}
-      <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#2A2A3E' }}>
+      <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '10px', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'var(--soft)' }}>
         Orianode Technologies Pvt. Ltd.
       </div>
     </div>

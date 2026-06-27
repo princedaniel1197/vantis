@@ -2,65 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Govern module legacy vars ──────────────────────────────── */
+/* ── Default: Void Black · Govern ─────────────────────────────────────────── */
 :root {
-  --background: #0A0A0F;
-  --foreground: #F0EEE8;
+  --bg: #0A0A0F; --chrome: #0C0C13; --inset: #0B0B12;
+  --surface: #0F0F18; --surface2: #161622;
+  --border: #1E1E2E; --line: #15151F; --soft: #2A2A3E;
+  --ink: #F0EEE8; --text2: #C8C8D8; --gray: #9090AA;
+  --muted: #6B6B88; --dim: #54546B;
+  --accent: #C9A84C; --accent-hi: #E8D5A3; --accent-dim: #8B7035;
+  --accent-tint: rgba(201, 168, 76, 0.07);
+  --accent-rgb: 201 168 76;
+  --border-gold: #3A3020;
+  --green: #22C55E; --amber: #F59E0B; --red: #EF4444; --blue: #3B82F6;
+  --green-rgb: 34 197 94; --amber-rgb: 245 158 11; --red-rgb: 239 68 68; --blue-rgb: 59 130 246;
+  color-scheme: dark;
+  /* OS legacy aliases */
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #1E5C3A; --rb-dim: #8B6F2A; --rc-dim: #7A1A14;
+  /* Legacy compat */
+  --background: #0A0A0F; --foreground: #F0EEE8;
 }
 
-/* ── Developer product — Pitch (dark) theme — default ──────── */
-:root {
-  --bg:       #0A0A0A;
-  --surf:     #121110;
-  --surf2:    #1C1A17;
-  --ink:      #F2EBDD;
-  --muted:    #8A857A;
-  --bord:     #2A2520;
-  --gold:     #C9A84C;
-  --gold-hi:  #E8CE7E;
-  --gold-dim: #8B6F2A;
-  --ra:       #3FA66A;   /* Grade A — green */
-  --rb:       #C9A84C;   /* Grade B — gold  */
-  --rc:       #C0392B;   /* Grade C — red   */
-  --ra-dim:   #1E5C3A;
-  --rb-dim:   #8B6F2A;
-  --rc-dim:   #7A1A14;
+/* ── Forest Noir · Lend ───────────────────────────────────────────────────── */
+[data-theme="forest"] {
+  --bg: #0C110E; --chrome: #101713; --inset: #0E140F;
+  --surface: #141A16; --surface2: #1A221C;
+  --border: #222C24; --line: #19211B; --soft: #2E3A30;
+  --ink: #E6ECE7; --text2: #C2CCC3; --gray: #869085;
+  --muted: #67756A; --dim: #4E5A50;
+  --accent: #4FB07A; --accent-hi: #7DD4A8; --accent-dim: #2D7A52;
+  --accent-tint: rgba(79, 176, 122, 0.07);
+  --accent-rgb: 79 176 122;
+  --border-gold: #2A4035;
+  --green: #22C55E; --amber: #F59E0B; --red: #EF4444; --blue: #3B82F6;
+  --green-rgb: 34 197 94; --amber-rgb: 245 158 11; --red-rgb: 239 68 68; --blue-rgb: 59 130 246;
+  color-scheme: dark;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #1E5C3A; --rb-dim: #8B6F2A; --rc-dim: #7A1A14;
 }
 
-/* ── Work (light) theme ─────────────────────────────────────── */
-html.work {
-  --bg:       #FAFAF8;
-  --surf:     #FFFFFF;
-  --surf2:    #F2F0EB;
-  --ink:      #16150F;
-  --muted:    #6B6760;
-  --bord:     #E2DDD6;
-  --gold:     #B8952A;
-  --gold-hi:  #9A7B1E;
-  --gold-dim: #D4AE50;
-  --ra:       #2E8A56;
-  --rb:       #B8952A;
-  --rc:       #C0392B;
-  --ra-dim:   #C0E8D4;
-  --rb-dim:   #F5E4B8;
-  --rc-dim:   #F5C5C0;
+/* ── Daylight · Build ─────────────────────────────────────────────────────── */
+[data-theme="daylight"] {
+  --bg: #EFEADD; --chrome: #E7E1D2; --inset: #F2EEE4;
+  --surface: #FBFAF5; --surface2: #F6F2E8;
+  --border: #DDD6C6; --line: #E7E1D2; --soft: #CFC7B4;
+  --ink: #1C1B18; --text2: #3A372F; --gray: #6E6A5C;
+  --muted: #8A8576; --dim: #A39E8C;
+  --accent: #5E7488; --accent-hi: #7A94A8; --accent-dim: #3E5468;
+  --accent-tint: rgba(94, 116, 136, 0.08);
+  --accent-rgb: 94 116 136;
+  --border-gold: #C8BCAA;
+  --green: #1F9D52; --amber: #C77E12; --red: #CF3030; --blue: #2563C9;
+  --green-rgb: 31 157 82; --amber-rgb: 199 126 18; --red-rgb: 207 48 48; --blue-rgb: 37 99 201;
+  color-scheme: light;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #C0E8D4; --rb-dim: #F5E4B8; --rc-dim: #F5C5C0;
 }
 
+/* ── Sage · Verify ────────────────────────────────────────────────────────── */
+[data-theme="sage"] {
+  --bg: #E6E9E1; --chrome: #DEE3D8; --inset: #EEF1EA;
+  --surface: #F6F8F2; --surface2: #EFF2EB;
+  --border: #D2D8C9; --line: #DEE3D8; --soft: #C3CBB8;
+  --ink: #1A201A; --text2: #353C33; --gray: #6B7361;
+  --muted: #838B77; --dim: #9AA08C;
+  --accent: #2E7D4F; --accent-hi: #4A9E6E; --accent-dim: #1A5C35;
+  --accent-tint: rgba(46, 125, 79, 0.08);
+  --accent-rgb: 46 125 79;
+  --border-gold: #C3CBB8;
+  --green: #1F9D52; --amber: #C77E12; --red: #CF3030; --blue: #2563C9;
+  --green-rgb: 31 157 82; --amber-rgb: 199 126 18; --red-rgb: 207 48 48; --blue-rgb: 37 99 201;
+  color-scheme: light;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #C0E8D4; --rb-dim: #F5E4B8; --rc-dim: #F5C5C0;
+}
+
+/* ── Blush · Connect ──────────────────────────────────────────────────────── */
+[data-theme="blush"] {
+  --bg: #F0E7E5; --chrome: #E8DDDA; --inset: #F3EAE8;
+  --surface: #FCF7F6; --surface2: #F4ECEA;
+  --border: #E4D5D1; --line: #E8DDDA; --soft: #D6C2BD;
+  --ink: #231A18; --text2: #3D322F; --gray: #8D7B76;
+  --muted: #9D8A85; --dim: #B0A099;
+  --accent: #7E4E96; --accent-hi: #A06AB5; --accent-dim: #5C3570;
+  --accent-tint: rgba(126, 78, 150, 0.08);
+  --accent-rgb: 126 78 150;
+  --border-gold: #E4D5D1;
+  --green: #1F9D52; --amber: #C77E12; --red: #CF3030; --blue: #2563C9;
+  --green-rgb: 31 157 82; --amber-rgb: 199 126 18; --red-rgb: 207 48 48; --blue-rgb: 37 99 201;
+  color-scheme: light;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #C0E8D4; --rb-dim: #F5E4B8; --rc-dim: #F5C5C0;
+}
+
+/* ── Mono · Data Room ─────────────────────────────────────────────────────── */
+[data-theme="mono"] {
+  --bg: #F1F0ED; --chrome: #EAE9E5; --inset: #F4F3F0;
+  --surface: #FFFFFF; --surface2: #F6F5F2;
+  --border: #E1DFD9; --line: #EAE9E5; --soft: #D2CFC8;
+  --ink: #161616; --text2: #37352F; --gray: #6E6B64;
+  --muted: #86837C; --dim: #A09D95;
+  --accent: #2A2A2A; --accent-hi: #4A4A4A; --accent-dim: #0A0A0A;
+  --accent-tint: rgba(42, 42, 42, 0.06);
+  --accent-rgb: 42 42 42;
+  --border-gold: #D2CFC8;
+  --green: #1F9D52; --amber: #C77E12; --red: #CF3030; --blue: #2563C9;
+  --green-rgb: 31 157 82; --amber-rgb: 199 126 18; --red-rgb: 207 48 48; --blue-rgb: 37 99 201;
+  color-scheme: light;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #C0E8D4; --rb-dim: #F5E4B8; --rc-dim: #F5C5C0;
+}
+
+/* ── Slate · Public ───────────────────────────────────────────────────────── */
+[data-theme="slate"] {
+  --bg: #ECEEF1; --chrome: #E2E6EB; --inset: #EEF1F4;
+  --surface: #FAFBFC; --surface2: #F2F4F7;
+  --border: #DCE1E8; --line: #E2E6EB; --soft: #C4CCD6;
+  --ink: #1A1D23; --text2: #33373F; --gray: #79818F;
+  --muted: #8A92A0; --dim: #9AA2B0;
+  --accent: #3E5BC9; --accent-hi: #5C78E0; --accent-dim: #2840A0;
+  --accent-tint: rgba(62, 91, 201, 0.07);
+  --accent-rgb: 62 91 201;
+  --border-gold: #C4CCD6;
+  --green: #1F9D52; --amber: #C77E12; --red: #CF3030; --blue: #2563C9;
+  --green-rgb: 31 157 82; --amber-rgb: 199 126 18; --red-rgb: 207 48 48; --blue-rgb: 37 99 201;
+  color-scheme: light;
+  --surf: var(--surface); --surf2: var(--surface2); --bord: var(--border);
+  --gold: var(--accent); --gold-hi: var(--accent-hi); --gold-dim: var(--accent-dim);
+  --ra: var(--green); --rb: var(--amber); --rc: var(--red);
+  --ra-dim: #C0E8D4; --rb-dim: #F5E4B8; --rc-dim: #F5C5C0;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
 * { box-sizing: border-box; }
-
 html, body { margin: 0; padding: 0; }
-
 body {
-  background: #0A0A0F;
-  color: #F0EEE8;
+  background: var(--bg);
+  color: var(--ink);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dev product pages override via wrapper div bg-bg / text-ink */
-
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -73,43 +169,38 @@ body {
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--bord); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 @layer utilities {
   .text-balance { text-wrap: balance; }
 }
 
-/* ── Animations ─────────────────────────────────────────────── */
+/* ── Animations ───────────────────────────────────────────────────────────── */
 
-/* Govern module chatbot */
 @keyframes typing-bounce {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
   30%           { transform: translateY(-4px); opacity: 1; }
 }
 .typing-dot { animation: typing-bounce 1s ease-in-out infinite; }
 
-/* Risk dial sweep */
 @keyframes dial-sweep {
   from { stroke-dashoffset: 251.2; }
   to   { stroke-dashoffset: var(--dial-target, 251.2); }
 }
 .animate-dial { animation: dial-sweep 1.4s cubic-bezier(.4,0,.2,1) forwards; }
 
-/* Cascade reveal */
 @keyframes cascade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-cascade { animation: cascade-up 0.5s ease forwards; }
 
-/* Grade badge pulse for C */
 @keyframes grade-pulse {
   0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
   50%       { box-shadow: 0 0 0 6px rgba(192,57,43,0); }
 }
 .grade-c-pulse { animation: grade-pulse 2.4s ease-in-out infinite; }
 
-/* Ozone reveal stamp */
 @keyframes stamp-in {
   0%   { opacity: 0; transform: scale(1.8) rotate(-15deg); }
   60%  { transform: scale(0.93) rotate(3deg); }
@@ -117,14 +208,12 @@ body {
 }
 .animate-stamp { animation: stamp-in 0.7s cubic-bezier(.17,.67,.35,1.25) forwards; }
 
-/* Streaming text cursor */
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
 .cursor-blink { animation: blink 0.7s step-end infinite; }
 
-/* Fade up */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }

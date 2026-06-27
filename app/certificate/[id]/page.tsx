@@ -10,5 +10,5 @@ export function generateStaticParams() {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
-  return <CertificateContent params={params} />
+  return <div data-theme="slate"><CertificateContent params={params} /></div>
 }

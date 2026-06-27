@@ -74,7 +74,7 @@ function SidebarNav({ onClose }: { onClose: () => void }) {
               onClick={onClose}
               className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors duration-150 border-l-2 ${
                 active
-                  ? 'text-gold bg-border-gold/40 border-gold'
+                  ? 'text-gold bg-accent-tint border-gold'
                   : 'text-gray-light hover:text-gold hover:bg-surface2 border-transparent'
               }`}
             >
@@ -123,7 +123,7 @@ export default function GovernLayout({ children }: { children: React.ReactNode }
   const officer = DEFAULT_OFFICER
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div data-theme="void" className="min-h-screen bg-background flex">
       {/* Desktop sidebar — fixed */}
       <div className="hidden md:block fixed left-0 top-0 h-full z-30">
         <SidebarNav onClose={() => {}} />

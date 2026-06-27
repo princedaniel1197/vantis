@@ -50,7 +50,7 @@ export default function ProductChatbot({
   product,
   title,
   subtitle,
-  accentColor = '#C9A84C',
+  accentColor = 'var(--accent)',
   position = 'bottom-right',
 }: ProductChatbotProps) {
   const [open, setOpen] = useState(false)

@@ -17,11 +17,11 @@ function ConnectSubNav({ children }: { children: React.ReactNode }) {
   ]
 
   return (
-    <div>
+    <div data-theme="blush">
       {/* Connect sub-header */}
       <div style={{
-        borderBottom: '1px solid #1A1A2A',
-        background: '#0C0C14',
+        borderBottom: '1px solid var(--border)',
+        background: 'var(--chrome)',
         position: 'sticky',
         top: '56px',
         zIndex: 40,
@@ -42,19 +42,19 @@ function ConnectSubNav({ children }: { children: React.ReactNode }) {
               fontSize: '9px',
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: '#C9A84C',
+              color: 'var(--accent)',
             }}>
               {t.module}
             </span>
             <span style={{
               fontFamily: 'var(--font-dm-mono, monospace)',
               fontSize: '9px',
-              color: '#2A2A3E',
+              color: 'var(--border)',
             }}>·</span>
             <span style={{
               fontFamily: 'var(--font-dm-mono, monospace)',
               fontSize: '9px',
-              color: '#3A3A52',
+              color: 'var(--dim)',
               textTransform: 'uppercase',
               letterSpacing: '0.15em',
             }}>
@@ -81,8 +81,8 @@ function ConnectSubNav({ children }: { children: React.ReactNode }) {
                     letterSpacing: '0.08em',
                     textTransform: 'uppercase',
                     textDecoration: 'none',
-                    color: active ? '#C9A84C' : '#3A3A52',
-                    borderBottom: active ? '2px solid #C9A84C' : '2px solid transparent',
+                    color: active ? 'var(--accent)' : 'var(--dim)',
+                    borderBottom: active ? '2px solid var(--accent)' : '2px solid transparent',
                     transition: 'color 0.1s, border-color 0.1s',
                   }}
                 >
@@ -99,11 +99,11 @@ function ConnectSubNav({ children }: { children: React.ReactNode }) {
             style={{
               padding: '0.25rem 0.75rem',
               borderRadius: '2px',
-              border: '1px solid #1E1E2E',
-              background: 'rgba(201,168,76,0.06)',
+              border: '1px solid var(--border)',
+              background: 'var(--accent-tint)',
               fontFamily: 'var(--font-dm-mono, monospace)',
               fontSize: '11px',
-              color: '#C9A84C',
+              color: 'var(--accent)',
               cursor: 'pointer',
               letterSpacing: '0.08em',
               flexShrink: 0,

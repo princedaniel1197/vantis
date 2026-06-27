@@ -6,6 +6,8 @@ import { MessageSquare, X, Send } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   lookupKnowledge,
+  lookupProjectInSpine,
+  formatProjectAnswer,
   SEEDED_QUESTIONS,
   CAGED_SYSTEM_PROMPT,
   OPEN_SYSTEM_PROMPT,
@@ -133,26 +135,42 @@ export default function VantisIntelligence() {
     let assistantText = ''
     let citation: string | undefined
 
+    // Project spine lookup — works for any of the 1,004 K-RERA projects
+    const projectHit = lookupProjectInSpine(query)
+
     if (chatMode === 'demo' && !isOpen) {
       await new Promise(r => setTimeout(r, 1400))
-      const entry = lookupKnowledge(query, product)
-      if (entry) {
-        assistantText = entry.answer
-        citation = entry.source
+      if (projectHit) {
+        assistantText = formatProjectAnswer(projectHit)
+        citation = `K-RERA Registry · ${projectHit.rera}`
       } else {
-        assistantText = getFallback(product)
-      }
-    } else {
-      const systemPrompt = isOpen ? OPEN_SYSTEM_PROMPT : CAGED_SYSTEM_PROMPT
-      try {
-        assistantText = await callAnthropicAPI(conversationRef.current, systemPrompt)
-      } catch {
         const entry = lookupKnowledge(query, product)
         if (entry) {
           assistantText = entry.answer
           citation = entry.source
         } else {
           assistantText = getFallback(product)
+        }
+      }
+    } else {
+      const dynamicCtx = projectHit
+        ? `\n\nPROJECT DATA FOR THIS QUERY:\n${formatProjectAnswer(projectHit)}\nSource: K-RERA Registry`
+        : ''
+      const systemPrompt = (isOpen ? OPEN_SYSTEM_PROMPT : CAGED_SYSTEM_PROMPT) + dynamicCtx
+      try {
+        assistantText = await callAnthropicAPI(conversationRef.current, systemPrompt)
+      } catch {
+        if (projectHit) {
+          assistantText = formatProjectAnswer(projectHit)
+          citation = `K-RERA Registry · ${projectHit.rera}`
+        } else {
+          const entry = lookupKnowledge(query, product)
+          if (entry) {
+            assistantText = entry.answer
+            citation = entry.source
+          } else {
+            assistantText = getFallback(product)
+          }
         }
       }
     }

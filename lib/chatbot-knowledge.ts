@@ -4,6 +4,72 @@
 // Each entry: keywords trigger lookup; answer is pre-computed with citations.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import projectsRaw from '@/data/projects.json'
+
+// ── Project spine lookup — answers for any of the 1,004 K-RERA projects ──────
+
+interface SpineProject {
+  id: string
+  name: string
+  rera: string
+  developer_name: string
+  location: string
+  district?: string
+  status: string
+  risk_score: number
+  total_units: number
+  units_sold: number
+  declared_cost_crore: number
+  completion_date: string
+  registration_date: string
+  complaints_pending: number
+  litigation?: Array<{ type: string; court: string; filed: string; status: string }>
+}
+
+const PROJECT_SPINE = projectsRaw as unknown as SpineProject[]
+
+export function lookupProjectInSpine(query: string): SpineProject | null {
+  const q = query.toLowerCase()
+
+  // 1. Full project name appears in query
+  const byName = PROJECT_SPINE.find(p => q.includes(p.name.toLowerCase()))
+  if (byName) return byName
+
+  // 2. RERA number mentioned
+  const byRera = PROJECT_SPINE.find(p => q.includes(p.rera.toLowerCase()))
+  if (byRera) return byRera
+
+  // 3. All significant words (>4 chars) from project name appear in query
+  const byWords = PROJECT_SPINE.find(p => {
+    const words = p.name.toLowerCase().split(/[\s\-/]+/).filter(w => w.length > 4)
+    return words.length >= 2 && words.every(w => q.includes(w))
+  })
+
+  return byWords ?? null
+}
+
+export function formatProjectAnswer(p: SpineProject): string {
+  const icon = p.status === 'COMPLIANT' ? '✓' : p.status === 'CAUTION' ? '⚠' : '✕'
+  const soldPct = p.total_units > 0 ? Math.round((p.units_sold / p.total_units) * 100) : 0
+  const litCount = p.litigation?.length ?? 0
+  const riskColor = p.risk_score >= 650 ? 'LOW RISK' : p.risk_score >= 400 ? 'WATCH' : 'HIGH RISK'
+
+  return (
+    `**${p.name}** — ${icon} ${p.status} (${riskColor})\n\n` +
+    `• **Developer:** ${p.developer_name}\n` +
+    `• **Location:** ${p.location}${p.district ? ` · ${p.district}` : ''}\n` +
+    `• **RERA ID:** ${p.rera}\n` +
+    `• **Vantis Risk Score:** ${p.risk_score}/100\n` +
+    `• **Units:** ${p.units_sold} sold of ${p.total_units} total (${soldPct}%)\n` +
+    `• **Declared Cost:** ₹${p.declared_cost_crore} Cr\n` +
+    `• **Registered:** ${p.registration_date} · **Target Completion:** ${p.completion_date}\n` +
+    `• **Complaints Pending:** ${p.complaints_pending}\n` +
+    `• **Litigation:** ${litCount} active case${litCount !== 1 ? 's' : ''}`
+  )
+}
+
+// ── Types ─────────────────────────────────────────────────────────────────────
+
 export type ProductScope = 'all' | 'govern' | 'lend' | 'build' | 'connect' | 'verify'
 
 export interface KnowledgeEntry {

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { MessageSquare, X, Send, ChevronRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { lookupKnowledge, SEEDED_QUESTIONS, CAGED_SYSTEM_PROMPT, ProductScope } from '@/lib/chatbot-knowledge'
+import { lookupKnowledge, lookupProjectInSpine, formatProjectAnswer, SEEDED_QUESTIONS, CAGED_SYSTEM_PROMPT, ProductScope } from '@/lib/chatbot-knowledge'
 
 export interface ProductChatbotProps {
   product: 'lend' | 'build' | 'connect' | 'verify'
@@ -111,22 +111,31 @@ export default function ProductChatbot({
       return
     }
 
-    // Demo mode: keyword lookup
-    await new Promise(r => setTimeout(r, 1200 + Math.random() * 600))
-    const entry = lookupKnowledge(query, product as ProductScope)
+    // Demo mode: project spine lookup first, then keyword lookup
+    await new Promise(r => setTimeout(r, 1200))
+    const projectHit = lookupProjectInSpine(query)
     setIsTyping(false)
 
-    if (entry) {
+    if (projectHit) {
       setMessages(prev => [...prev, {
         role: 'assistant',
-        content: entry.answer,
-        source: entry.source,
+        content: formatProjectAnswer(projectHit),
+        source: `K-RERA Registry · ${projectHit.rera}`,
       }])
     } else {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: `I don't have specific data for that query in the current Vantis dataset. Try one of the suggested questions, or ask about key metrics, risk status, or specific projects.`,
-      }])
+      const entry = lookupKnowledge(query, product as ProductScope)
+      if (entry) {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: entry.answer,
+          source: entry.source,
+        }])
+      } else {
+        setMessages(prev => [...prev, {
+          role: 'assistant',
+          content: `I don't have specific data for that query in the current Vantis dataset. Try one of the suggested questions, or ask about key metrics, risk status, or specific projects.`,
+        }])
+      }
     }
   }
 

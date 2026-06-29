@@ -12,7 +12,10 @@
     "@anthropic-ai/sdk": "^0.95.2",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
+    "@sigma/node-border": "^3.0.0",
     "framer-motion": "^12.38.0",
+    "graphology": "^0.26.0",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "lucide-react": "^1.14.0",
     "next": "14.2.35",
     "qrcode.react": "^4.2.0",
@@ -21,6 +24,7 @@
     "react-force-graph": "^1.48.2",
     "react-is": "^19.2.7",
     "recharts": "^3.8.1",
+    "sigma": "^3.0.3",
     "three": "^0.184.0"
   },
   "devDependencies": {

@@ -1,11 +1,11 @@
 'use client'
 
-// This file is ONLY ever loaded client-side (via next/dynamic + ssr:false in page.tsx).
-// force-graph uses window.innerWidth at module-level, so it must never be evaluated on the server.
+// Sigma.js (WebGL) — loaded client-side only via next/dynamic + ssr:false.
+// Uses graphology for the graph data structure and ForceAtlas2 for layout.
 
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef } from 'react'
 import type { FGNode, FGLink, NodeType } from './graphData'
-import { NODE_COLORS, NODE_RADIUS, NODE_LETTER } from './graphData'
+import { NODE_COLORS, NODE_RADIUS } from './graphData'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -23,280 +23,316 @@ interface Props {
   onReady: (fg: any) => void
 }
 
+function rgba(hex: string, a: number): string {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return `rgba(${r},${g},${b},${a})`
+}
+
 export default function GraphCanvas({
   nodes, links,
   selectedNodeId, visibleTypes, highlightedIds, hoveredId, adjacencyMap,
   onNodeClick, onNodeHover, onBackgroundClick, onReady,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const fgRef        = useRef<any>(null)
+  const rendererRef  = useRef<any>(null)
+  const graphRef     = useRef<any>(null)
+  const nodeMapRef   = useRef<Map<string, FGNode>>(new Map(nodes.map(n => [n.id, n])))
 
-  // Mutable refs — read inside stable canvas callbacks without re-running init
-  const selectedIdRef    = useRef<string | null>(null)
-  const visibleTypesRef  = useRef<Set<string>>(visibleTypes)
-  const highlightedRef   = useRef<Set<string>>(highlightedIds)
-  const hoveredIdRef     = useRef<string | null>(null)
-  const adjacencyRef     = useRef<Map<string, Set<string>>>(adjacencyMap)
-  const onNodeClickRef   = useRef(onNodeClick)
-  const onNodeHoverRef   = useRef(onNodeHover)
-  const onBackgroundRef  = useRef(onBackgroundClick)
-  const onReadyRef       = useRef(onReady)
-  const nodesRef         = useRef(nodes)
-  const linksRef         = useRef(links)
+  // Mutable state refs — read inside sigma reducers without re-creating them
+  const selRef  = useRef<string | null>(selectedNodeId)
+  const hlRef   = useRef<Set<string>>(highlightedIds)
+  const hovRef  = useRef<string | null>(hoveredId)
+  const vtRef   = useRef<Set<string>>(visibleTypes)
+  const adjRef  = useRef<Map<string, Set<string>>>(adjacencyMap)
+  const nodesRef = useRef(nodes)
 
-  useEffect(() => { selectedIdRef.current   = selectedNodeId  }, [selectedNodeId])
-  useEffect(() => { visibleTypesRef.current  = visibleTypes   }, [visibleTypes])
-  useEffect(() => { highlightedRef.current   = highlightedIds }, [highlightedIds])
-  useEffect(() => { hoveredIdRef.current     = hoveredId      }, [hoveredId])
-  useEffect(() => { adjacencyRef.current     = adjacencyMap   }, [adjacencyMap])
-  useEffect(() => { onNodeClickRef.current   = onNodeClick    }, [onNodeClick])
-  useEffect(() => { onNodeHoverRef.current   = onNodeHover    }, [onNodeHover])
-  useEffect(() => { onBackgroundRef.current  = onBackgroundClick }, [onBackgroundClick])
-  useEffect(() => { onReadyRef.current       = onReady        }, [onReady])
-  useEffect(() => { nodesRef.current         = nodes          }, [nodes])
-  useEffect(() => { linksRef.current         = links          }, [links])
+  const onClickRef = useRef(onNodeClick)
+  const onHovRef   = useRef(onNodeHover)
+  const onBgRef    = useRef(onBackgroundClick)
+  const onReadyRef = useRef(onReady)
 
-  /* ── canvas draw functions (stable — read from refs) ────────────── */
-  const drawNode = useCallback((node: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const { x = 0, y = 0, id, type, label, anomaly } = node as FGNode & { x: number; y: number }
-    const color  = NODE_COLORS[type as NodeType] ?? '#888'
-    const r      = NODE_RADIUS[type as NodeType] ?? 6
+  // Sync all visual-state refs + trigger sigma refresh in one effect
+  useEffect(() => {
+    selRef.current  = selectedNodeId
+    hlRef.current   = highlightedIds
+    hovRef.current  = hoveredId
+    vtRef.current   = visibleTypes
+    adjRef.current  = adjacencyMap
+    rendererRef.current?.refresh()
+  }, [selectedNodeId, highlightedIds, hoveredId, visibleTypes, adjacencyMap])
 
-    const selected     = selectedIdRef.current === id
-    const isHighlighted = highlightedRef.current.has(id)
-    const hovered      = hoveredIdRef.current
-    const isNeighbor   = hovered ? (adjacencyRef.current.get(hovered)?.has(id) ?? false) : false
-    const isDimmed     = !!hovered && hovered !== id && !isNeighbor
+  useEffect(() => { onClickRef.current = onNodeClick    }, [onNodeClick])
+  useEffect(() => { onHovRef.current   = onNodeHover    }, [onNodeHover])
+  useEffect(() => { onBgRef.current    = onBackgroundClick }, [onBackgroundClick])
+  useEffect(() => { onReadyRef.current = onReady        }, [onReady])
+  useEffect(() => {
+    nodesRef.current = nodes
+    nodeMapRef.current = new Map(nodes.map(n => [n.id, n]))
+  }, [nodes])
 
-    ctx.globalAlpha = isDimmed ? 0.07 : 1.0
-
-    const screenR = r * gs
-
-    // ── Level 0: sub-pixel — tiny colored square ──────────────────────
-    if (screenR < 1.5) {
-      const s = 1.5 / gs
-      ctx.fillStyle = isHighlighted ? '#FFD700' : color
-      ctx.fillRect(x - s, y - s, s * 2, s * 2)
-      ctx.globalAlpha = 1.0
-      return
-    }
-
-    // ── Level 1: small circle, no label ──────────────────────────────
-    if (screenR < 5) {
-      if (selected || isHighlighted) {
-        ctx.beginPath(); ctx.arc(x, y, r + 5 / gs, 0, 2 * Math.PI)
-        ctx.fillStyle = (isHighlighted ? '#FFD700' : color) + '18'
-        ctx.fill()
-      }
-      ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI)
-      ctx.fillStyle = color + '30'; ctx.fill()
-      ctx.strokeStyle = isHighlighted ? '#FFD700' : selected ? color : color + '80'
-      ctx.lineWidth = isHighlighted || selected ? 2 / gs : 1 / gs
-      ctx.stroke()
-      if (anomaly) {
-        ctx.beginPath(); ctx.arc(x + r * 0.68, y - r * 0.68, 3.5 / gs, 0, 2 * Math.PI)
-        ctx.fillStyle = '#E74C3C'; ctx.fill()
-      }
-      ctx.globalAlpha = 1.0
-      return
-    }
-
-    // ── Level 2: full circle with type letter ─────────────────────────
-    if (selected || isHighlighted) {
-      ctx.beginPath(); ctx.arc(x, y, r + 7, 0, 2 * Math.PI)
-      ctx.fillStyle = (isHighlighted ? '#FFD700' : color) + '18'; ctx.fill()
-    }
-
-    ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI)
-    ctx.fillStyle = selected ? color + '35' : color + '20'; ctx.fill()
-
-    ctx.beginPath(); ctx.arc(x, y, r, 0, 2 * Math.PI)
-    ctx.strokeStyle = isHighlighted ? '#FFD700' : selected ? color : anomaly ? color + 'CC' : color + '66'
-    ctx.lineWidth = isHighlighted || selected ? 2 : 1.5; ctx.stroke()
-
-    ctx.font = `bold ${r * 0.9}px monospace`
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-    ctx.fillStyle = color
-    ctx.fillText(NODE_LETTER[type as NodeType] ?? '?', x, y)
-
-    // ── Level 3: label (zoomed in enough) ────────────────────────────
-    if (screenR > 7) {
-      const truncated = (label || '').replace('⚑ ', '').slice(0, 24)
-      ctx.font = `${Math.max(8, 9 / gs)}px sans-serif`
-      ctx.textAlign = 'center'; ctx.textBaseline = 'top'
-      ctx.fillStyle = isHighlighted ? '#FFD700CC' : '#F0EEE8BB'
-      ctx.fillText(truncated, x, y + r + 3)
-    }
-
-    // Anomaly dot (top-right)
-    if (anomaly) {
-      ctx.beginPath(); ctx.arc(x + r * 0.68, y - r * 0.68, 3.5, 0, 2 * Math.PI)
-      ctx.fillStyle = '#E74C3C'; ctx.fill()
-    }
-
-    // Selection ring
-    if (selected) {
-      ctx.beginPath(); ctx.arc(x, y, r + 5, 0, 2 * Math.PI)
-      ctx.strokeStyle = color + 'AA'; ctx.lineWidth = 1
-      ctx.setLineDash([3, 2]); ctx.stroke(); ctx.setLineDash([])
-    }
-
-    // Highlight pulse ring
-    if (isHighlighted && !selected) {
-      ctx.beginPath(); ctx.arc(x, y, r + 6, 0, 2 * Math.PI)
-      ctx.strokeStyle = '#FFD70088'; ctx.lineWidth = 2
-      ctx.setLineDash([4, 3]); ctx.stroke(); ctx.setLineDash([])
-    }
-
-    ctx.globalAlpha = 1.0
-  }, [])
-
-  const drawPointerArea = useCallback((node: any, color: string, ctx: CanvasRenderingContext2D) => {
-    const r = NODE_RADIUS[(node as FGNode).type as NodeType] ?? 6
-    ctx.fillStyle = color
-    ctx.beginPath(); ctx.arc(node.x ?? 0, node.y ?? 0, r + 8, 0, 2 * Math.PI)
-    ctx.fill()
-  }, [])
-
-  const drawLink = useCallback((link: any, ctx: CanvasRenderingContext2D, gs: number) => {
-    const src = link.source as FGNode & { x: number; y: number }
-    const tgt = link.target as FGNode & { x: number; y: number }
-    if (src.x == null || tgt.x == null) return
-
-    // Skip link rendering at extremely low zoom only
-    if (gs < 0.012) return
-
-    const dx = tgt.x - src.x, dy = tgt.y - src.y
-    const dist = Math.sqrt(dx * dx + dy * dy)
-    if (dist === 0) return
-
-    const srcR = NODE_RADIUS[src.type as NodeType] ?? 6
-    const tgtR = NODE_RADIUS[tgt.type as NodeType] ?? 6
-    const sx = src.x + (dx / dist) * srcR
-    const sy = src.y + (dy / dist) * srcR
-    const ex = tgt.x - (dx / dist) * (tgtR + 4)
-    const ey = tgt.y - (dy / dist) * (tgtR + 4)
-
-    const isRelated = link.type === 'related-party'
-    const isSpouse  = link.type === 'spouse-of'
-
-    // Simplified line at low zoom, full style when zoomed in
-    const detailed = gs > 0.06
-    ctx.beginPath()
-    if (detailed) {
-      if (isRelated)      { ctx.setLineDash([5, 4]); ctx.strokeStyle = '#E74C3C'; ctx.lineWidth = 2 }
-      else if (isSpouse)  { ctx.setLineDash([3, 3]); ctx.strokeStyle = '#9B59B6AA'; ctx.lineWidth = 1.5 }
-      else                { ctx.setLineDash([]);     ctx.strokeStyle = '#1A1A3099'; ctx.lineWidth = 1 }
-    } else {
-      ctx.setLineDash([])
-      ctx.strokeStyle = isRelated ? '#E74C3C55' : '#1A1A3066'
-      ctx.lineWidth = isRelated ? 1 : 0.5
-    }
-    ctx.moveTo(sx, sy); ctx.lineTo(ex, ey); ctx.stroke(); ctx.setLineDash([])
-
-    if (!detailed) return
-
-    // Arrowhead
-    const angle = Math.atan2(ey - sy, ex - sx), al = 6
-    ctx.beginPath()
-    ctx.moveTo(ex, ey)
-    ctx.lineTo(ex - al * Math.cos(angle - 0.42), ey - al * Math.sin(angle - 0.42))
-    ctx.lineTo(ex - al * Math.cos(angle + 0.42), ey - al * Math.sin(angle + 0.42))
-    ctx.closePath()
-    ctx.fillStyle = isRelated ? '#E74C3C' : '#1A1A3099'; ctx.fill()
-
-    if (gs > 0.85 && link.label) {
-      const mx = (sx + ex) / 2, my = (sy + ey) / 2
-      ctx.font = `${9 / gs}px monospace`
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle'
-      ctx.fillStyle = isRelated ? '#E74C3CAA' : '#6B6B88'
-      ctx.fillText(link.label as string, mx, my - 8 / gs)
-    }
-  }, [])
-
-  /* ── force-graph init (runs once, browser only) ──────────────────── */
+  /* ── Main init effect (browser only, runs once) ───────────────────── */
   useEffect(() => {
     if (!containerRef.current) return
-    const container = containerRef.current
+    let cancelled = false
     let ro: ResizeObserver | null = null
-    let cancelled = false // guard against unmount-before-import race
 
-    import('force-graph').then(mod => {
-      if (cancelled) return
-      const ForceGraph = (mod as any).default ?? mod
-      const fg = ForceGraph()(container)
+    Promise.all([
+      import('graphology')                      as Promise<{ default: any }>,
+      import('sigma')                           as Promise<{ default: any }>,
+      import('graphology-layout-forceatlas2')   as Promise<{ default: any }>,
+      import('@sigma/node-border')              as Promise<{ createNodeBorderProgram: any }>,
+    ]).then(([
+      { default: Graph },
+      { default: Sigma },
+      { default: forceAtlas2 },
+      { createNodeBorderProgram },
+    ]) => {
+      if (cancelled || !containerRef.current) return
 
-      fg
-        .width(container.offsetWidth || 800)
-        .height(container.offsetHeight || 600)
-        .backgroundColor('#0A0A0F')
-        .nodeId('id')
-        .nodeCanvasObject(drawNode)
-        .nodeCanvasObjectMode(() => 'replace')
-        .nodePointerAreaPaint(drawPointerArea)
-        .linkCanvasObject(drawLink)
-        .linkCanvasObjectMode(() => 'replace')
-        .onNodeClick((node: any) => onNodeClickRef.current(node as FGNode))
-        .onNodeHover((node: any) => onNodeHoverRef.current(node ? (node as FGNode) : null))
-        .onNodeDragEnd((node: any) => { node.fx = node.x; node.fy = node.y })
-        .onBackgroundClick(() => onBackgroundRef.current())
-        // Visibility filters — read from refs so toggling types needs no re-init
-        .nodeVisibility((node: any) => visibleTypesRef.current.has((node as FGNode).type))
-        .linkVisibility((link: any) => {
-          const sType = (link.source as any)?.type as string | undefined
-          const tType = (link.target as any)?.type as string | undefined
-          if (!sType || !tType) return true // links before force-graph resolves nodes
-          return visibleTypesRef.current.has(sType) && visibleTypesRef.current.has(tType)
+      // ── 1. Build graphology graph ────────────────────────────────
+      const graph = new Graph({ type: 'directed', multi: true })
+
+      nodesRef.current.forEach(node => {
+        const color = NODE_COLORS[node.type as NodeType] ?? '#888888'
+        const size  = (NODE_RADIUS[node.type as NodeType] ?? 5) * 3.2
+
+        graph.addNode(node.id, {
+          // Random seed positions; ForceAtlas2 resolves the layout
+          x: (Math.random() - 0.5) * 100,
+          y: (Math.random() - 0.5) * 100,
+          size,
+          color:       rgba(color, 0.3),    // inner fill (dim)
+          borderColor: rgba(color, 0.85),   // outer ring (bright)
+          label:       node.label.replace('⚑ ', ''),
+          type:        'obsidian',
+          // Private attrs (prefixed _) read by reducers
+          _color: color,
+          _size:  size,
+          _type:  node.type,
+          _anomaly: node.anomaly ?? false,
         })
-        // Pre-cool: 150 warmup ticks (~60ms), then freeze — enough to reach tight equilibrium
-        .warmupTicks(150)
-        .cooldownTicks(0)
-        // Keep render loop alive so nodeVisibility updates paint without user interaction
-        .autoPauseRedraw(false)
-        .d3AlphaDecay(0.03)
-        .d3VelocityDecay(0.3)
-
-      // Tight packing — low repulsion + very short links = dense constellation
-      fg.d3Force('charge')?.strength(-18)
-      fg.d3Force('link')?.distance(6)
-
-      // Load data — warmupTicks run synchronously inside graphData(), positions are ready
-      fg.graphData({ nodes: nodesRef.current, links: linksRef.current })
-
-      // Freeze all positions once settled (preserves layout on subsequent renders)
-      fg.onEngineStop(() => {
-        fg.graphData().nodes.forEach((n: any) => { n.fx = n.x; n.fy = n.y })
-        onReadyRef.current(fg)
       })
 
-      fgRef.current = fg
+      links.forEach(link => {
+        const src = typeof link.source === 'string' ? link.source : link.source.id
+        const tgt = typeof link.target === 'string' ? link.target : link.target.id
+        if (!graph.hasNode(src) || !graph.hasNode(tgt)) return
 
-      ro = new ResizeObserver(() => {
-        if (fg && container) fg.width(container.offsetWidth).height(container.offsetHeight)
+        const edgeColor = link.type === 'related-party' ? '#E74C3C'
+          : link.type === 'spouse-of'                   ? '#9B59B6'
+          : '#8888CC'
+        const edgeAlpha = link.type === 'related-party' ? 0.50
+          : link.type === 'spouse-of'                   ? 0.32
+          : 0.09
+
+        try {
+          graph.addEdge(src, tgt, {
+            size:   link.type === 'related-party' ? 1.4 : 0.55,
+            color:  rgba(edgeColor, edgeAlpha),
+            _color: edgeColor,
+            _alpha: edgeAlpha,
+            _type:  link.type,
+          })
+        } catch { /* multigraph: ignore duplicate edges */ }
       })
-      ro.observe(container)
-    }).catch((err: unknown) => {
-      // eslint-disable-next-line no-console
-      console.error('[GraphCanvas] force-graph load error:', err)
+
+      // ── 2. ForceAtlas2 layout (synchronous) ─────────────────────
+      forceAtlas2.assign(graph, {
+        iterations: 200,
+        settings: {
+          barnesHutOptimize: true,
+          gravity:      0.8,
+          scalingRatio: 4,
+          slowDown:     3,
+        },
+      })
+
+      // Stamp sigma positions onto FGNode objects so page.tsx focusNode works
+      nodesRef.current.forEach(fgNode => {
+        if (graph.hasNode(fgNode.id)) {
+          const a = graph.getNodeAttributes(fgNode.id)
+          fgNode.x = a.x
+          fgNode.y = a.y
+        }
+      })
+      graphRef.current = graph
+
+      // ── 3. Custom bordered-circle program (Obsidian ring style) ──
+      const ObsidianNodeProgram = createNodeBorderProgram({
+        borders: [
+          // Outer ring — bright colored ring (25% of radius)
+          {
+            size:  { value: 0.25, mode: 'relative' },
+            color: { attribute: 'borderColor', defaultValue: '#888888' },
+          },
+          // Inner fill — dim colored fill
+          {
+            size:  { fill: true },
+            color: { attribute: 'color' },
+          },
+        ],
+      })
+
+      // ── 4. Sigma renderer ────────────────────────────────────────
+      const renderer = new Sigma(graph, containerRef.current!, {
+        renderEdgeLabels: false,
+        labelFont:   '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
+        labelSize:   10,
+        labelWeight: '400',
+        labelColor:  { color: '#FFFFFF66' },
+        minCameraRatio: 0.003,
+        maxCameraRatio: 30,
+        enableEdgeClickEvents:  false,
+        enableEdgeHoverEvents:  false,
+        enableEdgeWheelEvents:  false,
+        nodeProgramClasses:  { obsidian: ObsidianNodeProgram },
+        defaultNodeType:     'obsidian',
+
+        // ── Node reducer: Obsidian visual states ─────────────────
+        nodeReducer: (nodeId: string, data: any) => {
+          const color  = data._color as string
+          const size   = data._size  as number
+          const type   = data._type  as string
+
+          const selected  = selRef.current === nodeId
+          const isHl      = hlRef.current.has(nodeId)
+          const hov       = hovRef.current
+          const isSelf    = hov === nodeId
+          const isNeighbor = hov
+            ? (adjRef.current.get(hov)?.has(nodeId) ?? false)
+            : false
+          const isDim    = !!hov && !isSelf && !isNeighbor
+          const isHidden = !vtRef.current.has(type)
+
+          if (isHidden) return { ...data, hidden: true }
+
+          // Show label for big-node types even when not hovered
+          const showLabel = type === 'developer' || type === 'person' || type === 'asset'
+            || selected || isHl || isSelf
+
+          // Sizes
+          const displaySize = selected  ? size * 1.55
+            : isHl        ? size * 1.45
+            : isSelf      ? size * 1.30
+            : isNeighbor  ? size * 1.10
+            : size
+
+          // Fill colors (inner circle)
+          const fillColor = isDim       ? rgba(color, 0.03)
+            : isHl                      ? 'rgba(255,215,0,0.55)'
+            : (selected || isSelf)      ? rgba(color, 0.70)
+            : isNeighbor                ? rgba(color, 0.48)
+            : rgba(color, 0.28)
+
+          // Border ring colors
+          const borderCol = isDim       ? rgba(color, 0.06)
+            : isHl                      ? '#FFD700'
+            : selected                  ? color
+            : isSelf                    ? color
+            : isNeighbor                ? rgba(color, 0.88)
+            : rgba(color, 0.65)
+
+          return {
+            ...data,
+            hidden:      false,
+            size:        displaySize,
+            color:       fillColor,
+            borderColor: borderCol,
+            label:       showLabel ? data.label : '',
+            zIndex:      (selected || isHl || isSelf) ? 1 : isDim ? -1 : 0,
+          }
+        },
+
+        // ── Edge reducer ─────────────────────────────────────────
+        edgeReducer: (edgeId: string, data: any) => {
+          const hov = hovRef.current
+          if (!hov) {
+            return {
+              ...data,
+              color: rgba(data._color, data._alpha),
+              size:  data._type === 'related-party' ? 1.4 : 0.55,
+            }
+          }
+          const [src, tgt] = graph.extremities(edgeId)
+          const isActive = src === hov || tgt === hov
+          return {
+            ...data,
+            color: isActive
+              ? rgba(data._color, Math.min(0.92, (data._alpha as number) * 2.8))
+              : rgba(data._color, 0.018),
+            size: isActive
+              ? (data._type === 'related-party' ? 2.4 : 1.4)
+              : (data._type === 'related-party' ? 1.4 : 0.55),
+          }
+        },
+      })
+
+      rendererRef.current = renderer
+
+      // ── 5. Events ────────────────────────────────────────────────
+      renderer.on('clickNode',  ({ node }: { node: string }) => {
+        const n = nodeMapRef.current.get(node)
+        if (n) onClickRef.current(n)
+      })
+      renderer.on('enterNode', ({ node }: { node: string }) => {
+        onHovRef.current(nodeMapRef.current.get(node) ?? null)
+      })
+      renderer.on('leaveNode', () => {
+        onHovRef.current(null)
+      })
+      renderer.on('clickStage', () => {
+        onBgRef.current()
+      })
+
+      // ── 6. force-graph–compatible adapter for page.tsx ────────────
+      // page.tsx uses fgRef.current.centerAt(x,y,ms) and .zoom(level,ms)
+      const adapter = {
+        centerAt(x: number, y: number, duration: number) {
+          const cam = renderer.getCamera()
+          if (x === 0 && y === 0) {
+            cam.animatedReset({ duration })
+          } else {
+            cam.animate({ x, y }, { duration })
+          }
+        },
+        zoom(levelOrGet?: number, duration?: number) {
+          const cam = renderer.getCamera()
+          if (levelOrGet === undefined) return 1 / Math.max(0.001, cam.ratio)
+          const ratio = 1 / Math.max(0.005, levelOrGet)
+          if (duration !== undefined) {
+            cam.animate({ ratio }, { duration })
+          } else {
+            cam.setState({ ...cam.getState(), ratio })
+          }
+        },
+        pauseAnimation() { /* no-op — sigma has no explicit animation stop */ },
+      }
+
+      onReadyRef.current(adapter)
+
+      // ── 7. Resize observer ───────────────────────────────────────
+      ro = new ResizeObserver(() => renderer.refresh())
+      ro.observe(containerRef.current!)
+    }).catch(err => {
+      console.error('[GraphCanvas] sigma init error:', err)
     })
 
     return () => {
       cancelled = true
       ro?.disconnect()
-      if (fgRef.current) fgRef.current.pauseAnimation() // stop RAF before innerHTML clear
-      if (container) container.innerHTML = ''
-      fgRef.current = null
+      rendererRef.current?.kill()
+      rendererRef.current = null
+      graphRef.current = null
     }
-  }, [drawNode, drawPointerArea, drawLink])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* ── sync data updates if nodes/links ever change at runtime ──────── */
-  useEffect(() => {
-    // nodes/links are FULL_GRAPH constants and never change reference in this build.
-    // This hook exists as the extension point for future dynamic graph updates.
-    if (fgRef.current && (nodes !== nodesRef.current || links !== linksRef.current)) {
-      fgRef.current.graphData({ nodes, links })
-    }
-  }, [nodes, links])
-
-  return <div ref={containerRef} className="w-full h-full" />
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full"
+      style={{ background: '#0A0A0F' }}
+    />
+  )
 }

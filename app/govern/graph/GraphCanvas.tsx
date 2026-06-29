@@ -139,8 +139,14 @@ export default function GraphCanvas({
       })
 
       // ── 2. ForceAtlas2 layout (synchronous) ─────────────────────
+      // Scale iterations down for large graphs to keep load time acceptable
+      const nodeCount = graph.order
+      const fa2Iters  = nodeCount > 10000 ? 30
+        : nodeCount > 5000  ? 60
+        : nodeCount > 2000  ? 100
+        : 200
       forceAtlas2.assign(graph, {
-        iterations: 200,
+        iterations: fa2Iters,
         settings: {
           barnesHutOptimize: true,
           gravity:      0.8,
@@ -176,14 +182,17 @@ export default function GraphCanvas({
       })
 
       // ── 4. Sigma renderer ────────────────────────────────────────
+      // For large graphs (>5k nodes) only render labels on interaction
+      const largeGraph = nodeCount > 5000
       const renderer = new Sigma(graph, containerRef.current!, {
         renderEdgeLabels: false,
         labelFont:   '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
         labelSize:   10,
         labelWeight: '400',
         labelColor:  { color: '#FFFFFF66' },
-        minCameraRatio: 0.003,
-        maxCameraRatio: 30,
+        labelDensity: largeGraph ? 0.15 : 0.5,
+        minCameraRatio: 0.001,
+        maxCameraRatio: 50,
         enableEdgeClickEvents:  false,
         enableEdgeHoverEvents:  false,
         enableEdgeWheelEvents:  false,
@@ -208,9 +217,11 @@ export default function GraphCanvas({
 
           if (isHidden) return { ...data, hidden: true }
 
-          // Show label for big-node types even when not hovered
-          const showLabel = type === 'developer' || type === 'person' || type === 'asset'
-            || selected || isHl || isSelf
+          // For large graphs only show labels on active/selected nodes to avoid clutter
+          const showLabel = largeGraph
+            ? (selected || isHl || isSelf || isNeighbor)
+            : (type === 'developer' || type === 'person' || type === 'asset'
+               || selected || isHl || isSelf)
 
           // Sizes
           const displaySize = selected  ? size * 1.55

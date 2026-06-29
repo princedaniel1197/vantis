@@ -338,6 +338,21 @@ export default function InvestigationCanvas() {
       {/* ── Main ─────────────────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
         <div className="flex-1 relative bg-[#0A0A0F] overflow-hidden">
+          {!fgReady && (
+            <div className="absolute inset-0 flex items-center justify-center z-10 bg-[#0A0A0F]">
+              <div className="text-center">
+                <div className="font-mono text-[10px] text-gray tracking-wider mb-3">
+                  Loading investigation graph…
+                </div>
+                <div className="w-32 h-px bg-border mx-auto overflow-hidden">
+                  <div className="h-full bg-gold/60 animate-pulse" style={{ width: '65%' }} />
+                </div>
+                <div className="font-mono text-[9px] text-gray/40 tracking-wider mt-3">
+                  Computing 1,000+ node layout
+                </div>
+              </div>
+            </div>
+          )}
           <GraphCanvas
             nodes={FULL_GRAPH.nodes}
             links={FULL_GRAPH.links}

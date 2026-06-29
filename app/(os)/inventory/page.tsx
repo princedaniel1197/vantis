@@ -98,7 +98,7 @@ export default function InventoryPage() {
       {/* Kaveri guidance strip */}
       <div className="mb-4 px-4 py-2.5 rounded-sm flex items-center gap-3" style={{ background: 'color-mix(in srgb, var(--gold) 5%, var(--surf))', border: '1px solid color-mix(in srgb, var(--gold) 25%, var(--bord))' }}>
         <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--gold)' }}>Kaveri 2.0 Guidance</span>
-        <span className="font-mono text-xs" style={{ color: 'var(--ink)' }}>₹{project.kaveri_guidance_lakh_per_sqft * 100}/sqft in {project.location.split(',')[0]}</span>
+        <span className="font-mono text-xs" style={{ color: 'var(--ink)' }}>₹{(project.kaveri_guidance_lakh_per_sqft * 100).toFixed(0)}/sqft in {project.location.split(',')[0]}</span>
         <span className="font-mono text-[10px]" style={{ color: 'var(--muted)' }}>· RERA: {project.rera.slice(-8)}</span>
       </div>
 

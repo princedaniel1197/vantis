@@ -94,20 +94,24 @@ export default function GraphCanvas({
       // ── 1. Build graphology graph ────────────────────────────────
       const graph = new Graph({ type: 'directed', multi: true })
 
+      // Size multiplier: smaller for large graphs to avoid crowding
+      const rawCount = nodesRef.current.length
+      const sizeMult = rawCount > 10000 ? 1.1
+        : rawCount > 5000 ? 1.4
+        : 1.9
+
       nodesRef.current.forEach(node => {
         const color = NODE_COLORS[node.type as NodeType] ?? '#888888'
-        const size  = (NODE_RADIUS[node.type as NodeType] ?? 5) * 3.2
+        const size  = (NODE_RADIUS[node.type as NodeType] ?? 5) * sizeMult
 
         graph.addNode(node.id, {
-          // Random seed positions; ForceAtlas2 resolves the layout
           x: (Math.random() - 0.5) * 100,
           y: (Math.random() - 0.5) * 100,
           size,
-          color:       rgba(color, 0.3),    // inner fill (dim)
-          borderColor: rgba(color, 0.85),   // outer ring (bright)
+          color:       rgba(color, 0.06),   // nearly invisible fill by default
+          borderColor: rgba(color, 0.22),   // dim ring
           label:       node.label.replace('⚑ ', ''),
           type:        'obsidian',
-          // Private attrs (prefixed _) read by reducers
           _color: color,
           _size:  size,
           _type:  node.type,
@@ -122,14 +126,15 @@ export default function GraphCanvas({
 
         const edgeColor = link.type === 'related-party' ? '#E74C3C'
           : link.type === 'spouse-of'                   ? '#9B59B6'
-          : '#8888CC'
-        const edgeAlpha = link.type === 'related-party' ? 0.50
-          : link.type === 'spouse-of'                   ? 0.32
-          : 0.09
+          : '#5566AA'
+        // Very low base alpha — bright only on hover
+        const edgeAlpha = link.type === 'related-party' ? 0.18
+          : link.type === 'spouse-of'                   ? 0.10
+          : 0.04
 
         try {
           graph.addEdge(src, tgt, {
-            size:   link.type === 'related-party' ? 1.4 : 0.55,
+            size:   link.type === 'related-party' ? 0.9 : 0.35,
             color:  rgba(edgeColor, edgeAlpha),
             _color: edgeColor,
             _alpha: edgeAlpha,
@@ -168,12 +173,12 @@ export default function GraphCanvas({
       // ── 3. Custom bordered-circle program (Obsidian ring style) ──
       const ObsidianNodeProgram = createNodeBorderProgram({
         borders: [
-          // Outer ring — bright colored ring (25% of radius)
+          // Thin outer ring — 18% of radius (visible but not dominant)
           {
-            size:  { value: 0.25, mode: 'relative' },
-            color: { attribute: 'borderColor', defaultValue: '#888888' },
+            size:  { value: 0.18, mode: 'relative' },
+            color: { attribute: 'borderColor', defaultValue: '#444466' },
           },
-          // Inner fill — dim colored fill
+          // Dark inner fill
           {
             size:  { fill: true },
             color: { attribute: 'color' },
@@ -189,10 +194,11 @@ export default function GraphCanvas({
         labelFont:   '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
         labelSize:   10,
         labelWeight: '400',
-        labelColor:  { color: '#FFFFFF66' },
-        labelDensity: largeGraph ? 0.15 : 0.5,
+        labelColor:  { color: '#FFFFFF55' },
+        labelDensity: largeGraph ? 0.10 : 0.4,
         minCameraRatio: 0.001,
         maxCameraRatio: 50,
+        hideEdgesOnMove: true,
         enableEdgeClickEvents:  false,
         enableEdgeHoverEvents:  false,
         enableEdgeWheelEvents:  false,
@@ -230,20 +236,20 @@ export default function GraphCanvas({
             : isNeighbor  ? size * 1.10
             : size
 
-          // Fill colors (inner circle)
-          const fillColor = isDim       ? rgba(color, 0.03)
-            : isHl                      ? 'rgba(255,215,0,0.55)'
-            : (selected || isSelf)      ? rgba(color, 0.70)
-            : isNeighbor                ? rgba(color, 0.48)
-            : rgba(color, 0.28)
+          // Fill colors — very dim by default, bright only on interaction
+          const fillColor = isDim       ? rgba(color, 0.02)
+            : isHl                      ? 'rgba(255,215,0,0.45)'
+            : (selected || isSelf)      ? rgba(color, 0.55)
+            : isNeighbor                ? rgba(color, 0.30)
+            : rgba(color, 0.06)
 
-          // Border ring colors
-          const borderCol = isDim       ? rgba(color, 0.06)
-            : isHl                      ? '#FFD700'
-            : selected                  ? color
-            : isSelf                    ? color
-            : isNeighbor                ? rgba(color, 0.88)
-            : rgba(color, 0.65)
+          // Border ring — subtle by default
+          const borderCol = isDim       ? rgba(color, 0.04)
+            : isHl                      ? '#C9A84C'
+            : selected                  ? rgba(color, 0.95)
+            : isSelf                    ? rgba(color, 0.90)
+            : isNeighbor                ? rgba(color, 0.60)
+            : rgba(color, 0.22)
 
           return {
             ...data,
@@ -263,7 +269,7 @@ export default function GraphCanvas({
             return {
               ...data,
               color: rgba(data._color, data._alpha),
-              size:  data._type === 'related-party' ? 1.4 : 0.55,
+              size:  data._type === 'related-party' ? 0.9 : 0.35,
             }
           }
           const [src, tgt] = graph.extremities(edgeId)
@@ -271,11 +277,11 @@ export default function GraphCanvas({
           return {
             ...data,
             color: isActive
-              ? rgba(data._color, Math.min(0.92, (data._alpha as number) * 2.8))
-              : rgba(data._color, 0.018),
+              ? rgba(data._color, Math.min(0.75, (data._alpha as number) * 3.5))
+              : rgba(data._color, 0.01),
             size: isActive
-              ? (data._type === 'related-party' ? 2.4 : 1.4)
-              : (data._type === 'related-party' ? 1.4 : 0.55),
+              ? (data._type === 'related-party' ? 1.8 : 0.9)
+              : (data._type === 'related-party' ? 0.9 : 0.35),
           }
         },
       })

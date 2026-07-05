@@ -1,0 +1,83 @@
+{
+  "note": "Vantis Developer Reputation Score (DRS). Basis = government records (RERA compliance + declared-vs-delivered + litigation + escrow), NOT buyer surveys. Roadmap: live compute from source feeds; mock values shown for demo.",
+  "scale": { "min": 0, "max": 100 },
+  "dimensions_meta": [
+    { "key": "delivery", "label": "Delivery Track Record", "desc": "On-time OC + possession vs committed dates across all projects" },
+    { "key": "quality", "label": "Build Quality", "desc": "Defect-liability claims, structural rectifications, snag density" },
+    { "key": "service", "label": "Post-Sale Service", "desc": "Complaint-to-unit ratio, resolution time, handover completeness" },
+    { "key": "transparency", "label": "Transparency", "desc": "QPR filing discipline, declared-vs-delivered gap, escrow disclosure" }
+  ],
+  "developers": [
+    {
+      "id": "meridian",
+      "name": "Meridian Group",
+      "projects": 14,
+      "delivered": 9,
+      "score": 88,
+      "grade": "A",
+      "delta_q": 2,
+      "declared_vs_delivered_gap": 3,
+      "verdict": "Records-clean. Declared progress matches delivered within tolerance.",
+      "dimensions": { "delivery": 91, "quality": 85, "service": 84, "transparency": 92 },
+      "red_flags": [
+        { "label": "OC delay", "value": "0 mo", "severity": "ok" },
+        { "label": "Escrow compliance", "value": "98%", "severity": "ok" },
+        { "label": "Complaint-to-unit", "value": "1.1%", "severity": "ok" },
+        { "label": "Possession-clause penalty", "value": "None invoked", "severity": "ok" },
+        { "label": "Defect-liability record", "value": "Clean", "severity": "ok" }
+      ]
+    },
+    {
+      "id": "jda",
+      "name": "JDA Projects",
+      "projects": 3,
+      "delivered": 2,
+      "score": 78,
+      "grade": "A",
+      "delta_q": 1,
+      "declared_vs_delivered_gap": 2,
+      "verdict": "Small, clean baseline. Divya Villas fully documented and on-track.",
+      "dimensions": { "delivery": 86, "quality": 80, "service": 78, "transparency": 84 },
+      "red_flags": [
+        { "label": "OC delay", "value": "1 mo", "severity": "ok" },
+        { "label": "Escrow compliance", "value": "94%", "severity": "ok" },
+        { "label": "Complaint-to-unit", "value": "1.8%", "severity": "ok" },
+        { "label": "Possession-clause penalty", "value": "None invoked", "severity": "ok" },
+        { "label": "Defect-liability record", "value": "Clean", "severity": "ok" }
+      ]
+    },
+    {
+      "id": "ozone",
+      "name": "Ozone Group",
+      "projects": 7,
+      "delivered": 2,
+      "score": 9,
+      "grade": "C",
+      "delta_q": -11,
+      "declared_vs_delivered_gap": 32,
+      "verdict": "Declared 62% construction; satellite-measured 30%. 32-point gap written permanently to execution score.",
+      "dimensions": { "delivery": 6, "quality": 14, "service": 10, "transparency": 5 },
+      "red_flags": [
+        { "label": "OC delay", "value": "51 mo", "severity": "critical" },
+        { "label": "Escrow compliance", "value": "8%", "severity": "critical" },
+        { "label": "Complaint-to-unit", "value": "14.2%", "severity": "critical" },
+        { "label": "Possession-clause penalty", "value": "₹45.75L accruing", "severity": "critical" },
+        { "label": "Defect-liability record", "value": "3 structural claims", "severity": "warning" }
+      ]
+    }
+  ],
+  "city_index": {
+    "city": "Bengaluru Urban",
+    "computed": "2026-07-01",
+    "developers": [
+      { "rank": 1, "name": "Prestige Group", "score": 92, "grade": "A", "projects": 41 },
+      { "rank": 2, "name": "Brigade Group", "score": 89, "grade": "A", "projects": 33 },
+      { "rank": 3, "name": "Meridian Group", "score": 88, "grade": "A", "projects": 14 },
+      { "rank": 4, "name": "Sobha Ltd", "score": 86, "grade": "A", "projects": 28 },
+      { "rank": 5, "name": "JDA Projects", "score": 78, "grade": "A", "projects": 3 },
+      { "rank": 6, "name": "Mantri Developers", "score": 63, "grade": "B", "projects": 11 },
+      { "rank": 7, "name": "Skylark Mansions", "score": 54, "grade": "B", "projects": 7 },
+      { "rank": 8, "name": "Ozone Group", "score": 9, "grade": "C", "projects": 7 }
+    ]
+  }
+}

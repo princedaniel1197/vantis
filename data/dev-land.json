@@ -42,7 +42,23 @@
       { "quarter": "Q1 2021", "status": "MISSED",   "score_then": 17 },
       { "quarter": "Q2 2021", "status": "MISSED",   "score_then": 12 },
       { "quarter": "Q3 2021", "status": "MISSED",   "score_then": 9  }
-    ]
+    ],
+    "title_report": {
+      "property": { "survey": "84/1, 84/2, 85/3", "extent_acres": 179.0, "locality": "Devanahalli Hobli", "district": "Bengaluru Rural", "address": "NH-44, Devanahalli, Bengaluru Rural 562110" },
+      "owner": { "name": "Ozone Urbana Pvt Ltd", "acquired_via": "sale", "date": "2009-03-18" },
+      "encumbrances": [
+        { "party": "ED (FEMA)", "type": "attachment", "amount": "₹423.38 Cr", "date": "2024-01-22", "status": "open" },
+        { "party": "K-RERA refund order", "type": "lien", "amount": "₹927.22 Cr", "date": "2024-06-30", "status": "open" }
+      ],
+      "litigation": [
+        { "case_no": "WP 28812/2023", "court": "Karnataka High Court", "type": "Homebuyer class action", "status": "active" },
+        { "case_no": "CC 441/2024", "court": "Special Court (FEMA)", "type": "ED attachment", "status": "active" },
+        { "case_no": "CRL 12/2024", "court": "Sessions Court", "type": "Promoter fraud (IPC 420)", "status": "active" }
+      ],
+      "value": { "guideline": "₹4,800/sqft", "market": "₹6,400/sqft (distressed)" },
+      "verdict": { "clear": false, "text": "NOT CLEAR to transact — conversion revoked, ED attachment, 14 active suits, encroachment demolition notice", "lawyer": "Adv. K. Prakash · Bar KAR/2287/2004" },
+      "developer_link": { "flag": true, "text": "Parcel owner is the promoter behind 2 stalled projects; reputation score 9/100. 179-acre Kannehalli plot held in promoter's wife's name — undisclosed beneficial interest.", "score": 9, "projects": ["Ozone Urbana", "Ozone Metrozone"] }
+    }
   },
   "mrd010": {
     "project_id": "PRG-010",
@@ -79,6 +95,91 @@
       { "quarter": "Q4 2020", "status": "MISSED",   "score_then": 36 },
       { "quarter": "Q1 2021", "score_then": 30, "status": "MISSED" },
       { "quarter": "Q2 2021", "score_then": 28, "status": "MISSED" }
-    ]
+    ],
+    "title_report": {
+      "property": { "survey": "89/1A", "extent_acres": 3.8, "locality": "Devanahalli Hobli", "district": "Bengaluru Rural", "address": "Off Airport Road, Devanahalli, Bengaluru Rural 562110" },
+      "owner": { "name": "Meridian Group Pvt Ltd", "acquired_via": "sale", "date": "2019-12-15" },
+      "encumbrances": [
+        { "party": "Bank of Baroda", "type": "mortgage", "amount": "₹8.4 Cr", "date": "2018-07-04", "status": "open" }
+      ],
+      "litigation": [
+        { "case_no": "OS 841/2024", "court": "City Civil Court", "type": "Mortgagee foreclosure", "status": "active" },
+        { "case_no": "MVC 228/2024", "court": "District Court", "type": "Boundary dispute", "status": "active" }
+      ],
+      "value": { "guideline": "₹7,200/sqft", "market": "₹9,850/sqft" },
+      "verdict": { "clear": false, "text": "NOT CLEAR to transact — undisclosed ₹8.4 Cr mortgage + 0.8-acre tank-bed (E-category) construction", "lawyer": "Adv. S. Ramesh · Bar KAR/1123/2009" },
+      "developer_link": { "flag": true, "text": "Undisclosed mortgage predates sale to developer; 4 excess floors built over sanction. Isolated title defect on an otherwise A-grade developer (score 88/100).", "score": 88, "projects": ["Meridian Edge Whitefield P2"] }
+    }
+  },
+  "meridian": {
+    "project_id": "MRD-001",
+    "name": "Meridian Skyline",
+    "survey": "142/3, Whitefield Hobli, Bengaluru Urban District",
+    "rera_id": "PRM/KA/RERA/1251/446/PR/010126/008374",
+    "developer": "Meridian Group",
+    "ka_area_acres": 6.2,
+    "risk_grade": "A",
+    "risk_score": 91,
+    "sub_scores": {
+      "title":       { "score": 96, "label": "Title / Kaveri",        "db": "Kaveri 2.0", "severity": "LOW", "finding": "Clean marketable title. Continuous registered chain since 1972, no gaps, no undisclosed interests." },
+      "land":        { "score": 92, "label": "Land Records / Bhoomi", "db": "Bhoomi",     "severity": "LOW", "finding": "Bhoomi RTC matches K-RERA extent exactly. NA conversion valid, no E/B-Kharab classification." },
+      "litigation":  { "score": 94, "label": "Litigation / eCourts",  "db": "eCourts",    "severity": "LOW", "finding": "No active suits, attachments or criminal matters against the parcel or promoter." },
+      "bbmp":        { "score": 90, "label": "Plan Sanction / BBMP",  "db": "BBMP/BDA",   "severity": "LOW", "finding": "Plan sanction valid for G+22; built exactly to sanction. No stop-work or excess-FAR notices." },
+      "encroachment":{ "score": 88, "label": "Encroachment / Sat.",   "db": "Satellite",  "severity": "LOW", "finding": "2025 satellite imagery confirms construction within sanctioned footprint; no buffer-zone overlap." }
+    },
+    "title_chain": [
+      { "date": "1972-05-08", "event": "Patta granted to B. Venkatesh (agricultural)", "status": "ok", "db": "Bhoomi RTC" },
+      { "date": "2001-09-14", "event": "Conversion to Non-Agricultural (DC office)",    "status": "ok", "db": "Bhoomi" },
+      { "date": "2016-02-20", "event": "Sale to Meridian Group ₹34 Cr, Deed 1188/16",   "status": "ok", "db": "Kaveri 2.0" },
+      { "date": "2025-11-30", "event": "BBMP plan sanction — G+22, 640 units",           "status": "ok", "db": "BBMP/BDA" },
+      { "date": "2026-01-01", "event": "K-RERA registration — 640 units, all disclosed", "status": "ok", "db": "K-RERA" }
+    ],
+    "qpr_history": [
+      { "quarter": "Q1 2026", "status": "ON_TIME", "score_then": 91 }
+    ],
+    "title_report": {
+      "property": { "survey": "142/3", "extent_acres": 6.2, "locality": "Whitefield Hobli", "district": "Bengaluru Urban", "address": "ITPL Main Road, Whitefield, Bengaluru 560066" },
+      "owner": { "name": "Meridian Group Pvt Ltd", "acquired_via": "sale", "date": "2016-02-20" },
+      "encumbrances": [],
+      "litigation": [],
+      "value": { "guideline": "₹8,400/sqft", "market": "₹11,200/sqft" },
+      "verdict": { "clear": true, "text": "CLEAR to transact — marketable title, no encumbrances, no litigation, sanction valid", "lawyer": "Adv. S. Ramesh · Bar KAR/1123/2009" },
+      "developer_link": { "flag": false, "text": "Owner is an A-grade developer (score 88/100). No stalled projects, no undisclosed interests.", "score": 88, "projects": ["Meridian Skyline", "Meridian Grande", "Meridian Villas"] }
+    }
+  },
+  "divya": {
+    "project_id": "DIV-001",
+    "name": "Divya Villas",
+    "survey": "47/2, Kadakola, Mysuru District",
+    "rera_id": "PRM/KA/RERA/1252/447/PR/030223/006012",
+    "developer": "JDA Projects",
+    "ka_area_acres": 4.1,
+    "risk_grade": "A",
+    "risk_score": 84,
+    "sub_scores": {
+      "title":       { "score": 90, "label": "Title / Kaveri",        "db": "Kaveri 2.0", "severity": "LOW", "finding": "Clean registered title, single-owner chain since 1988. Full documentation on file." },
+      "land":        { "score": 86, "label": "Land Records / Bhoomi", "db": "Bhoomi",     "severity": "LOW", "finding": "Bhoomi RTC consistent with K-RERA extent. NA conversion valid." },
+      "litigation":  { "score": 88, "label": "Litigation / eCourts",  "db": "eCourts",    "severity": "LOW", "finding": "No active litigation against parcel or JDA Projects." },
+      "bbmp":        { "score": 82, "label": "Plan Sanction / BBMP",  "db": "MUDA",       "severity": "LOW", "finding": "MUDA plan sanction valid; villa layout built to approved plan." },
+      "encroachment":{ "score": 80, "label": "Encroachment / Sat.",   "db": "Satellite",  "severity": "LOW", "finding": "No buffer-zone or boundary overlap detected in latest imagery." }
+    },
+    "title_chain": [
+      { "date": "1988-07-11", "event": "Patta granted to L. Devaraju (agricultural)",  "status": "ok", "db": "Bhoomi RTC" },
+      { "date": "2019-06-04", "event": "Conversion to Non-Agricultural (DC Mysuru)",   "status": "ok", "db": "Bhoomi" },
+      { "date": "2022-10-18", "event": "Sale to JDA Projects ₹6.2 Cr, Deed 2044/22",   "status": "ok", "db": "Kaveri 2.0" },
+      { "date": "2023-02-03", "event": "K-RERA registration — 34 villas",              "status": "ok", "db": "K-RERA" }
+    ],
+    "qpr_history": [
+      { "quarter": "Q4 2025", "status": "ON_TIME", "score_then": 84 }
+    ],
+    "title_report": {
+      "property": { "survey": "47/2", "extent_acres": 4.1, "locality": "Kadakola", "district": "Mysuru", "address": "Kadakola, Nanjangud Road, Mysuru 571311" },
+      "owner": { "name": "JDA Projects", "acquired_via": "sale", "date": "2022-10-18" },
+      "encumbrances": [],
+      "litigation": [],
+      "value": { "guideline": "₹3,600/sqft", "market": "₹4,900/sqft" },
+      "verdict": { "clear": true, "text": "CLEAR to transact — clean title, no encumbrances, fully documented", "lawyer": "Adv. R. Manjula · Bar KAR/3390/2011" },
+      "developer_link": { "flag": false, "text": "Owner is a clean small developer (score 78/100). Divya Villas fully documented and on-track.", "score": 78, "projects": ["Divya Villas"] }
+    }
   }
 }

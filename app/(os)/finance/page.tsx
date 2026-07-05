@@ -3,6 +3,22 @@
 import { motion } from 'framer-motion'
 import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import financeData from '@/data/os-finance.json'
+import VerificationPanel from '@/components/os/VerificationPanel'
+
+// Stage 3 ⊕ — declared RERA collections vs actual Kaveri registrations (consume the ERP's RERA statement, verify it)
+const RERA_STATEMENT = [
+  { project: 'Meridian Skyline', declared: 78, verified: 76 },
+  { project: 'Divya Villas · JDA', declared: 94, verified: 92 },
+  { project: 'Meridian Edge P2', declared: 54, verified: 41 },
+  { project: 'Ozone Urbana', declared: 62, verified: 28 },
+]
+
+const RECEIVABLES = [
+  { buyer: 'Vikram Mehta', unit: 'B-1204', demand: 18.4, received: 12.0, overdue: 12 },
+  { buyer: 'Suchitra Das', unit: 'Villa 14', demand: 24.0, received: 22.5, overdue: 5 },
+  { buyer: 'Rahul Iyer', unit: 'A-0905', demand: 15.2, received: 8.4, overdue: 41 },
+  { buyer: 'Neha Kulkarni', unit: 'C-1710', demand: 21.6, received: 21.6, overdue: 0 },
+]
 
 const { summary, pl, escrow_accounts, journal_entries } = financeData
 
@@ -125,6 +141,49 @@ export default function FinancePage() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Stage 3 — RERA financial statement verification (Vantis column) + receivables aging (MIS floor) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+        <VerificationPanel
+          title="RERA Financial Statement — Verified"
+          caption="Declared collections (Form 3) vs actual buyer registrations in Kaveri 2.0. Farvision ledgers what the developer says; Vantis checks it against the public record."
+          declaredLabel="declared"
+          verifiedLabel="Kaveri"
+          rows={RERA_STATEMENT}
+          threshold={10}
+          moat="Ozone Urbana declares 62% collected; Kaveri shows 28% registered — a 34-point gap the ERP cannot see. Escrow 70%-rule breach flagged in parallel."
+          link={{ href: '/compliance', label: 'Open filed QPR verification' }}
+        />
+
+        <div className="rounded-sm overflow-hidden" style={{ background: 'var(--surf)', border: '1px solid var(--bord)' }}>
+          <div className="px-4 py-3" style={{ borderBottom: '1px solid var(--bord)' }}>
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Collections MIS — Receivables Aging</span>
+          </div>
+          <table className="w-full text-xs">
+            <thead>
+              <tr style={{ borderBottom: '1px solid var(--bord)' }}>
+                {['Buyer', 'Unit', 'Demand', 'Received', 'Overdue'].map(h => (
+                  <th key={h} className="text-left px-4 py-2 font-mono text-[9px] uppercase tracking-[0.18em]" style={{ color: 'var(--muted)' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {RECEIVABLES.map(r => {
+                const oc = r.overdue >= 30 ? 'var(--rc)' : r.overdue > 0 ? 'var(--rb)' : 'var(--ra)'
+                return (
+                  <tr key={r.buyer} style={{ borderBottom: '1px solid var(--bord)' }}>
+                    <td className="px-4 py-2" style={{ color: 'var(--ink)' }}>{r.buyer}</td>
+                    <td className="px-4 py-2 font-mono text-[10px]" style={{ color: 'var(--muted)' }}>{r.unit}</td>
+                    <td className="px-4 py-2 font-mono" style={{ color: 'var(--muted)' }}>₹{r.demand}L</td>
+                    <td className="px-4 py-2 font-mono" style={{ color: 'var(--ink)' }}>₹{r.received}L</td>
+                    <td className="px-4 py-2 font-mono" style={{ color: oc }}>{r.overdue > 0 ? `${r.overdue}d` : '—'}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

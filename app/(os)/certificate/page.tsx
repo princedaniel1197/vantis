@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ShieldCheck, Award, CheckCircle2, Search, ExternalLink } from 'lucide-react'
 import projectsData from '@/data/dev-projects.json'
+import DeveloperReputationScore from '@/components/os/DeveloperReputationScore'
 
 const OWN_CERTS = projectsData.filter(p => p.is_own && p.risk_grade !== 'C').map(p => ({
   id: `VG-2026-${p.id.replace('MRD-', '00').replace('PRG-', '00')}-PRG`,
@@ -35,11 +36,19 @@ export default function CertificatePage() {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
         <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Compliance · Trust</div>
-        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Buyer-Trust Certificate</h1>
+        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Buyer Trust</h1>
         <p className="text-sm mt-1" style={{ color: 'var(--muted)' }}>
-          Publicly verifiable, government-data-backed trust certificates for each project.
-          Buyers scan the QR on site — instant verification.
+          A records-based Developer Reputation Score and per-project trust certificates —
+          government-data-backed, verifiable by any buyer.
         </p>
+      </div>
+
+      {/* Stage 8 — Developer Reputation Score (the flagship column) */}
+      <DeveloperReputationScore />
+
+      {/* Per-project certificates */}
+      <div className="mb-4">
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em]" style={{ color: 'var(--muted)' }}>Per-Project Buyer-Trust Certificates</span>
       </div>
 
       {/* What a cert is */}

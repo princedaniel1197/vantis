@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle2, AlertTriangle, XCircle, FileText, Clock } from 'lucide-react'
 import complianceData from '@/data/dev-compliance.json'
+import QPRVerificationPanel from '@/components/os/QPRVerificationPanel'
 
 const QPR_COLOR: Record<string, string> = {
   submitted: 'var(--ra)',
@@ -31,6 +32,7 @@ export default function CompliancePage() {
   const filedCount = projects.filter(p => p.qpr_status === 'submitted').length
   const overdueCount = projects.filter(p => p.qpr_status === 'overdue').length
   const totalPenalty = projects.reduce((s, p) => s + (p.penalty_lakh ?? 0), 0)
+  const selectedProject = projects.find(p => p.id === selected)
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
@@ -141,6 +143,16 @@ export default function CompliancePage() {
           )
         })}
       </div>
+
+      {/* Stage 4 — Filed QPR (Form 3) verification: declared vs delivered */}
+      {selectedProject
+        ? <QPRVerificationPanel project={selectedProject} />
+        : (
+          <div className="mt-5 p-4 rounded-sm flex items-center gap-3" style={{ background: 'var(--surf)', border: '1px dashed var(--bord)' }}>
+            <FileText className="w-4 h-4 shrink-0" style={{ color: 'var(--muted)' }} />
+            <span className="text-xs" style={{ color: 'var(--muted)' }}>Select a project above to open its filed QPR (Form 3), compliance score, penalty countdown, audit trail and the <span style={{ color: 'var(--gold)' }}>declared-vs-delivered</span> verification row.</span>
+          </div>
+        )}
     </div>
   )
 }

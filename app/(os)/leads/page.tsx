@@ -4,6 +4,15 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, SlidersHorizontal, ChevronDown, ShieldCheck, ShieldAlert, Phone, Calendar, TrendingUp } from 'lucide-react'
 import leadsData from '@/data/os-leads.json'
+import VerificationPanel from '@/components/os/VerificationPanel'
+
+// Stage 7 ⊕ — claimed sales velocity vs actual Kaveri registrations (a health flag for lenders/buyers)
+const SALES_VERIFICATION = [
+  { project: 'Meridian Skyline', declared: 45, verified: 42 },
+  { project: 'Divya Villas · JDA', declared: 88, verified: 85 },
+  { project: 'Meridian Edge P2', declared: 65, verified: 48 },
+  { project: 'Ozone Urbana', declared: 80, verified: 34 },
+]
 
 const STAGES = ['new_inquiry', 'site_visit_scheduled', 'visited', 'interested', 'negotiation', 'booked'] as const
 type Stage = typeof STAGES[number]
@@ -197,6 +206,20 @@ export default function LeadsPage() {
           </table>
         </div>
       )}
+
+      {/* Stage 7 — claimed velocity vs actual Kaveri registrations (Vantis column) */}
+      <div className="mt-6">
+        <VerificationPanel
+          title="Sales Velocity — Verified"
+          caption="Claimed % booked in the CRM vs actual % registered in Kaveri 2.0. A declared-vs-delivered signal for sales — a lender/buyer health flag."
+          declaredLabel="booked"
+          verifiedLabel="registered"
+          rows={SALES_VERIFICATION}
+          threshold={10}
+          moat="Ozone Urbana shows 80% booked; Kaveri registrations show 34%. Sell.Do runs the pipeline — only Vantis checks the claim against the registry."
+          link={{ href: '/certificate', label: 'See developer reputation' }}
+        />
+      </div>
     </div>
   )
 }

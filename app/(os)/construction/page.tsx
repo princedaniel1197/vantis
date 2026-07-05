@@ -4,6 +4,15 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Circle, Clock, HardHat, AlertCircle } from 'lucide-react'
 import constructionData from '@/data/os-construction.json'
+import VerificationPanel from '@/components/os/VerificationPanel'
+
+// Stage 5 ⊕ — independent satellite/drone progress vs the site team's self-reported %
+const PROGRESS_VERIFICATION = [
+  { project: 'Meridian Skyline', declared: 68, verified: 66 },
+  { project: 'Divya Villas · JDA', declared: 94, verified: 94 },
+  { project: 'Meridian Edge P2', declared: 78, verified: 60 },
+  { project: 'Ozone Urbana', declared: 62, verified: 30 },
+]
 
 const MILESTONE_COLOR: Record<string, string> = { done: 'var(--ra)', active: 'var(--gold)', planned: 'var(--muted)' }
 const MILESTONE_ICON = { done: CheckCircle2, active: Clock, planned: Circle }
@@ -150,6 +159,21 @@ export default function ConstructionPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Stage 5 — independent progress verification (Vantis column) */}
+      <div className="mt-5">
+        <VerificationPanel
+          title="Independent Progress Verification"
+          caption="Site-team self-reported % vs satellite/CV change-detection over time. Procore records what the superintendent logs; Vantis counts the floors from the sky."
+          declaredLabel="reported"
+          verifiedLabel="satellite"
+          rows={PROGRESS_VERIFICATION}
+          threshold={10}
+          roadmap="ROADMAP · SATELLITE/CV"
+          moat="Ozone Urbana's site team reports 62%; satellite change-detection measures 30%. The 32-point gap is the earliest possible default signal — 8 quarters before the FIR."
+          link={{ href: '/compliance', label: 'See declared vs delivered in QPR' }}
+        />
       </div>
     </div>
   )

@@ -8,9 +8,9 @@ import VerificationPanel from '@/components/os/VerificationPanel'
 
 // Stage 5 ⊕ — independent satellite/drone progress vs the site team's self-reported %
 const PROGRESS_VERIFICATION = [
-  { project: 'Meridian Skyline', declared: 68, verified: 66 },
+  { project: 'Prestige Skyline', declared: 68, verified: 66 },
   { project: 'Divya Villas · JDA', declared: 94, verified: 94 },
-  { project: 'Meridian Edge P2', declared: 78, verified: 60 },
+  { project: 'Prestige Edge P2', declared: 78, verified: 60 },
   { project: 'Ozone Urbana', declared: 62, verified: 30 },
 ]
 

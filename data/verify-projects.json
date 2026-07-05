@@ -3,7 +3,7 @@
     {
       "id": "divya-villas",
       "name": "Divya Villas",
-      "developer": "Divya Projects Pvt. Ltd.",
+      "developer": "JDA Projects Pvt. Ltd.",
       "micro_market": "Mysuru",
       "micro_market_kn": "ಮೈಸೂರು",
       "address": "Survey No. 88/4, Vijayanagar 4th Stage, Mysuru 570017",
@@ -74,14 +74,14 @@
           "date": "2016-04-12",
           "type": "Sale Deed",
           "from": "Karnataka State Government",
-          "to": "Divya Projects Pvt. Ltd.",
+          "to": "JDA Projects Pvt. Ltd.",
           "value_lakh": 180,
           "doc_no": "KAR/MSR/SD/2016/00412"
         },
         {
           "date": "2018-07-03",
           "type": "Construction Mortgage",
-          "from": "Divya Projects Pvt. Ltd.",
+          "from": "JDA Projects Pvt. Ltd.",
           "to": "Canara Bank",
           "value_lakh": 150,
           "doc_no": "KAR/MSR/CM/2018/01203",
@@ -91,7 +91,7 @@
           "date": "2021-03-15",
           "type": "Mortgage Release",
           "from": "Canara Bank",
-          "to": "Divya Projects Pvt. Ltd.",
+          "to": "JDA Projects Pvt. Ltd.",
           "value_lakh": 0,
           "doc_no": "KAR/MSR/MR/2021/00891"
         }

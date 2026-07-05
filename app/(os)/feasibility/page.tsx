@@ -7,7 +7,7 @@ import { Landmark, Building2, Save, X, ArrowRight } from 'lucide-react'
 
 // ⊕ Vantis column — real local inputs from the government record (BBMP FAR + Kaveri price)
 const GOV_PARCELS = [
-  { key: 'meridian', label: 'Meridian Skyline · Whitefield', far: 3.25, selling_price_psf: 11200, construction_cost_psf: 2600, land_area_sqft: 27000, land_cost_cr: 34, note: 'BBMP FAR 3.25 (TOD zone) · Kaveri median ₹11,200/sqft (Q4 2025, 284 deals)' },
+  { key: 'meridian', label: 'Prestige Skyline · Whitefield', far: 3.25, selling_price_psf: 11200, construction_cost_psf: 2600, land_area_sqft: 27000, land_cost_cr: 34, note: 'BBMP FAR 3.25 (TOD zone) · Kaveri median ₹11,200/sqft (Q4 2025, 284 deals)' },
   { key: 'ozone', label: 'Ozone Urbana · Devanahalli', far: 1.75, selling_price_psf: 6400, construction_cost_psf: 2200, land_area_sqft: 40000, land_cost_cr: 12, note: 'BBMP FAR 1.75 (peripheral) · Kaveri distressed ₹6,400/sqft — conversion revoked, buildable area disputed' },
   { key: 'divya', label: 'Divya Villas · Mysuru', far: 1.5, selling_price_psf: 4900, construction_cost_psf: 1900, land_area_sqft: 18000, land_cost_cr: 6.2, note: 'MUDA FAR 1.5 (villa plotted) · Kaveri median ₹4,900/sqft (Kadakola)' },
 ] as const

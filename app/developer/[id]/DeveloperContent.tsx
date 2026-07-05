@@ -78,7 +78,7 @@ const TX = {
 
 const COMPONENT_SCORES: Record<string, number[]> = {
   'prestige-group':       [95, 90, 98],
-  'zion-estate':          [88, 72, 85],
+  'jda-projects':          [88, 72, 85],
   'skylark-constructions':[62, 48, 45],
   'ozone-group':          [8,  10, 12],
 }

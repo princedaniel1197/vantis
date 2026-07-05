@@ -2,7 +2,7 @@
   "sites": [
     {
       "project_id": "PRG-001",
-      "project": "Meridian Skyline",
+      "project": "Prestige Skyline",
       "location": "Whitefield",
       "completion_pct": 68,
       "rera_declared_pct": 65,
@@ -32,7 +32,7 @@
     },
     {
       "project_id": "PRG-003",
-      "project": "Meridian Grande",
+      "project": "Prestige Grande",
       "location": "Sarjapur Road",
       "completion_pct": 45,
       "rera_declared_pct": 42,

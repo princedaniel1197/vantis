@@ -42,7 +42,7 @@ const CHIPS = [
   'Which projects will flag this quarter?',
   'Show overdue payments',
   'Is this JDA partner clean?',
-  "Draft QPR for Meridian Greens",
+  "Draft QPR for Prestige Greens",
   "What did 3BHKs sell for in Whitefield?",
   'Run Ozone Urbana risk scan',
 ]

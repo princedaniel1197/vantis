@@ -7,9 +7,9 @@ import VerificationPanel from '@/components/os/VerificationPanel'
 
 // Stage 3 ⊕ — declared RERA collections vs actual Kaveri registrations (consume the ERP's RERA statement, verify it)
 const RERA_STATEMENT = [
-  { project: 'Meridian Skyline', declared: 78, verified: 76 },
+  { project: 'Prestige Skyline', declared: 78, verified: 76 },
   { project: 'Divya Villas · JDA', declared: 94, verified: 92 },
-  { project: 'Meridian Edge P2', declared: 54, verified: 41 },
+  { project: 'Prestige Edge P2', declared: 54, verified: 41 },
   { project: 'Ozone Urbana', declared: 62, verified: 28 },
 ]
 

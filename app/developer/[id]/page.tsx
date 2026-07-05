@@ -2,7 +2,7 @@ import DeveloperContent from './DeveloperContent'
 
 export function generateStaticParams() {
   return [
-    { id: 'zion-estate' },
+    { id: 'jda-projects' },
     { id: 'ozone-group' },
     { id: 'prestige-group' },
     { id: 'skylark-constructions' },

@@ -37,8 +37,8 @@ const DEVELOPERS: Developer[] = [
     ],
   },
   {
-    id: 'zion',
-    name: 'Zion Estate Developers',
+    id: 'jda',
+    name: 'JDA Projects',
     score: 78,
     components: [
       { label: 'QPR Compliance',        value: 88 },

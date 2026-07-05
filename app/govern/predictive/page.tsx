@@ -62,7 +62,7 @@ const ROWS: PredictiveRow[] = [
     rank: 4,
     project_id: 'divya-villas',
     project_name: 'Divya Villas',
-    developer: 'Zion Estate Developers',
+    developer: 'JDA Projects',
     risk_score: 78,
     default_probability: 2,
     signals: [

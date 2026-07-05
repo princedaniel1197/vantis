@@ -2,7 +2,7 @@
   "projects": [
     {
       "id": "MRD-001",
-      "name": "Meridian Skyline",
+      "name": "Prestige Skyline",
       "location": "Whitefield, Bengaluru",
       "rera": "PRM/KA/RERA/1251/446/PR/171014/003512",
       "kaveri_guidance_lakh_per_sqft": 0.082,
@@ -63,7 +63,7 @@
     },
     {
       "id": "MRD-003",
-      "name": "Meridian Grande",
+      "name": "Prestige Grande",
       "location": "Sarjapur Road, Bengaluru",
       "rera": "PRM/KA/RERA/1251/446/PR/171014/003514",
       "kaveri_guidance_lakh_per_sqft": 0.094,

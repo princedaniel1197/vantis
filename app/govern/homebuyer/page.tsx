@@ -49,7 +49,7 @@ const ROWS: HomebuyerRow[] = [
   {
     project_id: 'divya-villas',
     project_name: 'Divya Villas',
-    developer: 'Zion Estate Developers',
+    developer: 'JDA Projects',
     status: 'COMPLIANT',
     homebuyers: 18,
     capital_crore: 2.4,

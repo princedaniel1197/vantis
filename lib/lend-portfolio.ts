@@ -378,8 +378,8 @@ export const LEND_PROJECTS: LendProject[] = [
   {
     id: 'divya-villas',
     name: 'Divya Villas',
-    developer: 'Zion Builders',
-    developer_id: 'zion-builders',
+    developer: 'JDA Projects',
+    developer_id: 'jda-projects',
     city: 'Mysuru',
     exposure_cr: 42,
     outstanding_cr: 38,

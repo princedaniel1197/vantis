@@ -10,10 +10,10 @@
   "developers": [
     {
       "id": "meridian",
-      "name": "Meridian Group",
-      "projects": 14,
-      "delivered": 9,
-      "score": 88,
+      "name": "Prestige Group",
+      "projects": 41,
+      "delivered": 36,
+      "score": 91,
       "grade": "A",
       "delta_q": 2,
       "declared_vs_delivered_gap": 3,
@@ -70,14 +70,13 @@
     "city": "Bengaluru Urban",
     "computed": "2026-07-01",
     "developers": [
-      { "rank": 1, "name": "Prestige Group", "score": 92, "grade": "A", "projects": 41 },
+      { "rank": 1, "name": "Prestige Group", "score": 91, "grade": "A", "projects": 41 },
       { "rank": 2, "name": "Brigade Group", "score": 89, "grade": "A", "projects": 33 },
-      { "rank": 3, "name": "Meridian Group", "score": 88, "grade": "A", "projects": 14 },
-      { "rank": 4, "name": "Sobha Ltd", "score": 86, "grade": "A", "projects": 28 },
-      { "rank": 5, "name": "JDA Projects", "score": 78, "grade": "A", "projects": 3 },
-      { "rank": 6, "name": "Mantri Developers", "score": 63, "grade": "B", "projects": 11 },
-      { "rank": 7, "name": "Skylark Mansions", "score": 54, "grade": "B", "projects": 7 },
-      { "rank": 8, "name": "Ozone Group", "score": 9, "grade": "C", "projects": 7 }
+      { "rank": 3, "name": "Sobha Ltd", "score": 86, "grade": "A", "projects": 28 },
+      { "rank": 4, "name": "JDA Projects", "score": 78, "grade": "A", "projects": 3 },
+      { "rank": 5, "name": "Mantri Developers", "score": 63, "grade": "B", "projects": 11 },
+      { "rank": 6, "name": "Skylark Mansions", "score": 54, "grade": "B", "projects": 7 },
+      { "rank": 7, "name": "Ozone Group", "score": 9, "grade": "C", "projects": 7 }
     ]
   }
 }

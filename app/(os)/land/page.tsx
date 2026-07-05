@@ -7,9 +7,9 @@ import { AlertTriangle, CheckCircle2, XCircle, Map, Scale, Building2, Database, 
 import landData from '@/data/dev-land.json'
 
 const PARCELS = [
-  { key: 'meridian' as const, label: 'Meridian Skyline (Own — Clean)', type: 'own' },
+  { key: 'meridian' as const, label: 'Prestige Skyline (Own — Clean)', type: 'own' },
   { key: 'divya' as const, label: 'Divya Villas · JDA (Baseline)', type: 'own' },
-  { key: 'mrd010' as const, label: 'Meridian Edge Whitefield P2', type: 'own' },
+  { key: 'mrd010' as const, label: 'Prestige Edge Whitefield P2', type: 'own' },
   { key: 'ozone' as const, label: 'Ozone Urbana (Sample — External)', type: 'risk-demo' },
 ]
 

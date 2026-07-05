@@ -18,15 +18,15 @@ type Comparable = { project: string; developer: string; config: string; launch: 
 // ⊕ Vantis column — market rows fused with developer integrity (trust score + declared-vs-delivered gap)
 const COMPARABLES: Record<string, Comparable[]> = {
   whitefield: [
-    { project: 'Meridian Skyline', developer: 'Meridian Group', config: '2/3 BHK', launch: 'Q1 2026', units: 640, sold: 288, price: 11200, absorption: 11.3, trust: 88, gap: 3 },
-    { project: 'Prestige Waterford', developer: 'Prestige Group', config: '3/4 BHK', launch: 'Q3 2024', units: 512, sold: 470, price: 12400, absorption: 14.1, trust: 92, gap: 2 },
+    { project: 'Prestige Skyline', developer: 'Prestige Group', config: '2/3 BHK', launch: 'Q1 2026', units: 640, sold: 288, price: 11200, absorption: 11.3, trust: 91, gap: 3 },
+    { project: 'Prestige Waterford', developer: 'Prestige Group', config: '3/4 BHK', launch: 'Q3 2024', units: 512, sold: 470, price: 12400, absorption: 14.1, trust: 91, gap: 2 },
     { project: 'Skyline Grandeur', developer: 'Skylark Mansions', config: '2/3 BHK', launch: 'Q4 2024', units: 380, sold: 152, price: 9800, absorption: 6.4, trust: 54, gap: 14 },
     { project: 'Whitefield Metrozone', developer: 'Ozone Group', config: '2 BHK', launch: 'Q2 2023', units: 420, sold: 118, price: 8600, absorption: 3.1, trust: 9, gap: 31 },
     { project: 'Mantri Energia', developer: 'Mantri Developers', config: '3 BHK', launch: 'Q1 2024', units: 296, sold: 173, price: 10100, absorption: 7.8, trust: 63, gap: 9 },
   ],
   devanahalli: [
     { project: 'Ozone Urbana', developer: 'Ozone Group', config: '1/2/3 BHK', launch: 'Q4 2019', units: 1847, sold: 628, price: 6400, absorption: 2.1, trust: 9, gap: 32 },
-    { project: 'Meridian Edge P2', developer: 'Meridian Group', config: '2/3 BHK', launch: 'Q4 2019', units: 120, sold: 78, price: 6800, absorption: 4.2, trust: 88, gap: 12 },
+    { project: 'Prestige Edge P2', developer: 'Prestige Group', config: '2/3 BHK', launch: 'Q4 2019', units: 120, sold: 78, price: 6800, absorption: 4.2, trust: 91, gap: 12 },
     { project: 'Brigade Orchards', developer: 'Brigade Group', config: '2/3 BHK', launch: 'Q2 2023', units: 540, sold: 402, price: 7100, absorption: 9.6, trust: 89, gap: 3 },
     { project: 'Sobha Aeropolis', developer: 'Sobha Ltd', config: '3 BHK', launch: 'Q1 2024', units: 288, sold: 190, price: 7400, absorption: 8.2, trust: 86, gap: 4 },
   ],

@@ -243,12 +243,12 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     id: 'divya-villas-cross',
     product: 'all',
-    keywords: ['divya villas', 'divya', 'zion estate', 'zion'],
+    keywords: ['divya villas', 'divya', 'jda projects', 'jda'],
     question: 'What is Divya Villas status?',
     answer: `**Divya Villas — All Green Across All Products:**\n\n` +
       `**Govern:** Status COMPLIANT · Risk score 78 · 0 complaints · 0 litigation · 6/8 QPR ON TIME · Certificate FULL\n\n` +
       `**Verify:** Grade A · Trust score 96/100 · ALL 5 checks PASS — RERA active, title clear (Sy. 83/2 & 84/2 verified Kaveri 2.0), no court cases (eCourts), MUDA plan sanctioned, developer track record excellent (7 projects completed on time)\n\n` +
-      `**Build:** Developer (Zion Estate) has 87 total units across 3 projects, 100% completion rate, zero enforcement actions\n\n` +
+      `**Build:** Developer (JDA Projects) has 87 total units across 3 projects, 100% completion rate, zero enforcement actions\n\n` +
       `**Lend:** Not in Kaveri HFC book — project size (₹2.4 Cr) below typical construction finance threshold. No lender risk exposure.`,
     source: 'Vantis Govern · Vantis Verify · K-RERA · Kaveri 2.0 · eCourts',
   },
@@ -394,7 +394,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     answer: `**Kaveri Housing Finance — Portfolio Q2 2026:**\n\n` +
       `• **₹2,400 Cr** total portfolio across **40 projects**\n` +
       `• **₹1,890 Cr** outstanding (78.75% of sanctioned)\n` +
-      `• **3 HIGH RISK (RED):** ₹420 Cr outstanding — Ozone Urbana (₹180 Cr), Concord Meridian (₹140 Cr), Regent Heights (₹100 Cr)\n` +
+      `• **3 HIGH RISK (RED):** ₹420 Cr outstanding — Ozone Urbana (₹180 Cr), Concord Prestige (₹140 Cr), Regent Heights (₹100 Cr)\n` +
       `• **9 WATCH (AMBER):** ₹556 Cr outstanding — elevated monitoring, no immediate disbursement action\n` +
       `• **28 GREEN:** ₹914 Cr outstanding — performing loans, on-track construction\n\n` +
       `**NPA Risk (if RED defaults):** ₹420 Cr × 14% Karnataka RE recovery rate = ₹58.8 Cr recoverable. **Expected loss: ₹361 Cr.**\n\n` +
@@ -441,7 +441,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     answer: `**Portfolio Covenant Status — Q2 2026:**\n\n` +
       `**3 COVENANT BREACHES (RED):**\n` +
       `• **Ozone Urbana** — Escrow 8% vs 70% mandate · SMA-1 · 8 consecutive QPR misses · T5 tranche HELD · Recommend formal breach notice + cross-collateral demand\n` +
-      `• **Concord Meridian** — Escrow 6% vs 70% mandate · NPA classification Q2 2024 · Construction stalled Q3 2023 · Fully drawn, no leverage remaining\n` +
+      `• **Concord Prestige** — Escrow 6% vs 70% mandate · NPA classification Q2 2024 · Construction stalled Q3 2023 · Fully drawn, no leverage remaining\n` +
       `• **Regent Heights** — Escrow 11% vs 70% mandate · SMA-0 (60-day cure period expires Jul 2024) · ₹5 Cr undisbursed on hold\n\n` +
       `**2 SMA CASES (AMBER):**\n` +
       `• **Ballari Emerald** — SMA-0 since Q4 2023 · Escrow 13% · Tier-2 city liquidity risk\n` +
@@ -454,8 +454,8 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     id: 'concord-meridian-detail',
     product: 'lend',
     keywords: ['concord', 'concord meridian', 'concord buildcon', 'npa'],
-    question: 'What is the Concord Meridian NPA status?',
-    answer: `**Concord Meridian — NPA Classification Q2 2024:**\n\n` +
+    question: 'What is the Concord Prestige NPA status?',
+    answer: `**Concord Prestige — NPA Classification Q2 2024:**\n\n` +
       `Loan: ₹140 Cr sanctioned · **₹140 Cr drawn (100%)** · ₹0 undisbursed · No leverage remaining.\n\n` +
       `• Escrow: **6%** vs 70% RERA mandate — lowest in entire portfolio\n` +
       `• Repayment: **NPA** (overdue >90 days as of Q2 2024)\n` +
@@ -537,18 +537,18 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
   {
     id: 'build-portfolio',
     product: 'build',
-    keywords: ['portfolio', 'projects', 'meridian', 'build portfolio', 'my projects', 'all projects'],
-    question: 'What is the Meridian Realty portfolio overview?',
-    answer: `**Meridian Realty — Portfolio Q2 2026:**\n\n` +
+    keywords: ['portfolio', 'projects', 'prestige', 'build portfolio', 'my projects', 'all projects'],
+    question: 'What is the Prestige Group portfolio overview?',
+    answer: `**Prestige Group — Portfolio Q2 2026:**\n\n` +
       `• **40 projects** · ₹2,800 Cr total pipeline\n` +
       `• **Grade A:** 12 projects — on track, pre-sales > 65%, construction on schedule\n` +
       `• **Grade B:** 18 projects — minor delays, pre-sales 40–65%\n` +
       `• **Grade C:** 10 projects — attention needed: pre-sales < 40% or construction lag\n\n` +
-      `Top performers: MRD-001 Meridian Edge (89% pre-sold), MRD-007 Lakewood Residences (74% pre-sold)\n` +
+      `Top performers: MRD-001 Prestige Edge (89% pre-sold), MRD-007 Lakewood Residences (74% pre-sold)\n` +
       `Needs attention: MRD-023 (construction 8 weeks behind), MRD-031 (pre-sales 22%)\n\n` +
       `QPR compliance: 34/40 on time · 4 late · 2 not yet due\n` +
       `Total collections Q1 2026: ₹148 Cr · Target: ₹165 Cr (89.7% achievement)`,
-    source: 'Vantis Build OS · Meridian Realty Portfolio',
+    source: 'Vantis Build OS · Prestige Group Portfolio',
   },
 
   {
@@ -577,7 +577,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     product: 'build',
     keywords: ['sales', 'leads', 'booking', 'conversion', 'pipeline', 'crm', 'funnel'],
     question: 'What is the current sales pipeline?',
-    answer: `**Meridian Realty Sales Pipeline — Q2 2026:**\n\n` +
+    answer: `**Prestige Group Sales Pipeline — Q2 2026:**\n\n` +
       `• **Active leads:** 284 (from web, referrals, site visits, channel partners)\n` +
       `• **Site visits scheduled:** 47 this month\n` +
       `• **Qualified prospects:** 89 (budget ≥ ₹80 L, timeline ≤ 6 months)\n` +
@@ -710,7 +710,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
       `✓ **Title Check:** Clear — Survey 83/2 & 84/2 verified via Kaveri 2.0. No encumbrance, no mortgage, no litigation on land.\n` +
       `✓ **Court Check:** No active or past litigation on project or developer (eCourts search)\n` +
       `✓ **Plan Sanction:** MUDA building plan sanctioned. No violations. FAR within limits.\n` +
-      `✓ **Developer Track Record:** Zion Estate — 7 projects completed on time, zero enforcement actions, zero complaints\n\n` +
+      `✓ **Developer Track Record:** JDA Projects — 7 projects completed on time, zero enforcement actions, zero complaints\n\n` +
       `**Asking price ₹0.85–₹1.45 Cr · Kaveri 2.0 verified price: ₹0.82 Cr** (pricing consistent with market)\n\n` +
       `18 of 23 units sold. 5 remaining. Ready to move.`,
     source: 'Vantis Verify · K-RERA · Kaveri 2.0 · eCourts · MUDA',
@@ -847,7 +847,7 @@ Flagged by Vantis 8 quarters before FIR (Q1 2021 → FIR Q3 2023)
 Kaveri HFC loan: ₹250 Cr sanctioned · ₹180 Cr drawn · 43% construction vs 72% drawn (29pt gap) · Escrow 8% vs 70% RERA minimum
 
 DEMO PROJECT — DIVYA VILLAS:
-Developer: Zion Estate Developers (formerly JDA Projects) · Location: Mysuru
+Developer: JDA Projects · Location: Mysuru
 RERA: PRM/KA/RERA/1268/378/PR/180924/007034 · Status: COMPLIANT · Risk score: 96/100
 Survey: Sy No 83/2 and 84/2, Lingambudhi Village, Kasaba Hobli, Mysore 570008
 Declared cost: ₹13.85 Cr · Escrow: Canara Bank · Completion: Dec 2025
@@ -855,9 +855,9 @@ Trust Report: Grade A · All 5 verify checks PASS
 
 KAVERI HFC LEND PORTFOLIO:
 ₹2,400 Cr total · 40 projects · 3 HIGH RISK (₹420 Cr) · 9 WATCH · 28 HEALTHY
-High risk: Ozone Urbana ₹180 Cr · Concord Meridian ₹120 Cr · Regent Heights ₹120 Cr
+High risk: Ozone Urbana ₹180 Cr · Concord Prestige ₹120 Cr · Regent Heights ₹120 Cr
 
-VANTIS BUILD (Meridian Realty demo):
+VANTIS BUILD (Prestige Group demo):
 40 projects · ₹2,800 Cr pipeline · 12 Grade A · 18 Grade B · 10 Grade C
 
 SEARCH CAPABILITY:

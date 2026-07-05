@@ -8,9 +8,9 @@ import VerificationPanel from '@/components/os/VerificationPanel'
 
 // Stage 7 ⊕ — claimed sales velocity vs actual Kaveri registrations (a health flag for lenders/buyers)
 const SALES_VERIFICATION = [
-  { project: 'Meridian Skyline', declared: 45, verified: 42 },
+  { project: 'Prestige Skyline', declared: 45, verified: 42 },
   { project: 'Divya Villas · JDA', declared: 88, verified: 85 },
-  { project: 'Meridian Edge P2', declared: 65, verified: 48 },
+  { project: 'Prestige Edge P2', declared: 65, verified: 48 },
   { project: 'Ozone Urbana', declared: 80, verified: 34 },
 ]
 

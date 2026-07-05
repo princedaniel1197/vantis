@@ -62,7 +62,7 @@
   },
   "mrd010": {
     "project_id": "PRG-010",
-    "name": "Meridian Edge",
+    "name": "Prestige Edge",
     "survey": "89/1A, Devanahalli Hobli, Bengaluru Rural District",
     "rera_id": "PRM/KA/RERA/1251/308/PR/191215/002401",
     "developer": "Prestige Group",
@@ -98,7 +98,7 @@
     ],
     "title_report": {
       "property": { "survey": "89/1A", "extent_acres": 3.8, "locality": "Devanahalli Hobli", "district": "Bengaluru Rural", "address": "Off Airport Road, Devanahalli, Bengaluru Rural 562110" },
-      "owner": { "name": "Meridian Group Pvt Ltd", "acquired_via": "sale", "date": "2019-12-15" },
+      "owner": { "name": "Prestige Group Pvt Ltd", "acquired_via": "sale", "date": "2019-12-15" },
       "encumbrances": [
         { "party": "Bank of Baroda", "type": "mortgage", "amount": "₹8.4 Cr", "date": "2018-07-04", "status": "open" }
       ],
@@ -108,15 +108,15 @@
       ],
       "value": { "guideline": "₹7,200/sqft", "market": "₹9,850/sqft" },
       "verdict": { "clear": false, "text": "NOT CLEAR to transact — undisclosed ₹8.4 Cr mortgage + 0.8-acre tank-bed (E-category) construction", "lawyer": "Adv. S. Ramesh · Bar KAR/1123/2009" },
-      "developer_link": { "flag": true, "text": "Undisclosed mortgage predates sale to developer; 4 excess floors built over sanction. Isolated title defect on an otherwise A-grade developer (score 88/100).", "score": 88, "projects": ["Meridian Edge Whitefield P2"] }
+      "developer_link": { "flag": true, "text": "Undisclosed mortgage predates sale to developer; 4 excess floors built over sanction. Isolated title defect on an otherwise A-grade developer (score 88/100).", "score": 88, "projects": ["Prestige Edge Whitefield P2"] }
     }
   },
   "meridian": {
     "project_id": "MRD-001",
-    "name": "Meridian Skyline",
+    "name": "Prestige Skyline",
     "survey": "142/3, Whitefield Hobli, Bengaluru Urban District",
     "rera_id": "PRM/KA/RERA/1251/446/PR/010126/008374",
-    "developer": "Meridian Group",
+    "developer": "Prestige Group",
     "ka_area_acres": 6.2,
     "risk_grade": "A",
     "risk_score": 91,
@@ -130,7 +130,7 @@
     "title_chain": [
       { "date": "1972-05-08", "event": "Patta granted to B. Venkatesh (agricultural)", "status": "ok", "db": "Bhoomi RTC" },
       { "date": "2001-09-14", "event": "Conversion to Non-Agricultural (DC office)",    "status": "ok", "db": "Bhoomi" },
-      { "date": "2016-02-20", "event": "Sale to Meridian Group ₹34 Cr, Deed 1188/16",   "status": "ok", "db": "Kaveri 2.0" },
+      { "date": "2016-02-20", "event": "Sale to Prestige Group ₹34 Cr, Deed 1188/16",   "status": "ok", "db": "Kaveri 2.0" },
       { "date": "2025-11-30", "event": "BBMP plan sanction — G+22, 640 units",           "status": "ok", "db": "BBMP/BDA" },
       { "date": "2026-01-01", "event": "K-RERA registration — 640 units, all disclosed", "status": "ok", "db": "K-RERA" }
     ],
@@ -139,12 +139,12 @@
     ],
     "title_report": {
       "property": { "survey": "142/3", "extent_acres": 6.2, "locality": "Whitefield Hobli", "district": "Bengaluru Urban", "address": "ITPL Main Road, Whitefield, Bengaluru 560066" },
-      "owner": { "name": "Meridian Group Pvt Ltd", "acquired_via": "sale", "date": "2016-02-20" },
+      "owner": { "name": "Prestige Group Pvt Ltd", "acquired_via": "sale", "date": "2016-02-20" },
       "encumbrances": [],
       "litigation": [],
       "value": { "guideline": "₹8,400/sqft", "market": "₹11,200/sqft" },
       "verdict": { "clear": true, "text": "CLEAR to transact — marketable title, no encumbrances, no litigation, sanction valid", "lawyer": "Adv. S. Ramesh · Bar KAR/1123/2009" },
-      "developer_link": { "flag": false, "text": "Owner is an A-grade developer (score 88/100). No stalled projects, no undisclosed interests.", "score": 88, "projects": ["Meridian Skyline", "Meridian Grande", "Meridian Villas"] }
+      "developer_link": { "flag": false, "text": "Owner is an A-grade developer (score 88/100). No stalled projects, no undisclosed interests.", "score": 88, "projects": ["Prestige Skyline", "Prestige Grande", "Prestige Villas"] }
     }
   },
   "divya": {

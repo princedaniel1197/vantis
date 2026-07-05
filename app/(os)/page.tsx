@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Shield, LayoutGrid, TrendingDown, Database, Brain, Search, ChevronRight } from 'lucide-react'
+import { Shield, LayoutGrid, TrendingDown, Network, Brain, Search, ChevronRight } from 'lucide-react'
 
 const PRODUCTS = [
   {
@@ -51,19 +51,19 @@ const PRODUCTS = [
     cta: 'Enter Lend',
   },
   {
-    id: 'dataroom',
-    tag: 'Developer → Lender',
-    name: 'Vantis Data Room',
-    desc: 'Verified financing handoff in 4 seconds. RERA, title chain, encumbrance, litigation, escrow — pulled from government sources, shared with your lender in one click.',
-    href: '/dataroom',
-    icon: Database,
-    features: ['Government-Verified Checklist', 'Kaveri Title & EC Check', 'QPR Drone Reconciliation', 'Live API for Bank Systems'],
-    accent: '#C9A84C',
-    borderIdle: 'rgba(201,168,76,0.12)',
-    borderHover: 'rgba(201,168,76,0.45)',
-    bgIdle: 'rgba(201,168,76,0.03)',
-    bgHover: 'rgba(201,168,76,0.08)',
-    cta: 'Open Data Room',
+    id: 'intelligence',
+    tag: 'The Intelligence Layer',
+    name: 'Vantis Intelligence',
+    desc: 'The ontology brain over every product. A live knowledge graph that scores execution and reasons across QPR, site verification, escrow, litigation and title — declared vs delivered, in one view.',
+    href: '/intelligence',
+    icon: Network,
+    features: ['Execution Brain — declared vs delivered', 'Cross-Stage Copilot (AI)', 'Live Knowledge Graph', 'Ontology-Derived Risk Scores'],
+    accent: '#3FE0FF',
+    borderIdle: 'rgba(63,224,255,0.16)',
+    borderHover: 'rgba(63,224,255,0.5)',
+    bgIdle: 'rgba(63,224,255,0.03)',
+    bgHover: 'rgba(63,224,255,0.09)',
+    cta: 'Enter Intelligence',
   },
   {
     id: 'connect',

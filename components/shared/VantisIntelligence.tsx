@@ -43,6 +43,7 @@ const DEV_ROUTES = [
   '/litigation', '/channel', '/dataroom', '/assistant', '/certificate',
   '/leads', '/visits', '/inventory', '/partners', '/projects', '/construction',
   '/customers', '/finance', '/payments', '/vision', '/lend', '/verify',
+  '/intelligence',
 ]
 
 const FALLBACK: Record<string, string> = {

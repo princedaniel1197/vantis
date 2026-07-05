@@ -303,7 +303,7 @@ export default function ConnectLeadsPage() {
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
           <div>
             <div style={{ fontFamily: 'var(--font-dm-mono, monospace)', fontSize: '9px', letterSpacing: '0.22em', textTransform: 'uppercase', color: '#C9A84C', marginBottom: '0.5rem' }}>
-              WhatsApp-Native CRM · AI Junk Filter
+              WhatsApp-Native Pipeline · AI Junk Filter
             </div>
             <h1 style={{ fontFamily: 'var(--font-cg, serif)', fontStyle: 'italic', fontSize: '28px', color: '#F0EEE8', lineHeight: 1.2, marginBottom: '0.375rem' }}>
               {t.leads_title}

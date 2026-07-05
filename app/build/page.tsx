@@ -5,12 +5,12 @@ const MODULES = [
   {
     href: '/build/sales/tower',
     label: '3D Interactive Tower',
-    desc: 'Click any unit → CRM + government truth + AI query in 3 layers.',
+    desc: 'Click any unit → Pipeline + government truth + AI query in 3 layers.',
     icon: Box,
     accent: 'text-gold',
     border: 'border-gold/30',
     dotColor: 'bg-gold',
-    context: 'Sales · CRM · Gov Truth',
+    context: 'Sales · Pipeline · Gov Truth',
   },
   {
     href: '/build/land/parcel',

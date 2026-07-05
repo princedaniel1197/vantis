@@ -52,7 +52,7 @@ export default function LeadsPage() {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1600px] mx-auto">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Sales · CRM</span>
+          <span className="font-mono text-[9px] uppercase tracking-[0.22em] mb-1 block" style={{ color: 'var(--muted)' }}>Sales · Pipeline</span>
           <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Leads & Pipeline</h1>
         </div>
         <div className="flex items-center gap-2">
@@ -211,7 +211,7 @@ export default function LeadsPage() {
       <div className="mt-6">
         <VerificationPanel
           title="Sales Velocity — Verified"
-          caption="Claimed % booked in the CRM vs actual % registered in Kaveri 2.0. A declared-vs-delivered signal for sales — a lender/buyer health flag."
+          caption="Claimed % booked in the pipeline vs actual % registered in Kaveri 2.0. A declared-vs-delivered signal for sales — a lender/buyer health flag."
           declaredLabel="booked"
           verifiedLabel="registered"
           rows={SALES_VERIFICATION}

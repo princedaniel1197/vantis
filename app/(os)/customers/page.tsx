@@ -37,7 +37,7 @@ export default function CustomersPage() {
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="flex items-start justify-between mb-5">
         <div>
-          <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Operations · CRM</div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.18em] mb-1" style={{ color: 'var(--muted)' }}>Operations · Post-Sale</div>
           <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Customers</h1>
         </div>
         {overdueCount > 0 && (

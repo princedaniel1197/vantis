@@ -5,7 +5,7 @@ import { AreaChart, Area, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContai
 import financeData from '@/data/os-finance.json'
 import VerificationPanel from '@/components/os/VerificationPanel'
 
-// Stage 3 ⊕ — declared RERA collections vs actual Kaveri registrations (consume the ERP's RERA statement, verify it)
+// Stage 3 ⊕ — declared RERA collections vs actual Kaveri registrations (consume the ledger's RERA statement, verify it)
 const RERA_STATEMENT = [
   { project: 'Prestige Skyline', declared: 78, verified: 76 },
   { project: 'Divya Villas · JDA', declared: 94, verified: 92 },
@@ -38,8 +38,8 @@ export default function FinancePage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 max-w-[1400px] mx-auto">
       <div className="mb-5">
-        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Finance · ERP</span>
-        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>ERP / Finance</h1>
+        <span className="font-mono text-[9px] uppercase tracking-[0.22em]" style={{ color: 'var(--muted)' }}>Finance · Ledger</span>
+        <h1 className="font-display text-3xl italic" style={{ color: 'var(--ink)' }}>Finance</h1>
       </div>
 
       {/* Summary KPIs */}
@@ -152,7 +152,7 @@ export default function FinancePage() {
           verifiedLabel="Kaveri"
           rows={RERA_STATEMENT}
           threshold={10}
-          moat="Ozone Urbana declares 62% collected; Kaveri shows 28% registered — a 34-point gap the ERP cannot see. Escrow 70%-rule breach flagged in parallel."
+          moat="Ozone Urbana declares 62% collected; Kaveri shows 28% registered — a 34-point gap the ledger cannot see. Escrow 70%-rule breach flagged in parallel."
           link={{ href: '/compliance', label: 'Open filed QPR verification' }}
         />
 

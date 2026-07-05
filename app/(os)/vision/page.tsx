@@ -11,10 +11,10 @@ const LIFECYCLE = [
   { step: 1, label: 'Land Acquisition', module: 'Land Intelligence', path: '/land', icon: Map, govData: ['Kaveri 2.0', 'Bhoomi', 'eCourts'] },
   { step: 2, label: 'Legal & Approvals', module: 'Litigation X-ray', path: '/litigation', icon: ShieldCheck, govData: ['eCourts', 'BBMP', 'BDA'] },
   { step: 3, label: 'Design & Feasibility', module: 'Feasibility Engine', path: '/feasibility', icon: Building2, govData: ['BBMP', 'BDA'] },
-  { step: 4, label: 'Finance & Launch', module: 'Finance', path: '/finance', icon: BookOpen, govData: ['K-RERA', 'Banks'] },
+  { step: 4, label: 'Finance & Launch', module: 'ERP / Finance', path: '/finance', icon: BookOpen, govData: ['K-RERA', 'Banks'] },
   { step: 5, label: 'Construction', module: 'Projects + Construction', path: '/projects', icon: Wrench, govData: ['K-RERA', 'BBMP'] },
-  { step: 6, label: 'Sales', module: 'Pipeline + Inventory', path: '/leads', icon: Users, govData: ['Kaveri 2.0', 'K-RERA'] },
-  { step: 7, label: 'Collections', module: 'Payments + Finance', path: '/payments', icon: CreditCard, govData: ['Bank', 'RERA Escrow'] },
+  { step: 6, label: 'Sales', module: 'CRM + Inventory', path: '/leads', icon: Users, govData: ['Kaveri 2.0', 'K-RERA'] },
+  { step: 7, label: 'Collections', module: 'Payments + ERP', path: '/payments', icon: CreditCard, govData: ['Bank', 'RERA Escrow'] },
   { step: 8, label: 'RERA Compliance', module: 'Compliance Autopilot', path: '/compliance', icon: ShieldCheck, govData: ['K-RERA'] },
   { step: 9, label: 'Handover', module: 'Buyer-Trust Cert.', path: '/certificate', icon: Award, govData: ['K-RERA', 'Kaveri 2.0'] },
 ]
@@ -30,7 +30,7 @@ const GOV_DATA = [
 const OS_MODULES = [
   { group: 'SALES', color: 'var(--gold)', modules: ['Command Centre', 'Leads & Pipeline', 'Site Visits', 'Inventory', 'Channel Partners'] },
   { group: 'OPERATIONS', color: 'var(--rb)', modules: ['Projects', 'Construction & Site', 'Customer Portal'] },
-  { group: 'FINANCE', color: 'var(--ra)', modules: ['Finance', 'Payments & Collections'] },
+  { group: 'FINANCE', color: 'var(--ra)', modules: ['ERP / Finance', 'Payments & Collections'] },
   { group: 'INTELLIGENCE', color: '#60a5fa', modules: ['Land Intelligence', 'Feasibility Engine', 'Market Truth', 'Litigation X-ray'] },
   { group: 'COMPLIANCE', color: 'var(--muted)', modules: ['Compliance Autopilot', 'Buyer-Trust Certificate'] },
 ]

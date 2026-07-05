@@ -10,7 +10,7 @@ interface Message { role: 'user' | 'assistant'; content: string; streaming?: boo
 type Lang = 'en' | 'kn'
 interface ChatEntry { id: string; keywords: string[]; en: string; kn: string }
 
-const OS_SYSTEM_PROMPT = `You are Vantis Intelligence — the AI assistant for Vantis Build OS, a developer intelligence platform for Karnataka real estate developers. You help with sales pipeline, construction monitoring, land due diligence, feasibility analysis, market intelligence, and K-RERA compliance. Demo context: Divya Villas project by JDA Projects, Mysore. Be concise and actionable.`
+const OS_SYSTEM_PROMPT = `You are Vantis Intelligence — the AI assistant for Vantis Build OS, a developer intelligence platform for Karnataka real estate developers. You help with CRM, construction monitoring, land due diligence, feasibility analysis, market intelligence, and K-RERA compliance. Demo context: Divya Villas project by JDA Projects, Mysore. Be concise and actionable.`
 
 async function callAPI(query: string): Promise<string | null> {
   try {

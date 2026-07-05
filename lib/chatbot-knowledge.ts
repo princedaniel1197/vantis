@@ -221,7 +221,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
       `• **Govern** — K-RERA officer command centre: 8,767 projects, QPR compliance, litigation, predictive default, RRC recovery\n` +
       `• **Lend** — Lender early-warning system: ₹2,400 Cr Kaveri HFC portfolio, loan monitoring, tranche control, drawn-vs-built verification\n` +
       `• **Build** — Developer OS: sales pipeline, inventory, construction progress, feasibility, channel management\n` +
-      `• **Connect** — Broker/buyer matching: leads pipeline, micro-market intelligence, verified listings\n` +
+      `• **Connect** — Broker/buyer matching: leads CRM, micro-market intelligence, verified listings\n` +
       `• **Verify** — 5-point trust verification for buyers: RERA, title, courts, plan sanction, developer track record\n\n` +
       `All five products run on the same 8,767-project spine — one fact, consistent across every lens.`,
     source: 'Vantis Platform',
@@ -586,7 +586,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
       `**Conversion funnel:**\n` +
       `Leads → Site Visit: 31% · Visit → Qualified: 62% · Qualified → Booking: 26%\n\n` +
       `Top channel partners by bookings: Skyline Realty (7), PropEdge (5), Homefinder Solutions (3)`,
-    source: 'Vantis Build Pipeline · Leads Dashboard',
+    source: 'Vantis Build CRM · Leads Dashboard',
   },
 
   {
@@ -613,7 +613,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     keywords: ['connect', 'broker', 'lead', 'channel', 'market', 'buyer'],
     question: 'What does Vantis Connect offer?',
     answer: `**Vantis Connect — Broker & Buyer Intelligence Platform:**\n\n` +
-      `• **Lead Pipeline:** 50 qualified buyer leads — budget, location preference, timeline, status (new/qualified/site-visit/booked)\n` +
+      `• **Lead CRM:** 50 qualified buyer leads — budget, location preference, timeline, status (new/qualified/site-visit/booked)\n` +
       `• **Property Matching:** 20 RERA-verified listings matched to lead requirements\n` +
       `• **Micro-Market Intelligence:** 7 Bengaluru micro-markets — transacted price per sqft, absorption rates, quarterly trends\n` +
       `• **Channel Partner Network:** 12 registered brokers with tier ranking (Platinum/Gold/Silver), active listings, commission history\n\n` +
@@ -660,7 +660,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
       `• Priya Sharma — Budget ₹85 L, Sarjapur 2BHK, loan pre-approved\n` +
       `• Ravi Kumar — Budget ₹2.1 Cr, Electronic City 4BHK, timeline 2 months\n\n` +
       `Conversion this month: 3 bookings from 18 qualified leads (16.7%)`,
-    source: 'Vantis Connect Pipeline',
+    source: 'Vantis Connect CRM',
   },
 
   // ── VERIFY ─────────────────────────────────────────────────────────────────

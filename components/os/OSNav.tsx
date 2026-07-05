@@ -22,7 +22,7 @@ const NAV_GROUPS = [
     label: 'Sales',
     items: [
       { label: 'Command Centre', path: '/command', icon: LayoutGrid, desc: 'Portfolio health + today' },
-      { label: 'Leads & Pipeline', path: '/leads', icon: Users, desc: 'Pipeline, scoring, verification' },
+      { label: 'Leads & Pipeline', path: '/leads', icon: Users, desc: 'CRM, scoring, verification' },
       { label: 'Site Visits', path: '/visits', icon: Calendar, desc: 'Schedule, assign, follow-up' },
       { label: 'Inventory', path: '/inventory', icon: Building2, desc: 'Unit grid, booking flow' },
       { label: 'Channel Partners', path: '/partners', icon: Handshake, desc: 'Broker network, payouts' },
@@ -39,7 +39,7 @@ const NAV_GROUPS = [
   {
     label: 'Finance',
     items: [
-      { label: 'Finance', path: '/finance', icon: BookOpen, desc: 'P&L, cash flow, ledgers' },
+      { label: 'ERP / Finance', path: '/finance', icon: BookOpen, desc: 'P&L, cash flow, ledgers' },
       { label: 'Payments', path: '/payments', icon: CreditCard, desc: 'Collections, milestones' },
     ]
   },
@@ -79,7 +79,7 @@ const NAV_GROUPS = [
     label: 'Connect',
     items: [
       { label: 'AI Match',         path: '/connect',        icon: Brain,       desc: 'Buyer-property AI matching' },
-      { label: 'Lead Pipeline',    path: '/connect/leads',  icon: Users,       desc: 'WhatsApp pipeline, junk filter' },
+      { label: 'Lead Pipeline',    path: '/connect/leads',  icon: Users,       desc: 'WhatsApp CRM, junk filter' },
       { label: 'Market Truth',     path: '/connect/market', icon: TrendingUp,  desc: 'Kaveri prices by micro-market' },
     ]
   },

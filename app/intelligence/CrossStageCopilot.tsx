@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import GraphCanvas from './GraphCanvas'
-import { SCENARIOS, matchScenario, type CopilotAnswer, type DensityNode } from '@/lib/ontology'
+import { SCENARIOS, conversationalAnswer, strongMatch, UNKNOWN_ANSWER, type CopilotAnswer, type DensityNode } from '@/lib/ontology'
 
 const STAGE_CHIPS = ['QPR FILING', 'SITE VERIFICATION', 'ESCROW', 'LITIGATION', 'ENCUMBRANCE']
 const CHIP_COLOR = ['#8fb3ff', '#45e0c0', '#6ea0ff', '#ff5a4d', '#e8b24c']
@@ -25,7 +25,8 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
   const [lit, setLit] = useState<Set<number>>(new Set())
   const [revealed, setRevealed] = useState(0)
   const [progress, setProgress] = useState(0)
-  const [live, setLive] = useState(false)
+  const [live, setLive] = useState(true)      // AI grounded by default; toggle → offline demo
+  const [thinking, setThinking] = useState(false)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   const bump = (p: number) => { setProgress(p); onProgress?.(p) }
@@ -50,20 +51,31 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
     })
   }
 
+  function show(a: CopilotAnswer) { setThinking(false); setAnswer(a); assemble(a) }
+
   async function run(q: string) {
     const trimmed = q.trim(); if (!trimmed) return
     setUserQuery(trimmed)
-    const seeded = matchScenario(trimmed)
-    if (!live) { setAnswer(seeded.answer); assemble(seeded.answer); return }
-    // LIVE — call Claude with ontology objects injected; fall back to seeded on any failure
-    setAnswer(seeded.answer); assemble(seeded.answer) // show immediately; refine if live returns
+
+    // Instant, deterministic, no-network: greetings/meta then strong seeded prompts.
+    const convo = conversationalAnswer(trimmed)
+    if (convo) return show(convo)
+    const strong = strongMatch(trimmed)
+    if (strong) return show(strong.answer)
+
+    // Free-form. Offline demo mode → graceful "not in data". AI mode → grounded LLM.
+    if (!live) return show(UNKNOWN_ANSWER)
+
+    timers.current.forEach(clearTimeout); timers.current = []
+    setLit(new Set()); setRevealed(0); bump(0); setThinking(true)
     try {
       const res = await fetch('/api/copilot/', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ query: trimmed }) })
       if (res.ok) {
         const data = await res.json()
-        if (data && Array.isArray(data.paras)) { setAnswer(data); assemble(data) }
+        if (data && Array.isArray(data.paras)) return show(data)
       }
-    } catch { /* silent fallback to seeded */ }
+    } catch { /* network failure → graceful */ }
+    show(UNKNOWN_ANSWER)
   }
 
   useEffect(() => { assemble(SCENARIOS[0].answer); return () => timers.current.forEach(clearTimeout) }, [])
@@ -80,9 +92,9 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
               <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 9, letterSpacing: '0.22em', color: '#5fd6f0', textShadow: '0 0 14px rgba(63,224,255,0.5)' }}>CROSS-STAGE COPILOT</div>
               <div style={{ fontFamily: 'var(--font-space), sans-serif', fontWeight: 600, fontSize: 19, marginTop: 6 }}>Reasoning across the ontology</div>
             </div>
-            <button onClick={() => setLive(v => !v)} title="Toggle live Claude"
+            <button onClick={() => setLive(v => !v)} title={live ? 'Grounded AI — answers any question from the ontology' : 'Offline demo — seeded prompts only'}
               style={{ cursor: 'pointer', border: `1px solid ${live ? 'rgba(63,224,255,0.4)' : 'rgba(90,150,175,0.2)'}`, background: live ? 'rgba(63,224,255,0.1)' : 'transparent', color: live ? '#b8f4ff' : '#7f97a4', fontFamily: 'var(--font-jet), monospace', fontSize: 9, letterSpacing: '0.12em', padding: '5px 9px', borderRadius: 7 }}>
-              {live ? 'LIVE' : 'DEMO'}
+              {live ? 'AI · GROUNDED' : 'DEMO'}
             </button>
           </div>
 
@@ -111,6 +123,12 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#5fd6f0', boxShadow: '0 0 8px rgba(63,224,255,0.9)' }} />
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
+                {thinking && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-jet), monospace', fontSize: 11, letterSpacing: '0.06em', color: '#5fd6f0' }}>
+                    <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#5fd6f0', boxShadow: '0 0 10px 1px rgba(63,224,255,0.8)', animation: 'vg-dot 1.1s ease-in-out infinite' }} />
+                    reasoning over the ontology…
+                  </div>
+                )}
                 {segs.map((seg, i) => {
                   const shown = i < revealed
                   const base: CSSProperties = { opacity: shown ? 1 : 0, transform: shown ? 'translateY(0)' : 'translateY(9px)', transition: 'opacity .5s ease, transform .5s ease' }
@@ -176,7 +194,7 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
                 style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#dbeef4', fontFamily: 'var(--font-dmsans), sans-serif', fontSize: 13.5 }} />
               <button onClick={() => run(input)} style={{ cursor: 'pointer', border: 'none', borderRadius: 9, padding: '7px 14px', background: 'linear-gradient(135deg,#3fe0ff,#2ba8c4)', color: '#04121a', fontFamily: 'var(--font-space), sans-serif', fontWeight: 600, fontSize: 12, boxShadow: '0 0 18px -4px rgba(63,224,255,0.6)' }}>Ask ↵</button>
             </div>
-            <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 8, letterSpacing: '0.1em', color: '#5e7280', marginTop: 9, textAlign: 'center' }}>SYNTHESISED FROM K-RERA · eCOURTS · KAVERI EC · ESCROW LEDGER · CV SCANS {live ? '· LIVE' : '· DEMO'}</div>
+            <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 8, letterSpacing: '0.1em', color: '#5e7280', marginTop: 9, textAlign: 'center' }}>GROUNDED IN THE VANTIS ONTOLOGY · NO DATA INVENTED {live ? '· AI' : '· DEMO'}</div>
           </div>
         </div>
 

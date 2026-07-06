@@ -222,3 +222,24 @@ export function matchScenario(query: string): CopilotScenario {
   }
   return best
 }
+
+// Stage-safe: returns a seeded scenario ONLY when the query is (near-)identical to
+// a demo prompt — i.e. the exact suggested prompts you type/click on stage. Any
+// other phrasing returns null so it is answered by the grounded LLM (which has the
+// full ontology and stays accurate).
+const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+export function strongMatch(query: string): CopilotScenario | null {
+  const nq = norm(query)
+  if (!nq) return null
+  const exact = SCENARIOS.find(s => norm(s.query) === nq)
+  if (exact) return exact
+  // near-exact: high two-way token overlap with a seeded prompt
+  const qTokens = new Set(nq.split(' '))
+  for (const s of SCENARIOS) {
+    const sTokens = new Set(norm(s.query).split(' '))
+    const inter = [...qTokens].filter(t => sTokens.has(t)).length
+    const overlap = inter / Math.max(qTokens.size, sTokens.size)
+    if (overlap >= 0.8) return s
+  }
+  return null
+}

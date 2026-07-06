@@ -161,6 +161,52 @@ export const SCENARIOS: CopilotScenario[] = [
       focusIds: OZONE_FOCUS,
     },
   },
+  {
+    id: 'escrow-shortfall',
+    query: 'Which projects have an escrow shortfall?',
+    keywords: ['escrow shortfall', 'escrow short', 'shortfall', '70%', 'escrow', 'funded'],
+    answer: {
+      chips: ['ESCROW', 'SITE VERIFICATION'],
+      paras: [
+        `Two projects breach the ${b('70% RERA escrow mandate')}: ${risk('Ozone Urbana')} funded ${declared('54%')} and ${watch('Skylark Arcadia')} funded ${declared('60%')}. ${delivered('Divya')} sits just under at 68%; ${delivered('Prestige')} is compliant at 81%.`,
+        `Ozone's escrow (${declared('54%')}) matches its CV-delivered ${delivered('54%')}, not the QPR-declared 78% — the cash tracks the concrete. A drawdown now would deepen the breach.`,
+      ],
+      verdict: { eyebrow: 'ESCROW · PORTFOLIO', title: '2 in breach · Ozone −16 pts', sub: 'below the 70% mandate', score: 41, tier: 'AT_RISK' },
+      citations: ['ESCROW LEDGER', 'CV SCAN · 12 MAY'],
+      focusIds: ['p1', 'p2', 'p3', 'p4', 'esc', 'e2', 'e3', 'e4', 'pay', 'cv'],
+    },
+  },
+  {
+    id: 'collections-gap',
+    query: 'Compare declared collections vs Kaveri registrations',
+    keywords: ['collections', 'declared collections', 'financial gap', 'registered vs', 'money', 'farvision'],
+    answer: {
+      chips: ['ESCROW', 'SITE VERIFICATION'],
+      paras: [
+        `${b('Ozone Urbana')} declares ${declared('62% collected')} in its RERA statement, but Kaveri registrations total only ${delivered('28%')} — a ${risk('34-point financial gap')} the ERP ledger can't see.`,
+        `Skylark shows a 13-point collections gap; Divya (−2) and Prestige (−2) reconcile. Escrow at ${declared('54%')} corroborates Ozone's real position.`,
+      ],
+      verdict: { eyebrow: 'ERP · OZONE URBANA', title: 'Collections overstated 34 pts', sub: 'declared 62% vs Kaveri 28%', score: 41, tier: 'AT_RISK' },
+      citations: ['ERP STATEMENT', 'KAVERI REGISTRATIONS', 'ESCROW LEDGER'],
+      focusIds: ['p1', 'pay', 'esc', 'ozone', 'p2', 'pay2'],
+    },
+  },
+  {
+    id: 'sales-gap',
+    query: 'Where is claimed sales velocity above actual registrations?',
+    keywords: ['sales gap', 'claimed vs actual', 'booking', 'sales velocity', 'registration', 'booked', 'sell.do'],
+    answer: {
+      chips: ['SITE VERIFICATION', 'ESCROW'],
+      paras: [
+        `${b('Ozone Urbana')} shows ${declared('80% booked')} in the CRM but only ${delivered('34% registered')} in Kaveri — a ${risk('46-point sales gap')}, the widest divergence in the portfolio.`,
+        `Skylark: claimed ${declared('65%')} / registered ${delivered('48%')} (−17). Two Ozone unit sales — ${mono('B-0907')} and ${mono('C-1611')} — were never registered; bookings without registrations inflate the headline velocity.`,
+        `${delivered('Divya')} and ${delivered('Prestige')} reconcile within 3 points.`,
+      ],
+      verdict: { eyebrow: 'CRM · OZONE URBANA', title: 'Booking velocity overstated 46 pts', sub: 'claimed 80% vs registered 34%', score: 41, tier: 'AT_RISK' },
+      citations: ['CRM LEDGER', 'KAVERI REGISTRATIONS'],
+      focusIds: ['p1', 'bkg', 'unit', 'buy2', 'buy3', 'ozone', 'p2', 'bkg2'],
+    },
+  },
 ]
 
 export function matchScenario(query: string): CopilotScenario {

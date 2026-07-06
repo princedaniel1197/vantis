@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import GraphCanvas from './GraphCanvas'
-import { SCENARIOS, matchScenario, type CopilotAnswer } from '@/lib/ontology'
+import { SCENARIOS, matchScenario, type CopilotAnswer, type DensityNode } from '@/lib/ontology'
 
 const STAGE_CHIPS = ['QPR FILING', 'SITE VERIFICATION', 'ESCROW', 'LITIGATION', 'ENCUMBRANCE']
 const CHIP_COLOR = ['#8fb3ff', '#45e0c0', '#6ea0ff', '#ff5a4d', '#e8b24c']
@@ -18,7 +18,7 @@ function segmentsOf(a: CopilotAnswer): Segment[] {
   return segs
 }
 
-export default function CrossStageCopilot({ skin, onProgress }: { skin: 'A' | 'B'; onProgress?: (p: number) => void }) {
+export default function CrossStageCopilot({ skin, density, onProgress }: { skin: 'A' | 'B'; density?: DensityNode[]; onProgress?: (p: number) => void }) {
   const [input, setInput] = useState(SCENARIOS[0].query)
   const [answer, setAnswer] = useState<CopilotAnswer>(SCENARIOS[0].answer)
   const [userQuery, setUserQuery] = useState(SCENARIOS[0].query)
@@ -182,7 +182,7 @@ export default function CrossStageCopilot({ skin, onProgress }: { skin: 'A' | 'B
 
         {/* graph theatre */}
         <div style={{ position: 'relative', flex: 1, minWidth: 0, overflow: 'hidden' }}>
-          <GraphCanvas mode="copilot" skin={skin} focusIds={answer.focusIds} copilotProgress={progress} />
+          <GraphCanvas mode="copilot" skin={skin} focusIds={answer.focusIds} copilotProgress={progress} density={density} />
           <div style={{ position: 'absolute', top: 20, left: 22, pointerEvents: 'none' }}>
             <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 9, letterSpacing: '0.24em', color: '#5fd6f0', textShadow: '0 0 14px rgba(63,224,255,0.5)' }}>OZONE URBANA · SUBGRAPH</div>
             <div style={{ fontFamily: 'var(--font-cormorant), serif', fontStyle: 'italic', fontSize: 20, color: '#c8d6de', marginTop: 4, opacity: 0.8 }}>every claim, traced to its object</div>

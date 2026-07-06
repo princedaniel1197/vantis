@@ -3,7 +3,8 @@
 import { useState } from 'react'
 import GraphCanvas from './GraphCanvas'
 import Count from './Count'
-import { scoredProjects, portfolioIndex, portfolioCounts, tierOf, type ScoredProject } from '@/lib/ontology'
+import { scoredProjects, portfolioIndex, portfolioCounts, tierOf, type ScoredProject, type DensityNode } from '@/lib/ontology'
+import type { DatasetStats } from '@/lib/ontology/dataset'
 
 const TIER = {
   AT_RISK: { color: '#ff7a6d', label: 'AT RISK', tint: 'rgba(255,90,77,0.12)', border: 'rgba(255,90,77,0.3)' },
@@ -30,7 +31,7 @@ function DualBar({ p, tierColor }: { p: ScoredProject; tierColor: string }) {
   )
 }
 
-export default function ExecutionBrain({ skin }: { skin: 'A' | 'B' }) {
+export default function ExecutionBrain({ skin, density, total, stats }: { skin: 'A' | 'B'; density?: DensityNode[]; total: number; stats: DatasetStats }) {
   const projects = scoredProjects()
   const index = portfolioIndex()
   const counts = portfolioCounts()
@@ -47,7 +48,7 @@ export default function ExecutionBrain({ skin }: { skin: 'A' | 'B' }) {
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: 'var(--font-space), sans-serif', fontWeight: 600, fontSize: 22, letterSpacing: '-0.01em', lineHeight: 1.1 }}>Execution Watchlist</div>
               <div style={{ width: 26, height: 2, margin: '9px 0 10px', background: 'linear-gradient(90deg,#e8d5a3,#c9a84c)', boxShadow: '0 0 10px -1px rgba(201,168,76,0.7)' }} />
-              <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 9.5, letterSpacing: '0.08em', color: '#7f97a4', lineHeight: 1.7 }}>{projects.length} PROJECTS · 4 DEVELOPERS<br />₹675 Cr EXPOSURE · Q1 2026</div>
+              <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 9.5, letterSpacing: '0.08em', color: '#7f97a4', lineHeight: 1.7 }}>{total.toLocaleString()} K-RERA PROJECTS · {stats.districts} DISTRICTS<br />{projects.length} IN WATCHLIST · ₹675 Cr TRACKED</div>
             </div>
             <div style={{ position: 'relative', width: 112, height: 112, flex: 'none' }}>
               <svg width="112" height="112" viewBox="0 0 112 112">
@@ -117,7 +118,7 @@ export default function ExecutionBrain({ skin }: { skin: 'A' | 'B' }) {
 
       {/* graph theatre */}
       <div style={{ position: 'relative', flex: 1, minWidth: 0, overflow: 'hidden' }}>
-        <GraphCanvas mode="brain" skin={skin} externalFocusId={focus} />
+        <GraphCanvas mode="brain" skin={skin} externalFocusId={focus} density={density} />
         <div style={{ position: 'absolute', top: 20, left: 22, pointerEvents: 'none' }}>
           <div style={{ fontFamily: 'var(--font-jet), monospace', fontSize: 9, letterSpacing: '0.24em', color: '#5fd6f0', textShadow: '0 0 14px rgba(63,224,255,0.5)' }}>LIVE KNOWLEDGE GRAPH</div>
           <div style={{ fontFamily: 'var(--font-cormorant), serif', fontStyle: 'italic', fontSize: 22, color: '#c8d6de', marginTop: 4, opacity: 0.85 }}>the mind over the record</div>

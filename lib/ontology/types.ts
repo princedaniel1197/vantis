@@ -13,6 +13,9 @@ export type ObjectType =
   | 'EscrowAccount'
   | 'Unit'
   | 'Approval'
+  | 'Payment'          // ERP — collections ledger (declared vs Kaveri-registered)
+  | 'Booking'          // CRM — sales velocity (claimed booked vs registered)
+  | 'Buyer'            // CRM — individual buyer/unit sale
 
 export type LinkType =
   | 'promotes'          // Developer -> Project
@@ -25,7 +28,11 @@ export type LinkType =
   | 'funded-through'    // Project -> EscrowAccount
   | 'sanctioned-by'     // Project -> Approval
   | 'sold-as'           // Project -> Unit
+  | 'collected-through' // Project -> Payment (ERP)
+  | 'booked-as'         // Project -> Booking (CRM)
+  | 'sold-to'           // Unit -> Buyer (CRM)
   | 'declared⟷delivered'// QPR -> SiteVerification (hero edge)
+  | 'declared⟷registered'// Payment/Booking verification edge
 
 export type RiskTier = 'AT_RISK' | 'WATCH' | 'HEALTHY'
 
@@ -101,9 +108,35 @@ export interface Approval extends BaseObject {
   status: 'valid' | 'pending' | 'expired'
 }
 
+export interface Payment extends BaseObject {
+  type: 'Payment'
+  // ERP — collections ledger. declared = developer's RERA statement,
+  // registered = actual buyer registrations in Kaveri (roadmap connector, mock).
+  declared_collected_pct: number
+  registered_pct: number
+  collected_cr: number
+}
+
+export interface Booking extends BaseObject {
+  type: 'Booking'
+  // CRM — sales velocity. claimed = CRM/Sell.Do booked %, registered = Kaveri.
+  claimed_booked_pct: number
+  registered_pct: number
+  total_units: number
+  booked_units: number
+}
+
+export interface Buyer extends BaseObject {
+  type: 'Buyer'
+  unit: string
+  amount_lakh: number
+  registered: boolean
+}
+
 export type OntObject =
   | Developer | Project | Parcel | QPR | SiteVerification
   | Litigation | Encumbrance | EscrowAccount | Unit | Approval
+  | Payment | Booking | Buyer
 
 export interface Link {
   from: string

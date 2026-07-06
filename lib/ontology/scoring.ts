@@ -1,6 +1,7 @@
 import type { Project, RiskTier } from './types'
 import {
   links, projects, qprs, siteVerifs, escrows, litigations, encumbrances, approvals, developers,
+  payments, bookings,
 } from './data'
 
 const clamp = (n: number, lo = 0, hi = 100) => Math.max(lo, Math.min(hi, n))
@@ -122,6 +123,48 @@ export function portfolioCounts() {
     watch: sp.filter(p => tierOf(p.score) === 'WATCH').length,
     healthy: sp.filter(p => tierOf(p.score) === 'HEALTHY').length,
   }
+}
+
+// ── ERP · financial verification (declared collections vs Kaveri-registered) ──
+export interface FinanceRow {
+  id: string; project: string; developer: string; loan_cr: number
+  declared_pct: number; registered_pct: number; fin_gap: number; collected_cr: number
+  escrow_funded: number; escrow_mandate: number; escrow_shortfall: number; tier: RiskTier
+}
+export function financeRows(): FinanceRow[] {
+  return projects.map(p => {
+    const payId = linkedTo(p.id, 'collected-through')[0]
+    const pay = payments.find(x => x.id === payId)
+    const s = signalsFor(p.id)
+    const finGap = (pay?.declared_collected_pct ?? 0) - (pay?.registered_pct ?? 0)
+    const tier: RiskTier = finGap >= 20 || s.escrow_shortfall >= 12 ? 'AT_RISK' : finGap >= 8 ? 'WATCH' : 'HEALTHY'
+    return {
+      id: p.id, project: p.label, developer: developers.find(d => d.id === p.developerId)?.label ?? '—', loan_cr: p.loan_cr,
+      declared_pct: pay?.declared_collected_pct ?? 0, registered_pct: pay?.registered_pct ?? 0, fin_gap: finGap,
+      collected_cr: pay?.collected_cr ?? 0, escrow_funded: s.escrow_funded, escrow_mandate: s.escrow_mandate,
+      escrow_shortfall: s.escrow_shortfall, tier,
+    }
+  })
+}
+
+// ── CRM · sales verification (claimed booked vs Kaveri-registered) ──
+export interface SalesRow {
+  id: string; project: string; developer: string
+  claimed_pct: number; registered_pct: number; sales_gap: number
+  total_units: number; booked_units: number; tier: RiskTier
+}
+export function salesRows(): SalesRow[] {
+  return projects.map(p => {
+    const bkgId = linkedTo(p.id, 'booked-as')[0]
+    const b = bookings.find(x => x.id === bkgId)
+    const gap = (b?.claimed_booked_pct ?? 0) - (b?.registered_pct ?? 0)
+    const tier: RiskTier = gap >= 20 ? 'AT_RISK' : gap >= 10 ? 'WATCH' : 'HEALTHY'
+    return {
+      id: p.id, project: p.label, developer: developers.find(d => d.id === p.developerId)?.label ?? '—',
+      claimed_pct: b?.claimed_booked_pct ?? 0, registered_pct: b?.registered_pct ?? 0, sales_gap: gap,
+      total_units: b?.total_units ?? 0, booked_units: b?.booked_units ?? 0, tier,
+    }
+  })
 }
 
 export { linkedTo, linkedFrom }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { GRAPH_NODES, GRAPH_EDGES, TYPE_COLOR, HERO_INTENSITY, HERO_GAP } from '@/lib/ontology'
+import { GRAPH_NODES, GRAPH_EDGES, TYPE_COLOR, HERO_INTENSITY, HERO_GAP, type DensityNode } from '@/lib/ontology'
 
 type Skin = 'A' | 'B'
 type Mode = 'brain' | 'copilot'
@@ -15,6 +15,8 @@ interface Props {
   externalFocusId?: string | null
   /** 0..1 emphasis ramp for copilot subgraph */
   copilotProgress?: number
+  /** dim density field sampled from the full dataset (behind the hero subgraph) */
+  density?: DensityNode[]
 }
 
 const hexA = (c: string, a: number) => {
@@ -23,16 +25,17 @@ const hexA = (c: string, a: number) => {
 }
 const easeOutQuint = (t: number) => 1 - Math.pow(1 - t, 5)
 
-export default function GraphCanvas({ mode, skin, focusIds, externalFocusId, copilotProgress = 0 }: Props) {
+export default function GraphCanvas({ mode, skin, focusIds, externalFocusId, copilotProgress = 0, density }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const tipRef = useRef<HTMLDivElement>(null)
   // live prop mirror so the rAF loop always reads current values
-  const props = useRef({ mode, skin, focusIds, externalFocusId, copilotProgress })
-  props.current = { mode, skin, focusIds, externalFocusId, copilotProgress }
+  const props = useRef({ mode, skin, focusIds, externalFocusId, copilotProgress, density })
+  props.current = { mode, skin, focusIds, externalFocusId, copilotProgress, density }
   const hoverRef = useRef<string | null>(null)
   const t0Ref = useRef<number | null>(null)
   const posRef = useRef<Record<string, { x: number; y: number }>>({})
+  const densPosRef = useRef<Array<{ id: string; x: number; y: number; label: string; meta: string }>>([])
 
   useEffect(() => {
     const canvas = canvasRef.current!
@@ -44,21 +47,25 @@ export default function GraphCanvas({ mode, skin, focusIds, externalFocusId, cop
     const onMove = (e: MouseEvent) => {
       const r = canvas.getBoundingClientRect()
       const mx = e.clientX - r.left, my = e.clientY - r.top
-      let found: string | null = null
+      let tt = '', tl = '', tm = '', hx = 0, hy = 0, found: string | null = null
       for (const n of GRAPH_NODES) {
         const p = posRef.current[n.id]; if (!p) continue
         const dx = mx - p.x, dy = my - p.y
-        if (dx * dx + dy * dy < (n.r + 9) * (n.r + 9)) { found = n.id; break }
+        if (dx * dx + dy * dy < (n.r + 9) * (n.r + 9)) { found = n.id; tt = n.type.toUpperCase(); tl = n.label; tm = n.meta; hx = p.x; hy = p.y; break }
+      }
+      if (!found) {
+        for (const d of densPosRef.current) {
+          const dx = mx - d.x, dy = my - d.y
+          if (dx * dx + dy * dy < 25) { found = d.id; tt = 'PROJECT · K-RERA'; tl = d.label; tm = d.meta; hx = d.x; hy = d.y; break }
+        }
       }
       hoverRef.current = found
       if (found) {
-        const n = GRAPH_NODES.find(x => x.id === found)!
-        const p = posRef.current[found]
         tip.style.display = 'block'
-        tip.style.left = p.x + 'px'; tip.style.top = p.y + 'px'
-        ;(tip.querySelector('[data-tt]') as HTMLElement).textContent = n.type.toUpperCase()
-        ;(tip.querySelector('[data-tl]') as HTMLElement).textContent = n.label
-        ;(tip.querySelector('[data-tm]') as HTMLElement).textContent = n.meta
+        tip.style.left = hx + 'px'; tip.style.top = hy + 'px'
+        ;(tip.querySelector('[data-tt]') as HTMLElement).textContent = tt
+        ;(tip.querySelector('[data-tl]') as HTMLElement).textContent = tl
+        ;(tip.querySelector('[data-tm]') as HTMLElement).textContent = tm
         canvas.style.cursor = 'pointer'
       } else { tip.style.display = 'none'; canvas.style.cursor = 'default' }
     }
@@ -109,6 +116,25 @@ export default function GraphCanvas({ mode, skin, focusIds, externalFocusId, cop
       const gx = ctx.createRadialGradient(cx, cy, 40, cx, cy, Math.max(w, h) * 0.7)
       gx.addColorStop(0, 'rgba(20,40,58,0.35)'); gx.addColorStop(1, 'rgba(5,6,11,0)')
       ctx.fillStyle = gx; ctx.fillRect(0, 0, w, h); ctx.restore()
+
+      // ── density field (dim, cheap dots sampled from the full 8,771 dataset) ──
+      const dens = props.current.density
+      if (dens && dens.length) {
+        const arr = densPosRef.current; arr.length = 0
+        const dAlpha = (copilot ? 0.07 : 0.16) * sp
+        ctx.save()
+        for (let k = 0; k < dens.length; k++) {
+          const d = dens[k]
+          const tx = d.x * w, ty = d.y * h
+          const px = cx + (tx - cx) * sp, py = cy + (ty - cy) * sp
+          arr.push({ id: d.id, x: px, y: py, label: d.label, meta: d.meta })
+          const hovered = hoverRef.current === d.id
+          ctx.globalAlpha = hovered ? 0.85 : dAlpha
+          ctx.fillStyle = hovered ? '#3fe0ff' : 'rgba(120,180,205,1)'
+          ctx.beginPath(); ctx.arc(px, py, hovered ? 3.4 : 2.6, 0, Math.PI * 2); ctx.fill()
+        }
+        ctx.restore()
+      }
 
       // ── edges ──
       for (const e of GRAPH_EDGES) {

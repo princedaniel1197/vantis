@@ -2,13 +2,19 @@
 
 import { useState } from 'react'
 import ExecutionBrain from './ExecutionBrain'
+import ERPFinance from './ERPFinance'
+import CRMSales from './CRMSales'
 import CrossStageCopilot from './CrossStageCopilot'
 import SpecPanel from './SpecPanel'
+import type { DensityNode } from '@/lib/ontology'
+import type { DatasetStats } from '@/lib/ontology/dataset'
 
-type Screen = 'brain' | 'copilot'
+type Screen = 'brain' | 'erp' | 'crm' | 'copilot'
 type Skin = 'A' | 'B'
 
-export default function IntelligenceClient() {
+interface Props { total: number; stats: DatasetStats; density: DensityNode[] }
+
+export default function IntelligenceClient({ total, stats, density }: Props) {
   const [screen, setScreen] = useState<Screen>('brain')
   const [skin, setSkin] = useState<Skin>('A')
   const [spec, setSpec] = useState(false)
@@ -38,6 +44,8 @@ export default function IntelligenceClient() {
         </div>
         <div style={{ marginLeft: 8, display: 'flex', gap: 3, padding: 3, borderRadius: 11, background: 'rgba(8,14,22,0.6)', border: '1px solid rgba(90,150,175,0.14)' }}>
           {navBtn('brain', 'Execution Brain')}
+          {navBtn('erp', 'ERP · Finance')}
+          {navBtn('crm', 'CRM · Sales')}
           {navBtn('copilot', 'Cross-Stage Copilot')}
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -70,7 +78,10 @@ export default function IntelligenceClient() {
         </div>
 
         <div style={{ position: 'relative', flex: 1, minWidth: 0 }}>
-          {screen === 'brain' ? <ExecutionBrain skin={skin} /> : <CrossStageCopilot skin={skin} />}
+          {screen === 'brain' && <ExecutionBrain skin={skin} density={density} total={total} stats={stats} />}
+          {screen === 'erp' && <ERPFinance skin={skin} density={density} />}
+          {screen === 'crm' && <CRMSales skin={skin} density={density} />}
+          {screen === 'copilot' && <CrossStageCopilot skin={skin} density={density} />}
         </div>
       </div>
 

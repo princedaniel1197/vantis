@@ -6,7 +6,11 @@ export const TYPE_COLOR: Record<string, string> = {
   Developer: '#c9a84c', Project: '#3fe0ff', Parcel: '#6fa8c7', QPR: '#8fb3ff',
   SiteVerification: '#45e0c0', EscrowAccount: '#6ea0ff', Litigation: '#ff5a4d',
   Encumbrance: '#e8b24c', Approval: '#7e8ce8', Unit: '#7a8a96',
+  Payment: '#5ad1a0', Booking: '#c78fe8', Buyer: '#9aa8b2',
 }
+
+// Dim density node sampled from the full ~8,771-project dataset (server-supplied).
+export interface DensityNode { id: string; label: string; meta: string; x: number; y: number }
 
 export interface GraphNode {
   id: string
@@ -44,7 +48,11 @@ export const GRAPH_NODES: GraphNode[] = [
   { id: 'lit', type: 'Litigation', label: 'VB/CC/2023/1847', meta: 'eCourts · admitted', x: 0.81, y: 0.47, r: 8, focus: true },
   { id: 'esc', type: 'EscrowAccount', label: 'ESCROW A/C', meta: 'Funded 54% / 70%', x: 0.63, y: 0.57, r: 8, focus: true },
   { id: 'apr', type: 'Approval', label: 'BBMP SANCTION', meta: 'Plan approval · valid', x: 0.52, y: 0.63, r: 7, focus: true },
-  { id: 'unit', type: 'Unit', label: 'UNITS · 240', meta: '168 sold', x: 0.43, y: 0.66, r: 7, focus: true },
+  { id: 'unit', type: 'Unit', label: 'UNITS · 240', meta: '168 sold', x: 0.44, y: 0.67, r: 7, focus: true },
+  { id: 'pay', type: 'Payment', label: 'COLLECTIONS', meta: 'ERP · declared 62% / Kaveri 28%', x: 0.72, y: 0.61, r: 8, focus: true },
+  { id: 'bkg', type: 'Booking', label: 'BOOKINGS', meta: 'CRM · claimed 80% / Kaveri 34%', x: 0.34, y: 0.75, r: 8, focus: true },
+  { id: 'buy2', type: 'Buyer', label: 'BUYER · B-0907', meta: 'Sale not registered', x: 0.27, y: 0.83, r: 6, focus: true },
+  { id: 'buy3', type: 'Buyer', label: 'BUYER · C-1611', meta: 'Sale not registered', x: 0.41, y: 0.85, r: 6, focus: true },
   // Skylark peer (watch) — bottom-left
   { id: 'skylark', type: 'Developer', label: 'SKYLARK MANSIONS', meta: 'Developer · rep 54', x: 0.2, y: 0.74, r: 10 },
   { id: 'p2', type: 'Project', label: 'SKYLARK ARCADIA', meta: 'Project · WATCH', x: 0.3, y: 0.66, r: 11 },
@@ -71,6 +79,10 @@ export const GRAPH_EDGES: GraphEdge[] = [
   { from: 'p1', to: 'esc', label: 'funded-through', focus: true },
   { from: 'p1', to: 'apr', label: 'sanctioned-by', focus: true },
   { from: 'p1', to: 'unit', label: 'sold-as', focus: true },
+  { from: 'p1', to: 'pay', label: 'collected-through', focus: true },
+  { from: 'p1', to: 'bkg', label: 'booked-as', focus: true },
+  { from: 'unit', to: 'buy2', label: 'sold-to', focus: true },
+  { from: 'unit', to: 'buy3', label: 'sold-to', focus: true },
   { from: 'qpr', to: 'cv', label: 'declared⟷delivered', hero: true, focus: true },
   { from: 'skylark', to: 'p2', label: 'promotes' },
   { from: 'p2', to: 'q2', label: 'filed' },

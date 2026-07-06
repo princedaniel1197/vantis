@@ -1,6 +1,6 @@
 import type {
   Developer, Project, Parcel, QPR, SiteVerification, Litigation,
-  Encumbrance, EscrowAccount, Unit, Approval, Link, OntObject,
+  Encumbrance, EscrowAccount, Unit, Approval, Payment, Booking, Buyer, Link, OntObject,
 } from './types'
 
 // ── Developers (shared cast — consistent with the unified platform) ──
@@ -67,6 +67,29 @@ export const units: Unit[] = [
   { id: 'unit', type: 'Unit', label: 'Units · 240', total: 240, sold: 168 },
 ]
 
+// ── ERP · Payment / collections (declared vs Kaveri-registered) ──
+export const payments: Payment[] = [
+  { id: 'pay',  type: 'Payment', label: 'Collections', declared_collected_pct: 62, registered_pct: 28, collected_cr: 149 },
+  { id: 'pay2', type: 'Payment', label: 'Collections · Skylark',  declared_collected_pct: 54, registered_pct: 41, collected_cr: 89 },
+  { id: 'pay3', type: 'Payment', label: 'Collections · Divya',    declared_collected_pct: 94, registered_pct: 92, collected_cr: 113 },
+  { id: 'pay4', type: 'Payment', label: 'Collections · Prestige', declared_collected_pct: 78, registered_pct: 76, collected_cr: 164 },
+]
+
+// ── CRM · Booking / sales velocity (claimed vs Kaveri-registered) ──
+export const bookings: Booking[] = [
+  { id: 'bkg',  type: 'Booking', label: 'Bookings', claimed_booked_pct: 80, registered_pct: 34, total_units: 240, booked_units: 192 },
+  { id: 'bkg2', type: 'Booking', label: 'Bookings · Skylark',  claimed_booked_pct: 65, registered_pct: 48, total_units: 210, booked_units: 137 },
+  { id: 'bkg3', type: 'Booking', label: 'Bookings · Divya',    claimed_booked_pct: 88, registered_pct: 85, total_units: 34,  booked_units: 30 },
+  { id: 'bkg4', type: 'Booking', label: 'Bookings · Prestige', claimed_booked_pct: 45, registered_pct: 42, total_units: 320, booked_units: 144 },
+]
+
+// ── CRM · Buyers (Ozone — some sales not registered) ──
+export const buyers: Buyer[] = [
+  { id: 'buy1', type: 'Buyer', label: 'Buyer · A-1204', unit: 'A-1204', amount_lakh: 92, registered: true },
+  { id: 'buy2', type: 'Buyer', label: 'Buyer · B-0907', unit: 'B-0907', amount_lakh: 88, registered: false },
+  { id: 'buy3', type: 'Buyer', label: 'Buyer · C-1611', unit: 'C-1611', amount_lakh: 104, registered: false },
+]
+
 // ── Typed links ──
 export const links: Link[] = [
   // promotes
@@ -84,24 +107,36 @@ export const links: Link[] = [
   { from: 'p1', to: 'esc', rel: 'funded-through' },
   { from: 'p1', to: 'apr', rel: 'sanctioned-by' },
   { from: 'p1', to: 'unit', rel: 'sold-as' },
+  { from: 'p1', to: 'pay', rel: 'collected-through' },   // ERP
+  { from: 'p1', to: 'bkg', rel: 'booked-as' },           // CRM
+  { from: 'unit', to: 'buy1', rel: 'sold-to' },
+  { from: 'unit', to: 'buy2', rel: 'sold-to' },
+  { from: 'unit', to: 'buy3', rel: 'sold-to' },
   { from: 'qpr', to: 'cv', rel: 'declared⟷delivered' }, // hero edge
   // peers
   { from: 'p2', to: 'q2', rel: 'filed' },
   { from: 'p2', to: 'c2', rel: 'verified-by' },
   { from: 'p2', to: 'e2', rel: 'funded-through' },
   { from: 'p2', to: 'apr2', rel: 'sanctioned-by' },
+  { from: 'p2', to: 'pay2', rel: 'collected-through' },
+  { from: 'p2', to: 'bkg2', rel: 'booked-as' },
   { from: 'q2', to: 'c2', rel: 'declared⟷delivered' },
   { from: 'p3', to: 'q3', rel: 'filed' },
   { from: 'p3', to: 'c3', rel: 'verified-by' },
   { from: 'p3', to: 'e3', rel: 'funded-through' },
+  { from: 'p3', to: 'pay3', rel: 'collected-through' },
+  { from: 'p3', to: 'bkg3', rel: 'booked-as' },
   { from: 'p4', to: 'q4', rel: 'filed' },
   { from: 'p4', to: 'c4', rel: 'verified-by' },
   { from: 'p4', to: 'e4', rel: 'funded-through' },
+  { from: 'p4', to: 'pay4', rel: 'collected-through' },
+  { from: 'p4', to: 'bkg4', rel: 'booked-as' },
 ]
 
 // ── Object index ──
 export const allObjects: OntObject[] = [
   ...developers, ...projects, ...parcels, ...qprs, ...siteVerifs,
   ...escrows, ...litigations, ...encumbrances, ...approvals, ...units,
+  ...payments, ...bookings, ...buyers,
 ]
 export const byId: Record<string, OntObject> = Object.fromEntries(allObjects.map(o => [o.id, o]))

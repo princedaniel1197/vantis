@@ -56,6 +56,7 @@ export default function CrossStageCopilot({ skin, density, onProgress }: { skin:
   async function run(q: string) {
     const trimmed = q.trim(); if (!trimmed) return
     setUserQuery(trimmed)
+    setInput('')   // clear the box on submit (chat UX)
 
     // Instant, deterministic, no-network: greetings/meta then strong seeded prompts.
     const convo = conversationalAnswer(trimmed)

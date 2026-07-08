@@ -5,6 +5,8 @@ import {
   developers, parcels, litigations, encumbrances, escrows, units, payments, bookings, buyers, links, allObjects,
 } from './data'
 import { scoredProjects, financeRows, salesRows } from './scoring'
+import { cases, daysPending, isBreached } from './cases'
+import { computeSection18 } from './section18'
 import type { CopilotAnswer } from './copilot-scenarios'
 
 // Every valid object id — used to validate/clean LLM-returned focusIds.
@@ -40,6 +42,14 @@ export function buildOntologyContext(question: string) {
     finance_erp,
     sales_crm,
     parcels, litigation: litigations, encumbrances, escrow_accounts: escrows, units, payments, bookings, buyers,
+    cases: cases.map(c => ({
+      complaint_no: c.complaint_no, form_type: c.form_type, buyer: c.buyer, developer: c.developer,
+      project: c.project, complaint_type: c.complaint_type, current_stage: c.current_stage,
+      filed_date: c.filed_date, days_pending: daysPending(c), statutory_target_days: c.statutory_target_days,
+      statutory_breach: isBreached(c), promised_possession: c.promised_possession, possession_status: c.possession_status,
+      amount_paid_inr: c.amount_paid_inr, past_orders: c.past_orders,
+      section18: (() => { const r = computeSection18(c.tranches, c.compute_date); return { rate_pct: r.rate_pct, principal_inr: r.principal_inr, interest_inr: r.interest_inr, payable_inr: r.payable_inr } })(),
+    })),
     links,
     dataset_note:
       'This intelligence watchlist tracks exactly these 4 projects in depth (Ozone Urbana, Skylark Arcadia, Divya Villas, Prestige Lakeside) and their linked objects. ' +

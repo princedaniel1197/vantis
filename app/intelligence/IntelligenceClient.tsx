@@ -7,6 +7,7 @@ import ExecutionBrain from './ExecutionBrain'
 import ERPFinance from './ERPFinance'
 import CRMSales from './CRMSales'
 import CrossStageCopilot from './CrossStageCopilot'
+import CaseCockpit from './CaseCockpit'
 import SpecPanel from './SpecPanel'
 import type { DensityNode } from '@/lib/ontology'
 import type { DatasetStats } from '@/lib/ontology/dataset'
@@ -21,7 +22,7 @@ const RAIL = [
   { href: '/verify', label: 'Verify', icon: Search },
 ]
 
-type Screen = 'brain' | 'erp' | 'crm' | 'copilot'
+type Screen = 'brain' | 'erp' | 'crm' | 'copilot' | 'cockpit'
 type Skin = 'A' | 'B'
 
 interface Props { total: number; stats: DatasetStats; density: DensityNode[] }
@@ -60,6 +61,7 @@ export default function IntelligenceClient({ total, stats, density }: Props) {
           {navBtn('brain', 'Execution Brain')}
           {navBtn('erp', 'ERP · Finance')}
           {navBtn('crm', 'CRM · Sales')}
+          {navBtn('cockpit', 'Case Cockpit')}
           {navBtn('copilot', 'Cross-Stage Copilot')}
         </div>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -100,6 +102,7 @@ export default function IntelligenceClient({ total, stats, density }: Props) {
           {screen === 'brain' && <ExecutionBrain skin={skin} density={density} total={total} stats={stats} />}
           {screen === 'erp' && <ERPFinance skin={skin} density={density} />}
           {screen === 'crm' && <CRMSales skin={skin} density={density} />}
+          {screen === 'cockpit' && <CaseCockpit />}
           {screen === 'copilot' && <CrossStageCopilot skin={skin} density={density} />}
         </div>
       </div>

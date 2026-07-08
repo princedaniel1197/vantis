@@ -6,7 +6,7 @@ import Link from 'next/link'
 import {
   LayoutDashboard, Building2, BarChart2, Scale, ScanLine,
   AlertTriangle, TrendingDown, Users, MessageCircle, Gavel,
-  FileText, Sparkles, Settings, Menu, X, Shield, ChevronLeft, Network,
+  FileText, Sparkles, Settings, Menu, X, Shield, ChevronLeft, Network, Briefcase,
 } from 'lucide-react'
 
 const DEFAULT_OFFICER = { name: 'K-RERA Chairman', role: 'Chairman' }
@@ -34,6 +34,7 @@ const NAV_GROUPS: NavGroup[] = [
     items: [
       { href: '/govern/litigation', label: 'Litigation',        icon: Scale },
       { href: '/govern/complaints', label: 'Complaints',        icon: MessageCircle },
+      { href: '/govern/cockpit',    label: 'Case Cockpit',      icon: Briefcase },
       { href: '/govern/rrc',        label: 'RRC Tracker',       icon: Gavel },
       { href: '/govern/notices',    label: 'Notice Generator',  icon: FileText },
     ],
